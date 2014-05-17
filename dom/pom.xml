@@ -20,13 +20,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-    	<groupId>com.mycompany</groupId>
-    	<artifactId>myapp</artifactId>
-        <version>1.0-SNAPSHOT</version>
+    	<groupId>gob.ministerio</groupId>
+    	<artifactId>informatica</artifactId>
+    	<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>myapp-dom</artifactId>
-	<name>Quickstart Wicket/Restful/JDO DOM</name>
+	<artifactId>informatica-dom</artifactId>
+	<name>Informatica Wicket/Restful/JDO DOM</name>
 
 	<build>
         <resources>
@@ -127,6 +127,10 @@
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
 
 	</dependencies>
