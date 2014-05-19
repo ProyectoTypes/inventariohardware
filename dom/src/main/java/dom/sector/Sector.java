@@ -1,0 +1,28 @@
+package dom.sector;
+
+public class Sector {
+
+	// //////////////////////////////////////
+	// Identificacion en la UI. Aparece como item del menu
+	// //////////////////////////////////////
+
+	public String title() {
+		return this.nombreSector;
+	}
+
+	public String iconName() {
+		return "iconName";
+	}
+
+	// //////////////////////////////////////
+	// Descripcion de las propiedades.
+	// //////////////////////////////////////
+	private String nombreSector;
+
+	// //////////////////////////////////////
+	// Descripcion de las propiedades.
+	// //////////////////////////////////////
+
+	private int numInterno;
+
+}
