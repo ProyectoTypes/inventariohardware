@@ -68,25 +68,7 @@ public abstract class Persona {
 	public void setEmail(final String email) {
 		this.email = email;
 	}
-
-	// //////////////////////////////////////
-	// CELULAR (propiedad)
-	// //////////////////////////////////////
-
-	private int celular;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@Hidden(where = Where.ALL_TABLES)
-	@DescribedAs("Celular del Cliente:")
-	@RegEx(validation = "^[0-9]{2,3}-? ?[0-9]{6,7}$")
-	@MemberOrder(sequence = "40")
-	public int getCelular() {
-		return celular;
-	}
-
-	public void setCelular(final int celular) {
-		this.celular = celular;
-	}
+	
 
 	// //////////////////////////////////////
 	// creadoPor
