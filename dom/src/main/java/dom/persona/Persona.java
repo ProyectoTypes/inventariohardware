@@ -7,6 +7,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 
@@ -23,7 +24,7 @@ public abstract class Persona {
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Apellido de la Persona:")
 	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
-	@MemberOrder(sequence = "1")
+	@MemberOrder(sequence = "10")
 	public String getApellido() {
 		return apellido;
 	}
@@ -41,7 +42,7 @@ public abstract class Persona {
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Nombre de la Persona:")
 	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
-	@MemberOrder(sequence = "2")
+	@MemberOrder(sequence = "20")
 	public String getNombre() {
 		return nombre;
 	}
@@ -51,33 +52,15 @@ public abstract class Persona {
 	}
 
 	// //////////////////////////////////////
-	// DOCUMENTO (propiedad)
-	// //////////////////////////////////////
-
-	private String documento;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@Hidden(where = Where.ALL_TABLES)
-	@RegEx(validation = "\\d{6,8}")
-	@MemberOrder(sequence = "3")
-	public String getDocumento() {
-		return documento;
-	}
-
-	public void setDocumento(final String documento) {
-		this.documento = documento;
-	}
-
-	// //////////////////////////////////////
 	// EMAIL (propiedad)
 	// //////////////////////////////////////
 
 	private String email;
 
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
-	@MemberOrder(sequence = "4")
+	@Optional
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	@RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
+	@MemberOrder(sequence = "30")
 	public String getEmail() {
 		return email;
 	}
@@ -96,7 +79,7 @@ public abstract class Persona {
 	@Hidden(where = Where.ALL_TABLES)
 	@DescribedAs("Celular del Cliente:")
 	@RegEx(validation = "^[0-9]{2,3}-? ?[0-9]{6,7}$")
-	@MemberOrder(sequence = "5")
+	@MemberOrder(sequence = "40")
 	public int getCelular() {
 		return celular;
 	}
@@ -111,7 +94,7 @@ public abstract class Persona {
 
 	private String creadoPor;
 
- 	@Hidden(where = Where.ALL_TABLES)
+	@Hidden(where = Where.ALL_TABLES)
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	public String getCreadoPor() {
 		return creadoPor;
