@@ -1,4 +1,4 @@
-package dom.usuario;
+package dom.tecnico;
 
 import javax.jdo.annotations.IdentityType;
 
@@ -14,14 +14,14 @@ import dom.persona.Persona;
 
 @javax.jdo.annotations.Queries({ @javax.jdo.annotations.Query(name = "getAll", language = "JDOQL", value = "SELECT FROM dom.usuario.Usuario WHERE creadoPor == :creadoPor") })
 
-@ObjectType("USUARIO")
+@ObjectType("TECNICO")
 @Audited
-@AutoComplete(repository=UsuarioServicio.class, action="autoComplete") //
+@AutoComplete(repository=TecnicoServicio.class, action="autoComplete") //
 // default unless overridden by autoCompleteNXxx() method
 // @Bounded - if there were a small number of instances only (overrides
 // autoComplete functionality)
 @Bookmarkable
-public class Usuario extends Persona {
+public class Tecnico extends Persona {
 	// //////////////////////////////////////
 	// Identification in the UI
 	// //////////////////////////////////////
@@ -31,7 +31,7 @@ public class Usuario extends Persona {
 	}
 
 	public String iconName() {
-		return "ToDoItem";
+		return "Tecnico";
 	}
 
 }

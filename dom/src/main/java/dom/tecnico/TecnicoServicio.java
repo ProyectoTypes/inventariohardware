@@ -1,4 +1,4 @@
-package dom.usuario;
+package dom.tecnico;
 
 import java.util.List;
 
@@ -10,10 +10,10 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
-@Named("USUARIOS")
-public class UsuarioServicio {
+@Named("TECNICOS")
+public class TecnicoServicio {
 
-	public UsuarioServicio() {
+	public TecnicoServicio() {
 
 	}
 
@@ -22,27 +22,27 @@ public class UsuarioServicio {
 	// //////////////////////////////////////
 
 	public String getId() {
-		return "usuario";
+		return "tecnico";
 	}
 
 	public String iconName() {
-		return "Usuario";
+		return "Tecnico";
 	}
 	@MemberOrder(sequence = "10")
-	public Usuario agregar(
+	public Tecnico agregar(
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombre,
 			final @Optional @RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"	+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") @Named("E-mail") String email,
 			final @RegEx(validation = "^[0-9]{2,3}-? ?[0-9]{6,7}$") @Named("Celular") int celular) {
-		return nuevoUsuario(apellido, nombre, email, celular,
+		return nuevoTecnico(apellido, nombre, email, celular,
 				this.currentUserName());
 	}
 
 	@Programmatic
-	public Usuario nuevoUsuario(final String apellido, final String nombre,
+	public Tecnico nuevoTecnico(final String apellido, final String nombre,
 			final String email, final int celular,
 			final String creadoPor) {
-		final Usuario unUsuario = container.newTransientInstance(Usuario.class);
+		final Tecnico unUsuario = container.newTransientInstance(Tecnico.class);
 		unUsuario.setApellido(apellido);
 		unUsuario.setNombre(nombre);
 		unUsuario.setEmail(email);
@@ -54,15 +54,15 @@ public class UsuarioServicio {
 
 	}
 	@MemberOrder(sequence="20")
-	public List<Usuario> listarTodos()
+	public List<Tecnico> listarTodos()
 	{
-		final List<Usuario> listaUsuarios = this.container.allMatches(
-				new QueryDefault<Usuario>(Usuario.class, "getAll","creadoPor",this.currentUserName()));
-		if(listaUsuarios.isEmpty())
+		final List<Tecnico> listaTecnicos = this.container.allMatches(
+				new QueryDefault<Tecnico>(Tecnico.class, "getAll","creadoPor",this.currentUserName()));
+		if(listaTecnicos.isEmpty())
 		{
 			this.container.warnUser("No hay usuarios cargados en el sistema");
 		}
-		return listaUsuarios;
+		return listaTecnicos;
 				
 	}
 	
