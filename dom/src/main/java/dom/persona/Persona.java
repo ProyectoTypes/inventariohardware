@@ -69,7 +69,25 @@ public abstract class Persona {
 		this.email = email;
 	}
 	
+	
+	
+	// //////////////////////////////////////
+	// Habilitado
+	// //////////////////////////////////////
+	
+	public boolean habilitado;
 
+	@Hidden
+	@MemberOrder(name="Detalles",sequence="9")    
+	public boolean getEstaHabilitado(){
+		return habilitado;
+	}
+	public void setHabilitado(final boolean habilitado){
+	   	this.habilitado = habilitado;
+	}
+	
+	
+	
 	// //////////////////////////////////////
 	// creadoPor
 	// //////////////////////////////////////
@@ -85,5 +103,4 @@ public abstract class Persona {
 	public void setCreadoPor(String creadoPor) {
 		this.creadoPor = creadoPor;
 	}
-
 }

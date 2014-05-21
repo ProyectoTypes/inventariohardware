@@ -72,51 +72,6 @@ public class Tecnico extends Persona implements Comparable<Tecnico>{
 	}
 
 	
-	// //////////////////////////////////////
-    // Predicates
-    // //////////////////////////////////////
-	public static class Predicates{
-		
-        public static Predicate<Tecnico> thoseCreadoPorBy(final String currentUser) {
-            return new Predicate<Tecnico>() {
-                @Override
-                public boolean apply(final Tecnico tecnico) {
-                    return Objects.equal(tecnico.getCreadoPor(), currentUser);
-                }
-            };
-        }
-        
-        
-	}
-	
-	
-    public static Predicate<Tecnico> thoseWithSimilarDescription(final String apellido) {
-        return new Predicate<Tecnico>() {
-            @Override
-            public boolean apply(final Tecnico t) {
-                return t.getApellido().contains(apellido);
-            }
-        };
-    }
-
-    
-    
-	//Overrides el orden natural
-    public static class DependenciesComparatorTecnico implements Comparator<Tecnico> {
-        @Override
-        public int compare(Tecnico t, Tecnico e) {
-            Ordering<Tecnico> byApellido = new Ordering<Tecnico>() {
-                public int compare(final Tecnico t, final Tecnico e) {
-                    return Ordering.natural().nullsFirst().compare(t.getApellido(), e.getApellido());
-                }
-            };
-            return byApellido
-                    .compound(Ordering.<Tecnico>natural())
-                    .compare(t, e);
-        }
-    }
-	
-	
 	
     // //////////////////////////////////////
     // Complete (property), 
@@ -132,6 +87,47 @@ public class Tecnico extends Persona implements Comparable<Tecnico>{
 
     public void setComplete(final boolean complete) {
         this.complete = complete;
+    }
+	
+	
+	// //////////////////////////////////////
+    // Predicates
+    // //////////////////////////////////////
+	public static class Predicates{
+		
+        public static Predicate<Tecnico> thoseCreadoPorBy(final String currentUser) {
+            return new Predicate<Tecnico>() {
+                @Override
+                public boolean apply(final Tecnico tecnico) {
+                    return Objects.equal(tecnico.getCreadoPor(), currentUser);
+                }
+            };
+        }
+        
+        public static Predicate<Tecnico> thoseWithSimilarDescription(final String apellido) {
+            return new Predicate<Tecnico>() {
+                @Override
+                public boolean apply(final Tecnico t) {
+                    return t.getApellido().contains(apellido);
+                }
+            };
+        }
+	}
+	
+	   
+	//Overrides el orden natural
+    public static class DependenciesComparatorTecnico implements Comparator<Tecnico> {
+        @Override
+        public int compare(Tecnico t, Tecnico e) {
+            Ordering<Tecnico> byApellido = new Ordering<Tecnico>() {
+                public int compare(final Tecnico t, final Tecnico e) {
+                    return Ordering.natural().nullsFirst().compare(t.getApellido(), e.getApellido());
+                }
+            };
+            return byApellido
+                    .compound(Ordering.<Tecnico>natural())
+                    .compare(t, e);
+        }
     }
 	
 	

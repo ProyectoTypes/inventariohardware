@@ -42,14 +42,15 @@ public class TecnicoServicio {
 	public Tecnico nuevoTecnico(final String apellido, final String nombre,
 			final String email,
 			final String creadoPor) {
-		final Tecnico unUsuario = container.newTransientInstance(Tecnico.class);
-		unUsuario.setApellido(apellido);
-		unUsuario.setNombre(nombre);
-		unUsuario.setEmail(email);
-		unUsuario.setCreadoPor(creadoPor);
-		container.persistIfNotAlready(unUsuario);
+		final Tecnico unTecnico = container.newTransientInstance(Tecnico.class);
+		unTecnico.setApellido(apellido);
+		unTecnico.setNombre(nombre);
+		unTecnico.setEmail(email);
+		unTecnico.setHabilitado(true);
+		unTecnico.setCreadoPor(creadoPor);
+		container.persistIfNotAlready(unTecnico);
 		container.flush();
-		return unUsuario;
+		return unTecnico;
 
 	}
 	@MemberOrder(sequence="20")
@@ -59,7 +60,7 @@ public class TecnicoServicio {
 				new QueryDefault<Tecnico>(Tecnico.class, "getTecnico","creadoPor",this.currentUserName()));
 		if(listaTecnicos.isEmpty())
 		{
-			this.container.warnUser("No hay usuarios cargados en el sistema");
+			this.container.warnUser("No hay tecnicos cargados en el sistema");
 		}
 		return listaTecnicos;
 				
