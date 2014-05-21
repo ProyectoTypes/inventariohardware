@@ -1,6 +1,7 @@
 package dom.tecnico;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -18,9 +19,13 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.SortedBy;
 import org.apache.isis.applib.annotation.TypicalLength;
+import org.apache.isis.applib.util.ObjectContracts;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Ordering;
 
 import dom.persona.Persona;
-import dom.todo.ToDoItem.DependenciesComparator;
 
 @javax.jdo.annotations.PersistenceCapable(identityType=IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(
@@ -42,8 +47,8 @@ import dom.todo.ToDoItem.DependenciesComparator;
                     + "WHERE creadoPor == :creadoPor && "
                     + "apellido.indexOf(:apellido) >= 0"),
 	@javax.jdo.annotations.Query(
-			name = "getAll", language = "JDOQL", 
-			value = "SELECT FROM dom.usuario.Usuario WHERE creadoPor == :creadoPor")
+			name = "getTecnico", language = "JDOQL", 
+			value = "SELECT FROM dom.tecnico.Tecnico WHERE creadoPor == :creadoPor")
 })
 
 @ObjectType("TECNICO")
@@ -53,7 +58,7 @@ import dom.todo.ToDoItem.DependenciesComparator;
 // @Bounded - if there were a small number of instances only (overrides
 // autoComplete functionality)
 @Bookmarkable
-public class Tecnico extends Persona {
+public class Tecnico extends Persona implements Comparable<Tecnico>{
 	// //////////////////////////////////////
 	// Identification in the UI
 	// //////////////////////////////////////
@@ -66,6 +71,52 @@ public class Tecnico extends Persona {
 		return "Tecnico";
 	}
 
+	
+	// //////////////////////////////////////
+    // Predicates
+    // //////////////////////////////////////
+	public static class Predicates{
+		
+        public static Predicate<Tecnico> thoseCreadoPorBy(final String currentUser) {
+            return new Predicate<Tecnico>() {
+                @Override
+                public boolean apply(final Tecnico tecnico) {
+                    return Objects.equal(tecnico.getCreadoPor(), currentUser);
+                }
+            };
+        }
+        
+        
+	}
+	
+	
+    public static Predicate<Tecnico> thoseWithSimilarDescription(final String apellido) {
+        return new Predicate<Tecnico>() {
+            @Override
+            public boolean apply(final Tecnico t) {
+                return t.getApellido().contains(apellido);
+            }
+        };
+    }
+
+    
+    
+	//Overrides el orden natural
+    public static class DependenciesComparatorTecnico implements Comparator<Tecnico> {
+        @Override
+        public int compare(Tecnico t, Tecnico e) {
+            Ordering<Tecnico> byApellido = new Ordering<Tecnico>() {
+                public int compare(final Tecnico t, final Tecnico e) {
+                    return Ordering.natural().nullsFirst().compare(t.getApellido(), e.getApellido());
+                }
+            };
+            return byApellido
+                    .compound(Ordering.<Tecnico>natural())
+                    .compare(t, e);
+        }
+    }
+	
+	
 	
     // //////////////////////////////////////
     // Complete (property), 
@@ -90,7 +141,7 @@ public class Tecnico extends Persona {
 	private SortedSet<Tecnico> dependencias = new TreeSet<Tecnico>();
 	
 	
-	@SortedBy(DependenciesComparator.class)
+	@SortedBy(DependenciesComparatorTecnico.class)
 	public SortedSet<Tecnico> getDependencias(){
 		return dependencias;
 	}
@@ -171,4 +222,10 @@ public class Tecnico extends Persona {
 	
 	@javax.inject.Inject
 	private TecnicoServicio tecnicoServicio;
+	
+	
+    @Override
+    public int compareTo(final Tecnico tecnico) {
+        return ObjectContracts.compare(this, tecnico, "apellido");
+    }
 }

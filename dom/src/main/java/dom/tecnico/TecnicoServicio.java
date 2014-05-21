@@ -56,7 +56,7 @@ public class TecnicoServicio {
 	public List<Tecnico> listarTodos()
 	{
 		final List<Tecnico> listaTecnicos = this.container.allMatches(
-				new QueryDefault<Tecnico>(Tecnico.class, "getAll","creadoPor",this.currentUserName()));
+				new QueryDefault<Tecnico>(Tecnico.class, "getTecnico","creadoPor",this.currentUserName()));
 		if(listaTecnicos.isEmpty())
 		{
 			this.container.warnUser("No hay usuarios cargados en el sistema");
