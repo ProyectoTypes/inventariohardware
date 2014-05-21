@@ -10,6 +10,7 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
+
 @Named("TECNICOS")
 public class TecnicoServicio {
 
@@ -63,6 +64,21 @@ public class TecnicoServicio {
 		return listaTecnicos;
 				
 	}
+	
+	
+    // //////////////////////////////////////
+    // AutoComplete
+    // //////////////////////////////////////
+
+    @Programmatic // not part of metamodel
+    public List<Tecnico> autoComplete(final String apellido) {
+        return container.allMatches(
+                new QueryDefault<Tecnico>(Tecnico.class, 
+                        "findByCreadoPorByAndApellidoContains", 
+                        "creadoPor", currentUserName(), 
+                        "apellido", apellido));
+    }
+	
 	
 	// //////////////////////////////////////
 	// CurrentUserName
