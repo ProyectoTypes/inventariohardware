@@ -9,11 +9,14 @@ import java.util.TreeSet;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.MaxLength;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.PublishedAction;
@@ -46,6 +49,18 @@ import dom.persona.Persona;
                     + "FROM dom.tecnico.Tecnico "
                     + "WHERE creadoPor == :creadoPor && "
                     + "apellido.indexOf(:apellido) >= 0"),
+    @javax.jdo.annotations.Query(
+            name = "eliminarTecnicoFalse", language = "JDOQL",
+            value = "SELECT "
+                    + "FROM dom.tecnico.Tecnico "
+                    + "WHERE creadoPor == :creadoPor "
+                    + "   && habilitado == false"),
+    @javax.jdo.annotations.Query(
+            name = "eliminarTecnicoTrue", language = "JDOQL",
+            value = "SELECT "
+                    + "FROM dom.tecnico.Tecnico "
+                    + "WHERE creadoPor == :creadoPor "
+                    + "   && habilitado == true"),
 	@javax.jdo.annotations.Query(
 			name = "getTecnico", language = "JDOQL", 
 			value = "SELECT FROM dom.tecnico.Tecnico WHERE creadoPor == :creadoPor")
@@ -192,6 +207,29 @@ public class Tecnico extends Persona implements Comparable<Tecnico>{
 	}
 	
 	
+	
+	/**
+     * Método que utilizo para deshabilitar un Proveedor.
+     * 
+     * @return pone el proveedor en false
+     */
+	//{{ 
+	@Named("Eliminar")
+	@PublishedAction
+	@Bulk
+	@MemberOrder(name="accionEliminar", sequence = "1")	
+	public List<Tecnico> eliminar() {
+		if(getEstaHabilitado()==true){
+				setHabilitado(false);    
+			    container.isPersistent(this);     
+			    container.warnUser("Eliminado " + container.titleOf(this));	
+		}
+	    return tecnicoServicio.noCompletados(); 
+	}
+	//}}
+	
+	
+	
 	//disabled depende del estado del objeto
 	public String disableRemove(final Tecnico tecnico){
 		if(isComplete()){
@@ -215,6 +253,14 @@ public class Tecnico extends Persona implements Comparable<Tecnico>{
 		return getDependencias();
 	}
 
+	
+    // //////////////////////////////////////
+    // Injected Services
+    // //////////////////////////////////////
+
+    @javax.inject.Inject
+    private DomainObjectContainer container;
+	
 	
 	@javax.inject.Inject
 	private TecnicoServicio tecnicoServicio;

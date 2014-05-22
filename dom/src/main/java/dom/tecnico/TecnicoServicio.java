@@ -3,11 +3,15 @@ package dom.tecnico;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.ActionSemantics;
+import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
+import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.query.QueryDefault;
 
 
@@ -29,7 +33,35 @@ public class TecnicoServicio {
 	public String iconName() {
 		return "Tecnico";
 	}
+	
+	
+	// //////////////////////////////////////
+    // NotYetComplete (action)
+    // //////////////////////////////////////
+	
+	@Hidden
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
 	@MemberOrder(sequence = "10")
+	public List<Tecnico> noCompletados(){
+		final List<Tecnico> listaTecnicos = peroCompletos();
+		if(listaTecnicos.isEmpty()){
+			container.informUser("Se borró la información solicitada");
+		}
+		return listaTecnicos;
+	}
+	
+	
+	@Programmatic
+	public List<Tecnico> peroCompletos(){
+		return container.allMatches(
+				new QueryDefault<Tecnico>(Tecnico.class, 
+						"eliminarTecnicoTrue",
+						"creadoPor", currentUserName()));
+	}
+	
+	
+	@MemberOrder(sequence = "30")
 	public Tecnico agregar(
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombre,
@@ -57,7 +89,7 @@ public class TecnicoServicio {
 	public List<Tecnico> listarTodos()
 	{
 		final List<Tecnico> listaTecnicos = this.container.allMatches(
-				new QueryDefault<Tecnico>(Tecnico.class, "getTecnico","creadoPor",this.currentUserName()));
+				new QueryDefault<Tecnico>(Tecnico.class, "eliminarTecnicoTrue","creadoPor",this.currentUserName()));
 		if(listaTecnicos.isEmpty())
 		{
 			this.container.warnUser("No hay tecnicos cargados en el sistema");
