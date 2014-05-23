@@ -1,5 +1,51 @@
+/*
+ *  Licensed to the Apache Software Foundation (ASF) under one
+ *  or more contributor license agreements.  See the NOTICE file
+ *  distributed with this work for additional information
+ *  regarding copyright ownership.  The ASF licenses this file
+ *  to you under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
 package dom.sector;
 
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.VersionStrategy;
+
+import org.apache.isis.applib.annotation.Audited;
+import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.DescribedAs;
+import org.apache.isis.applib.annotation.Hidden;
+import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.RegEx;
+import org.apache.isis.applib.annotation.Where;
+
+
+
+@javax.jdo.annotations.PersistenceCapable(identityType=IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(
+        strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
+         column="id")
+@javax.jdo.annotations.Version(
+        strategy=VersionStrategy.VERSION_NUMBER, 
+        column="version")
+@javax.jdo.annotations.Uniques({
+    @javax.jdo.annotations.Unique(
+            name="Sector_nombreSector_must_be_unique", 
+            members={"creadoPor","nombreSector"})
+})
+
+@Audited 
+@Bookmarkable
 public class Sector {
 
 	// //////////////////////////////////////
@@ -19,7 +65,48 @@ public class Sector {
 	// //////////////////////////////////////
 	private String nombreSector;
 
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
+	@DescribedAs("Nombre del Sector:")
+	@MemberOrder(sequence = "10")
+	public String getNombreSector() {
+		return nombreSector;
+	}
+
+	public void setNombreSector(String nombreSector) {
+		this.nombreSector = nombreSector;
+	}
+
 	// //////////////////////////////////////
-	// Descripcion de las propiedades.
+	// creadoPor
 	// //////////////////////////////////////
+
+	private String creadoPor;
+
+	@Hidden(where = Where.ALL_TABLES)
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	public String getCreadoPor() {
+		return creadoPor;
+	}
+
+	public void setCreadoPor(String creadoPor) {
+		this.creadoPor = creadoPor;
+	}
+
+
+	// //////////////////////////////////////
+	// Habilitado
+	// //////////////////////////////////////
+
+	public boolean habilitado;
+
+	@Hidden
+	@MemberOrder(name = "Detalles", sequence = "9")
+	public boolean getEstaHabilitado() {
+		return habilitado;
+	}
+
+	public void setHabilitado(final boolean habilitado) {
+		this.habilitado = habilitado;
+	}
 }
