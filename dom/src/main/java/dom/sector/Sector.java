@@ -18,16 +18,32 @@
  */
 package dom.sector;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.Audited;
+import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
+import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.MinLength;
+import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.RegEx;
+import org.apache.isis.applib.annotation.SortedBy;
+import org.apache.isis.applib.annotation.TypicalLength;
 import org.apache.isis.applib.annotation.Where;
+import org.apache.isis.applib.util.ObjectContracts;
+
+import com.google.common.collect.Ordering;
 
 
 
@@ -43,10 +59,20 @@ import org.apache.isis.applib.annotation.Where;
             name="Sector_nombreSector_must_be_unique", 
             members={"creadoPor","nombreSector"})
 })
-
-@Audited 
+@javax.jdo.annotations.Queries( {
+    @javax.jdo.annotations.Query(
+            name = "findByCreadoPorAndNombreSector", language = "JDOQL",
+            value = "SELECT "
+                    + "FROM dom.sector.Sector "
+                    + "WHERE creadoPor == :creadoPor"),
+                    @javax.jdo.annotations.Query(name="todosLosSectores", language="JDOQL",
+                    value ="SELECT FROM dom.sector.Sector WHERE creadoPor == :creadoPor")
+})
+@ObjectType("SECTOR")
+@Audited
+@AutoComplete(repository=SectorServicio.class, action="autoComplete") 
 @Bookmarkable
-public class Sector {
+public class Sector  {
 
 	// //////////////////////////////////////
 	// Identificacion en la UI. Aparece como item del menu
@@ -93,7 +119,6 @@ public class Sector {
 		this.creadoPor = creadoPor;
 	}
 
-
 	// //////////////////////////////////////
 	// Habilitado
 	// //////////////////////////////////////
@@ -109,4 +134,5 @@ public class Sector {
 	public void setHabilitado(final boolean habilitado) {
 		this.habilitado = habilitado;
 	}
+
 }

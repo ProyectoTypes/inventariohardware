@@ -197,9 +197,9 @@ isis.services = \
                 org.apache.isis.objectstore.jdo.applib.service.command.CommandServiceJdoRepository,\
                 \
                 # JDO implementation of the AuditingService, \
-                #org.apache.isis.objectstore.jdo.applib.service.audit.AuditingServiceJdo,\
-                #org.apache.isis.objectstore.jdo.applib.service.audit.AuditingServiceJdoContributions,\
-                #org.apache.isis.objectstore.jdo.applib.service.audit.AuditingServiceJdoRepository,\
+                org.apache.isis.objectstore.jdo.applib.service.audit.AuditingServiceJdo,\
+                org.apache.isis.objectstore.jdo.applib.service.audit.AuditingServiceJdoContributions,\
+                org.apache.isis.objectstore.jdo.applib.service.audit.AuditingServiceJdoRepository,\
                 \
                 # Core implementation of BackgroundService (depends on: MementoService & BackgroundCommandService & CommandContext service), \
                 org.apache.isis.core.runtime.services.background.BackgroundServiceDefault,\
