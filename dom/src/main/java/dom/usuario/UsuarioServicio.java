@@ -10,7 +10,7 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
-@Named("USUARIOS")
+@Named("USUARIO")
 public class UsuarioServicio {
 
 	public UsuarioServicio() {
@@ -50,6 +50,7 @@ public class UsuarioServicio {
 		unUsuario.setApellido(apellido);
 		unUsuario.setNombre(nombre);
 		unUsuario.setEmail(email);
+		unUsuario.setHabilitado(true);
 		unUsuario.setCreadoPor(creadoPor);
 		container.persistIfNotAlready(unUsuario);
 		container.flush();
@@ -62,10 +63,10 @@ public class UsuarioServicio {
 	// //////////////////////////////////////
 	
 	@MemberOrder(sequence="20")
-	public List<Usuario> listarTodos()
+	public List<Usuario> listar()
 	{
 		final List<Usuario> listaUsuarios = this.container.allMatches(
-				new QueryDefault<Usuario>(Usuario.class, "getAll","creadoPor",this.currentUserName()));
+				new QueryDefault<Usuario>(Usuario.class, "eliminarUsuarioTrue","creadoPor",this.currentUserName()));
 		if(listaUsuarios.isEmpty())
 		{
 			this.container.warnUser("No hay Usuarios cargados en el sistema.");

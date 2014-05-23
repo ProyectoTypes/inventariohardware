@@ -838,7 +838,6 @@ public class ToDoItem implements Comparable<ToDoItem> {
     private ToDoItems toDoItems;
 
     @javax.inject.Inject
-    @SuppressWarnings("unused")
     private ClockService clockService;
     
     private Bulk.InteractionContext bulkInteractionContext;
@@ -846,7 +845,6 @@ public class ToDoItem implements Comparable<ToDoItem> {
         this.bulkInteractionContext = bulkInteractionContext;
     }
     
-    @SuppressWarnings("unused")
     @javax.inject.Inject
     private CommandContext commandContext;
 
