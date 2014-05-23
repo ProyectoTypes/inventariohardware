@@ -45,45 +45,33 @@ import org.apache.isis.applib.util.ObjectContracts;
 
 import com.google.common.collect.Ordering;
 
-
-
-@javax.jdo.annotations.PersistenceCapable(identityType=IdentityType.DATASTORE)
-@javax.jdo.annotations.DatastoreIdentity(
-        strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
-         column="id")
-@javax.jdo.annotations.Version(
-        strategy=VersionStrategy.VERSION_NUMBER, 
-        column="version")
-@javax.jdo.annotations.Uniques({
-    @javax.jdo.annotations.Unique(
-            name="Sector_nombreSector_must_be_unique", 
-            members={"creadoPor","nombreSector"})
-})
-@javax.jdo.annotations.Queries( {
-    @javax.jdo.annotations.Query(
-            name = "findByCreadoPorAndNombreSector", language = "JDOQL",
-            value = "SELECT "
-                    + "FROM dom.sector.Sector "
-                    + "WHERE creadoPor == :creadoPor"),
-                    @javax.jdo.annotations.Query(name="todosLosSectores", language="JDOQL",
-                    value ="SELECT FROM dom.sector.Sector WHERE creadoPor == :creadoPor")
-})
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
+@javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Sector_nombreSector_must_be_unique", members = {
+		"creadoPor", "nombreSector" }) })
+@javax.jdo.annotations.Queries({
+		@javax.jdo.annotations.Query(name = "findByCreadoPorAndNombreSector", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.sector.Sector " + "WHERE creadoPor == :creadoPor"),
+		@javax.jdo.annotations.Query(
+				name = "todosLosSectores", language = "JDOQL",
+				value = "SELECT FROM dom.sector.Sector WHERE creadoPor == :creadoPor") })
 @ObjectType("SECTOR")
 @Audited
-@AutoComplete(repository=SectorServicio.class, action="autoComplete") 
+@AutoComplete(repository = SectorServicio.class, action = "autoComplete")
 @Bookmarkable
-public class Sector  {
+public class Sector implements Comparable<Sector> {
 
 	// //////////////////////////////////////
 	// Identificacion en la UI. Aparece como item del menu
 	// //////////////////////////////////////
 
 	public String title() {
-		return this.nombreSector;
+		return this.getNombreSector();
 	}
 
 	public String iconName() {
-		return "iconName";
+		return "Tecnico";
 	}
 
 	// //////////////////////////////////////
@@ -120,6 +108,22 @@ public class Sector  {
 	}
 
 	// //////////////////////////////////////
+	// Complete (property),
+	// Se utiliza en las acciones add (action), DeshacerAgregar (action)
+	// //////////////////////////////////////
+
+	private boolean complete;
+
+	@Disabled
+	public boolean isComplete() {
+		return complete;
+	}
+
+	public void setComplete(final boolean complete) {
+		this.complete = complete;
+	}
+
+	// //////////////////////////////////////
 	// Habilitado
 	// //////////////////////////////////////
 
@@ -135,4 +139,94 @@ public class Sector  {
 		this.habilitado = habilitado;
 	}
 
+	// //////////////////////////////////////
+	// Dependencies (collection),
+	// Add (action), Remove (action)
+	// //////////////////////////////////////
+
+	// Sobreescribir el orden natural.
+	public static class ComparadorDependeciasSector implements
+			Comparator<Sector> {
+		@Override
+		public int compare(Sector p, Sector q) {
+			Ordering<Sector> byNombreSector = new Ordering<Sector>() {
+				public int compare(final Sector p, final Sector q) {
+					return Ordering.natural().nullsFirst()
+							.compare(p.getNombreSector(), q.getNombreSector());
+				}
+			};
+			return byNombreSector.compound(Ordering.<Sector> natural())
+					.compare(p, q);
+		}
+	}
+
+	// //////////////////////////////////////
+	// Dependencies
+	// //////////////////////////////////////
+	@javax.jdo.annotations.Persistent(table = "SectorDependencias")
+	@javax.jdo.annotations.Join(column = "dependingId")
+	@javax.jdo.annotations.Element(column = "dependentId")
+	private SortedSet<Sector> dependencias = new TreeSet<Sector>();
+
+	@SortedBy(ComparadorDependeciasSector.class)
+	public SortedSet<Sector> getDependencias() {
+		return dependencias;
+	}
+
+	public void setDependencias(SortedSet<Sector> dependencias) {
+		this.dependencias = dependencias;
+	}
+
+	@PublishedAction
+	public Sector agregar(@TypicalLength(20) final Sector sector) {
+		this.getDependencias().add(sector);
+		return this;
+	}
+
+	public List<Sector> autoComplete0Agregar(
+			final @MinLength(2) String buscarNombreSector) {
+		final List<Sector> lista = sectorServicio
+				.autoComplete(buscarNombreSector);
+		lista.removeAll(this.getDependencias());
+		lista.remove(this);
+		return lista;
+	}
+
+	public String deshacerAgregar(final Sector sector) {
+		if (this.isComplete()) {
+			return "No se puede agregar dependecia";
+		}
+		return null;
+	}
+
+	// Validar argumento invocado por la accion.
+	public String validateAgregar(final Sector sector) {
+		if (this.getDependencias().contains(sector)) {
+			return "Ya existe la dependecia";
+		}
+		if (sector == this) {
+			return "No se puede agregar esa dependencia";
+		}
+		return null;
+	}
+
+	@Named("Remover")
+	public Sector remove(@TypicalLength(20) final Sector sector) {
+		this.getDependencias().remove(sector);
+		return this;
+	}
+
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+
+	// implements Comparable<Sector> ...Necesaria para realizar un Orden
+	// natural.
+	@Override
+	public int compareTo(final Sector sector) {
+		return ObjectContracts.compare(this, sector, "nombreSector");
+	}
+
+	@javax.inject.Inject
+	private SectorServicio sectorServicio;
 }
