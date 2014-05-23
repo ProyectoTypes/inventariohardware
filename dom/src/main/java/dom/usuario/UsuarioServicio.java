@@ -28,6 +28,11 @@ public class UsuarioServicio {
 	public String iconName() {
 		return "Usuario";
 	}
+	
+	// //////////////////////////////////////
+	// Agregar Usuario
+	// //////////////////////////////////////
+	
 	@MemberOrder(sequence = "10")
 	public Usuario agregar(
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
@@ -51,6 +56,11 @@ public class UsuarioServicio {
 		return unUsuario;
 
 	}
+	
+	// //////////////////////////////////////
+	// Listar Usuario
+	// //////////////////////////////////////
+	
 	@MemberOrder(sequence="20")
 	public List<Usuario> listarTodos()
 	{
@@ -58,7 +68,7 @@ public class UsuarioServicio {
 				new QueryDefault<Usuario>(Usuario.class, "getAll","creadoPor",this.currentUserName()));
 		if(listaUsuarios.isEmpty())
 		{
-			this.container.warnUser("No hay usuarios cargados en el sistema");
+			this.container.warnUser("No hay Usuarios cargados en el sistema.");
 		}
 		return listaUsuarios;
 				
@@ -78,5 +88,4 @@ public class UsuarioServicio {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-
 }

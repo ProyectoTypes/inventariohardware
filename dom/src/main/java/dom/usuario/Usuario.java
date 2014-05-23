@@ -16,12 +16,10 @@ import dom.persona.Persona;
 
 @ObjectType("USUARIO")
 @Audited
-@AutoComplete(repository=UsuarioServicio.class, action="autoComplete") //
-// default unless overridden by autoCompleteNXxx() method
-// @Bounded - if there were a small number of instances only (overrides
-// autoComplete functionality)
+@AutoComplete(repository=UsuarioServicio.class, action="autoComplete")
 @Bookmarkable
 public class Usuario extends Persona {
+	
 	// //////////////////////////////////////
 	// Identification in the UI
 	// //////////////////////////////////////
@@ -33,5 +31,4 @@ public class Usuario extends Persona {
 	public String iconName() {
 		return "ToDoItem";
 	}
-
 }
