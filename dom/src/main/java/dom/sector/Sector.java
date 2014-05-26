@@ -26,9 +26,11 @@ import java.util.TreeSet;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
@@ -53,9 +55,15 @@ import com.google.common.collect.Ordering;
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "buscarCreadoPorYNombreSector", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.sector.Sector " + "WHERE creadoPor == :creadoPor"),
-		@javax.jdo.annotations.Query(
-				name = "todosLosSectores", language = "JDOQL",
-				value = "SELECT FROM dom.sector.Sector WHERE creadoPor == :creadoPor && habilitado == false") })
+		@javax.jdo.annotations.Query(name = "todosLosSectores", language = "JDOQL", value = "SELECT FROM dom.sector.Sector WHERE creadoPor == :creadoPor && habilitado == true"),
+		@javax.jdo.annotations.Query(name = "eliminarSectorFalse", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.sector.Sector "
+				+ "WHERE creadoPor == :creadoPor "
+				+ "   && habilitado == false"),
+		@javax.jdo.annotations.Query(name = "eliminarSectorTrue", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.sector.Sector "
+				+ "WHERE creadoPor == :creadoPor "
+				+ "   && habilitado == true") })
 @ObjectType("SECTOR")
 @Audited
 @AutoComplete(repository = SectorServicio.class, action = "autoComplete")
@@ -210,10 +218,16 @@ public class Sector implements Comparable<Sector> {
 		return null;
 	}
 
-	@Named("Remover")
-	public Sector remove(@TypicalLength(20) final Sector sector) {
-		this.getDependencias().remove(sector);
-		return this;
+	@Named("Eliminar")
+	@PublishedAction
+	@Bulk
+	public List<Sector> eliminar() {
+		if (getEstaHabilitado() == true) {
+			setHabilitado(false);
+			container.isPersistent(this);
+			container.warnUser("Eliminado " + container.titleOf(this));
+		}
+		return null;
 	}
 
 	// //////////////////////////////////////
@@ -226,6 +240,9 @@ public class Sector implements Comparable<Sector> {
 	public int compareTo(final Sector sector) {
 		return ObjectContracts.compare(this, sector, "nombreSector");
 	}
+
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 
 	@javax.inject.Inject
 	private SectorServicio sectorServicio;
