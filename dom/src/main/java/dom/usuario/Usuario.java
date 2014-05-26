@@ -68,7 +68,7 @@ public class Usuario extends Persona {
 	}
 
 	public String iconName() {
-		return "ToDoItem";
+		return "Usuario";
 	}
 	
 	// //////////////////////////////////////
