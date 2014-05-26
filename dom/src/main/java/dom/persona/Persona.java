@@ -69,23 +69,20 @@ public abstract class Persona {
 		this.email = email;
 	}
 	
-	
-	
 	// //////////////////////////////////////
-	// Habilitado
+	// Habilitado (propiedad)
 	// //////////////////////////////////////
 	
 	public boolean habilitado;
 
 	@Hidden
-	@MemberOrder(name="Detalles",sequence="9")    
+	@MemberOrder(sequence="40")    
 	public boolean getEstaHabilitado(){
 		return habilitado;
 	}
 	public void setHabilitado(final boolean habilitado){
 	   	this.habilitado = habilitado;
 	}
-	
 	
 	
 	// //////////////////////////////////////

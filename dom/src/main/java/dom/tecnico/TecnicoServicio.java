@@ -15,7 +15,7 @@ import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.query.QueryDefault;
 
 
-@Named("TECNICOS")
+@Named("TECNICO")
 public class TecnicoServicio {
 
 	public TecnicoServicio() {
@@ -61,7 +61,7 @@ public class TecnicoServicio {
 	}
 	
 	
-	@MemberOrder(sequence = "30")
+	@MemberOrder(sequence = "10")
 	public Tecnico agregar(
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombre,
@@ -86,7 +86,7 @@ public class TecnicoServicio {
 
 	}
 	@MemberOrder(sequence="20")
-	public List<Tecnico> listarTodos()
+	public List<Tecnico> listar()
 	{
 		final List<Tecnico> listaTecnicos = this.container.allMatches(
 				new QueryDefault<Tecnico>(Tecnico.class, "eliminarTecnicoTrue","creadoPor",this.currentUserName()));

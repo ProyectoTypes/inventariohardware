@@ -11,8 +11,7 @@ import org.apache.isis.applib.query.QueryDefault;
 
 @Named("SECTOR")
 public class SectorServicio {
-	public SectorServicio()
-	{
+	public SectorServicio()	{
 		
 	}
 	
@@ -53,7 +52,7 @@ public class SectorServicio {
 	// ListarTodos
 	// //////////////////////////////////////
 	@MemberOrder(sequence="20")
-	public List<Sector> listarTodos()
+	public List<Sector> listar()
 	{
 		final List<Sector> listarSectores = this.container.allMatches(
 				new QueryDefault<Sector>(Sector.class, "todosLosSectores", "creadoPor",this.currentUserName()));

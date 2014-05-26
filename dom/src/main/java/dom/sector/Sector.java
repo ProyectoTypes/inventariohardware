@@ -55,7 +55,7 @@ import com.google.common.collect.Ordering;
 				+ "FROM dom.sector.Sector " + "WHERE creadoPor == :creadoPor"),
 		@javax.jdo.annotations.Query(
 				name = "todosLosSectores", language = "JDOQL",
-				value = "SELECT FROM dom.sector.Sector WHERE creadoPor == :creadoPor && habilitado == false") })
+				value = "SELECT FROM dom.sector.Sector WHERE creadoPor == :creadoPor && habilitado == true") })
 @ObjectType("SECTOR")
 @Audited
 @AutoComplete(repository = SectorServicio.class, action = "autoComplete")

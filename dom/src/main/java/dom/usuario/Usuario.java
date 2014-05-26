@@ -1,5 +1,6 @@
 package dom.usuario;
 
+import java.util.Comparator;
 import java.util.List;
 
 import javax.jdo.annotations.IdentityType;
@@ -14,6 +15,9 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.PublishedAction;
+import org.apache.isis.applib.util.ObjectContracts;
+
+import com.google.common.collect.Ordering;
 
 import dom.persona.Persona;
 
@@ -57,10 +61,10 @@ import dom.persona.Persona;
 @Audited
 @AutoComplete(repository=UsuarioServicio.class, action="autoComplete")
 @Bookmarkable
-public class Usuario extends Persona {
+public class Usuario extends Persona implements Comparable<Usuario> {
 	
 	// //////////////////////////////////////
-	// Identification in the UI
+	// Identificacion en la UI
 	// //////////////////////////////////////
 
 	public String title() {
@@ -74,7 +78,11 @@ public class Usuario extends Persona {
 	// //////////////////////////////////////
 	// Borrar Usuario
 	// //////////////////////////////////////
-	
+	/**
+     * Método que utilizo para deshabilitar un Usuario.
+     * 
+     * @return la propiedad habilitado en false.
+     */
 	@Named("Eliminar")
 	@PublishedAction
 	@Bulk
@@ -88,13 +96,44 @@ public class Usuario extends Persona {
 	    return null;
 	}
 	
+	// //////////////////////////////////////
+	// Comparador
+	// //////////////////////////////////////
+
+	public static class ComparadorDependeciasUsuario implements	Comparator<Usuario> {
+		@Override
+		public int compare(Usuario a, Usuario b) {
+			Ordering<Usuario> byApellidoUsuario = new Ordering<Usuario>() {
+				public int compare(final Usuario a, final Usuario b) {
+					return Ordering.natural().nullsFirst()
+							.compare(a.getApellido(), b.getApellido());
+				}
+			};
+			return byApellidoUsuario.compound(Ordering.<Usuario> natural())
+					.compare(a, b);
+		}
+	}
+	
+    // //////////////////////////////////////
+    // CompareTo
+    // //////////////////////////////////////
+	/**
+	 * Implementa Comparable<Usuario>
+	 * Necesario para ordenar por apellido la clase Usuario.
+	 * 
+	 */
+	@Override
+	public int compareTo(final Usuario usuario) {
+		return ObjectContracts.compare(this, usuario, "apellidoUsuario");
+	}
+	
     // //////////////////////////////////////
     // Injected Services
     // //////////////////////////////////////
 
     @javax.inject.Inject
     private DomainObjectContainer container;
-	
+    
 	@javax.inject.Inject
 	private UsuarioServicio usuarioServicio;
 }

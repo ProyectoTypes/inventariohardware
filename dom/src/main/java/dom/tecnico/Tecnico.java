@@ -261,7 +261,6 @@ public class Tecnico extends Persona implements Comparable<Tecnico>{
     @javax.inject.Inject
     private DomainObjectContainer container;
 	
-	
 	@javax.inject.Inject
 	private TecnicoServicio tecnicoServicio;
 	
