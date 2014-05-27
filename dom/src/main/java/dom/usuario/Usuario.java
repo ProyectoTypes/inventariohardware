@@ -68,7 +68,7 @@ public class Usuario extends Persona implements Comparable<Usuario> {
 	// //////////////////////////////////////
 
 	public String title() {
-		return this.getApellido() + ", " + this.getNombre();
+		return this.getApellido() + " " + this.getNombre();
 	}
 
 	public String iconName() {
@@ -97,9 +97,9 @@ public class Usuario extends Persona implements Comparable<Usuario> {
 	}
 	
 	// //////////////////////////////////////
-	// Comparador
+	// Comparador (Ordenar por Apellido)
 	// //////////////////////////////////////
-
+	
 	public static class ComparadorDependeciasUsuario implements	Comparator<Usuario> {
 		@Override
 		public int compare(Usuario a, Usuario b) {
@@ -120,7 +120,6 @@ public class Usuario extends Persona implements Comparable<Usuario> {
 	/**
 	 * Implementa Comparable<Usuario>
 	 * Necesario para ordenar por apellido la clase Usuario.
-	 * 
 	 */
 	@Override
 	public int compareTo(final Usuario usuario) {

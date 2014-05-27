@@ -42,7 +42,9 @@ public class UsuarioServicio {
 	}
 
 	@Programmatic
-	public Usuario nuevoUsuario(final String apellido, final String nombre,
+	public Usuario nuevoUsuario(
+			final String apellido, 
+			final String nombre,
 			final String email,
 			final String creadoPor) {
 		final Usuario unUsuario = container.newTransientInstance(Usuario.class);
