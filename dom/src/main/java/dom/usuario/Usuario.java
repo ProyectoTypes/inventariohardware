@@ -59,7 +59,7 @@ import dom.persona.Persona;
 
 @ObjectType("USUARIO")
 @Audited
-@AutoComplete(repository=UsuarioServicio.class, action="autoComplete")
+@AutoComplete(repository=UsuarioRepositorio.class, action="autoComplete")
 @Bookmarkable
 public class Usuario extends Persona implements Comparable<Usuario> {
 	
@@ -134,5 +134,5 @@ public class Usuario extends Persona implements Comparable<Usuario> {
     private DomainObjectContainer container;
     
 	@javax.inject.Inject
-	private UsuarioServicio usuarioServicio;
+	private UsuarioRepositorio usuarioRepositorio;
 }

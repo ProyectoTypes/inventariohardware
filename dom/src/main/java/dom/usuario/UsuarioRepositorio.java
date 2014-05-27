@@ -11,9 +11,9 @@ import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
 @Named("USUARIO")
-public class UsuarioServicio {
+public class UsuarioRepositorio {
 
-	public UsuarioServicio() {
+	public UsuarioRepositorio() {
 
 	}
 
