@@ -16,9 +16,9 @@ import org.apache.isis.applib.query.QueryDefault;
 
 
 @Named("TECNICO")
-public class TecnicoServicio {
+public class TecnicoRepositorio {
 
-	public TecnicoServicio() {
+	public TecnicoRepositorio() {
 
 	}
 
