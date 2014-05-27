@@ -59,11 +59,15 @@ import com.google.common.collect.Ordering;
 		@javax.jdo.annotations.Query(name = "eliminarSectorFalse", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.sector.Sector "
 				+ "WHERE creadoPor == :creadoPor "
-				+ "   && habilitado == false"),
+				+ "   && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarSectorTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.sector.Sector "
 				+ "WHERE creadoPor == :creadoPor "
-				+ "   && habilitado == true") })
+				+ "   && habilitado == true"),
+		@javax.jdo.annotations.Query(name = "buscarPorNombre", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.sector.Sector "
+				+ "WHERE creadoPor == :creadoPor "
+				+ "   && nombreSector == :nombre") })
 @ObjectType("SECTOR")
 @Audited
 @AutoComplete(repository = SectorServicio.class, action = "autoComplete")
