@@ -58,7 +58,7 @@ import com.google.common.collect.Ordering;
 				value = "SELECT FROM dom.sector.Sector WHERE creadoPor == :creadoPor && habilitado == true") })
 @ObjectType("SECTOR")
 @Audited
-@AutoComplete(repository = SectorServicio.class, action = "autoComplete")
+@AutoComplete(repository = SectorRepositorio.class, action = "autoComplete")
 @Bookmarkable
 public class Sector implements Comparable<Sector> {
 
@@ -185,7 +185,7 @@ public class Sector implements Comparable<Sector> {
 
 	public List<Sector> autoComplete0Agregar(
 			final @MinLength(2) String buscarNombreSector) {
-		final List<Sector> lista = sectorServicio
+		final List<Sector> lista = sectorRepositorio
 				.autoComplete(buscarNombreSector);
 		lista.removeAll(this.getDependencias());
 		lista.remove(this);
@@ -228,5 +228,5 @@ public class Sector implements Comparable<Sector> {
 	}
 
 	@javax.inject.Inject
-	private SectorServicio sectorServicio;
+	private SectorRepositorio sectorRepositorio;
 }

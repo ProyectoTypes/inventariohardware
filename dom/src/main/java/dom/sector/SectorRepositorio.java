@@ -10,8 +10,9 @@ import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
 @Named("SECTOR")
-public class SectorServicio {
-	public SectorServicio()	{
+public class SectorRepositorio {
+	
+	public SectorRepositorio()	{
 		
 	}
 	
