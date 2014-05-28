@@ -11,6 +11,8 @@ import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 
+import dom.sector.Sector;
+
 @PersistenceCapable
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public abstract class Persona {
@@ -69,16 +71,14 @@ public abstract class Persona {
 		this.email = email;
 	}
 	
-	
-	
 	// //////////////////////////////////////
-	// Habilitado
+	// Habilitado (propiedad)
 	// //////////////////////////////////////
 	
 	public boolean habilitado;
 
 	@Hidden
-	@MemberOrder(name="Detalles",sequence="9")    
+	@MemberOrder(sequence="40")    
 	public boolean getEstaHabilitado(){
 		return habilitado;
 	}
@@ -86,7 +86,20 @@ public abstract class Persona {
 	   	this.habilitado = habilitado;
 	}
 	
+	// //////////////////////////////////////
+	// Sector Usuario
+	// //////////////////////////////////////
 	
+	private Sector sector;
+	
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	@MemberOrder(sequence = "50")		
+	public Sector getSector() {
+		return sector;
+	}
+	public void setSector(final Sector sector) {
+		this.sector = sector;
+	}
 	
 	// //////////////////////////////////////
 	// creadoPor

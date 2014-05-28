@@ -68,7 +68,7 @@ import dom.persona.Persona;
 
 @ObjectType("TECNICO")
 @Audited
-@AutoComplete(repository=TecnicoServicio.class, action="autoComplete") //
+@AutoComplete(repository=TecnicoRepositorio.class, action="autoComplete") //
 // default unless overridden by autoCompleteNXxx() method
 // @Bounded - if there were a small number of instances only (overrides
 // autoComplete functionality)
@@ -171,7 +171,7 @@ public class Tecnico extends Persona implements Comparable<Tecnico>{
 	
 	
 	public List<Tecnico> autoComplete0Agregar(final @MaxLength(2) String apellido){
-		final List<Tecnico> lista = tecnicoServicio.autoComplete(apellido);;
+		final List<Tecnico> lista = tecnicoRepositorio.autoComplete(apellido);;
 		lista.removeAll(getDependencias());
 		lista.remove(this);
 		return lista;
@@ -224,7 +224,7 @@ public class Tecnico extends Persona implements Comparable<Tecnico>{
 			    container.isPersistent(this);     
 			    container.warnUser("Eliminado " + container.titleOf(this));	
 		}
-	    return tecnicoServicio.noCompletados(); 
+		return null;
 	}
 	//}}
 	
@@ -261,9 +261,8 @@ public class Tecnico extends Persona implements Comparable<Tecnico>{
     @javax.inject.Inject
     private DomainObjectContainer container;
 	
-	
 	@javax.inject.Inject
-	private TecnicoServicio tecnicoServicio;
+	private TecnicoRepositorio tecnicoRepositorio;
 	
 	
     @Override

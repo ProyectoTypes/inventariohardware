@@ -33,27 +33,6 @@
                     creadoPor: {
                         hidden: {}
                     },
-                    complete: {
-                        actions: {
-                            completed: {
-                                named: { value: "Done" },
-                                describedAs: {
-                                    value: "Mark this todo item as having been completed"
-                                },
-                                cssClass: { value: "x-highlight" }
-                            },
-                            scheduleExplicitly: {
-                            },
-                            scheduleImplicitly: {
-                            },
-                            notYetCompleted: {
-                                named: { value: "Not done" }
-                            }
-                        },
-                        describedAs: {
-                            value: "Whether this todo item has been completed"
-                        }
-                    }
                 }
             },
             Misc: {
