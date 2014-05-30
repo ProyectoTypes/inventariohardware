@@ -77,6 +77,21 @@ public class UsuarioRepositorio {
 	}
 	
 	// //////////////////////////////////////
+	// Buscar Usuario
+	// //////////////////////////////////////
+	
+	@MemberOrder(sequence="30")
+	public List<Usuario> buscar(
+			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellidoUsuario)
+	{
+		final List<Usuario> listarUsuarios = this.container.allMatches(
+				new QueryDefault<Usuario>(Usuario.class, "buscarPorApellido", "creadoPor", this.currentUserName(), "apellido", apellidoUsuario));
+		if(listarUsuarios.isEmpty())
+			this.container.warnUser("No se encontraron Usuarios cargados en el sistema.");
+		return listarUsuarios;
+	}
+	
+	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////
 	

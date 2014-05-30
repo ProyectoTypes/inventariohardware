@@ -52,6 +52,11 @@ import dom.persona.Persona;
                     + "FROM dom.usuario.Usuario "
                     + "WHERE creadoPor == :creadoPor "
                     + "   && habilitado == true"),
+    @javax.jdo.annotations.Query(name = "buscarPorApellido", language = "JDOQL", 
+    		value = "SELECT "
+            		+ "FROM dom.usuario.Usuario "
+            		+ "WHERE creadoPor == :creadoPor "
+            		+ "   && apellido == :apellido"),
 	@javax.jdo.annotations.Query(
 			name = "getUsuario", language = "JDOQL", 
 			value = "SELECT FROM dom.usuario.Usuario WHERE creadoPor == :creadoPor")
