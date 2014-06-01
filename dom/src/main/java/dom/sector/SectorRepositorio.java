@@ -61,6 +61,11 @@ public class SectorRepositorio {
 			this.container.warnUser("No se encontraron sectores cargados en el sistema.");
 		return listarSectores;
 	}
+	
+	
+	// //////////////////////////////////////
+	// Buscar
+	// //////////////////////////////////////
 	@MemberOrder(sequence="21")
 	public List<Sector> buscar(
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombreSector)

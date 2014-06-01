@@ -31,7 +31,6 @@ import dom.todo.ToDoItem;
 import dom.todo.ToDoItems;
 import fixture.todo.ToDoItemsFixture;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 

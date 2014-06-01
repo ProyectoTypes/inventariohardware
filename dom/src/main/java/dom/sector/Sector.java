@@ -150,7 +150,8 @@ public class Sector implements Comparable<Sector> {
 	public void setHabilitado(final boolean habilitado) {
 		this.habilitado = habilitado;
 	}
-
+	
+	
 	// //////////////////////////////////////
 	// Dependencies (collection),
 	// Add (action), Remove (action)
@@ -246,12 +247,8 @@ public class Sector implements Comparable<Sector> {
 	}
 
 	@javax.inject.Inject
-<<<<<<< HEAD
 	private DomainObjectContainer container;
 
 	@javax.inject.Inject
-	private SectorServicio sectorServicio;
-=======
 	private SectorRepositorio sectorRepositorio;
->>>>>>> 90ab06e67f3593d9a0240c456985ddb5690bad03
 }

@@ -67,8 +67,6 @@ import org.apache.isis.applib.annotation.SortedBy;
 import org.apache.isis.applib.annotation.TypicalLength;
 import org.apache.isis.applib.clock.Clock;
 import org.apache.isis.applib.services.background.BackgroundService;
-import org.apache.isis.applib.services.clock.ClockService;
-import org.apache.isis.applib.services.command.CommandContext;
 import org.apache.isis.applib.services.scratchpad.Scratchpad;
 import org.apache.isis.applib.util.ObjectContracts;
 import org.apache.isis.applib.util.TitleBuffer;
@@ -836,17 +834,11 @@ public class ToDoItem implements Comparable<ToDoItem> {
 
     @javax.inject.Inject
     private ToDoItems toDoItems;
-
-    @javax.inject.Inject
-    private ClockService clockService;
     
     private Bulk.InteractionContext bulkInteractionContext;
     public void injectBulkInteractionContext(Bulk.InteractionContext bulkInteractionContext) {
         this.bulkInteractionContext = bulkInteractionContext;
     }
-    
-    @javax.inject.Inject
-    private CommandContext commandContext;
 
     @javax.inject.Inject
     private BackgroundService backgroundService;

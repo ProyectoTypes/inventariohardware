@@ -15,15 +15,15 @@
  *  limitations under the License.
  */
 package integration.specs.todoitem;
-
+/**
 import cucumber.api.junit.Cucumber;
 
 import org.junit.runner.RunWith;
 
 
-/**
+
  * Runs scenarios in all <tt>.feature</tt> files (this package and any subpackages). 
- */
+
 @RunWith(Cucumber.class)
 @Cucumber.Options(
         format = {
@@ -35,4 +35,4 @@ import org.junit.runner.RunWith;
         tags = { "~@backlog", "~@ignore" })
 public class RunSpecs {
     // intentionally empty 
-}
+} */

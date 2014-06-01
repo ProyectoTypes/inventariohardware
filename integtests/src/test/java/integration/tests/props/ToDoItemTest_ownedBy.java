@@ -18,15 +18,12 @@
  */
 package integration.tests.props;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertThat;
 import integration.tests.ToDoIntegTest;
 
 import java.util.List;
 
 import dom.todo.ToDoItem;
 import dom.todo.ToDoItems;
-import dom.todo.ToDoItem.Category;
 import fixture.todo.ToDoItemsFixture;
 
 import org.junit.Before;

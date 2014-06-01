@@ -31,12 +31,8 @@ import dom.todo.ToDoItem.Category;
 import dom.todo.ToDoItem.Subcategory;
 import fixture.todo.ToDoItemsFixture;
 
-import org.joda.time.LocalDate;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.apache.isis.applib.clock.Clock;
 
 public class ToDoItemContributionsTest_updateCategory extends ToDoIntegTest {
 

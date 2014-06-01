@@ -3,17 +3,12 @@ package dom.tecnico;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
-import org.apache.isis.applib.annotation.ActionSemantics;
-import org.apache.isis.applib.annotation.Bookmarkable;
-import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
-import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.query.QueryDefault;
-
 
 @Named("TECNICO")
 public class TecnicoRepositorio {
@@ -33,33 +28,10 @@ public class TecnicoRepositorio {
 	public String iconName() {
 		return "Tecnico";
 	}
-	
-	
+
 	// //////////////////////////////////////
-    // NotYetComplete (action)
-    // //////////////////////////////////////
-	
-	@Hidden
-	@Bookmarkable
-	@ActionSemantics(Of.SAFE)
-	@MemberOrder(sequence = "10")
-	public List<Tecnico> noCompletados(){
-		final List<Tecnico> listaTecnicos = peroCompletos();
-		if(listaTecnicos.isEmpty()){
-			container.informUser("Se borró la información solicitada");
-		}
-		return listaTecnicos;
-	}
-	
-	
-	@Programmatic
-	public List<Tecnico> peroCompletos(){
-		return container.allMatches(
-				new QueryDefault<Tecnico>(Tecnico.class, 
-						"eliminarTecnicoTrue",
-						"creadoPor", currentUserName()));
-	}
-	
+	// Agregar Tecnico
+	// //////////////////////////////////////
 	
 	@MemberOrder(sequence = "10")
 	public Tecnico agregar(
@@ -85,6 +57,12 @@ public class TecnicoRepositorio {
 		return unTecnico;
 
 	}
+	
+	
+	// //////////////////////////////////////
+	// Listar Tecnico
+	// //////////////////////////////////////
+	
 	@MemberOrder(sequence="20")
 	public List<Tecnico> listar()
 	{
@@ -96,6 +74,22 @@ public class TecnicoRepositorio {
 		}
 		return listaTecnicos;
 				
+	}
+	
+	
+	// //////////////////////////////////////
+	// Buscar Tecnico
+	// //////////////////////////////////////
+	
+	@MemberOrder(sequence="30")
+	public List<Tecnico> buscar(
+			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellidoUsuario)
+	{
+		final List<Tecnico> listarTecnicos = this.container.allMatches(
+				new QueryDefault<Tecnico>(Tecnico.class, "buscarPorApellido", "creadoPor", this.currentUserName(), "apellido", apellidoUsuario));
+		if(listarTecnicos.isEmpty())
+			this.container.warnUser("No se encontraron Tecnicos cargados en el sistema.");
+		return listarTecnicos;
 	}
 	
 	

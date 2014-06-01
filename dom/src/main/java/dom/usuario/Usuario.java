@@ -137,7 +137,4 @@ public class Usuario extends Persona implements Comparable<Usuario> {
 
     @javax.inject.Inject
     private DomainObjectContainer container;
-    
-	@javax.inject.Inject
-	private UsuarioRepositorio usuarioRepositorio;
 }
