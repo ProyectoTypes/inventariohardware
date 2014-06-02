@@ -40,7 +40,7 @@ public class SectorRepositorio {
 	public Sector nuevoSector(final String nombreSector,final String creadoPor)
 	{
 		final Sector unSector = this.container.newTransientInstance(Sector.class);
-		unSector.setNombreSector(nombreSector);
+		unSector.setNombreSector(nombreSector.toUpperCase().trim());
 		unSector.setHabilitado(true);
 		unSector.setCreadoPor(creadoPor);
 		this.container.persistIfNotAlready(unSector);
@@ -61,17 +61,18 @@ public class SectorRepositorio {
 			this.container.warnUser("No se encontraron sectores cargados en el sistema.");
 		return listarSectores;
 	}
-	
-	
-	// //////////////////////////////////////
-	// Buscar
-	// //////////////////////////////////////
+	/**
+	 * Buscar
+	 * @param nombreSector
+	 * @return
+	 */
+
 	@MemberOrder(sequence="21")
 	public List<Sector> buscar(
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombreSector)
 	{
 		final List<Sector> listarSectores = this.container.allMatches(
-				new QueryDefault<Sector>(Sector.class, "buscarPorNombre", "creadoPor",this.currentUserName(),"nombre",nombreSector));
+				new QueryDefault<Sector>(Sector.class, "buscarPorNombre", "creadoPor",this.currentUserName(),"nombre",nombreSector.toUpperCase().trim()));
 		if(listarSectores.isEmpty())
 			this.container.warnUser("No se encontraron sectores cargados en el sistema.");
 		return listarSectores;
@@ -85,7 +86,7 @@ public class SectorRepositorio {
 				new QueryDefault<Sector>(Sector.class,
 						"buscarCreadoPorAYNombreSector", "creadoPor", this
 								.currentUserName(), "nombreSector",
-						buscarNombreSector));
+						buscarNombreSector.toUpperCase().trim()));
 	}
 
 	// //////////////////////////////////////
