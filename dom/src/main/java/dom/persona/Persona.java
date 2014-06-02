@@ -11,6 +11,8 @@ import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 
+import dom.sector.Sector;
+
 @PersistenceCapable
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public abstract class Persona {
@@ -113,5 +115,16 @@ public abstract class Persona {
 
 	public void setCreadoPor(String creadoPor) {
 		this.creadoPor = creadoPor;
+	}
+
+	
+	private Sector sector;
+	
+	@javax.jdo.annotations.Column(allowsNull ="true")
+	public Sector getSector(){
+		return sector;
+	}
+	public void setSector(Sector sector){
+		this.sector = sector;
 	}
 }

@@ -47,6 +47,8 @@ import org.apache.isis.applib.util.ObjectContracts;
 
 import com.google.common.collect.Ordering;
 
+import dom.persona.Persona;
+
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -251,4 +253,15 @@ public class Sector implements Comparable<Sector> {
 
 	@javax.inject.Inject
 	private SectorRepositorio sectorRepositorio;
+	
+	
+	@javax.jdo.annotations.Persistent(mappedBy="sector")
+	private SortedSet<Persona> personas = new TreeSet<Persona>();
+	
+	public SortedSet<Persona> getPersonas(){
+		return personas;
+	}
+	public void setPersonas(SortedSet<Persona> personas){
+		this.personas = personas;
+	}
 }
