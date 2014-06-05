@@ -47,9 +47,9 @@ public class TecnicoRepositorio {
 			final String email,
 			final String creadoPor) {
 		final Tecnico unTecnico = container.newTransientInstance(Tecnico.class);
-		unTecnico.setApellido(apellido);
-		unTecnico.setNombre(nombre);
-		unTecnico.setEmail(email);
+		unTecnico.setApellido(apellido.toUpperCase().trim());
+		unTecnico.setNombre(nombre.toUpperCase().trim());
+		unTecnico.setEmail(email.toUpperCase().trim());
 		unTecnico.setHabilitado(true);
 		unTecnico.setCreadoPor(creadoPor);
 		container.persistIfNotAlready(unTecnico);
@@ -86,7 +86,7 @@ public class TecnicoRepositorio {
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellidoUsuario)
 	{
 		final List<Tecnico> listarTecnicos = this.container.allMatches(
-				new QueryDefault<Tecnico>(Tecnico.class, "buscarPorApellido", "creadoPor", this.currentUserName(), "apellido", apellidoUsuario));
+				new QueryDefault<Tecnico>(Tecnico.class, "buscarPorApellido", "creadoPor", this.currentUserName(), "apellido", apellidoUsuario.toUpperCase().trim()));
 		if(listarTecnicos.isEmpty())
 			this.container.warnUser("No se encontraron Tecnicos cargados en el sistema.");
 		return listarTecnicos;
