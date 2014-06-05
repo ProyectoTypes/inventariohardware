@@ -48,9 +48,9 @@ public class UsuarioRepositorio {
 			final String email,
 			final String creadoPor) {
 		final Usuario unUsuario = container.newTransientInstance(Usuario.class);
-		unUsuario.setApellido(apellido);
-		unUsuario.setNombre(nombre);
-		unUsuario.setEmail(email);
+		unUsuario.setApellido(apellido.toUpperCase().trim());
+		unUsuario.setNombre(nombre.toUpperCase().trim());
+		unUsuario.setEmail(email.toUpperCase().trim());
 		unUsuario.setHabilitado(true);
 		unUsuario.setCreadoPor(creadoPor);
 		container.persistIfNotAlready(unUsuario);
@@ -85,7 +85,7 @@ public class UsuarioRepositorio {
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellidoUsuario)
 	{
 		final List<Usuario> listarUsuarios = this.container.allMatches(
-				new QueryDefault<Usuario>(Usuario.class, "buscarPorApellido", "creadoPor", this.currentUserName(), "apellido", apellidoUsuario));
+				new QueryDefault<Usuario>(Usuario.class, "buscarPorApellido", "creadoPor", this.currentUserName(), "apellido", apellidoUsuario.toUpperCase().trim()));
 		if(listarUsuarios.isEmpty())
 			this.container.warnUser("No se encontraron Usuarios cargados en el sistema.");
 		return listarUsuarios;
