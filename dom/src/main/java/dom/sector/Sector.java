@@ -55,7 +55,7 @@ import dom.persona.Persona;
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Sector_nombreSector_must_be_unique", members = {
 		"creadoPor", "nombreSector" }) })
 @javax.jdo.annotations.Queries({
-		@javax.jdo.annotations.Query(name = "buscarCreadoPorYNombreSector", language = "JDOQL", value = "SELECT "
+		@javax.jdo.annotations.Query(name = "autoCompletePorNombreSector", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.sector.Sector " + "WHERE creadoPor == :creadoPor"),
 		@javax.jdo.annotations.Query(name = "todosLosSectores", language = "JDOQL", value = "SELECT FROM dom.sector.Sector WHERE creadoPor == :creadoPor && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarSectorFalse", language = "JDOQL", value = "SELECT "

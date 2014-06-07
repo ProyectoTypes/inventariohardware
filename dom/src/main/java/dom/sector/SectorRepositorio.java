@@ -84,7 +84,7 @@ public class SectorRepositorio {
 	public List<Sector> autoComplete(final String buscarNombreSector) {
 		return container.allMatches(
 				new QueryDefault<Sector>(Sector.class,
-						"buscarCreadoPorAYNombreSector", "creadoPor", this
+						"autoCompletePorNombreSector", "creadoPor", this
 								.currentUserName(), "nombreSector",
 						buscarNombreSector.toUpperCase().trim()));
 	}
