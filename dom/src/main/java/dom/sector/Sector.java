@@ -18,6 +18,8 @@
  */
 package dom.sector;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -34,12 +36,18 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.MinLength;
+import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.persona.Persona;
+import dom.tecnico.Tecnico;
+import dom.tecnico.TecnicoRepositorio;
+import dom.usuario.Usuario;
+import dom.usuario.UsuarioRepositorio;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
@@ -180,4 +188,56 @@ public class Sector implements Comparable<Sector> {
 		this.personas = personas;
 	}
 	// }}
+	@Named("Agregar Persona")
+	public Sector add(final Persona persona) {
+		// check for no-op
+		if (persona == null
+				|| getPersona().contains(persona)) {
+			return this;
+		}
+		// dissociate arg from its current parent (if any).
+		persona.clear();
+		// associate arg
+		persona.setSector(this);
+		this.getPersona().add(persona);
+		return this;
+		// additional business logic
+//		onAddToPersona(persona);
+	}
+	@Named("Eliminar Persona")
+	public Sector remove(
+			final Persona persona) {
+		// check for no-op
+		if (persona == null
+				|| !getPersona().contains(persona)) {
+			return this;
+		}
+		// dissociate arg
+		persona.setSector(null);
+		getPersona().remove(persona);
+		return this;
+		// additional business logic
+//		onRemoveFromPersona(persona);
+	}
+	@Named("Persona")
+	@DescribedAs("Buscar el Tecnico/Usuario en mayuscula")
+	public List<Persona> autoComplete0Add(final @MinLength(2) String search) {
+		List<Tecnico> tecnicos =  tecnicoRepositorio.autoComplete(search);
+		List<Usuario> usuarios = usuarioRepositorio.autoComplete(search);
+		List<Persona> personas = new ArrayList<Persona>();
+		for (Tecnico tecnico : tecnicos) {
+			Persona unaP = tecnico;
+			personas.add(unaP);
+		}
+		for (Usuario usuario : usuarios) {
+			Persona unaP = usuario;
+			personas.add(unaP);
+		}
+		return personas;
+	}
+	@javax.inject.Inject
+	private TecnicoRepositorio tecnicoRepositorio;
+	@javax.inject.Inject
+	private UsuarioRepositorio usuarioRepositorio;
+	
 }

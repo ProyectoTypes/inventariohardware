@@ -1,5 +1,7 @@
 package dom.persona;
 
+import java.util.List;
+
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
@@ -9,11 +11,14 @@ import javax.jdo.annotations.Persistent;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.MinLength;
+import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 
 import dom.sector.Sector;
+import dom.sector.SectorRepositorio;
 
 @PersistenceCapable
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
@@ -132,5 +137,34 @@ public abstract class Persona {
 	public void setSector(Sector sector){
 		this.sector = sector;
 	}
+	@Named("Modificar")
+	public Persona modify(
+			final Sector sector) {
+		Sector currentSector = getSector();
+		// check for no-op
+		if (sector == null
+				|| sector.equals(currentSector)) {
+			return this;
+		}
+		// delegate to parent to associate
+		sector.add(this);
+		// additional business logic
+		//onModifySector(currentSector,	sector);
+		return this;
+	}
+	@Named("Limpiar")
+	public Persona clear() {
+		Sector currentSector = getSector();
+		// check for no-op
+		if (currentSector == null) {
+			return this;
+		}
+		// delegate to parent to dissociate
+		currentSector.remove(this);
+		return this;
+		// additional business logic
+		//onClearSector(currentSector);
+	}
+	
 	
 }
