@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
@@ -69,7 +70,7 @@ public class SectorRepositorio {
 
 	@MemberOrder(sequence="21")
 	public List<Sector> buscar(
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombreSector)
+			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") @MinLength(2) String nombreSector)
 	{
 		final List<Sector> listarSectores = this.container.allMatches(
 				new QueryDefault<Sector>(Sector.class, "buscarPorNombre", "creadoPor",this.currentUserName(),"nombre",nombreSector.toUpperCase().trim()));

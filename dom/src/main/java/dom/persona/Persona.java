@@ -135,7 +135,7 @@ public abstract class Persona {
 	public void setSector(Sector sector){
 		this.sector = sector;
 	}
-	
+	@MemberOrder(sequence = "110")
 	@Named("Modificar Sector")
 	public Persona modify(
 			final Sector sector) {
@@ -151,7 +151,8 @@ public abstract class Persona {
 		//onModifySector(currentSector,	sector);
 		return this;
 	}
-	@Named("Limpiar")
+	@MemberOrder(sequence = "120")
+	@Named("Eliminar Sector")
 	public Persona clear() {
 		Sector currentSector = this.getSector();
 		// check for no-op

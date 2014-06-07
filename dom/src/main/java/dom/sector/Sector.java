@@ -28,7 +28,6 @@ import javax.jdo.annotations.Join;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
-import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
@@ -71,7 +70,7 @@ import dom.usuario.UsuarioRepositorio;
 		@javax.jdo.annotations.Query(name = "buscarPorNombre", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.sector.Sector "
 				+ "WHERE creadoPor == :creadoPor "
-				+ "   && nombreSector == :nombre") })
+				+ "   && nombreSector.indexOf(:nombreSector) >= 0") })
 @ObjectType("SECTOR")
 @Audited
 @AutoComplete(repository = SectorRepositorio.class, action = "autoComplete")
@@ -166,10 +165,8 @@ public class Sector implements Comparable<Sector> {
 		return ObjectContracts.compare(this, sector, "nombreSector");
 	}
 
-	
 	/**
-	 * Agregando relacion entre sector y persona (1:n bidir forenkey).
-	 * PARENT
+	 * Agregando relacion entre sector y persona (1:n bidir forenkey). PARENT
 	 */
 	// {{ Persona (Collection)
 	@Persistent(mappedBy = "sector", dependentElement = "False")
@@ -202,11 +199,18 @@ public class Sector implements Comparable<Sector> {
 		// onAddToPersona(persona);
 	}
 
+	/**
+	 * remove: Utilizado para eliminar la relacion entre Persona y Sector, es
+	 * llamado desde el metodo clear de Persona.
+	 * 
+	 * @param persona
+	 */
+	@Hidden
 	@Named("Eliminar Persona")
 	public void remove(final Persona persona) {
 		// check for no-op
 		if (persona == null || !getPersona().contains(persona)) {
-			return ;
+			return;
 		}
 		// dissociate arg
 		persona.setSector(null);
@@ -233,16 +237,10 @@ public class Sector implements Comparable<Sector> {
 		return personas;
 	}
 
-
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
-	@javax.inject.Inject
-	private DomainObjectContainer container;
-
-	@javax.inject.Inject
-	private SectorRepositorio sectorRepositorio;
-
+	
 
 }
