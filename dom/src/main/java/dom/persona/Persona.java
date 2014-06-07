@@ -2,11 +2,9 @@ package dom.persona;
 
 import java.util.List;
 
-import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
 
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Hidden;
@@ -126,18 +124,19 @@ public abstract class Persona {
 
 	/**
 	 * Agregando relacion entre sector y persona (1:n bidir forenkey).
+	 * CHILD
 	 */
 	private Sector sector;
 	@MemberOrder(sequence = "100")
-	@Column(allowsNull = "True")
-	@Persistent(mappedBy = "personas")
+	@javax.jdo.annotations.Column(allowsNull ="true")
 	public Sector getSector() {
 	  		return sector;
 	  	}
 	public void setSector(Sector sector){
 		this.sector = sector;
 	}
-	@Named("Modificar")
+	
+	@Named("Modificar Sector")
 	public Persona modify(
 			final Sector sector) {
 		Sector currentSector = getSector();
@@ -154,17 +153,24 @@ public abstract class Persona {
 	}
 	@Named("Limpiar")
 	public Persona clear() {
-		Sector currentSector = getSector();
+		Sector currentSector = this.getSector();
 		// check for no-op
 		if (currentSector == null) {
 			return this;
 		}
 		// delegate to parent to dissociate
 		currentSector.remove(this);
+		
 		return this;
 		// additional business logic
 		//onClearSector(currentSector);
 	}
+	@Named("Sector")
+	@DescribedAs("Buscar el Sector")
+	public List<Sector> autoComplete0Modify(final @MinLength(2) String search) {
+		return sectorRepositorio.autoComplete(search);
+	}
 	
-	
+	@javax.inject.Inject
+	private SectorRepositorio sectorRepositorio;
 }

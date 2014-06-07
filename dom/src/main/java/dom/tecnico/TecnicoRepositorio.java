@@ -3,12 +3,17 @@ package dom.tecnico;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
+
+import dom.sector.Sector;
+import dom.sector.SectorRepositorio;
 
 @Named("TECNICO")
 public class TecnicoRepositorio {
@@ -34,18 +39,18 @@ public class TecnicoRepositorio {
 	// //////////////////////////////////////
 	
 	@MemberOrder(sequence = "10")
-	public Tecnico agregar(
+	@Named("Agregar")
+	public Tecnico add(final @Optional Sector sector,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombre,
-			final @Optional @RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"	+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") @Named("E-mail") String email
+			final @Optional @RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@ [A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") @Named("E-mail") String email
 			) {
-		return nuevoTecnico(apellido, nombre, email,
+		return nuevoTecnico(apellido, nombre, email,sector,
 				this.currentUserName());
 	}
-
 	@Programmatic
 	public Tecnico nuevoTecnico(final String apellido, final String nombre,
-			final String email,
+			final String email,final Sector sector,
 			final String creadoPor) {
 		final Tecnico unTecnico = container.newTransientInstance(Tecnico.class);
 		unTecnico.setApellido(apellido.toUpperCase().trim());
@@ -53,12 +58,22 @@ public class TecnicoRepositorio {
 		unTecnico.setEmail(email);
 		unTecnico.setHabilitado(true);
 		unTecnico.setCreadoPor(creadoPor);
+		if(sector!=null)
+		{	
+			unTecnico.setSector(sector);
+			sector.add(unTecnico);
+		}
 		container.persistIfNotAlready(unTecnico);
 		container.flush();
 		return unTecnico;
 
 	}
-	
+	@Named("Sector")
+	@DescribedAs("Buscar el Sector en mayuscula")
+	public List<Sector> autoComplete0Add(final @MinLength(2) String search) {
+		return sectorRepositorio.autoComplete(search);
+		
+	}
 	
 	// //////////////////////////////////////
 	// Listar Tecnico
@@ -122,5 +137,6 @@ public class TecnicoRepositorio {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-
+    @javax.inject.Inject
+    private SectorRepositorio sectorRepositorio;
 }

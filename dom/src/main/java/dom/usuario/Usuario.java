@@ -1,6 +1,5 @@
 package dom.usuario;
 
-import java.util.Comparator;
 import java.util.List;
 
 import javax.jdo.annotations.IdentityType;
@@ -16,8 +15,6 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.util.ObjectContracts;
-
-import com.google.common.collect.Ordering;
 
 import dom.persona.Persona;
 
@@ -100,25 +97,6 @@ public class Usuario extends Persona implements Comparable<Usuario> {
 		}
 	    return null;
 	}
-	
-	// //////////////////////////////////////
-	// Comparador (Ordenar por Apellido)
-	// //////////////////////////////////////
-	
-	public static class ComparadorDependeciasUsuario implements	Comparator<Usuario> {
-		@Override
-		public int compare(Usuario a, Usuario b) {
-			Ordering<Usuario> byApellidoUsuario = new Ordering<Usuario>() {
-				public int compare(final Usuario a, final Usuario b) {
-					return Ordering.natural().nullsFirst()
-							.compare(a.getApellido(), b.getApellido());
-				}
-			};
-			return byApellidoUsuario.compound(Ordering.<Usuario> natural())
-					.compare(a, b);
-		}
-	}
-	
     // //////////////////////////////////////
     // CompareTo
     // //////////////////////////////////////
@@ -128,13 +106,11 @@ public class Usuario extends Persona implements Comparable<Usuario> {
 	 */
 	@Override
 	public int compareTo(final Usuario usuario) {
-		return ObjectContracts.compare(this, usuario, "apellidoUsuario");
+		return ObjectContracts.compare(this, usuario, "nombre,apellido");
 	}
-	
     // //////////////////////////////////////
     // Injected Services
     // //////////////////////////////////////
-
     @javax.inject.Inject
     private DomainObjectContainer container;
 }

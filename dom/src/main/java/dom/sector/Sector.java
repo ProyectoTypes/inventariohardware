@@ -56,8 +56,10 @@ import dom.usuario.UsuarioRepositorio;
 		"creadoPor", "nombreSector" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorNombreSector", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.sector.Sector " + "WHERE creadoPor == :creadoPor && nombreSector.indexOf(:apellido) >= 0"),
-		@javax.jdo.annotations.Query(name = "todosLosSectores", language = "JDOQL", value = "SELECT FROM dom.sector.Sector WHERE creadoPor == :creadoPor && habilitado == true"),
+				+ "FROM dom.sector.Sector "
+				+ "WHERE creadoPor == :creadoPor && nombreSector.indexOf(:nombreSector) >= 0"),
+		@javax.jdo.annotations.Query(name = "todosLosSectores", language = "JDOQL", value = "SELECT FROM dom.sector.Sector "
+				+ " WHERE creadoPor == :creadoPor && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarSectorFalse", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.sector.Sector "
 				+ "WHERE creadoPor == :creadoPor "
@@ -152,7 +154,7 @@ public class Sector implements Comparable<Sector> {
 	public void setHabilitado(final boolean habilitado) {
 		this.habilitado = habilitado;
 	}
-	
+
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
@@ -164,15 +166,10 @@ public class Sector implements Comparable<Sector> {
 		return ObjectContracts.compare(this, sector, "nombreSector");
 	}
 
-	@javax.inject.Inject
-	private DomainObjectContainer container;
-
-	@javax.inject.Inject
-	private SectorRepositorio sectorRepositorio;
-	// {{ CollectionName (Collection)
-
+	
 	/**
 	 * Agregando relacion entre sector y persona (1:n bidir forenkey).
+	 * PARENT
 	 */
 	// {{ Persona (Collection)
 	@Persistent(mappedBy = "sector", dependentElement = "False")
@@ -187,12 +184,12 @@ public class Sector implements Comparable<Sector> {
 	public void setPersona(final SortedSet<Persona> personas) {
 		this.personas = personas;
 	}
+
 	// }}
-	@Named("Agregar Persona")
+	@Named("Buscar Persona")
 	public Sector add(final Persona persona) {
 		// check for no-op
-		if (persona == null
-				|| getPersona().contains(persona)) {
+		if (persona == null || getPersona().contains(persona)) {
 			return this;
 		}
 		// dissociate arg from its current parent (if any).
@@ -202,27 +199,27 @@ public class Sector implements Comparable<Sector> {
 		this.getPersona().add(persona);
 		return this;
 		// additional business logic
-//		onAddToPersona(persona);
+		// onAddToPersona(persona);
 	}
+
 	@Named("Eliminar Persona")
-	public Sector remove(
-			final Persona persona) {
+	public void remove(final Persona persona) {
 		// check for no-op
-		if (persona == null
-				|| !getPersona().contains(persona)) {
-			return this;
+		if (persona == null || !getPersona().contains(persona)) {
+			return ;
 		}
 		// dissociate arg
 		persona.setSector(null);
-		getPersona().remove(persona);
-		return this;
+		this.getPersona().remove(persona);
+		return;
 		// additional business logic
-//		onRemoveFromPersona(persona);
+		// onRemoveFromPersona(persona);
 	}
+
 	@Named("Persona")
 	@DescribedAs("Buscar el Tecnico/Usuario en mayuscula")
 	public List<Persona> autoComplete0Add(final @MinLength(2) String search) {
-		List<Tecnico> tecnicos =  tecnicoRepositorio.autoComplete(search);
+		List<Tecnico> tecnicos = tecnicoRepositorio.autoComplete(search);
 		List<Usuario> usuarios = usuarioRepositorio.autoComplete(search);
 		List<Persona> personas = new ArrayList<Persona>();
 		for (Tecnico tecnico : tecnicos) {
@@ -235,9 +232,17 @@ public class Sector implements Comparable<Sector> {
 		}
 		return personas;
 	}
+
+
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
-	
+	@javax.inject.Inject
+	private DomainObjectContainer container;
+
+	@javax.inject.Inject
+	private SectorRepositorio sectorRepositorio;
+
+
 }
