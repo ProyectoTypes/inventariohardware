@@ -101,7 +101,7 @@ public class TecnicoRepositorio {
     public List<Tecnico> autoComplete(final String apellido) {
         return container.allMatches(
                 new QueryDefault<Tecnico>(Tecnico.class, 
-                        "findByCreadoPorByAndApellidoContains", 
+                        "autoCompletarPorApellido", 
                         "creadoPor", currentUserName(), 
                         "apellido", apellido));
     }
