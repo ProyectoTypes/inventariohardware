@@ -1,8 +1,10 @@
 package dom.persona;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
 
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Hidden;
@@ -121,11 +123,12 @@ public abstract class Persona {
 	 * Agregando relacion entre sector y persona (1:n bidir forenkey).
 	 */
 	private Sector sector;
-	@MemberOrder(sequence = "50")		
-	@javax.jdo.annotations.Column(allowsNull ="true")
-	public Sector getSector(){
-		return sector;
-	}
+	@MemberOrder(sequence = "100")
+	@Column(allowsNull = "True")
+	@Persistent(mappedBy = "personas")
+	public Sector getSector() {
+	  		return sector;
+	  	}
 	public void setSector(Sector sector){
 		this.sector = sector;
 	}

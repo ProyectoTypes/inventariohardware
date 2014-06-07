@@ -22,6 +22,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Join;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
@@ -160,16 +161,17 @@ public class Sector implements Comparable<Sector> {
 
 	@javax.inject.Inject
 	private SectorRepositorio sectorRepositorio;
-	
+	// {{ CollectionName (Collection)
 
 	/**
 	 * Agregando relacion entre sector y persona (1:n bidir forenkey).
 	 */
 	// {{ Persona (Collection)
 	@Persistent(mappedBy = "sector", dependentElement = "False")
+	@Join
 	private SortedSet<Persona> personas = new TreeSet<Persona>();
 
-	@MemberOrder(sequence = "1")
+	@MemberOrder(sequence = "100")
 	public SortedSet<Persona> getPersona() {
 		return personas;
 	}
