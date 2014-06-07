@@ -49,7 +49,7 @@ public class TecnicoRepositorio {
 		final Tecnico unTecnico = container.newTransientInstance(Tecnico.class);
 		unTecnico.setApellido(apellido.toUpperCase().trim());
 		unTecnico.setNombre(nombre.toUpperCase().trim());
-		unTecnico.setEmail(email.toUpperCase().trim());
+		unTecnico.setEmail(email);
 		unTecnico.setHabilitado(true);
 		unTecnico.setCreadoPor(creadoPor);
 		container.persistIfNotAlready(unTecnico);

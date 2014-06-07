@@ -18,34 +18,25 @@
  */
 package dom.sector;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
-import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
-import org.apache.isis.applib.annotation.MinLength;
-import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
-import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.RegEx;
-import org.apache.isis.applib.annotation.SortedBy;
-import org.apache.isis.applib.annotation.TypicalLength;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
-
-import com.google.common.collect.Ordering;
 
 import dom.persona.Persona;
 
@@ -56,7 +47,7 @@ import dom.persona.Persona;
 		"creadoPor", "nombreSector" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorNombreSector", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.sector.Sector " + "WHERE creadoPor == :creadoPor"),
+				+ "FROM dom.sector.Sector " + "WHERE creadoPor == :creadoPor && nombreSector.indexOf(:apellido) >= 0"),
 		@javax.jdo.annotations.Query(name = "todosLosSectores", language = "JDOQL", value = "SELECT FROM dom.sector.Sector WHERE creadoPor == :creadoPor && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarSectorFalse", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.sector.Sector "
@@ -153,90 +144,6 @@ public class Sector implements Comparable<Sector> {
 		this.habilitado = habilitado;
 	}
 	
-	
-	// //////////////////////////////////////
-	// Dependencies (collection),
-	// Add (action), Remove (action)
-	// //////////////////////////////////////
-
-	// Sobreescribir el orden natural.
-	public static class ComparadorDependeciasSector implements
-			Comparator<Sector> {
-		@Override
-		public int compare(Sector p, Sector q) {
-			Ordering<Sector> byNombreSector = new Ordering<Sector>() {
-				public int compare(final Sector p, final Sector q) {
-					return Ordering.natural().nullsFirst()
-							.compare(p.getNombreSector(), q.getNombreSector());
-				}
-			};
-			return byNombreSector.compound(Ordering.<Sector> natural())
-					.compare(p, q);
-		}
-	}
-
-	// //////////////////////////////////////
-	// Dependencies
-	// //////////////////////////////////////
-	@javax.jdo.annotations.Persistent(table = "SectorDependencias")
-	@javax.jdo.annotations.Join(column = "dependingId")
-	@javax.jdo.annotations.Element(column = "dependentId")
-	private SortedSet<Sector> dependencias = new TreeSet<Sector>();
-
-	@SortedBy(ComparadorDependeciasSector.class)
-	public SortedSet<Sector> getDependencias() {
-		return dependencias;
-	}
-
-	public void setDependencias(SortedSet<Sector> dependencias) {
-		this.dependencias = dependencias;
-	}
-
-	@PublishedAction
-	public Sector agregar(@TypicalLength(20) final Sector sector) {
-		this.getDependencias().add(sector);
-		return this;
-	}
-
-	public List<Sector> autoComplete0Agregar(
-			final @MinLength(2) String buscarNombreSector) {
-		final List<Sector> lista = sectorRepositorio
-				.autoComplete(buscarNombreSector);
-		lista.removeAll(this.getDependencias());
-		lista.remove(this);
-		return lista;
-	}
-
-	public String deshacerAgregar(final Sector sector) {
-		if (this.isComplete()) {
-			return "No se puede agregar dependecia";
-		}
-		return null;
-	}
-
-	// Validar argumento invocado por la accion.
-	public String validateAgregar(final Sector sector) {
-		if (this.getDependencias().contains(sector)) {
-			return "Ya existe la dependecia";
-		}
-		if (sector == this) {
-			return "No se puede agregar esa dependencia";
-		}
-		return null;
-	}
-
-	@Named("Eliminar")
-	@PublishedAction
-	@Bulk
-	public List<Sector> eliminar() {
-		if (getEstaHabilitado() == true) {
-			setHabilitado(false);
-			container.isPersistent(this);
-			container.warnUser("Eliminado " + container.titleOf(this));
-		}
-		return null;
-	}
-
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
@@ -254,14 +161,21 @@ public class Sector implements Comparable<Sector> {
 	@javax.inject.Inject
 	private SectorRepositorio sectorRepositorio;
 	
-	
-	@javax.jdo.annotations.Persistent(mappedBy="sector")
+
+	/**
+	 * Agregando relacion entre sector y persona (1:n bidir forenkey).
+	 */
+	// {{ Persona (Collection)
+	@Persistent(mappedBy = "sector", dependentElement = "False")
 	private SortedSet<Persona> personas = new TreeSet<Persona>();
-	
-	public SortedSet<Persona> getPersonas(){
+
+	@MemberOrder(sequence = "1")
+	public SortedSet<Persona> getPersona() {
 		return personas;
 	}
-	public void setPersonas(SortedSet<Persona> personas){
+
+	public void setPersona(final SortedSet<Persona> personas) {
 		this.personas = personas;
 	}
+	// }}
 }

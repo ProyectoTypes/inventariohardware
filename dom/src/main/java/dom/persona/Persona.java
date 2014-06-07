@@ -117,9 +117,11 @@ public abstract class Persona {
 		this.creadoPor = creadoPor;
 	}
 
-	
+	/**
+	 * Agregando relacion entre sector y persona (1:n bidir forenkey).
+	 */
 	private Sector sector;
-	
+	@MemberOrder(sequence = "50")		
 	@javax.jdo.annotations.Column(allowsNull ="true")
 	public Sector getSector(){
 		return sector;
@@ -127,4 +129,5 @@ public abstract class Persona {
 	public void setSector(Sector sector){
 		this.sector = sector;
 	}
+	
 }

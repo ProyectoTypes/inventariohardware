@@ -10,8 +10,6 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
-import dom.sector.Sector;
-
 @Named("USUARIO")
 public class UsuarioRepositorio {
 
@@ -52,7 +50,7 @@ public class UsuarioRepositorio {
 		final Usuario unUsuario = container.newTransientInstance(Usuario.class);
 		unUsuario.setApellido(apellido.toUpperCase().trim());
 		unUsuario.setNombre(nombre.toUpperCase().trim());
-		unUsuario.setEmail(email.toUpperCase().trim());
+		unUsuario.setEmail(email);
 		unUsuario.setHabilitado(true);
 		unUsuario.setCreadoPor(creadoPor);
 		container.persistIfNotAlready(unUsuario);
