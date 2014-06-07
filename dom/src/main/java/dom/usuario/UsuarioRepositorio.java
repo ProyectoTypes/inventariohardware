@@ -10,6 +10,8 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
+import dom.sector.Sector;
+
 @Named("USUARIO")
 public class UsuarioRepositorio {
 
@@ -91,6 +93,14 @@ public class UsuarioRepositorio {
 		return listarUsuarios;
 	}
 	
+	@Programmatic
+	public List<Usuario> autoComplete(final String apellido) {
+		return container.allMatches(
+				new QueryDefault<Usuario>(Usuario.class,
+						"autoCompletePorApellido", "creadoPor", this
+								.currentUserName(), "apellido",
+								apellido.toUpperCase().trim()));
+	}
 	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////

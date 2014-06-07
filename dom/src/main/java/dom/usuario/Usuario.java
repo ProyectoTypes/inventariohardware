@@ -35,7 +35,7 @@ import dom.persona.Persona;
 })
 @javax.jdo.annotations.Queries( {
     @javax.jdo.annotations.Query(
-            name = "CreadoPorApellido", language = "JDOQL",
+            name = "autoCompletePorApellido", language = "JDOQL",
             value = "SELECT "
                     + "FROM dom.usuario.Usuario "
                     + "WHERE creadoPor == :creadoPor && "
