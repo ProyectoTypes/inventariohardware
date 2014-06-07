@@ -99,7 +99,7 @@ public class TecnicoRepositorio {
 	
 	@MemberOrder(sequence="30")
 	public List<Tecnico> buscar(
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellidoUsuario)
+			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") @MinLength(2) String apellidoUsuario)
 	{
 		final List<Tecnico> listarTecnicos = this.container.allMatches(
 				new QueryDefault<Tecnico>(Tecnico.class, "buscarPorApellido", "creadoPor", this.currentUserName(), "apellido", apellidoUsuario.toUpperCase().trim()));

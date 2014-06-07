@@ -54,8 +54,8 @@ import dom.persona.Persona;
     		name = "buscarPorApellido", language = "JDOQL", 
             value = "SELECT "
                     + "FROM dom.usuario.Usuario "
-                    + "WHERE creadoPor == :creadoPor "
-                    + "   && apellido == :apellido"),
+                    + "WHERE creadoPor == :creadoPor && "
+                    + "apellido.indexOf(:apellido) >= 0"),
 	@javax.jdo.annotations.Query(
 			name = "getTecnico", language = "JDOQL", 
 			value = "SELECT FROM dom.tecnico.Tecnico WHERE creadoPor == :creadoPor")
