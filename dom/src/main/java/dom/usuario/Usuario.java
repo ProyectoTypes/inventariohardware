@@ -53,7 +53,7 @@ import dom.persona.Persona;
     		value = "SELECT "
             		+ "FROM dom.usuario.Usuario "
             		+ "WHERE creadoPor == :creadoPor "
-            		+ "   && apellido == :apellido"),
+            		+ "   && apellido.indexOf(:apellido) >= 0"),
 	@javax.jdo.annotations.Query(
 			name = "getUsuario", language = "JDOQL", 
 			value = "SELECT FROM dom.usuario.Usuario WHERE creadoPor == :creadoPor")
@@ -97,6 +97,7 @@ public class Usuario extends Persona implements Comparable<Persona> {
 		}
 	    return null;
 	}
+
     // //////////////////////////////////////
     // CompareTo
     // //////////////////////////////////////

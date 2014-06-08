@@ -100,11 +100,11 @@ public class UsuarioRepositorio {
 
 	@MemberOrder(sequence = "30")
 	public List<Usuario> buscar(
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellidoUsuario) {
+			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") @MinLength(2) String apellido) {
 		final List<Usuario> listarUsuarios = this.container
 				.allMatches(new QueryDefault<Usuario>(Usuario.class,
 						"buscarPorApellido", "creadoPor", this
-								.currentUserName(), "apellido", apellidoUsuario
+								.currentUserName(), "apellido", apellido
 								.toUpperCase().trim()));
 		if (listarUsuarios.isEmpty())
 			this.container
