@@ -199,9 +199,27 @@ public class Sector implements Comparable<Sector> {
 		// onAddToPersona(persona);
 	}
 
+	@Named("Persona")
+	@DescribedAs("Buscar el Tecnico/Usuario en mayuscula")
+	public List<Persona> autoComplete0Add(final @MinLength(2) String search) {
+		List<Tecnico> tecnicos = tecnicoRepositorio.autoComplete(search);
+		List<Usuario> usuarios = usuarioRepositorio.autoComplete(search);
+		List<Persona> personas = new ArrayList<Persona>();
+		for (Tecnico tecnico : tecnicos) {
+			Persona unaP = tecnico;
+			personas.add(unaP);
+		}
+		for (Usuario usuario : usuarios) {
+			Persona unaP = usuario;
+			personas.add(unaP);
+		}
+		return personas;
+	}
+
 	/**
 	 * remove: Utilizado para eliminar la relacion entre Persona y Sector, es
-	 * llamado desde el metodo clear de Persona.
+	 * llamado desde el metodo clear de Persona. (Nota: sector no borra a las
+	 * personas, en caso contrario habria que hacer el autocomplete del remove)
 	 * 
 	 * @param persona
 	 */
@@ -220,27 +238,9 @@ public class Sector implements Comparable<Sector> {
 		// onRemoveFromPersona(persona);
 	}
 
-	@Named("Persona")
-	@DescribedAs("Buscar el Tecnico/Usuario en mayuscula")
-	public List<Persona> autoComplete0Add(final @MinLength(2) String search) {
-		List<Tecnico> tecnicos = tecnicoRepositorio.autoComplete(search);
-		List<Usuario> usuarios = usuarioRepositorio.autoComplete(search);
-		List<Persona> personas = new ArrayList<Persona>();
-		for (Tecnico tecnico : tecnicos) {
-			Persona unaP = tecnico;
-			personas.add(unaP);
-		}
-		for (Usuario usuario : usuarios) {
-			Persona unaP = usuario;
-			personas.add(unaP);
-		}
-		return personas;
-	}
-
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
-	
 
 }

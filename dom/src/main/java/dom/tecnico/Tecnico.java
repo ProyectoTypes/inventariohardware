@@ -53,7 +53,7 @@ import dom.persona.Persona;
     @javax.jdo.annotations.Query(
     		name = "buscarPorApellido", language = "JDOQL", 
             value = "SELECT "
-                    + "FROM dom.usuario.Usuario "
+                    + "FROM dom.tecnio.Tecnico"
                     + "WHERE creadoPor == :creadoPor && "
                     + "apellido.indexOf(:apellido) >= 0"),
 	@javax.jdo.annotations.Query(
@@ -125,7 +125,7 @@ public class Tecnico extends Persona implements Comparable<Tecnico>{
 	 */
     @Override
     public int compareTo(final Tecnico tecnico) {
-        return ObjectContracts.compare(this, tecnico, "nombre,apellido");
+        return ObjectContracts.compare(this, tecnico, "apellido");
     }
     // //////////////////////////////////////
     // Injected Services

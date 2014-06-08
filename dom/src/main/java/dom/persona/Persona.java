@@ -151,6 +151,11 @@ public abstract class Persona {
 		//onModifySector(currentSector,	sector);
 		return this;
 	}
+	@Named("Sector")
+	@DescribedAs("Buscar el Sector")
+	public List<Sector> autoComplete0Modify(final @MinLength(2) String search) {
+		return sectorRepositorio.autoComplete(search);
+	}
 	@MemberOrder(sequence = "120")
 	@Named("Eliminar Sector")
 	public Persona clear() {
@@ -166,11 +171,7 @@ public abstract class Persona {
 		// additional business logic
 		//onClearSector(currentSector);
 	}
-	@Named("Sector")
-	@DescribedAs("Buscar el Sector")
-	public List<Sector> autoComplete0Modify(final @MinLength(2) String search) {
-		return sectorRepositorio.autoComplete(search);
-	}
+	
 	
 	@javax.inject.Inject
 	private SectorRepositorio sectorRepositorio;

@@ -66,6 +66,11 @@ public class UsuarioRepositorio {
 		unUsuario.setSector(sector);
 		unUsuario.setHabilitado(true);
 		unUsuario.setCreadoPor(creadoPor);
+		if(sector!=null)
+		{	
+			unUsuario.setSector(sector);
+			sector.add(unUsuario);
+		}
 		container.persistIfNotAlready(unUsuario);
 		container.flush();
 		return unUsuario;
