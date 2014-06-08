@@ -65,7 +65,7 @@ import dom.persona.Persona;
 @Audited
 @AutoComplete(repository=TecnicoRepositorio.class, action="autoComplete") //
 @Bookmarkable
-public class Tecnico extends Persona implements Comparable<Tecnico>{
+public class Tecnico extends Persona implements Comparable<Persona>{
 	// //////////////////////////////////////
 	// Identification in the UI
 	// //////////////////////////////////////
@@ -124,8 +124,8 @@ public class Tecnico extends Persona implements Comparable<Tecnico>{
 	 * Necesario para ordenar por apellido la clase Usuario.
 	 */
     @Override
-    public int compareTo(final Tecnico tecnico) {
-        return ObjectContracts.compare(this, tecnico, "apellido");
+    public int compareTo(final Persona persona) {
+        return ObjectContracts.compare(this,persona, "apellido");
     }
     // //////////////////////////////////////
     // Injected Services
