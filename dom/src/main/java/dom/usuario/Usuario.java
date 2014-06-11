@@ -85,7 +85,7 @@ public class Usuario extends Persona implements Comparable<Persona> {
      * 
      * @return la propiedad habilitado en false.
      */
-	@Named("Eliminar")
+	@Named("Eliminar Usuario")
 	@PublishedAction
 	@Bulk
 	@MemberOrder(name="accionEliminar", sequence = "10")	
