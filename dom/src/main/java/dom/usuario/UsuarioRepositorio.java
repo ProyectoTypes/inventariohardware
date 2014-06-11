@@ -39,8 +39,8 @@ public class UsuarioRepositorio {
 	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "10")
-	@Named("Agregar")
-	public Usuario add(final @Optional Sector sector,
+	@Named("Agregar")//Cambiado momentaneamente, hasta arreglar los botones de las dependencias.
+	public Usuario addUsuario(final @Optional Sector sector,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombre,
 			final @Optional @RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@ [A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") @Named("E-mail") String email
@@ -51,7 +51,7 @@ public class UsuarioRepositorio {
 
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector en mayuscula")
-	public List<Sector> autoComplete0Add(final @MinLength(2) String search) {
+	public List<Sector> autoComplete0AddUsuario(final @MinLength(2) String search) {
 		return sectorRepositorio.autoComplete(search);
 
 	}
