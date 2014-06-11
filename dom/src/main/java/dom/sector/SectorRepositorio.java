@@ -31,6 +31,7 @@ public class SectorRepositorio {
 	// //////////////////////////////////////
 	// Insertar un Sector.
 	// //////////////////////////////////////
+	@Named("Agregar")
 	@MemberOrder(sequence = "10")
 	public Sector agregar(
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombreSector)

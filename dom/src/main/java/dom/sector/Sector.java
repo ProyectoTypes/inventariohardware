@@ -34,10 +34,12 @@ import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
+import org.apache.isis.applib.annotation.MemberGroupLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
@@ -75,6 +77,7 @@ import dom.usuario.UsuarioRepositorio;
 @Audited
 @AutoComplete(repository = SectorRepositorio.class, action = "autoComplete")
 @Bookmarkable
+@MemberGroupLayout(columnSpans = { 3, 0, 0, 9 })
 public class Sector implements Comparable<Sector> {
 
 	// //////////////////////////////////////
@@ -154,19 +157,17 @@ public class Sector implements Comparable<Sector> {
 		this.habilitado = habilitado;
 	}
 
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
-	// implements Comparable<Sector> ...Necesaria para realizar un Orden
-	// natural.
+	// !!!!!!!!!! chequear si es necesario hacer un @SortedBy(DependenciesComparator.class), junto al DependenciesComparator 
+	/**
+	 * Implementacion de la interface comparable, necesaria para toda entidad. 
+	 */
 	@Override
 	public int compareTo(final Sector sector) {
 		return ObjectContracts.compare(this, sector, "nombreSector");
 	}
 
 	/**
-	 * Agregando relacion entre sector y persona (1:n bidir forenkey). PARENT
+	 * Agregando relacion entre sector y persona (1:n @Join). PARENT
 	 */
 	// {{ Persona (Collection)
 	@Persistent(mappedBy = "sector", dependentElement = "False")
@@ -184,6 +185,8 @@ public class Sector implements Comparable<Sector> {
 
 	// }}
 	@Named("Buscar Persona")
+	@PublishedAction// D:
+	@MemberOrder(name = "personas", sequence = "110")
 	public Sector add(final Persona persona) {
 		// check for no-op
 		if (persona == null || getPersona().contains(persona)) {
@@ -238,6 +241,9 @@ public class Sector implements Comparable<Sector> {
 		// onRemoveFromPersona(persona);
 	}
 
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
 	@javax.inject.Inject
