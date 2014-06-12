@@ -81,10 +81,10 @@ public class Usuario extends Persona implements Comparable<Persona> {
 	// Borrar Usuario
 	// //////////////////////////////////////
 	/**
-     * Método que utilizo para deshabilitar un Usuario.
-     * 
-     * @return la propiedad habilitado en false.
-     */
+    * Método que utilizo para deshabilitar un Usuario.
+    * 
+    * @return la propiedad habilitado en false.
+    */
 	@Named("Eliminar Usuario")
 	@PublishedAction
 	@Bulk
@@ -102,16 +102,19 @@ public class Usuario extends Persona implements Comparable<Persona> {
     // CompareTo
     // //////////////////////////////////////
 	/**
-	 * Implementa Comparable<Usuario>
-	 * Necesario para ordenar por apellido la clase Usuario.
-	 */
+	* Implementa Comparable<Usuario>
+	* Necesario para ordenar por apellido la clase Usuario.
+	*/
 	@Override
 	public int compareTo(final Persona persona) {
 		return ObjectContracts.compare(this,persona, "apellido");
 	}
+	
     // //////////////////////////////////////
     // Injected Services
     // //////////////////////////////////////
+	
     @javax.inject.Inject
     private DomainObjectContainer container;
+    
 }
