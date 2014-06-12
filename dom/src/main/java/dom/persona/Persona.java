@@ -92,21 +92,6 @@ public abstract class Persona {
 	}
 	
 	// //////////////////////////////////////
-	// Sector Usuario
-	// //////////////////////////////////////
-	
-	/*private Sector sector;
-	
-	@javax.jdo.annotations.Column(allowsNull = "true")
-	@MemberOrder(sequence = "50")		
-	public Sector getSector() {
-		return sector;
-	}
-	public void setSector(final Sector sector) {
-		this.sector = sector;
-	}*/
-	
-	// //////////////////////////////////////
 	// creadoPor
 	// //////////////////////////////////////
 
@@ -122,10 +107,10 @@ public abstract class Persona {
 		this.creadoPor = creadoPor;
 	}
 
-	/**
-	 * Agregando relacion entre sector y persona (1:n bidir forenkey).
-	 * CHILD
-	 */
+	// //////////////////////////////////////
+	// Sector (propiedad)
+	// //////////////////////////////////////
+	
 	private Sector sector;
 	@MemberOrder(sequence = "100")
 	@javax.jdo.annotations.Column(allowsNull ="true")
@@ -135,6 +120,11 @@ public abstract class Persona {
 	public void setSector(Sector sector){
 		this.sector = sector;
 	}
+	
+	// //////////////////////////////////////
+	// Modificar Sector
+	// //////////////////////////////////////
+	
 	@MemberOrder(sequence = "110")
 	@Named("Modificar Sector")
 	public Persona modify(
@@ -151,11 +141,21 @@ public abstract class Persona {
 		//onModifySector(currentSector,	sector);
 		return this;
 	}
+	
+	// //////////////////////////////////////
+	// Buscar Sector
+	// //////////////////////////////////////
+	
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector")
 	public List<Sector> autoComplete0Modify(final @MinLength(2) String search) {
 		return sectorRepositorio.autoComplete(search);
 	}
+	
+	// //////////////////////////////////////
+	// Eliminar Sector
+	// //////////////////////////////////////
+	
 	@MemberOrder(sequence = "120")
 	@Named("Eliminar Sector")
 	public Persona clear() {
@@ -172,6 +172,9 @@ public abstract class Persona {
 		//onClearSector(currentSector);
 	}
 	
+    // //////////////////////////////////////
+    // Injected Services
+    // //////////////////////////////////////
 	
 	@javax.inject.Inject
 	private SectorRepositorio sectorRepositorio;
