@@ -23,7 +23,7 @@ public class TecnicoRepositorio {
 	}
 
 	// //////////////////////////////////////
-	// Identification in the UI
+	// Icono
 	// //////////////////////////////////////
 
 	public String getId() {
@@ -48,6 +48,13 @@ public class TecnicoRepositorio {
 		return nuevoTecnico(apellido, nombre, email,sector,
 				this.currentUserName());
 	}
+	
+	@Named("Sector")
+	@DescribedAs("Buscar el Sector en mayuscula")
+	public List<Sector> autoComplete0AddTecnico(final @MinLength(2) String search) {
+		return sectorRepositorio.autoComplete(search);
+	}
+	
 	@Programmatic
 	public Tecnico nuevoTecnico(final String apellido, final String nombre,
 			final String email,final Sector sector,
@@ -67,12 +74,6 @@ public class TecnicoRepositorio {
 		container.flush();
 		return unTecnico;
 
-	}
-	@Named("Sector")
-	@DescribedAs("Buscar el Sector en mayuscula")
-	public List<Sector> autoComplete0AddTecnico(final @MinLength(2) String search) {
-		return sectorRepositorio.autoComplete(search);
-		
 	}
 	
 	// //////////////////////////////////////
@@ -137,6 +138,7 @@ public class TecnicoRepositorio {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
+	
     @javax.inject.Inject
     private SectorRepositorio sectorRepositorio;
 }
