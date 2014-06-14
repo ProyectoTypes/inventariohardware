@@ -39,33 +39,41 @@ public class UsuarioRepositorio {
 	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "10")
-	@Named("Agregar")//Cambiado momentaneamente, hasta arreglar los botones de las dependencias.
+	@Named("Agregar")
 	public Usuario addUsuario(
+			final Sector sector,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombre,
-			final @Optional @RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") @Named("E-mail") String email,
-			final @Optional Sector sector) {
-		return nuevoUsuario(apellido, nombre, email, sector, this.currentUserName());
+			final @Optional @RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") @Named("E-mail") String email
+			) {
+		return nuevoUsuario(sector, apellido, nombre, email, this.currentUserName());
 	}
 
 	@Programmatic
-	public Usuario nuevoUsuario(final String apellido, final String nombre,
-			final String email, final Sector sector, final String creadoPor) {
+	public Usuario nuevoUsuario(final Sector sector, final String apellido, final String nombre,
+			final String email, final String creadoPor) {
 		final Usuario unUsuario = container.newTransientInstance(Usuario.class);
+		unUsuario.setSector(sector);
 		unUsuario.setApellido(apellido.toUpperCase().trim());
 		unUsuario.setNombre(nombre.toUpperCase().trim());
 		unUsuario.setEmail(email);
-		unUsuario.setSector(sector);
 		unUsuario.setHabilitado(true);
 		unUsuario.setCreadoPor(creadoPor);
-		if(sector!=null)
-		{	
-			unUsuario.setSector(sector);
-			sector.add(unUsuario);
-		}
+		sector.add(unUsuario);
 		container.persistIfNotAlready(unUsuario);
 		container.flush();
 		return unUsuario;
+	}
+	
+	// //////////////////////////////////////
+	// Buscar Sector
+	// //////////////////////////////////////
+	
+	@Named("Sector")
+	@DescribedAs("Buscar el Sector en mayuscula")
+	public List<Sector> autoComplete0AddUsuario(final @MinLength(2) String search) {
+		return sectorRepositorio.autoComplete(search);
+
 	}
 
 	// //////////////////////////////////////
@@ -108,17 +116,6 @@ public class UsuarioRepositorio {
 		return container.allMatches(new QueryDefault<Usuario>(Usuario.class,
 				"autoCompletePorApellido", "creadoPor", this.currentUserName(),
 				"apellido", apellido.toUpperCase().trim()));
-	}
-	
-	// //////////////////////////////////////
-	// Buscar Sector
-	// //////////////////////////////////////
-	
-	@Named("Sector")
-	@DescribedAs("Buscar el Sector en mayuscula")
-	public List<Sector> autoComplete0AddUsuario(final @MinLength(2) String search) {
-		return sectorRepositorio.autoComplete(search);
-
 	}
 
 	// //////////////////////////////////////
