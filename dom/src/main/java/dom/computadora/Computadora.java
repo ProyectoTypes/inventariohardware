@@ -1,14 +1,26 @@
 package dom.computadora;
 
-import javax.jdo.annotations.Inheritance;
-import javax.jdo.annotations.InheritanceStrategy;
-import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.VersionStrategy;
+
+import org.apache.isis.applib.annotation.Audited;
+import org.apache.isis.applib.annotation.AutoComplete;
+import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.ObjectType;
 
-
-@PersistenceCapable
-@Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
+@javax.jdo.annotations.PersistenceCapable(identityType=IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(
+        strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
+         column="id")
+@javax.jdo.annotations.Version(
+        strategy=VersionStrategy.VERSION_NUMBER, 
+        column="version")
+@ObjectType("COMPUTADORA")
+@Audited
+@AutoComplete(repository=ComputadoraRepositorio.class, action="autoComplete")
+@Bookmarkable
 
 public class Computadora {
 	
@@ -64,6 +76,23 @@ public class Computadora {
 	}
 	
 	// //////////////////////////////////////
+	// Disco (propiedad)
+	// //////////////////////////////////////
+
+	private String disco;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@DescribedAs("Disco de la Computadora:")
+	@MemberOrder(sequence = "40")
+	public String getDisco() {
+		return disco;
+	}
+
+	public void setDisco(final String disco) {
+		this.disco = disco;
+	}
+	
+	// //////////////////////////////////////
 	// Memoria (propiedad)
 	// //////////////////////////////////////
 
@@ -71,7 +100,7 @@ public class Computadora {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Memoria de la Computadora:")
-	@MemberOrder(sequence = "40")
+	@MemberOrder(sequence = "50")
 	public String getMemoria() {
 		return memoria;
 	}

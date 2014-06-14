@@ -1,7 +1,6 @@
 package dom.computadora;
 
 import javax.inject.Named;
-
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Programmatic;
@@ -14,7 +13,7 @@ public class ComputadoraRepositorio {
 	}
 
 	// //////////////////////////////////////
-	// Identificacion en la UI
+	// Icono
 	// //////////////////////////////////////
 
 	public String getId() {
@@ -34,9 +33,10 @@ public class ComputadoraRepositorio {
 	public Computadora addComputadora(
 						final @Named("Direccion Ip") int ip, 
 						final @Named("Mother") String mother, 
-						final @Named("Procesador")String procesador, 
+						final @Named("Procesador")String procesador,
+						final @Named("Disco") String disco,
 						final @Named("Memoria")String memoria) {
-		return nuevaComputadora(ip, mother, procesador, memoria);
+		return nuevaComputadora(ip, mother, procesador, disco, memoria);
 	}
 	
 	@Programmatic
@@ -44,11 +44,13 @@ public class ComputadoraRepositorio {
 						final int ip,
 						final String mother,
 						final String procesador,
+						final String disco,
 						final String memoria){
 		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);
 		unaComputadora.setIp(ip);
 		unaComputadora.setMother(mother);
 		unaComputadora.setProcesador(procesador);
+		unaComputadora.setDisco(disco);
 		unaComputadora.setMemoria(memoria);
 		return unaComputadora;
 	}
@@ -59,7 +61,4 @@ public class ComputadoraRepositorio {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-	
-	@javax.inject.Inject
-	private ComputadoraRepositorio computadoraRepositorio;
 }
