@@ -46,11 +46,6 @@ import org.apache.isis.applib.annotation.ObjectType;
             		+ "FROM dom.computadora.Computadora "
             		+ "WHERE creadoPor == :creadoPor "
             		+ "   && ip.indexOf(:ip) >= 0"),
-	@javax.jdo.annotations.Query(
-			name = "getUsuario", language = "JDOQL", 
-			value = "SELECT "
-					+ "FROM dom.usuario.Usuario "
-					+ "WHERE creadoPor == :creadoPor")
 })
 
 @ObjectType("COMPUTADORA")
@@ -60,19 +55,31 @@ import org.apache.isis.applib.annotation.ObjectType;
 public class Computadora {
 	
 	// //////////////////////////////////////
+	// Identificacion en la UI
+	// //////////////////////////////////////
+
+	public String title() {
+		return this.getIp();
+	}
+
+	public String iconName() {
+		return "COMPUTADORA";
+	}
+	
+	// //////////////////////////////////////
 	// IP (propiedad)
 	// //////////////////////////////////////
 
-	private int ip;
+	private String ip;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Direccion IP de la Computadora:")
 	@MemberOrder(sequence = "10")
-	public int getIp() {
+	public String getIp() {
 		return ip;
 	}
 
-	public void setIp(final int ip) {
+	public void setIp(final String ip) {
 		this.ip = ip;
 	}
 	
