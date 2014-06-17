@@ -1,6 +1,5 @@
 package dom.tecnico;
 
-import java.util.Comparator;
 import java.util.List;
 
 import javax.jdo.annotations.IdentityType;
@@ -11,16 +10,11 @@ import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.Bulk;
-import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.util.ObjectContracts;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Ordering;
 
 import dom.persona.Persona;
 
@@ -84,14 +78,13 @@ public class Tecnico extends Persona implements Comparable<Persona>{
 	}
 	
 	// //////////////////////////////////////
-	// Borrar Tecnico
+	// Borrar Usuario
 	// //////////////////////////////////////
 	/**
-     * Método que utilizo para deshabilitar un Proveedor.
-     * 
-     * @return pone el proveedor en false
-     */
-	//{{ 
+    * Método que utilizo para deshabilitar un Tecnico.
+    * 
+    * @return la propiedad habilitado en false.
+    */
 	@Named("Eliminar")
 	@PublishedAction
 	@Bulk
@@ -105,76 +98,14 @@ public class Tecnico extends Persona implements Comparable<Persona>{
 		return null;
 	}
 
-	// //////////////////////////////////////
-	// Comparador (Ordenar por Apellido)
-	// //////////////////////////////////////
-
-	//Overrides el orden natural
-    public static class DependenciesComparatorTecnico implements Comparator<Tecnico> {
-        @Override
-        public int compare(Tecnico t, Tecnico e) {
-            Ordering<Tecnico> byApellido = new Ordering<Tecnico>() {
-                public int compare(final Tecnico t, final Tecnico e) {
-                    return Ordering.natural().nullsFirst().compare(t.getApellido(), e.getApellido());
-                }
-            };
-            return byApellido
-                    .compound(Ordering.<Tecnico>natural())
-                    .compare(t, e);
-        }
-    }
-
-
-
-    // //////////////////////////////////////
-    // Complete (property), 
-    // Done (action), Undo (action)
-    // //////////////////////////////////////
-
-    private boolean complete;
-
-    @Disabled
-    public boolean isComplete() {
-        return complete;
-    }
-
-    public void setComplete(final boolean complete) {
-        this.complete = complete;
-    }
-
-
-	// //////////////////////////////////////
-    // Predicates
-    // //////////////////////////////////////
-	public static class Predicates{
-
-        public static Predicate<Tecnico> thoseCreadoPorBy(final String currentUser) {
-            return new Predicate<Tecnico>() {
-                @Override
-                public boolean apply(final Tecnico tecnico) {
-                    return Objects.equal(tecnico.getCreadoPor(), currentUser);
-                }
-            };
-        }
-        
-        public static Predicate<Tecnico> thoseWithSimilarDescription(final String apellido) {
-            return new Predicate<Tecnico>() {
-                @Override
-                public boolean apply(final Tecnico t) {
-                    return t.getApellido().contains(apellido);
-                }
-            };
-        }
-	}
-
 	
     // //////////////////////////////////////
     // CompareTo
     // //////////////////////////////////////
 	/**
-	 * Implementa Comparable<Usuario>
-	 * Necesario para ordenar por apellido la clase Usuario.
-	 */
+	* Implementa Comparable<Tecnico>
+	* Necesario para ordenar por apellido la clase Tecnico.
+	*/
     @Override
     public int compareTo(final Persona persona) {
         return ObjectContracts.compare(this,persona, "apellido");
