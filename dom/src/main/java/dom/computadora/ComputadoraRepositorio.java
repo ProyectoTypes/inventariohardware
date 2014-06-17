@@ -8,6 +8,7 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
 
@@ -73,11 +74,45 @@ public class ComputadoraRepositorio {
 
 	}
 	
+	// //////////////////////////////////////
+	// Listar Computadora
+	// //////////////////////////////////////
+
+	@MemberOrder(sequence = "20")
+	public List<Computadora> listar() {
+		final List<Computadora> listaComputadoras = this.container
+				.allMatches(new QueryDefault<Computadora>(Computadora.class,
+						"eliminarComputadoraTrue", "creadoPor", this
+								.currentUserName()));
+		if (listaComputadoras.isEmpty()) {
+			this.container.warnUser("No hay Computadoras cargados en el sistema.");
+		}
+		return listaComputadoras;
+	}
+	
+	// //////////////////////////////////////
+	// Buscar Computadora
+	// //////////////////////////////////////
+
+	@MemberOrder(sequence = "30")
+	public List<Computadora> buscar(
+			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Ip") @MinLength(2) String apellido) {
+		final List<Computadora> listaComputadoras = this.container
+				.allMatches(new QueryDefault<Computadora>(Computadora.class,
+						"buscarPorIp", "creadoPor", this
+								.currentUserName(), "Ip", apellido
+								.toUpperCase().trim()));
+		if (listaComputadoras.isEmpty())
+			this.container
+					.warnUser("No se encontraron Computadoras cargados en el sistema.");
+		return listaComputadoras;
+	}		
+		
 	@Programmatic
-	public List<Computadora> autoComplete(final String apellido) {
+	public List<Computadora> autoComplete(final String ip) {
 		return container.allMatches(new QueryDefault<Computadora>(Computadora.class,
 				"autoCompletePorComputadora", "creadoPor", this.currentUserName(),
-				"apellido", apellido.toUpperCase().trim()));
+				"ip", ip.toUpperCase().trim()));
 	}
 	
 	// //////////////////////////////////////
