@@ -1,9 +1,15 @@
 package dom.computadora;
 
-import javax.inject.Named;
+import java.util.List;
+
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.MinLength;
+import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.query.QueryDefault;
+
 
 @Named("COMPUTADORA")
 public class ComputadoraRepositorio {
@@ -55,10 +61,40 @@ public class ComputadoraRepositorio {
 		return unaComputadora;
 	}
 	
+	
+	// //////////////////////////////////////
+	// Buscar Computadora
+	// //////////////////////////////////////
+	
+	//@Named("Computadora")
+	@DescribedAs("Buscar el Computadora en mayuscula")
+	public List<Computadora> autoComplete0AddComputadora(final @MinLength(2) String search) {
+		return computadoraRepositorio.autoComplete(search);
+
+	}
+	
+	@Programmatic
+	public List<Computadora> autoComplete(final String apellido) {
+		return container.allMatches(new QueryDefault<Computadora>(Computadora.class,
+				"autoCompletePorComputadora", "creadoPor", this.currentUserName(),
+				"apellido", apellido.toUpperCase().trim()));
+	}
+	
+	// //////////////////////////////////////
+	// CurrentUserName
+	// //////////////////////////////////////
+
+	private String currentUserName() {
+		return container.getUser().getName();
+	}
+
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
+	
+	@javax.inject.Inject
+	private ComputadoraRepositorio computadoraRepositorio;
 }
