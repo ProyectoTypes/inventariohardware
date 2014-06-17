@@ -45,14 +45,7 @@ public class TecnicoRepositorio {
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombre,
 			final @Optional @RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@ [A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") @Named("E-mail") String email
 			) {
-		return nuevoTecnico(apellido, nombre, email,sector,
-				this.currentUserName());
-	}
-	
-	@Named("Sector")
-	@DescribedAs("Buscar el Sector en mayuscula")
-	public List<Sector> autoComplete0AddTecnico(final @MinLength(2) String search) {
-		return sectorRepositorio.autoComplete(search);
+		return nuevoTecnico(apellido, nombre, email,sector, this.currentUserName());
 	}
 	
 	@Programmatic
@@ -74,6 +67,16 @@ public class TecnicoRepositorio {
 		container.flush();
 		return unTecnico;
 
+	}
+	
+	// //////////////////////////////////////
+	// Buscar Tecnico
+	// //////////////////////////////////////
+	
+	@Named("Sector")
+	@DescribedAs("Buscar el Sector en mayuscula")
+	public List<Sector> autoComplete0AddTecnico(final @MinLength(2) String search) {
+		return sectorRepositorio.autoCompleteSector(search);
 	}
 	
 	// //////////////////////////////////////
@@ -110,11 +113,7 @@ public class TecnicoRepositorio {
 	}
 	
 	
-    // //////////////////////////////////////
-    // AutoComplete
-    // //////////////////////////////////////
-
-    @Programmatic // not part of metamodel
+    @Programmatic
     public List<Tecnico> autoComplete(final String apellido) {
         return container.allMatches(
                 new QueryDefault<Tecnico>(Tecnico.class, 
