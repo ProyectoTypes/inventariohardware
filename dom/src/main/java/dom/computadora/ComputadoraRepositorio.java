@@ -38,7 +38,7 @@ public class ComputadoraRepositorio {
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
 	public Computadora addComputadora(
-						final @Named("Direccion Ip") int ip, 
+						final @Named("Direccion Ip") String ip, 
 						final @Named("Mother") String mother, 
 						final @Named("Procesador")String procesador,
 						final @Named("Disco") String disco,
@@ -48,7 +48,7 @@ public class ComputadoraRepositorio {
 	
 	@Programmatic
 	public Computadora nuevaComputadora(
-						final int ip,
+						final String ip,
 						final String mother,
 						final String procesador,
 						final String disco,
@@ -59,6 +59,8 @@ public class ComputadoraRepositorio {
 		unaComputadora.setProcesador(procesador);
 		unaComputadora.setDisco(disco);
 		unaComputadora.setMemoria(memoria);
+		container.persistIfNotAlready(unaComputadora);
+		container.flush();
 		return unaComputadora;
 	}
 	
@@ -100,7 +102,7 @@ public class ComputadoraRepositorio {
 		final List<Computadora> listaComputadoras = this.container
 				.allMatches(new QueryDefault<Computadora>(Computadora.class,
 						"buscarPorIp", "creadoPor", this
-								.currentUserName(), "Ip", apellido
+								.currentUserName(), "ip", apellido
 								.toUpperCase().trim()));
 		if (listaComputadoras.isEmpty())
 			this.container
