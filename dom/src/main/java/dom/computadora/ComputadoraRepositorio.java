@@ -43,7 +43,7 @@ public class ComputadoraRepositorio {
 						final @Named("Procesador")String procesador,
 						final @Named("Disco") String disco,
 						final @Named("Memoria")String memoria) {
-		return nuevaComputadora(ip, mother, procesador, disco, memoria);
+		return nuevaComputadora(ip, mother, procesador, disco, memoria,this.currentUserName());
 	}
 	
 	@Programmatic
@@ -52,13 +52,15 @@ public class ComputadoraRepositorio {
 						final String mother,
 						final String procesador,
 						final String disco,
-						final String memoria){
+						final String memoria,
+						final String creadoPor){
 		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);
 		unaComputadora.setIp(ip);
 		unaComputadora.setMother(mother);
 		unaComputadora.setProcesador(procesador);
 		unaComputadora.setDisco(disco);
 		unaComputadora.setMemoria(memoria);
+		unaComputadora.setCreadoPor(creadoPor);
 		container.persistIfNotAlready(unaComputadora);
 		container.flush();
 		return unaComputadora;
