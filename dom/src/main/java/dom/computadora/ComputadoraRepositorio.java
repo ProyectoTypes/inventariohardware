@@ -60,6 +60,7 @@ public class ComputadoraRepositorio {
 		unaComputadora.setProcesador(procesador);
 		unaComputadora.setDisco(disco);
 		unaComputadora.setMemoria(memoria);
+		unaComputadora.setHabilitado(true);
 		unaComputadora.setCreadoPor(creadoPor);
 		container.persistIfNotAlready(unaComputadora);
 		container.flush();
