@@ -12,50 +12,32 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Where;
 
-@javax.jdo.annotations.PersistenceCapable(identityType=IdentityType.DATASTORE)
-@javax.jdo.annotations.DatastoreIdentity(
-        strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
-         column="id")
-@javax.jdo.annotations.Version(
-        strategy=VersionStrategy.VERSION_NUMBER, 
-        column="version")
-@javax.jdo.annotations.Uniques({
-    @javax.jdo.annotations.Unique(
-            name="Computadora_ip_must_be_unique", 
-            members={"creadoPor","ip"})
-})
-@javax.jdo.annotations.Queries( {
-    @javax.jdo.annotations.Query(
-            name = "autoCompletePorIp", language = "JDOQL",
-            value = "SELECT "
-                    + "FROM dom.computadora.Computadora "
-                    + "WHERE creadoPor == :creadoPor && "
-                    + "ip.indexOf(:ip) >= 0"),
-    @javax.jdo.annotations.Query(
-            name = "eliminarComputadoraFalse", language = "JDOQL",
-            value = "SELECT "
-                    + "FROM dom.computadora.Computadora "
-                    + "WHERE creadoPor == :creadoPor "
-                    + "   && habilitado == false"),
-    @javax.jdo.annotations.Query(
-            name = "eliminarComputadoraTrue", language = "JDOQL",
-            value = "SELECT "
-                    + "FROM dom.computadora.Computadora "
-                    + "WHERE creadoPor == :creadoPor "
-                    + "   && habilitado == true"),
-    @javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", 
-    		value = "SELECT "
-            		+ "FROM dom.computadora.Computadora "
-            		+ "WHERE creadoPor == :creadoPor "
-            		+ "   && ip.indexOf(:ip) >= 0"),
-})
-
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
+@javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Computadora_ip_must_be_unique", members = {
+		"creadoPor", "ip" }) })
+@javax.jdo.annotations.Queries({
+		@javax.jdo.annotations.Query(name = "autoCompletePorIp", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.computadora.Computadora "
+				+ "WHERE creadoPor == :creadoPor && " + "ip.indexOf(:ip) >= 0"),
+		@javax.jdo.annotations.Query(name = "eliminarComputadoraFalse", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.computadora.Computadora "
+				+ "WHERE creadoPor == :creadoPor "
+				+ "   && habilitado == false"),
+		@javax.jdo.annotations.Query(name = "eliminarComputadoraTrue", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.computadora.Computadora "
+				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
+		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.computadora.Computadora "
+				+ "WHERE creadoPor == :creadoPor "
+				+ "   && ip.indexOf(:ip) >= 0"), })
 @ObjectType("COMPUTADORA")
 @Audited
-@AutoComplete(repository=ComputadoraRepositorio.class, action="autoComplete")
+@AutoComplete(repository = ComputadoraRepositorio.class, action = "autoComplete")
 @Bookmarkable
 public class Computadora {
-	
+
 	// //////////////////////////////////////
 	// Identificacion en la UI
 	// //////////////////////////////////////
@@ -67,7 +49,7 @@ public class Computadora {
 	public String iconName() {
 		return "COMPUTADORA";
 	}
-	
+
 	// //////////////////////////////////////
 	// IP (propiedad)
 	// //////////////////////////////////////
@@ -84,7 +66,7 @@ public class Computadora {
 	public void setIp(final String ip) {
 		this.ip = ip;
 	}
-	
+
 	// //////////////////////////////////////
 	// Mother (propiedad)
 	// //////////////////////////////////////
@@ -101,7 +83,7 @@ public class Computadora {
 	public void setMother(final String mother) {
 		this.mother = mother;
 	}
-	
+
 	// //////////////////////////////////////
 	// Procesador (propiedad)
 	// //////////////////////////////////////
@@ -118,7 +100,7 @@ public class Computadora {
 	public void setProcesador(final String procesador) {
 		this.procesador = procesador;
 	}
-	
+
 	// //////////////////////////////////////
 	// Disco (propiedad)
 	// //////////////////////////////////////
@@ -135,7 +117,7 @@ public class Computadora {
 	public void setDisco(final String disco) {
 		this.disco = disco;
 	}
-	
+
 	// //////////////////////////////////////
 	// Memoria (propiedad)
 	// //////////////////////////////////////
@@ -152,8 +134,23 @@ public class Computadora {
 	public void setMemoria(final String memoria) {
 		this.memoria = memoria;
 	}
-	
-	
+
+	// //////////////////////////////////////
+	// Habilitado (propiedad)
+	// //////////////////////////////////////
+
+	public boolean habilitado;
+
+	@Hidden
+	@MemberOrder(sequence = "40")
+	public boolean getEstaHabilitado() {
+		return habilitado;
+	}
+
+	public void setHabilitado(final boolean habilitado) {
+		this.habilitado = habilitado;
+	}
+
 	// //////////////////////////////////////
 	// creadoPor
 	// //////////////////////////////////////
