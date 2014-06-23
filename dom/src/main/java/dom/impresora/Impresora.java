@@ -1,6 +1,5 @@
 package dom.impresora;
 
-
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
@@ -72,4 +71,19 @@ public class Impresora {
 		this.complete = complete;
 	}
 
+	// //////////////////////////////////////
+	// Habilitado
+	// //////////////////////////////////////
+
+	public boolean habilitado;
+
+	@Hidden
+	@MemberOrder(name = "Detalles", sequence = "9")
+	public boolean getEstaHabilitado() {
+		return habilitado;
+	}
+
+	public void setHabilitado(final boolean habilitado) {
+		this.habilitado = habilitado;
+	}
 }
