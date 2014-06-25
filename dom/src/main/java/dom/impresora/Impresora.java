@@ -14,8 +14,6 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 
-import dom.computadora.ComputadoraRepositorio;
-
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -29,21 +27,17 @@ import dom.computadora.ComputadoraRepositorio;
 				+ " WHERE creadoPor == :creadoPor && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarImpresoraFalse", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
-				+ "WHERE creadoPor == :creadoPor "
-				+ "   && habilitado == true"),
+				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarImpresoraTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
-				+ "WHERE creadoPor == :creadoPor "
-				+ "   && habilitado == true"),
+				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorNombreImpresora", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && nombreSector.indexOf(:nombreImpresora) >= 0") })
-
-
-@ObjectType("COMPUTADORA")
+@ObjectType("IMPRESORA")
 @Audited
-@AutoComplete(repository = ComputadoraRepositorio.class, action = "autoComplete")
+@AutoComplete(repository = ImpresoraRepositorio.class, action = "autoComplete")
 @Bookmarkable
 public class Impresora {
 
@@ -52,29 +46,65 @@ public class Impresora {
 	// //////////////////////////////////////
 
 	public String title() {
-		return this.getNombreImpresora();
+		return this.getmodeloImpresora();
 	}
 
 	public String iconName() {
-		return "Impresora";
+		return "IMPRESORA";
 	}
 
 	// //////////////////////////////////////
-	// Identification in the UI
+	// Modelo Impresora
 	// //////////////////////////////////////
 
-	private String nombreImpresora;
+	private String modeloImpresora;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
 	@DescribedAs("Nombre de la Impresora:")
 	@MemberOrder(sequence = "10")
-	public String getNombreImpresora() {
-		return nombreImpresora;
+	public String getmodeloImpresora() {
+		return modeloImpresora;
 	}
 
-	public void setNombreImprsora(String nombreImpresora) {
-		this.nombreImpresora = nombreImpresora;
+	public void setNombreImprsora(String modeloImpresora) {
+		this.modeloImpresora = modeloImpresora;
+	}
+
+	// //////////////////////////////////////
+	// Fabricante Impresora
+	// //////////////////////////////////////
+
+	private String fabricanteImpresora;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
+	@DescribedAs("Fabricante de la Impresora:")
+	@MemberOrder(sequence = "20")
+	public String getFabricanteImpresora() {
+		return fabricanteImpresora;
+	}
+
+	public void setFabricanteImpresora(String fabricanteImpresora) {
+		this.fabricanteImpresora = fabricanteImpresora;
+	}
+
+	// //////////////////////////////////////
+	// Tipo de Impresora
+	// //////////////////////////////////////
+
+	private String tipoImpresora;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
+	@DescribedAs("Tipo de Impresora:")
+	@MemberOrder(sequence = "30")
+	public String getTipoImpresora() {
+		return tipoImpresora;
+	}
+
+	public void setTipoImpresora(String tipoImpresora) {
+		this.tipoImpresora = tipoImpresora;
 	}
 
 	// //////////////////////////////////////
