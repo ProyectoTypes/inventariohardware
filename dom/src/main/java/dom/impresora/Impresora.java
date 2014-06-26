@@ -14,6 +14,8 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 
+import dom.usuario.UsuarioRepositorio;
+
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -46,7 +48,7 @@ public class Impresora {
 	// //////////////////////////////////////
 
 	public String title() {
-		return this.getmodeloImpresora();
+		return this.getModeloImpresora();
 	}
 
 	public String iconName() {
@@ -61,13 +63,13 @@ public class Impresora {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
-	@DescribedAs("Nombre de la Impresora:")
+	@DescribedAs("Nombre de la Impresora")
 	@MemberOrder(sequence = "10")
-	public String getmodeloImpresora() {
+	public String getModeloImpresora() {
 		return modeloImpresora;
 	}
 
-	public void setNombreImprsora(String modeloImpresora) {
+	public void setModeloImpresora(final String modeloImpresora) {
 		this.modeloImpresora = modeloImpresora;
 	}
 
@@ -85,7 +87,7 @@ public class Impresora {
 		return fabricanteImpresora;
 	}
 
-	public void setFabricanteImpresora(String fabricanteImpresora) {
+	public void setFabricanteImpresora(final String fabricanteImpresora) {
 		this.fabricanteImpresora = fabricanteImpresora;
 	}
 
@@ -103,7 +105,7 @@ public class Impresora {
 		return tipoImpresora;
 	}
 
-	public void setTipoImpresora(String tipoImpresora) {
+	public void setTipoImpresora(final String tipoImpresora) {
 		this.tipoImpresora = tipoImpresora;
 	}
 
@@ -154,4 +156,11 @@ public class Impresora {
 	public void setHabilitado(final boolean habilitado) {
 		this.habilitado = habilitado;
 	}
+
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+
+	@javax.inject.Inject
+	private UsuarioRepositorio usuarioRepositorio;
 }
