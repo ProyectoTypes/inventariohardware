@@ -38,5 +38,16 @@ import dom.tecnico.Tecnico;
 @Bookmarkable
 
 public class Movimiento {
+	
+	// //////////////////////////////////////
+	// Identificacion en la UI
+	// //////////////////////////////////////
 
+	public String title() {
+		return null;
+	}
+
+	public String iconName() {
+		return "Movimiento";
+	}
 }
