@@ -1,6 +1,11 @@
 package dom.computadora;
 
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Join;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.Audited;
@@ -11,6 +16,8 @@ import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Where;
+
+import dom.persona.Persona;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
@@ -166,4 +173,28 @@ public class Computadora {
 	public void setCreadoPor(String creadoPor) {
 		this.creadoPor = creadoPor;
 	}
+	
+	// //////////////////////////////////////
+	// Relacion Computadora/Persona
+	// //////////////////////////////////////
+	
+	@Persistent(mappedBy = "computadora", dependentElement = "False")
+	@Join
+	private SortedSet<Persona> personas = new TreeSet<Persona>();
+	
+	@MemberOrder(sequence = "100")
+	public SortedSet<Persona> getPersona() {
+		return personas;
+	}
+
+	public void setPersona(final SortedSet<Persona> personas) {
+		this.personas = personas;
+	}
+	
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+	
+	@javax.inject.Inject
+	private UsuarioRepositorio usuarioRepositorio;
 }
