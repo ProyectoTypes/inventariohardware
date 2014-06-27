@@ -16,5 +16,20 @@ import dom.tecnico.Tecnico;
 
 @Named("MOVIMIENTO")
 public class MovimientoRepositorio {
+	
+	public MovimientoRepositorio() {
 
+	}
+	
+	// //////////////////////////////////////
+	// Icono
+	// //////////////////////////////////////
+
+	public String getId() {
+		return "movimiento";
+	}
+
+	public String iconName() {
+		return "Movimiento";
+	}
 }
