@@ -3,6 +3,7 @@ package dom.computadora;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.inject.Named;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
 import javax.jdo.annotations.Persistent;
@@ -15,6 +16,7 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Where;
 
 import dom.persona.Persona;
@@ -189,6 +191,25 @@ public class Computadora {
 
 	public void setPersona(final SortedSet<Persona> personas) {
 		this.personas = personas;
+	}
+	
+	// }}
+	@Named("Buscar Persona")
+	@PublishedAction// D:
+	@MemberOrder(name = "personas", sequence = "110")
+	public Computadora add(final Persona persona) {
+		// check for no-op
+		if (persona == null || getPersona().contains(persona)) {
+			return this;
+		}
+		// dissociate arg from its current parent (if any).
+		persona.clear();
+		// associate arg
+		persona.setComputadora(this);
+		this.getPersona().add(persona);
+		return this;
+		// additional business logic
+		// onAddToPersona(persona);
 	}
 	
 	// //////////////////////////////////////
