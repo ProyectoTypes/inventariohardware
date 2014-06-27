@@ -12,6 +12,8 @@ import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
 import dom.persona.Persona;
+import dom.usuario.Usuario;
+import dom.usuario.UsuarioRepositorio;
 
 
 @Named("COMPUTADORA")
@@ -72,15 +74,14 @@ public class ComputadoraRepositorio {
 		return unaComputadora;
 	}
 	
-	
 	// //////////////////////////////////////
-	// Buscar Computadora
+	// Buscar Usuario
 	// //////////////////////////////////////
 	
-	//@Named("Computadora")
+	@Named("Usuario")
 	@DescribedAs("Buscar el Computadora en mayuscula")
-	public List<Computadora> autoComplete0AddComputadora(final @MinLength(2) String search) {
-		return computadoraRepositorio.autoComplete(search);
+	public List<Usuario> autoComplete0AddComputadora(final @MinLength(2) String search) {
+		return usuarioRepositorio.autoComplete(search);
 
 	}
 	
@@ -142,4 +143,7 @@ public class ComputadoraRepositorio {
 	
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
+	
+	@javax.inject.Inject
+	private UsuarioRepositorio usuarioRepositorio;
 }
