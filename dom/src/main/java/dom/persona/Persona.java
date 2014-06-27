@@ -15,6 +15,7 @@ import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 
+import dom.computadora.Computadora;
 import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
 
@@ -105,6 +106,20 @@ public abstract class Persona {
 
 	public void setCreadoPor(String creadoPor) {
 		this.creadoPor = creadoPor;
+	}
+	
+	// //////////////////////////////////////
+	// Computadora (propiedad)
+	// //////////////////////////////////////
+	
+	private Computadora computadora;
+	@MemberOrder(sequence = "70")
+	@javax.jdo.annotations.Column(allowsNull ="true")
+	public Computadora getComputadora() {
+	  		return computadora;
+	  	}
+	public void setComputadora(Computadora computadora){
+		this.computadora = computadora;
 	}
 
 	// //////////////////////////////////////
