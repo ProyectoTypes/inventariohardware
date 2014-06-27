@@ -11,6 +11,8 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
+import dom.persona.Persona;
+
 
 @Named("COMPUTADORA")
 public class ComputadoraRepositorio {
@@ -38,16 +40,18 @@ public class ComputadoraRepositorio {
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
 	public Computadora addComputadora(
+						final @Named("Usuario") Persona personas,
 						final @Named("Direccion Ip") String ip, 
 						final @Named("Mother") String mother, 
 						final @Named("Procesador")String procesador,
 						final @Named("Disco") String disco,
 						final @Named("Memoria")String memoria) {
-		return nuevaComputadora(ip, mother, procesador, disco, memoria,this.currentUserName());
+		return nuevaComputadora(personas, ip, mother, procesador, disco, memoria,this.currentUserName());
 	}
 	
 	@Programmatic
 	public Computadora nuevaComputadora(
+						final Persona personas,
 						final String ip,
 						final String mother,
 						final String procesador,
@@ -55,6 +59,7 @@ public class ComputadoraRepositorio {
 						final String memoria,
 						final String creadoPor){
 		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);
+		//unaComputadora.setPersona(personas);
 		unaComputadora.setIp(ip);
 		unaComputadora.setMother(mother);
 		unaComputadora.setProcesador(procesador);
