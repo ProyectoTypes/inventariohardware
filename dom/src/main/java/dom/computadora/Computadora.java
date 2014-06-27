@@ -1,5 +1,7 @@
 package dom.computadora;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -20,6 +22,7 @@ import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Where;
 
 import dom.persona.Persona;
+import dom.usuario.Usuario;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
@@ -210,6 +213,18 @@ public class Computadora {
 		return this;
 		// additional business logic
 		// onAddToPersona(persona);
+	}
+	
+	@Named("Persona")
+	@DescribedAs("Buscar el Usuario en mayuscula")
+	public List<Persona> autoComplete0Add(final @MinLength(2) String search) {
+		List<Usuario> usuarios = usuarioRepositorio.autoComplete(search);
+		List<Persona> personas = new ArrayList<Persona>();
+		for (Usuario usuario : usuarios) {
+			Persona unaP = usuario;
+			personas.add(unaP);
+		}
+		return personas;
 	}
 	
 	// //////////////////////////////////////
