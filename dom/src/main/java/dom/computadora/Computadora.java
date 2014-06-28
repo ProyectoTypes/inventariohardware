@@ -22,6 +22,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Where;
 
+import dom.impresora.Impresora;
 import dom.persona.Persona;
 
 import dom.usuario.Usuario;
@@ -120,40 +121,38 @@ public class Computadora {
 	// Disco (propiedad)
 	// //////////////////////////////////////
 
-	//private String disco;
+	// private String disco;
 	//
-	//@javax.jdo.annotations.Column(allowsNull = "false")
-	//@DescribedAs("Disco de la Computadora:")
-	//@MemberOrder(sequence = "40")
-	//public String getDisco() {
-	//	return disco;
-	//}
+	// @javax.jdo.annotations.Column(allowsNull = "false")
+	// @DescribedAs("Disco de la Computadora:")
+	// @MemberOrder(sequence = "40")
+	// public String getDisco() {
+	// return disco;
+	// }
 	//
-	//public void setDisco(final String disco) {
-	//	this.disco = disco;
-	//}
-	
+	// public void setDisco(final String disco) {
+	// this.disco = disco;
+	// }
+
 	public static enum CategoriaDisco {
-        Seagate, Western, Otro;
-        
-    }
-	
+		Seagate, Western, Otro;
+
+	}
+
 	private CategoriaDisco disco;
 
-    @javax.jdo.annotations.Column(allowsNull="false")
-    public CategoriaDisco getDisco() {
-    	return disco;
-    }
-    
-    public void setDisco(CategoriaDisco disco) {
-    	this.disco = disco;
-    }
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	public CategoriaDisco getDisco() {
+		return disco;
+	}
 
-   
+	public void setDisco(CategoriaDisco disco) {
+		this.disco = disco;
+	}
+
 	// //////////////////////////////////////
 	// Memoria (propiedad)
 	// //////////////////////////////////////
-
 
 	private String memoria;
 
@@ -185,6 +184,21 @@ public class Computadora {
 	}
 
 	// //////////////////////////////////////
+	// Impresora (propiedad)
+	// //////////////////////////////////////
+
+	private Impresora impresora;
+	@MemberOrder(sequence = "50")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public Impresora getImpresora() {
+		return impresora;
+	}
+
+	public void setImpresora(Impresora impresora) {
+		this.impresora = impresora;
+	}	
+
+	// //////////////////////////////////////
 	// creadoPor
 	// //////////////////////////////////////
 
@@ -199,15 +213,15 @@ public class Computadora {
 	public void setCreadoPor(String creadoPor) {
 		this.creadoPor = creadoPor;
 	}
-	
+
 	// //////////////////////////////////////
 	// Relacion Computadora/Persona
 	// //////////////////////////////////////
-	
+
 	@Persistent(mappedBy = "computadora", dependentElement = "False")
 	@Join
 	private SortedSet<Persona> personas = new TreeSet<Persona>();
-	
+
 	@MemberOrder(sequence = "100")
 	public SortedSet<Persona> getPersona() {
 		return personas;
@@ -216,10 +230,11 @@ public class Computadora {
 	public void setPersona(final SortedSet<Persona> personas) {
 		this.personas = personas;
 	}
-	
+
 	// }}
 	@Named("Buscar Persona")
-	@PublishedAction// D:
+	@PublishedAction
+	// D:
 	@MemberOrder(name = "personas", sequence = "110")
 	public Computadora add(final Persona persona) {
 		// check for no-op
@@ -235,7 +250,7 @@ public class Computadora {
 		// additional business logic
 		// onAddToPersona(persona);
 	}
-	
+
 	@Named("Persona")
 	@DescribedAs("Buscar el Usuario en mayuscula")
 	public List<Persona> autoComplete0Add(final @MinLength(2) String search) {
@@ -247,11 +262,11 @@ public class Computadora {
 		}
 		return personas;
 	}
-	
+
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
-	
+
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
 }
