@@ -42,9 +42,10 @@ public class ImpresoraRepositorio {
 			final String creadoPor) {
 		final Impresora unaImpresora = container
 				.newTransientInstance(Impresora.class);
-		unaImpresora.setModeloImpresora(modeloImpresora);
-		unaImpresora.setFabricanteImpresora(fabricanteImpresora);
-		unaImpresora.setTipoImpresora(tipoImpresora);
+		unaImpresora.setModeloImpresora(modeloImpresora.toUpperCase().trim());
+		unaImpresora.setFabricanteImpresora(fabricanteImpresora.toUpperCase()
+				.trim());
+		unaImpresora.setTipoImpresora(tipoImpresora.toUpperCase().trim());
 		unaImpresora.setHabilitado(true);
 		unaImpresora.setCreadoPor(creadoPor);
 		container.persistIfNotAlready(unaImpresora);
