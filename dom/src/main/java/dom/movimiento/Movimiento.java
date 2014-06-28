@@ -50,4 +50,71 @@ public class Movimiento {
 	public String iconName() {
 		return "Movimiento";
 	}
+		
+	// //////////////////////////////////////
+	// Habilitado (propiedad)
+	// //////////////////////////////////////
+
+	public boolean habilitado;
+
+	@Hidden
+	@MemberOrder(sequence = "40")
+	public boolean getEstaHabilitado() {
+		return habilitado;
+	}
+
+	public void setHabilitado(final boolean habilitado) {
+		this.habilitado = habilitado;
+	}
+		
+	// //////////////////////////////////////
+	// Computadora (propiedad)
+	// //////////////////////////////////////
+
+	public Computadora computadora;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@DescribedAs("Computadora previamente cargada:")
+	@MemberOrder(sequence = "10")
+	public Computadora getComputadora() {
+		return computadora;
+	}
+
+	public void setComputadora(final Computadora computadora) {
+		this.computadora = computadora;
+	}
+		
+	// //////////////////////////////////////
+	// Tecnico (propiedad)
+	// //////////////////////////////////////
+
+	public Tecnico tecnico;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@DescribedAs("Tecnico previamente cargado:")
+	@MemberOrder(sequence = "10")
+	public Tecnico getTecnico() {
+		return tecnico;
+	}
+
+	public void setTecnico(final Tecnico tecnico) {
+		this.tecnico = tecnico;
+	}
+		
+	// //////////////////////////////////////
+	// IngresadoPor (propiedad)
+	// //////////////////////////////////////
+
+	public String ingresadoPor;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@DescribedAs("Tecnico que ingresa la computadora:")
+	@MemberOrder(sequence = "10")
+	public String getIngresadoPor() {
+		return ingresadoPor;
+	}
+
+	public void setIngresadoPor(final String ingresadoPor) {
+		this.ingresadoPor = ingresadoPor;
+	}
 }
