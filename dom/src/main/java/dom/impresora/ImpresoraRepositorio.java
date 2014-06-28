@@ -45,10 +45,11 @@ public class ImpresoraRepositorio {
 		unaImpresora.setModeloImpresora(modeloImpresora);
 		unaImpresora.setFabricanteImpresora(fabricanteImpresora);
 		unaImpresora.setTipoImpresora(tipoImpresora);
+		unaImpresora.setHabilitado(true);
+		unaImpresora.setCreadoPor(creadoPor);
 		container.persistIfNotAlready(unaImpresora);
 		container.flush();
 		return unaImpresora;
-
 	}
 
 	// //////////////////////////////////////
