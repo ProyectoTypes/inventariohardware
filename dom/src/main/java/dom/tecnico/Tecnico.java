@@ -1,5 +1,6 @@
 package dom.tecnico;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.jdo.annotations.IdentityType;
@@ -98,6 +99,18 @@ public class Tecnico extends Persona implements Comparable<Persona>{
 		return null;
 	}
 
+	//Campo que diferencia a tecnico de usuario. El valor por el momento se hara manualmente
+	// pero lo ideal es que cambie automaticamente segun el patron State.
+	private BigDecimal cantidadComputadora;
+	
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	public BigDecimal getCantidadComputadora() {
+		return cantidadComputadora;
+	}
+	
+	public void setCantidadComputadora(BigDecimal cantidadComputadora) {
+		this.cantidadComputadora = cantidadComputadora;
+	}
 	
     // //////////////////////////////////////
     // CompareTo
@@ -114,6 +127,7 @@ public class Tecnico extends Persona implements Comparable<Persona>{
     // Injected Services
     // //////////////////////////////////////
 
-    @javax.inject.Inject
+
+	@javax.inject.Inject
     private DomainObjectContainer container;
 }
