@@ -32,4 +32,30 @@ public class MovimientoRepositorio {
 	public String iconName() {
 		return "Movimiento";
 	}
+	
+	// //////////////////////////////////////
+	// Agregar Movimiento
+	// //////////////////////////////////////
+	
+	@MemberOrder(sequence = "10")
+	@Named("Agregar")
+	public Movimiento addMovimiento(
+						final @Named("Computadora") Computadora computadora,
+						final @Optional @Named("Tecnico") Tecnico tecnico) {
+		return nuevoMovimiento(computadora, tecnico, this.currentUserName());
+	}
+	
+	@Programmatic
+	public Movimiento nuevoMovimiento(
+						final Computadora computadora,
+						final Tecnico tecnico,
+						final String ingresadoPor){
+		final Movimiento unMovimiento = container.newTransientInstance(Movimiento.class);
+		unMovimiento.setComputadora(computadora);
+		unMovimiento.setHabilitado(true);
+		unMovimiento.setIngresadoPor(ingresadoPor);
+		container.persistIfNotAlready(unMovimiento);
+		container.flush();
+		return unMovimiento;
+	}
 }
