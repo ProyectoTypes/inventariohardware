@@ -12,6 +12,7 @@ import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.Computadora.CategoriaDisco;
+import dom.impresora.Impresora;
 import dom.persona.Persona;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
@@ -48,8 +49,9 @@ public class ComputadoraRepositorio {
 						final @Named("Mother") String mother, 
 						final @Named("Procesador")String procesador,
 						final @Named("Disco") CategoriaDisco disco,
-						final @Named("Memoria")String memoria) {
-		return nuevaComputadora(personas, ip, mother, procesador, disco, memoria,this.currentUserName());
+						final @Named("Memoria")String memoria,
+						final @Named("Impresora")Impresora impresora){
+		return nuevaComputadora(personas, ip, mother, procesador, disco, memoria,impresora,this.currentUserName());
 	}
 		
 	@Programmatic
@@ -60,6 +62,7 @@ public class ComputadoraRepositorio {
 						final String procesador,
 						final CategoriaDisco disco,
 						final String memoria,
+						final Impresora impresora,
 						final String creadoPor){
 		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);
 		unaComputadora.getPersona().add(personas);
@@ -68,6 +71,7 @@ public class ComputadoraRepositorio {
 		unaComputadora.setProcesador(procesador);
 		unaComputadora.setDisco(disco);
 		unaComputadora.setMemoria(memoria);
+		unaComputadora.setImpresora(impresora);
 		unaComputadora.setHabilitado(true);
 		unaComputadora.setCreadoPor(creadoPor);
 		container.persistIfNotAlready(unaComputadora);
