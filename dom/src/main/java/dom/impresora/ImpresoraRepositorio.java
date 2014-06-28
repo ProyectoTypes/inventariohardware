@@ -3,7 +3,9 @@ package dom.impresora;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
@@ -71,6 +73,39 @@ public class ImpresoraRepositorio {
 					.warnUser("No hay Impresoras cargadas en el sistema.");
 		}
 		return listaImpresora;
+	}
+
+	// //////////////////////////////////////
+	// Buscar Impresora
+	// //////////////////////////////////////
+
+	@DescribedAs("Buscar Impresora Mayuscula")
+	public List<Impresora> autoComplete0AddImpresora(
+			final @MinLength(2) String search) {
+		return impresoraRepositorio.autoComplete(search);
+
+	}
+
+	@MemberOrder(sequence = "30")
+	public List<Impresora> buscar(
+			final @Named("Modelo") @MinLength(2) String modeloImpresora) {
+		final List<Impresora> listaImpresora = this.container
+				.allMatches(new QueryDefault<Impresora>(Impresora.class,
+						"buscarPormodeloImpresora", "creadoPor", this
+								.currentUserName(), "modeloImpresora",
+						modeloImpresora.toUpperCase().trim()));
+		if (listaImpresora.isEmpty())
+			this.container
+					.warnUser("No se encontraron Impresoras cargados en el sistema.");
+		return listaImpresora;
+	}
+
+	@Programmatic
+	public List<Impresora> autoComplete(final String modeloImpresora) {
+		return container.allMatches(new QueryDefault<Impresora>(
+				Impresora.class, "autoCompletePorModeloImpresora", "creadoPor",
+				this.currentUserName(), "modeloImpresora", modeloImpresora
+						.toUpperCase().trim()));
 	}
 
 	// //////////////////////////////////////
