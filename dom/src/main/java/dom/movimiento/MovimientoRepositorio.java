@@ -58,4 +58,14 @@ public class MovimientoRepositorio {
 		container.flush();
 		return unMovimiento;
 	}
+	
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+
+	@javax.inject.Inject
+	private DomainObjectContainer container;
+	
+	@javax.inject.Inject
+	private MovimientoRepositorio movimientoRepositorio;
 }
