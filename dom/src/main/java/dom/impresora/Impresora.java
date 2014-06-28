@@ -1,6 +1,11 @@
 package dom.impresora;
 
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Join;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.Audited;
@@ -14,6 +19,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 
+import dom.computadora.Computadora;
 import dom.usuario.UsuarioRepositorio;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
@@ -123,6 +129,23 @@ public class Impresora {
 
 	public void setCreadoPor(String creadoPor) {
 		this.creadoPor = creadoPor;
+	}
+
+	// //////////////////////////////////////
+	// Relacion Computadora/Impresora
+	// //////////////////////////////////////
+
+	@Persistent(mappedBy = "impresora", dependentElement = "False")
+	@Join
+	private SortedSet<Computadora> computadora = new TreeSet<Computadora>();
+
+	@MemberOrder(sequence = "100")
+	public SortedSet<Computadora> getComputadora() {
+		return computadora;
+	}
+
+	public void setComputadora(final SortedSet<Computadora> computadora) {
+		this.computadora = computadora;
 	}
 
 	// //////////////////////////////////////
