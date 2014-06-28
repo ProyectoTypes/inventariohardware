@@ -7,6 +7,7 @@ import org.apache.isis.applib.annotation.Programmatic;
 
 import dom.usuario.UsuarioRepositorio;
 
+@Named ("IMPRESORA")
 public class ImpresoraRepositorio {
 
 	// //////////////////////////////////////
