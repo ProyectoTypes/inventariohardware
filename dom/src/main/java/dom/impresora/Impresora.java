@@ -19,12 +19,12 @@ import dom.usuario.UsuarioRepositorio;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Impresora_nombreImpresora_must_be_unique", members = {
-		"creadoPor", "nombreImpresora" }) })
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Impresora_modeloImpresora_must_be_unique", members = {
+		"creadoPor", "modeloImpresora" }) })
 @javax.jdo.annotations.Queries({
-		@javax.jdo.annotations.Query(name = "autoCompletePorNombreImpresora", language = "JDOQL", value = "SELECT "
+		@javax.jdo.annotations.Query(name = "autoCompletePormodeloImpresora", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
-				+ "WHERE creadoPor == :creadoPor && nombreImpresora.indexOf(:nombreImpresora) >= 0"),
+				+ "WHERE creadoPor == :creadoPor && modeloImpresora.indexOf(:nombreImpresora) >= 0"),
 		@javax.jdo.annotations.Query(name = "todasLasImpresoras", language = "JDOQL", value = "SELECT FROM dom.impresora.Impresora "
 				+ " WHERE creadoPor == :creadoPor && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarImpresoraFalse", language = "JDOQL", value = "SELECT "
@@ -33,10 +33,10 @@ import dom.usuario.UsuarioRepositorio;
 		@javax.jdo.annotations.Query(name = "eliminarImpresoraTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
 				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
-		@javax.jdo.annotations.Query(name = "buscarPorNombreImpresora", language = "JDOQL", value = "SELECT "
+		@javax.jdo.annotations.Query(name = "buscarPormodeloImpresora", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
 				+ "WHERE creadoPor == :creadoPor "
-				+ "   && nombreSector.indexOf(:nombreImpresora) >= 0") })
+				+ "   && modeloImpresora.indexOf(:modeloImpresora) >= 0") })
 @ObjectType("IMPRESORA")
 @Audited
 @AutoComplete(repository = ImpresoraRepositorio.class, action = "autoComplete")
