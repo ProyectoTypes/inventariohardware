@@ -11,9 +11,7 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
-import dom.persona.Persona;
-import dom.usuario.Usuario;
-import dom.usuario.UsuarioRepositorio;
+import dom.computadora.Computadora.CategoriaDisco;
 
 
 @Named("COMPUTADORA")
@@ -42,26 +40,23 @@ public class ComputadoraRepositorio {
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
 	public Computadora addComputadora(
-						final @Named("Usuario") Persona personas,
 						final @Named("Direccion Ip") String ip, 
 						final @Named("Mother") String mother, 
 						final @Named("Procesador")String procesador,
-						final @Named("Disco") String disco,
+						final @Named("Disco") CategoriaDisco disco,
 						final @Named("Memoria")String memoria) {
-		return nuevaComputadora(personas, ip, mother, procesador, disco, memoria,this.currentUserName());
+		return nuevaComputadora(ip, mother, procesador, disco, memoria,this.currentUserName());
 	}
 	
 	@Programmatic
 	public Computadora nuevaComputadora(
-						final Persona personas,
 						final String ip,
 						final String mother,
 						final String procesador,
-						final String disco,
+						final CategoriaDisco disco,
 						final String memoria,
 						final String creadoPor){
 		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);
-		//unaComputadora.setPersona(personas);
 		unaComputadora.setIp(ip);
 		unaComputadora.setMother(mother);
 		unaComputadora.setProcesador(procesador);
@@ -74,14 +69,15 @@ public class ComputadoraRepositorio {
 		return unaComputadora;
 	}
 	
+	
 	// //////////////////////////////////////
-	// Buscar Usuario
+	// Buscar Computadora
 	// //////////////////////////////////////
 	
-	@Named("Usuario")
+	//@Named("Computadora")
 	@DescribedAs("Buscar el Computadora en mayuscula")
-	public List<Usuario> autoComplete0AddComputadora(final @MinLength(2) String search) {
-		return usuarioRepositorio.autoComplete(search);
+	public List<Computadora> autoComplete0AddComputadora(final @MinLength(2) String search) {
+		return computadoraRepositorio.autoComplete(search);
 
 	}
 	
@@ -143,7 +139,4 @@ public class ComputadoraRepositorio {
 	
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
-	
-	@javax.inject.Inject
-	private UsuarioRepositorio usuarioRepositorio;
 }

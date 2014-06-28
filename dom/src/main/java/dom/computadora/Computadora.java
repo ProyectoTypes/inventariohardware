@@ -1,6 +1,8 @@
 package dom.computadora;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -22,8 +24,12 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Where;
 
+import com.google.common.base.Predicate;
+
 import dom.movimiento.Movimiento;
 import dom.persona.Persona;
+import dom.todo.ToDoItem.Category;
+import dom.todo.ToDoItem.Subcategory;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 
@@ -120,22 +126,40 @@ public class Computadora {
 	// Disco (propiedad)
 	// //////////////////////////////////////
 
-	private String disco;
+//	private String disco;
+//
+//	@javax.jdo.annotations.Column(allowsNull = "false")
+//	@DescribedAs("Disco de la Computadora:")
+//	@MemberOrder(sequence = "40")
+//	public String getDisco() {
+//		return disco;
+//	}
+//
+//	public void setDisco(final String disco) {
+//		this.disco = disco;
+//	}
+	
+	public static enum CategoriaDisco {
+        Seagate, Western, Otro;
+        
+    }
+	
+	private CategoriaDisco disco;
 
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@DescribedAs("Disco de la Computadora:")
-	@MemberOrder(sequence = "40")
-	public String getDisco() {
-		return disco;
-	}
+    @javax.jdo.annotations.Column(allowsNull="false")
+    public CategoriaDisco getDisco() {
+    	return disco;
+    }
+    
+    public void setDisco(CategoriaDisco disco) {
+    	this.disco = disco;
+    }
 
-	public void setDisco(final String disco) {
-		this.disco = disco;
-	}
-
+   
 	// //////////////////////////////////////
 	// Memoria (propiedad)
 	// //////////////////////////////////////
+
 
 	private String memoria;
 
