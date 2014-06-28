@@ -1,13 +1,16 @@
 package dom.impresora;
 
+import java.util.List;
+
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.query.QueryDefault;
 
 import dom.usuario.UsuarioRepositorio;
 
-@Named ("IMPRESORA")
+@Named("IMPRESORA")
 public class ImpresoraRepositorio {
 
 	// //////////////////////////////////////
@@ -51,6 +54,23 @@ public class ImpresoraRepositorio {
 		container.persistIfNotAlready(unaImpresora);
 		container.flush();
 		return unaImpresora;
+	}
+
+	// //////////////////////////////////////
+	// Listar Impresora
+	// //////////////////////////////////////
+
+	@MemberOrder(sequence = "20")
+	public List<Impresora> listar() {
+		final List<Impresora> listaImpresora = this.container
+				.allMatches(new QueryDefault<Impresora>(Impresora.class,
+						"eliminarImpresoraTrue", "creadoPor", this
+								.currentUserName()));
+		if (listaImpresora.isEmpty()) {
+			this.container
+					.warnUser("No hay Impresoras cargadas en el sistema.");
+		}
+		return listaImpresora;
 	}
 
 	// //////////////////////////////////////
