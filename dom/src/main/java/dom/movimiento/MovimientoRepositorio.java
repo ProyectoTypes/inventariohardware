@@ -60,6 +60,29 @@ public class MovimientoRepositorio {
 	}
 	
 	// //////////////////////////////////////
+	// Listar Computadora
+	// //////////////////////////////////////
+
+	@MemberOrder(sequence = "20")
+	public List<Movimiento> listar() {
+		final List<Movimiento> listaMovimientos = this.container
+				.allMatches(new QueryDefault<Movimiento>(Movimiento.class,
+						"eliminarMovimientoTrue", "ingresadoPor", this
+								.currentUserName()));
+		if (listaMovimientos.isEmpty()) {
+			this.container.warnUser("No hay Movimiento cargados en el sistema.");
+		}
+		return listaMovimientos;
+	}
+	
+	@Programmatic
+	public List<Movimiento> autoComplete(final String ip) {
+		return container.allMatches(new QueryDefault<Movimiento>(Movimiento.class,
+				"autoCompletePorMovimiento", "ingresadoPor", this.currentUserName(),
+				"ip", ip.toUpperCase().trim()));
+	}
+	
+	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////
 
