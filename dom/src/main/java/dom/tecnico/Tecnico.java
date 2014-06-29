@@ -3,6 +3,7 @@ package dom.tecnico;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
@@ -14,9 +15,11 @@ import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import dom.movimiento.Movimiento;
 import dom.persona.Persona;
 
 @javax.jdo.annotations.PersistenceCapable(identityType=IdentityType.DATASTORE)
@@ -103,7 +106,7 @@ public class Tecnico extends Persona implements Comparable<Persona>{
 	// pero lo ideal es que cambie automaticamente segun el patron State.
 	private BigDecimal cantidadComputadora;
 	
-	@javax.jdo.annotations.Column(allowsNull = "false")
+	@javax.jdo.annotations.Column(allowsNull = "true")
 	public BigDecimal getCantidadComputadora() {
 		return cantidadComputadora;
 	}
@@ -112,6 +115,21 @@ public class Tecnico extends Persona implements Comparable<Persona>{
 		this.cantidadComputadora = cantidadComputadora;
 	}
 	
+	// {{ Movimiento (property)
+	private Movimiento movimiento;
+	
+	@MemberOrder(sequence = "200")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public Movimiento getMovimiento() {
+		return movimiento;
+	}
+
+	public void setMovimiento(final Movimiento movimiento) {
+		this.movimiento = movimiento;
+	}
+	// }}
+
+
     // //////////////////////////////////////
     // CompareTo
     // //////////////////////////////////////
