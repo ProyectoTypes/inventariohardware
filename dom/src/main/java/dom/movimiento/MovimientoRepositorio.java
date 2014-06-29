@@ -3,26 +3,27 @@ package dom.movimiento;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
-import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
-import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.Computadora;
+import dom.computadora.ComputadoraRepositorio;
 import dom.tecnico.Tecnico;
+import dom.tecnico.TecnicoRepositorio;
 
-@Named("MOVIMIENTO")
+@Named("Movimiento")
 public class MovimientoRepositorio {
-	
+
 	public MovimientoRepositorio() {
 
 	}
-	
+
 	// //////////////////////////////////////
-	// Icono
+	// Identification in the UI
 	// //////////////////////////////////////
 
 	public String getId() {
@@ -32,33 +33,53 @@ public class MovimientoRepositorio {
 	public String iconName() {
 		return "Movimiento";
 	}
-	
+
 	// //////////////////////////////////////
-	// Agregar Movimiento
+	// Insertar un Movimiento.
 	// //////////////////////////////////////
-	
-	@MemberOrder(sequence = "10")
 	@Named("Agregar")
-	public Movimiento addMovimiento(
-						final @Named("Computadora") Computadora computadora,
-						final @Optional @Named("Tecnico") Tecnico tecnico) {
+	@MemberOrder(sequence = "10")
+	@PublishedAction
+	public Movimiento add(final @Named("Computadora") Computadora computadora,
+			final @Named("Tecnico") Tecnico tecnico) {
 		return nuevoMovimiento(computadora, tecnico, this.currentUserName());
+	}
+	public List<Computadora> autoComplete0Add(final @MinLength(2) String search) {
+		List<Computadora> listaComputadora = computadoraRepositorio.autoComplete(search);
+		return listaComputadora;
+	}
+	public List<Tecnico> autoComplete1Add(final @MinLength(2) String search) {
+		List<Tecnico> listaTecnicos = tecnicoRepositorio.autoComplete(search);
+		return listaTecnicos;
 	}
 	
 	@Programmatic
-	public Movimiento nuevoMovimiento(
-						final Computadora computadora,
-						final Tecnico tecnico,
-						final String ingresadoPor){
-		final Movimiento unMovimiento = container.newTransientInstance(Movimiento.class);
-		unMovimiento.setComputadora(computadora);
+	public Movimiento nuevoMovimiento(final Computadora computadora,
+			final Tecnico tecnico, final String creadoPor) {
+		final Movimiento unMovimiento = this.container
+				.newTransientInstance(Movimiento.class);
 		unMovimiento.setHabilitado(true);
-		unMovimiento.setIngresadoPor(ingresadoPor);
-		container.persistIfNotAlready(unMovimiento);
-		container.flush();
+		unMovimiento.setCreadoPor(creadoPor);
+		unMovimiento.setTecnico(tecnico);
+		unMovimiento.setComputadora(computadora);
+		unMovimiento.setTecnico(tecnico);
+		this.container.persistIfNotAlready(unMovimiento);
+		this.container.flush();
 		return unMovimiento;
+
 	}
-	
+
+	// ////////////////////////////////////
+	// AutoComplete: Servicio utilizado por Sector.
+	// //////////////////////////////////////
+	@Programmatic
+	public List<Movimiento> autoComplete(final String buscarTecnico) {
+		return container.allMatches(new QueryDefault<Movimiento>(
+				Movimiento.class, "autoCompleteMovimiento", "creadoPor", this
+						.currentUserName(), "buscarTecnico", buscarTecnico
+						.toUpperCase().trim()));
+	}
+
 	// //////////////////////////////////////
 	// Listar Computadora
 	// //////////////////////////////////////
@@ -67,21 +88,15 @@ public class MovimientoRepositorio {
 	public List<Movimiento> listar() {
 		final List<Movimiento> listaMovimientos = this.container
 				.allMatches(new QueryDefault<Movimiento>(Movimiento.class,
-						"eliminarMovimientoTrue", "ingresadoPor", this
+						"listar", "creadoPor", this
 								.currentUserName()));
 		if (listaMovimientos.isEmpty()) {
-			this.container.warnUser("No hay Movimiento cargados en el sistema.");
+			this.container
+					.warnUser("No hay Movimiento cargados en el sistema.");
 		}
 		return listaMovimientos;
 	}
-	
-	@Programmatic
-	public List<Movimiento> autoComplete(final String ip) {
-		return container.allMatches(new QueryDefault<Movimiento>(Movimiento.class,
-				"autoCompletePorMovimiento", "ingresadoPor", this.currentUserName(),
-				"ip", ip.toUpperCase().trim()));
-	}
-	
+
 	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////
@@ -89,14 +104,16 @@ public class MovimientoRepositorio {
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
-	
+
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-	
 	@javax.inject.Inject
-	private MovimientoRepositorio movimientoRepositorio;
+	private TecnicoRepositorio tecnicoRepositorio;
+	@SuppressWarnings("unused")
+	@javax.inject.Inject
+	private ComputadoraRepositorio computadoraRepositorio;
 }
