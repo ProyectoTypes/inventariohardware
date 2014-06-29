@@ -7,6 +7,7 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
@@ -50,7 +51,7 @@ public class ComputadoraRepositorio {
 						final @Named("Procesador")String procesador,
 						final @Named("Disco") CategoriaDisco disco,
 						final @Named("Memoria")String memoria,
-						final @Named("Impresora")Impresora impresora){
+						final @Optional @Named("Impresora")Impresora impresora){
 		return nuevaComputadora(personas, ip, mother, procesador, disco, memoria,impresora,this.currentUserName());
 	}
 		

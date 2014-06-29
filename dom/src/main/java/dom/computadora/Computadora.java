@@ -23,8 +23,8 @@ import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Where;
 
 import dom.impresora.Impresora;
+import dom.movimiento.Movimiento;
 import dom.persona.Persona;
-
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 
@@ -34,7 +34,7 @@ import dom.usuario.UsuarioRepositorio;
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Computadora_ip_must_be_unique", members = {
 		"creadoPor", "ip" }) })
 @javax.jdo.annotations.Queries({
-		@javax.jdo.annotations.Query(name = "autoCompletePorIp", language = "JDOQL", value = "SELECT "
+		@javax.jdo.annotations.Query(name = "autoCompletePorComputadora", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
 				+ "WHERE creadoPor == :creadoPor && " + "ip.indexOf(:ip) >= 0"),
 		@javax.jdo.annotations.Query(name = "eliminarComputadoraFalse", language = "JDOQL", value = "SELECT "
@@ -262,10 +262,52 @@ public class Computadora {
 		}
 		return personas;
 	}
+	
+
+	// //////////////////////////////////////
+	// Relacion Computadora(Parent)/Movimiento(Child). 
+	// //////////////////////////////////////
+	@Persistent(mappedBy = "computadora", dependentElement = "False")
+	@Join
+	private SortedSet<Movimiento> movimientos = new TreeSet<Movimiento>();
+
+	public SortedSet<Movimiento> getMovimientos() {
+		return movimientos;
+	}
+	
+	public void setMovimientos(SortedSet<Movimiento> movimientos) {
+		this.movimientos = movimientos;
+	}
+	public void addToMovimiento(final Movimiento unMovimiento) {
+		// check for no-op
+		if (unMovimiento == null
+				|| getMovimientos().contains(unMovimiento)) {
+			return;
+		}
+		// dissociate arg from its current parent (if any).
+		unMovimiento.clearComputadora();
+		// associate arg
+		unMovimiento.setComputadora(this);
+		getMovimientos().add(unMovimiento);
+	}
+
+	public void removeFromMovimiento(
+			final Movimiento unMovimiento) {
+		// check for no-op
+		if (unMovimiento == null
+				|| !getMovimientos().contains(unMovimiento)) {
+			return;
+		}
+		// dissociate arg
+		unMovimiento.setComputadora(null);
+		getMovimientos().remove(unMovimiento);
+	}
+	
 
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
+
 
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
