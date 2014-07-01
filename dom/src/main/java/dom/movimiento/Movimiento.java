@@ -46,7 +46,9 @@ import dom.tecnico.TecnicoRepositorio;
 @Bookmarkable
 public class Movimiento implements Comparable<Movimiento> {
 
-	
+	public Movimiento() {
+		this.estado = new Recepcionado();
+	}
 
 	// //////////////////////////////////////
 	// Identificacion en la UI. Aparece como item del menu
