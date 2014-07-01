@@ -1,7 +1,5 @@
 package dom.movimiento;
 
-import java.util.List;
-
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
@@ -12,7 +10,6 @@ import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
-import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Where;
@@ -20,6 +17,8 @@ import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
+import dom.movimiento.estadoComputadora.IEstado;
+import dom.movimiento.estadoComputadora.Recepcionado;
 import dom.tecnico.Tecnico;
 import dom.tecnico.TecnicoRepositorio;
 
@@ -30,22 +29,23 @@ import dom.tecnico.TecnicoRepositorio;
 // "Sector_nombreSector_must_be_unique", members = {
 // "creadoPor", "nombreSector" }) })
 @javax.jdo.annotations.Queries({
-	@javax.jdo.annotations.Query(name = "autoCompletePorMovimiento", language = "JDOQL", value = "SELECT "
-			+ "FROM dom.movimiento.Movimiento "
-			+ "WHERE creadoPor == :creadoPor && " + "tecnico.getNombre().indexOf(:buscarTecnico) >= 0"),
-	@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
-			+ "FROM dom.movimiento.Movimiento "
-			+ "WHERE ingresadoPor == :ingresadoPor "
-			+ "   && habilitado == true"),
-	@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
-			+ "FROM dom.movimiento.Movimiento "
-			+ "WHERE ingresadoPor == :ingresadoPor "
-			+ "   && computadora.getIp().indexOf(:ip) >= 0"), })
+		@javax.jdo.annotations.Query(name = "autoCompletePorMovimiento", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.movimiento.Movimiento "
+				+ "WHERE creadoPor == :creadoPor && "
+				+ "tecnico.getNombre().indexOf(:buscarTecnico) >= 0"),
+		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.movimiento.Movimiento "
+				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
+		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.movimiento.Movimiento "
+				+ "WHERE creadoPor == :creadoPor "
+				+ "   && computadora.getIp().indexOf(:ip) >= 0"), })
 @ObjectType("MOVIMIENTO")
 @Audited
 @AutoComplete(repository = MovimientoRepositorio.class, action = "autoComplete")
 @Bookmarkable
-public class Movimiento  implements Comparable<Movimiento>{
+public class Movimiento implements Comparable<Movimiento> {
+
 
 	// //////////////////////////////////////
 	// Identificacion en la UI. Aparece como item del menu
@@ -101,7 +101,6 @@ public class Movimiento  implements Comparable<Movimiento>{
 	public Computadora getComputadora() {
 		return computadora;
 	}
-	
 
 	public void setComputadora(Computadora computadora) {
 		this.computadora = computadora;
@@ -124,21 +123,37 @@ public class Movimiento  implements Comparable<Movimiento>{
 	public Tecnico getTecnico() {
 		return tecnico;
 	}
-	
+
 	public void setTecnico(final Tecnico tecnico) {
 		this.tecnico = tecnico;
 	}
-//	}
+
+	// }
 
 	@Override
 	public int compareTo(final Movimiento movimiento) {
-		return ObjectContracts.compare(this, movimiento, "tecnico.getApellido(),computadora.getIp()");
+		return ObjectContracts.compare(this, movimiento,
+				"tecnico.getApellido(),computadora.getIp()");
 	}
 
-	 
-	 //////////////////////////////////////
-	 //Injected Services
-	 //////////////////////////////////////
+	/**
+	 * PATRON STATE
+	 */
+	public IEstado estado;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	public IEstado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(IEstado estado) {
+		this.estado = estado;
+	}
+
+
+	// ////////////////////////////////////
+	// Injected Services
+	// ////////////////////////////////////
 
 	@SuppressWarnings("unused")
 	@javax.inject.Inject
