@@ -46,6 +46,7 @@ import dom.tecnico.TecnicoRepositorio;
 @Bookmarkable
 public class Movimiento implements Comparable<Movimiento> {
 
+	
 
 	// //////////////////////////////////////
 	// Identificacion en la UI. Aparece como item del menu
@@ -150,6 +151,10 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.estado = estado;
 	}
 
+	@Hidden
+	public void Request() {
+		this.estado.ManejoDelEstado(this);
+	}
 
 	// ////////////////////////////////////
 	// Injected Services
