@@ -126,6 +126,7 @@ public class ImpresoraRepositorio {
 	@javax.inject.Inject
 	private ImpresoraRepositorio impresoraRepositorio;
 
+	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
 }

@@ -31,13 +31,13 @@ public class MovimientoRepositorio {
 	}
 
 	public String iconName() {
-		return "Movimiento";
+		return "Tecnico";
 	}
 
 	// //////////////////////////////////////
 	// Insertar un Movimiento.
 	// //////////////////////////////////////
-	@Named("Agregar")
+	@Named("Recepcion")
 	@MemberOrder(sequence = "10")
 	@PublishedAction
 	public Movimiento add(final @Named("Computadora") Computadora computadora,
@@ -60,7 +60,6 @@ public class MovimientoRepositorio {
 				.newTransientInstance(Movimiento.class);
 		unMovimiento.setHabilitado(true);
 		unMovimiento.setCreadoPor(creadoPor);
-		unMovimiento.setTecnico(tecnico);
 		unMovimiento.setComputadora(computadora);
 		unMovimiento.setTecnico(tecnico);
 		this.container.persistIfNotAlready(unMovimiento);
@@ -113,7 +112,6 @@ public class MovimientoRepositorio {
 	private DomainObjectContainer container;
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
-	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
 }

@@ -142,7 +142,7 @@ public abstract class Persona {
 	
 	@MemberOrder(sequence = "110")
 	@Named("Modificar Sector")
-	public Persona modify(
+	public Persona mod(
 			final Sector sector) {
 		Sector currentSector = getSector();
 		// check for no-op
@@ -163,7 +163,7 @@ public abstract class Persona {
 	
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector")
-	public List<Sector> autoComplete0Modify(final @MinLength(2) String search) {
+	public List<Sector> autoComplete0Mod(final @MinLength(2) String search) {
 		return sectorRepositorio.autoComplete(search);
 	}
 	

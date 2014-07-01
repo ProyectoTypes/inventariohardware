@@ -184,6 +184,7 @@ public class Impresora {
 	// Injected Services
 	// //////////////////////////////////////
 
+	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
 }
