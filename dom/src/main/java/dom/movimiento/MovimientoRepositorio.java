@@ -37,13 +37,16 @@ public class MovimientoRepositorio {
 	// //////////////////////////////////////
 	// Insertar un Movimiento.
 	// //////////////////////////////////////
+	
 	@Named("Recepcion")
 	@MemberOrder(sequence = "10")
 	@PublishedAction
 	public Movimiento add(final @Named("Computadora") Computadora computadora,
-			final @Named("Tecnico") Tecnico tecnico) {
-		return nuevoMovimiento(computadora, tecnico, this.currentUserName());
+			final @Named("Tecnico") Tecnico tecnico,
+			final @Named("Observaciones") String observaciones) {
+		return nuevoMovimiento(computadora, tecnico, observaciones, this.currentUserName());
 	}
+	
 	public List<Computadora> autoComplete0Add(final @MinLength(2) String search) {
 		List<Computadora> listaComputadora = computadoraRepositorio.autoComplete(search);
 		return listaComputadora;
@@ -54,23 +57,28 @@ public class MovimientoRepositorio {
 	}
 	
 	@Programmatic
-	public Movimiento nuevoMovimiento(final Computadora computadora,
-			final Tecnico tecnico, final String creadoPor) {
-		final Movimiento unMovimiento = this.container
-				.newTransientInstance(Movimiento.class);
+	public Movimiento nuevoMovimiento(final Computadora computadora, final Tecnico tecnico, final String observaciones, 
+				final String creadoPor) {
+		final Movimiento unMovimiento = this.container.newTransientInstance(Movimiento.class);
 		unMovimiento.setHabilitado(true);
 		unMovimiento.setCreadoPor(creadoPor);
 		unMovimiento.setComputadora(computadora);
 		unMovimiento.setTecnico(tecnico);
+		unMovimiento.setObservaciones(observaciones);
 		this.container.persistIfNotAlready(unMovimiento);
 		this.container.flush();
 		return unMovimiento;
 
 	}
 
-	// ////////////////////////////////////
-	// AutoComplete: Servicio utilizado por Sector.
-	// //////////////////////////////////////
+	// ///////////////////////////////////////
+	// AutoComplete
+	// ///////////////////////////////////////
+	
+	/**
+	 * Servicio utilizado por Sector
+	 * 
+	 */
 	@Programmatic
 	public List<Movimiento> autoComplete(final String buscarTecnico) {
 		return container.allMatches(new QueryDefault<Movimiento>(
@@ -110,8 +118,10 @@ public class MovimientoRepositorio {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
+	
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
+	
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
 }
