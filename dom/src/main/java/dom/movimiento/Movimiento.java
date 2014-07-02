@@ -8,6 +8,7 @@ import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
@@ -61,6 +62,23 @@ public class Movimiento implements Comparable<Movimiento> {
 	public String iconName() {
 		return "Movimiento";
 	}
+	
+	// //////////////////////////////////////
+	// Obeservaciones (propiedad)
+	// //////////////////////////////////////
+
+	public String observaciones;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@DescribedAs("Observaciones de la Computadora:")
+	@MemberOrder(sequence = "40")
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(final String observaciones) {
+		this.observaciones = observaciones;
+	}
 
 	// //////////////////////////////////////
 	// Habilitado (propiedad)
@@ -79,7 +97,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	}
 
 	// //////////////////////////////////////
-	// creadoPor
+	// creadoPor (propiedad)
 	// //////////////////////////////////////
 
 	private String creadoPor;
@@ -95,7 +113,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	}
 
 	// //////////////////////////////////////
-	// relacion Computadora/Movimiento.
+	// Relacion Computadora/Movimiento.
 	// //////////////////////////////////////
 	private Computadora computadora;
 
@@ -115,9 +133,9 @@ public class Movimiento implements Comparable<Movimiento> {
 	}
 
 	// //////////////////////////////////////
-	// relacion Tecnico/Movimiento.
+	// Relacion Tecnico/Movimiento.
 	// //////////////////////////////////////
-	// {{ Tecnico (property)
+
 	private Tecnico tecnico;
 
 	@Optional
@@ -131,7 +149,9 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.tecnico = tecnico;
 	}
 
-	// }
+	// //////////////////////////////////////
+	// CompareTo
+	// //////////////////////////////////////
 
 	@Override
 	public int compareTo(final Movimiento movimiento) {
@@ -162,14 +182,12 @@ public class Movimiento implements Comparable<Movimiento> {
 	// Injected Services
 	// ////////////////////////////////////
 
-	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-	@SuppressWarnings("unused")
+
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
-	@SuppressWarnings("unused")
+
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
-
 }
