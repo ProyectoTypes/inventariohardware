@@ -62,11 +62,9 @@ public class TecnicoRepositorio {
 		unTecnico.setEmail(email);
 		unTecnico.setHabilitado(true);
 		unTecnico.setCreadoPor(creadoPor);
-		if(sector!=null)
-		{	
-			unTecnico.setSector(sector);
-			sector.add(unTecnico);
-		}
+		sector.add(unTecnico);
+//		if(sector!=null)
+//			unTecnico.setSector(sector);
 		unTecnico.setCantidadComputadora(cantidadComputadora);
 		container.persistIfNotAlready(unTecnico);
 		container.flush();
