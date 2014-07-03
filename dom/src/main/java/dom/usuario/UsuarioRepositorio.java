@@ -53,7 +53,7 @@ public class UsuarioRepositorio {
 	public Usuario nuevoUsuario(final Sector sector, final String apellido, final String nombre,
 			final String email, final String creadoPor) {
 		final Usuario unUsuario = container.newTransientInstance(Usuario.class);
-		unUsuario.setSector(sector);
+//		unUsuario.setSector(sector);
 		unUsuario.setApellido(apellido.toUpperCase().trim());
 		unUsuario.setNombre(nombre.toUpperCase().trim());
 		unUsuario.setEmail(email);
