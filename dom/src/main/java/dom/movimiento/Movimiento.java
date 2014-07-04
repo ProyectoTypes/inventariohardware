@@ -12,6 +12,7 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.MultiLine;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Where;
@@ -28,9 +29,9 @@ import dom.tecnico.TecnicoRepositorio;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-// @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name =
-// "Sector_nombreSector_must_be_unique", members = {
-// "creadoPor", "nombreSector" }) })
+ @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name =
+ "Movimiento_fecha_must_be_unique", members = {
+ "creadoPor", "fecha","observaciones" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorMovimiento", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.movimiento.Movimiento "
@@ -74,6 +75,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Observaciones de la Computadora:")
 	@MemberOrder(sequence = "40")
+    @MultiLine(numberOfLines=10)
 	public String getObservaciones() {
 		return observaciones;
 	}
@@ -145,11 +147,21 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.computadora = computadora;
 	}
 
-	public void clearComputadora() {
-		// TODO Auto-generated method stub
 
+
+	public void clearComputadora() {
+		Computadora currentComputadora = getComputadora();
+		// check for no-op
+		if (currentComputadora == null) {
+			return;
+		}
+		// dissociate existing
+		setComputadora(null);
+		// additional business logic
+//		onClearComputadora(currentComputadora);
 	}
 
+	
 	// //////////////////////////////////////
 	// Relacion Tecnico/Movimiento.
 	// //////////////////////////////////////
@@ -174,7 +186,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	@Override
 	public int compareTo(final Movimiento movimiento) {
 		return ObjectContracts.compare(this, movimiento,
-				"tecnico.getApellido(),computadora.getIp()");
+				"fecha");
 	}
 
 	/**
@@ -200,12 +212,15 @@ public class Movimiento implements Comparable<Movimiento> {
 	// Injected Services
 	// ////////////////////////////////////
 
+	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 
+	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
 
+	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
 }
