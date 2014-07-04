@@ -13,7 +13,6 @@ import org.joda.time.LocalDate;
 
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
-import dom.tecnico.Tecnico;
 import dom.tecnico.TecnicoRepositorio;
 
 @Named("Movimiento")
@@ -43,30 +42,25 @@ public class MovimientoRepositorio {
 	@MemberOrder(sequence = "10")
 	@PublishedAction
 	public Movimiento add(final @Named("Computadora") Computadora computadora,
-			final @Named("Tecnico") Tecnico tecnico,
-			final @Named("Observaciones") String observaciones) {
-		return nuevoMovimiento(computadora, tecnico, observaciones, this.currentUserName());
+						final @Named("Observaciones") String observaciones) {
+		return nuevoMovimiento(computadora, observaciones, this.currentUserName());
 	}
 	
 	public List<Computadora> autoComplete0Add(final @MinLength(2) String search) {
 		List<Computadora> listaComputadora = computadoraRepositorio.autoComplete(search);
 		return listaComputadora;
 	}
-	public List<Tecnico> autoComplete1Add(final @MinLength(2) String search) {
-		List<Tecnico> listaTecnicos = tecnicoRepositorio.autoComplete(search);
-		return listaTecnicos;
-	}
 	
 	@Programmatic
-	public Movimiento nuevoMovimiento(final Computadora computadora, final Tecnico tecnico, final String observaciones, 
+	public Movimiento nuevoMovimiento(final Computadora computadora, final String observaciones, 
 				final String creadoPor) {
 		final Movimiento unMovimiento = this.container.newTransientInstance(Movimiento.class);
 		unMovimiento.setHabilitado(true);
 		unMovimiento.setCreadoPor(creadoPor);
-		unMovimiento.setComputadora(computadora);
-		unMovimiento.setTecnico(tecnico);
+//		unMovimiento.setComputadora(computadora);
 		unMovimiento.setObservaciones(observaciones);
 		unMovimiento.setFecha(LocalDate.now());
+		computadora.addToMovimiento(unMovimiento);
 		this.container.persistIfNotAlready(unMovimiento);
 		this.container.flush();
 		return unMovimiento;
@@ -121,6 +115,7 @@ public class MovimientoRepositorio {
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 	
+	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
 	

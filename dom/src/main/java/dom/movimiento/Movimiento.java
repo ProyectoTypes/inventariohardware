@@ -29,9 +29,7 @@ import dom.tecnico.TecnicoRepositorio;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
- @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name =
- "Movimiento_fecha_must_be_unique", members = {
- "creadoPor", "fecha","observaciones" }) })
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Movimiento_observaciones_must_be_unique", members = { "observaciones" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorMovimiento", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.movimiento.Movimiento "
@@ -59,7 +57,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	// //////////////////////////////////////
 
 	public String title() {
-		return this.creadoPor;
+		return "Movimiento";
 	}
 
 	public String iconName() {
@@ -75,7 +73,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Observaciones de la Computadora:")
 	@MemberOrder(sequence = "40")
-    @MultiLine(numberOfLines=10)
+	@MultiLine(numberOfLines = 10)
 	public String getObservaciones() {
 		return observaciones;
 	}
@@ -105,6 +103,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	// //////////////////////////////////////
 
 	private LocalDate fecha;
+
 	@Disabled
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@MemberOrder(sequence = "20")
@@ -115,7 +114,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
-	
+
 	// //////////////////////////////////////
 	// creadoPor (propiedad)
 	// //////////////////////////////////////
@@ -156,7 +155,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		// associate new
 		setComputadora(unaComputadora);
 		// additional business logic
-//		onModifyComputadora(currentComputadora, unaComputadora);
+		// onModifyComputadora(currentComputadora, unaComputadora);
 	}
 
 	public void clearComputadora() {
@@ -168,10 +167,9 @@ public class Movimiento implements Comparable<Movimiento> {
 		// dissociate existing
 		setComputadora(null);
 		// additional business logic
-//		onClearComputadora(currentComputadora);
+		// onClearComputadora(currentComputadora);
 	}
 
-	
 	// //////////////////////////////////////
 	// Relacion Tecnico/Movimiento.
 	// //////////////////////////////////////
@@ -192,11 +190,9 @@ public class Movimiento implements Comparable<Movimiento> {
 	// //////////////////////////////////////
 	// CompareTo
 	// //////////////////////////////////////
-
 	@Override
 	public int compareTo(final Movimiento movimiento) {
-		return ObjectContracts.compare(this, movimiento,
-				"fecha");
+		return ObjectContracts.compare(this, movimiento, "observaciones");
 	}
 
 	/**
