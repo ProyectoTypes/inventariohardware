@@ -147,7 +147,17 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.computadora = computadora;
 	}
 
-
+	public void modificarComputadora(final Computadora unaComputadora) {
+		Computadora currentComputadora = getComputadora();
+		// check for no-op
+		if (unaComputadora == null || unaComputadora.equals(currentComputadora)) {
+			return;
+		}
+		// associate new
+		setComputadora(unaComputadora);
+		// additional business logic
+//		onModifyComputadora(currentComputadora, unaComputadora);
+	}
 
 	public void clearComputadora() {
 		Computadora currentComputadora = getComputadora();
