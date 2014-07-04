@@ -52,7 +52,7 @@ public class MovimientoRepositorio {
 		return listaComputadora;
 	}
 	public List<Tecnico> autoComplete1Add(final @MinLength(2) String search) {
-		List<Tecnico> listaTecnicos = tecnicoRepositorio.autoComplete(search);
+		List<Tecnico> listaTecnicos = tecnicoRepositorio.autoComplete(search.toUpperCase().trim());
 		return listaTecnicos;
 	}
 	
