@@ -68,7 +68,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	// Obeservaciones (propiedad)
 	// //////////////////////////////////////
 
-	public String observaciones;
+	private String observaciones;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Observaciones de la Computadora:")
@@ -86,7 +86,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	// Habilitado (propiedad)
 	// //////////////////////////////////////
 
-	public boolean habilitado;
+	private boolean habilitado;
 
 	@Hidden
 	@MemberOrder(sequence = "40")
