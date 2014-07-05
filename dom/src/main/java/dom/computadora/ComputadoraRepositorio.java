@@ -127,7 +127,7 @@ public class ComputadoraRepositorio {
 	}		
 		
 	@Programmatic
-	public List<Computadora> autoComplete(final String ip) {
+	public List<Computadora> autoComplete( @Named("Ip") @MinLength(2) String ip) {
 		return container.allMatches(new QueryDefault<Computadora>(Computadora.class,
 				"autoCompletePorComputadora", "creadoPor", this.currentUserName(),
 				"ip", ip.toUpperCase().trim()));
@@ -148,6 +148,7 @@ public class ComputadoraRepositorio {
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 	
+	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
 	
