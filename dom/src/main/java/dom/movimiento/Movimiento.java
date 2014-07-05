@@ -1,5 +1,6 @@
 package dom.movimiento;
 
+import javax.inject.Named;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
@@ -49,6 +50,7 @@ import dom.tecnico.TecnicoRepositorio;
 public class Movimiento implements Comparable<Movimiento> {
 
 	public Movimiento() {
+		//Agregado nuevo estado (1)
 		this.estado = new Recepcionado();
 	}
 
@@ -145,7 +147,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	public void setComputadora(Computadora computadora) {
 		this.computadora = computadora;
 	}
-
+	@Named("Cambiar Computadora")
 	public void modificarComputadora(final Computadora unaComputadora) {
 		Computadora currentComputadora = getComputadora();
 		// check for no-op
@@ -185,6 +187,28 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	public void setTecnico(final Tecnico tecnico) {
 		this.tecnico = tecnico;
+	}
+	@Named("Reparador")
+	public void modificarTecnico(final Tecnico unTecnico) {
+		Tecnico currentTecnico = getTecnico();
+		// check for no-op
+		if (unTecnico == null || unTecnico.equals(currentTecnico)) {
+			return;
+		}
+		// associate new
+		setTecnico(unTecnico);
+		//Logica de Negocio: Agregar un nuevo estado (2).
+		
+	}
+
+	public void clearTecnico() {
+		Tecnico currentTecnico = getTecnico();
+		// check for no-op
+		if (currentTecnico == null) {
+			return;
+		}
+		// dissociate existing
+		setTecnico(null);
 	}
 
 	// //////////////////////////////////////
