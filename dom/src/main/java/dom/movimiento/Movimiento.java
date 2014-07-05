@@ -1,5 +1,7 @@
 package dom.movimiento;
 
+import java.util.List;
+
 import javax.inject.Named;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
@@ -210,7 +212,9 @@ public class Movimiento implements Comparable<Movimiento> {
 		// dissociate existing
 		setTecnico(null);
 	}
-
+	public List<Tecnico> choices0ModificarTecnico() {
+		return tecnicoRepositorio.listar();
+	}
 	// //////////////////////////////////////
 	// CompareTo
 	// //////////////////////////////////////
