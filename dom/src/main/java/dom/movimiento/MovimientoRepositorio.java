@@ -47,13 +47,14 @@ public class MovimientoRepositorio {
 	}
 	
 	public List<Computadora> autoComplete0Add(final @MinLength(2) String search) {
-		List<Computadora> listaComputadora = computadoraRepositorio.autoComplete(search);
+		List<Computadora> listaComputadora = computadoraRepositorio.autoComplete(search.toUpperCase().trim());
 		return listaComputadora;
 	}
 	
 	@Programmatic
 	public Movimiento nuevoMovimiento(final Computadora computadora, final String observaciones, 
 				final String creadoPor) {
+		
 		final Movimiento unMovimiento = this.container.newTransientInstance(Movimiento.class);
 		unMovimiento.setHabilitado(true);
 		unMovimiento.setCreadoPor(creadoPor);
