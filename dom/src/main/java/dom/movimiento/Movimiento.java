@@ -174,6 +174,9 @@ public class Movimiento implements Comparable<Movimiento> {
 		// onClearComputadora(currentComputadora);
 	}
 
+	public List<Computadora> autoComplete0ModificarComputadora(final String search) {
+		return this.computadoraRepositorio.autoComplete(search);
+	}
 	// //////////////////////////////////////
 	// Relacion Tecnico/Movimiento.
 	// //////////////////////////////////////
