@@ -278,6 +278,7 @@ public class Computadora {
 	public void setMovimientos(SortedSet<Movimiento> movimientos) {
 		this.movimientos = movimientos;
 	}
+	@Named("Agregar Movimiento")
 	public void addToMovimiento(final Movimiento unMovimiento) {
 		// check for no-op
 		if (unMovimiento == null
@@ -290,7 +291,7 @@ public class Computadora {
 		unMovimiento.setComputadora(this);
 		getMovimientos().add(unMovimiento);
 	}
-
+	@Named("Eliminar de Recepcion")
 	public void removeFromMovimiento(
 			final Movimiento unMovimiento) {
 		// check for no-op
