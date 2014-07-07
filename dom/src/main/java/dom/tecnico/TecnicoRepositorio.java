@@ -44,18 +44,15 @@ public class TecnicoRepositorio {
 	public Tecnico addTecnico(final @Optional Sector sector,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombre,
-			final @Optional @RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") @Named("E-mail") String email,
-			final @Named("N° Computadoras") BigDecimal cantidadComputadora
-			) {
+			final @Optional @RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") @Named("E-mail") String email			) {
 		
-		return nuevoTecnico(apellido, nombre, email,sector, this.currentUserName(),cantidadComputadora);
+		return nuevoTecnico(apellido, nombre, email,sector, this.currentUserName());
 	}
 	
 	@Programmatic
 	public Tecnico nuevoTecnico(final String apellido, final String nombre,
 			final String email,final Sector sector,
-			final String creadoPor,
-			final BigDecimal cantidadComputadora) {
+			final String creadoPor) {
 		final Tecnico unTecnico = container.newTransientInstance(Tecnico.class);
 		unTecnico.setApellido(apellido.toUpperCase().trim());
 		unTecnico.setNombre(nombre.toUpperCase().trim());
@@ -65,7 +62,7 @@ public class TecnicoRepositorio {
 		sector.add(unTecnico);
 //		if(sector!=null)
 //			unTecnico.setSector(sector);
-		unTecnico.setCantidadComputadora(cantidadComputadora);
+		unTecnico.setCantidadComputadora(new BigDecimal(0));
 		container.persistIfNotAlready(unTecnico);
 		container.flush();
 		return unTecnico;
