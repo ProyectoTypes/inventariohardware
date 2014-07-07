@@ -5,15 +5,32 @@ import org.apache.isis.applib.DomainObjectContainer;
 import dom.movimiento.Movimiento;
 
 public class Reparando implements IEstado{
-	
-	@Override
-	public String ManejoDelEstado(Movimiento movimiento) {
-		// TODO Auto-generated method stub
-//		movimiento.estado = new Recepcionado();
-		this.container.informUser("ESTADO B -> A");
-		this.container.warnUser("ESTADO B -> A");
-		return "ESTADO B -> A";
+	Movimiento movimiento;
+	public Reparando(Movimiento movimiento)
+	{
+		this.movimiento=movimiento;
 	}
+
+	@Override
+	public void equipoRecibido() {
+		this.container.warnUser("Reparando.java - recepcionando(): El equipo ya ha sido recepcionado");
+		
+	}
+	@Override
+	public void equipoReparado() {
+		this.movimiento.setEstado(this.movimiento.getCancelado());
+		
+	}
+	@Override
+	public void equipoFinalizado() {
+		this.container.warnUser("Recepcionado.java - finalizado(): El equipo NO ha sido Recepcionado/Reparado");
+		
+	}
+	
 	@javax.inject.Inject
 	private DomainObjectContainer container;
+	
+	public String toString() {
+		return "EQUIPO EN REPARACION";
+	}
 }
