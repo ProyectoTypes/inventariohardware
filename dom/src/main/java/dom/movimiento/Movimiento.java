@@ -204,6 +204,14 @@ public class Movimiento implements Comparable<Movimiento> {
 		// associate new
 		setTecnico(unTecnico);
 		
+		// Logica de Negocio: Agregar un nuevo estado (2).
+		this.container.warnUser("Estado: " + this.getEstado().toString());
+		this.estado.equipoRecibido();
+		
+		this.container.warnUser("Estado2: " + this.getEstado().toString()
+				+ "clase: " + this.getEstado().getClass());
+		
+		this.setEstadoActual(this.estado.toString());
 		return this;
 	}
 
