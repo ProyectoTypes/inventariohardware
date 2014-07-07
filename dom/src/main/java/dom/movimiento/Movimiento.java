@@ -3,7 +3,6 @@ package dom.movimiento;
 import java.util.List;
 
 import javax.inject.Named;
-import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
@@ -18,6 +17,7 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MultiLine;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Optional;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
 import org.joda.time.LocalDate;
@@ -25,7 +25,6 @@ import org.joda.time.LocalDate;
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 import dom.movimiento.estadoComputadora.IEstado;
-import dom.movimiento.estadoComputadora.Recepcionado;
 import dom.tecnico.Tecnico;
 import dom.tecnico.TecnicoRepositorio;
 
@@ -50,11 +49,6 @@ import dom.tecnico.TecnicoRepositorio;
 @AutoComplete(repository = MovimientoRepositorio.class, action = "autoComplete")
 @Bookmarkable
 public class Movimiento implements Comparable<Movimiento> {
-
-	public Movimiento() {
-		//Agregado nuevo estado (1)
-		this.estado = new Recepcionado();
-	}
 
 	// //////////////////////////////////////
 	// Identificacion en la UI. Aparece como item del menu
@@ -149,6 +143,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	public void setComputadora(Computadora computadora) {
 		this.computadora = computadora;
 	}
+
 	@Named("Cambiar Computadora")
 	public void modificarComputadora(final Computadora unaComputadora) {
 		Computadora currentComputadora = getComputadora();
@@ -174,9 +169,11 @@ public class Movimiento implements Comparable<Movimiento> {
 		// onClearComputadora(currentComputadora);
 	}
 
-	public List<Computadora> autoComplete0ModificarComputadora(final String search) {
+	public List<Computadora> autoComplete0ModificarComputadora(
+			final String search) {
 		return this.computadoraRepositorio.autoComplete(search);
 	}
+
 	// //////////////////////////////////////
 	// Relacion Tecnico/Movimiento.
 	// //////////////////////////////////////
@@ -185,7 +182,7 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	@Optional
 	@MemberOrder(sequence = "1")
-	@Column(allowsNull = "True")
+	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Tecnico getTecnico() {
 		return tecnico;
 	}
@@ -193,17 +190,57 @@ public class Movimiento implements Comparable<Movimiento> {
 	public void setTecnico(final Tecnico tecnico) {
 		this.tecnico = tecnico;
 	}
+
 	@Named("Reparador")
-	public void modificarTecnico(final Tecnico unTecnico) {
-		Tecnico currentTecnico = getTecnico();
+	public Movimiento modificarTecnico(final Tecnico unTecnico) {
+		Tecnico currentTecnico = this.getTecnico();
 		// check for no-op
 		if (unTecnico == null || unTecnico.equals(currentTecnico)) {
-			return;
+			return this;
 		}
 		// associate new
 		setTecnico(unTecnico);
-		//Logica de Negocio: Agregar un nuevo estado (2).
-		
+
+		return this;
+	}
+
+	private String estadoActual;
+
+	@MemberOrder(sequence = "300")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public String getEstadoActual() {
+		return this.estadoActual;
+	}
+
+	public void setEstadoActual(String mostrarEstado) {
+		this.estadoActual = mostrarEstado;
+	}
+
+	/**
+	 * PATRON STATE
+	 */
+
+	// Constructor
+	public Movimiento() {
+
+	}
+
+	// FIN: Constructor
+	
+	// Atributo estado.
+	private IEstado estado;
+
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public IEstado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(IEstado estado) {
+		this.estado = estado;
+	}
+
+	public String toString() {
+		return "Estado Actual de Movimiento: " + this.estado.toString();
 	}
 
 	public void clearTecnico() {
@@ -215,34 +252,18 @@ public class Movimiento implements Comparable<Movimiento> {
 		// dissociate existing
 		setTecnico(null);
 	}
+
 	public List<Tecnico> choices0ModificarTecnico() {
 		return tecnicoRepositorio.listar();
 	}
+
 	// //////////////////////////////////////
 	// CompareTo
 	// //////////////////////////////////////
 	@Override
 	public int compareTo(final Movimiento movimiento) {
-		return ObjectContracts.compare(this, movimiento, "fecha,creadoPor,observaciones");
-	}
-
-	/**
-	 * PATRON STATE
-	 */
-	public IEstado estado;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	public IEstado getEstado() {
-		return estado;
-	}
-
-	public void setEstado(IEstado estado) {
-		this.estado = estado;
-	}
-
-	@Hidden
-	public void Request() {
-		this.estado.ManejoDelEstado(this);
+		return ObjectContracts.compare(this, movimiento,
+				"fecha,creadoPor,observaciones");
 	}
 
 	// ////////////////////////////////////
@@ -260,4 +281,5 @@ public class Movimiento implements Comparable<Movimiento> {
 	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
+
 }
