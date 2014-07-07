@@ -24,7 +24,10 @@ import org.joda.time.LocalDate;
 
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
+import dom.movimiento.estadoComputadora.Cancelado;
 import dom.movimiento.estadoComputadora.IEstado;
+import dom.movimiento.estadoComputadora.Recepcionado;
+import dom.movimiento.estadoComputadora.Reparando;
 import dom.tecnico.Tecnico;
 import dom.tecnico.TecnicoRepositorio;
 
@@ -219,14 +222,57 @@ public class Movimiento implements Comparable<Movimiento> {
 	/**
 	 * PATRON STATE
 	 */
+	// Atributos del Contexto
+	private IEstado recepcionado;
 
+	@Hidden
+	@MemberOrder(sequence = "200")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public IEstado getRecepcionado() {
+		return this.recepcionado;
+	}
+
+	@Programmatic
+	public void setRecepcionado(IEstado recepcionado) {
+		this.recepcionado = recepcionado;
+	}
+
+	private IEstado reparando;
+
+	@Hidden
+	@MemberOrder(sequence = "200")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public IEstado getReparando() {
+		return reparando;
+	}
+
+	@Programmatic
+	public void setReparando(IEstado reparando) {
+		this.reparando = reparando;
+	}
+
+	private IEstado cancelado;
+
+	@Hidden
+	@MemberOrder(sequence = "200")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public IEstado getCancelado() {
+		return this.cancelado;
+	}
+
+	@Programmatic
+	public void setCancelado(IEstado cancelado) {
+		this.cancelado = cancelado;
+	}
+
+	// FIN: Atributos del Contexto
 	// Constructor
 	public Movimiento() {
 
 	}
 
 	// FIN: Constructor
-	
+
 	// Atributo estado.
 	private IEstado estado;
 
