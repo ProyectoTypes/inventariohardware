@@ -15,7 +15,9 @@ public class Recepcionado implements IEstado {
 	@Override
 	public void equipoRecibido() {
 		// TODO Auto-generated method stub
+		this.movimiento.getTecnico().sumaComputadora();
 		this.movimiento.setEstado(movimiento.getReparando());
+		
 	}
 	
 	@Override
@@ -32,7 +34,7 @@ public class Recepcionado implements IEstado {
 	private DomainObjectContainer container;
 	
 	public String toString() {
-		return "RECIBIENDO EQUIPO";
+		return "EQUIPO RECIBIDO";
 	}
 
 }
