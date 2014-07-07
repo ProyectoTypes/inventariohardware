@@ -268,7 +268,12 @@ public class Movimiento implements Comparable<Movimiento> {
 	// FIN: Atributos del Contexto
 	// Constructor
 	public Movimiento() {
-
+		// this.container.warnUser("Constructor: ");
+		this.recepcionado = new Recepcionado(this);
+		this.reparando = new Reparando(this);
+		this.cancelado = new Cancelado(this);
+		this.estado = recepcionado;
+		this.estadoActual = this.estado.toString();
 	}
 
 	// FIN: Constructor
