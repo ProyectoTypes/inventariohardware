@@ -203,7 +203,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		}
 		// associate new
 		setTecnico(unTecnico);
-
+		
 		return this;
 	}
 
@@ -277,7 +277,21 @@ public class Movimiento implements Comparable<Movimiento> {
 	}
 
 	// FIN: Constructor
+	// Operaciones de la Interface.
+	@Programmatic
+	public void equipoRecibido() {
+		this.estado.equipoRecibido();
+	}
+	@Programmatic
+	public void equipoReparado() {
+		this.estado.equipoReparado();
+	}
+	@Programmatic
+	public void equipoFinalizado() {
+		this.estado.equipoFinalizado();
+	}
 
+	// FIN: Operaciones de la Interface.
 	// Atributo estado.
 	private IEstado estado;
 
