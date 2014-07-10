@@ -345,16 +345,12 @@ public class Movimiento implements Comparable<Movimiento> {
 	// Injected Services
 	// ////////////////////////////////////
 
-	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 
-	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
 
-	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
-
 }
