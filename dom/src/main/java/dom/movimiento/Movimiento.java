@@ -217,6 +217,7 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	private String estadoActual;
 
+	@Disabled
 	@MemberOrder(sequence = "300")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public String getEstadoActual() {
