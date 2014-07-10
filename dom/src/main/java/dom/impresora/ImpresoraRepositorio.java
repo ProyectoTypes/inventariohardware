@@ -10,8 +10,6 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 
-import dom.usuario.UsuarioRepositorio;
-
 @Named("IMPRESORA")
 public class ImpresoraRepositorio {
 
@@ -125,7 +123,4 @@ public class ImpresoraRepositorio {
 
 	@javax.inject.Inject
 	private ImpresoraRepositorio impresoraRepositorio;
-
-	@javax.inject.Inject
-	private UsuarioRepositorio usuarioRepositorio;
 }

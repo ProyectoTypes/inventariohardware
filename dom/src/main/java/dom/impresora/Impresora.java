@@ -20,7 +20,6 @@ import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 
 import dom.computadora.Computadora;
-import dom.usuario.UsuarioRepositorio;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
@@ -179,11 +178,4 @@ public class Impresora {
 	public void setHabilitado(final boolean habilitado) {
 		this.habilitado = habilitado;
 	}
-
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
-	@javax.inject.Inject
-	private UsuarioRepositorio usuarioRepositorio;
 }
