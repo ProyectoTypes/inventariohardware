@@ -303,6 +303,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	// Atributo estado.
 	private IEstado estado;
 
+	@Hidden
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public IEstado getEstado() {
 		return estado;
