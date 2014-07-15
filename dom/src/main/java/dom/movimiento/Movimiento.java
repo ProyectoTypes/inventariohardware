@@ -116,7 +116,19 @@ public class Movimiento implements Comparable<Movimiento> {
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
-	
+	private LocalDateTime time_system;
+
+	@Disabled
+	@Hidden
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@MemberOrder(sequence = "20")
+	public LocalDateTime getTime_system() {
+		return time_system;
+	}
+
+	public void setTime_system(LocalDateTime time_system) {
+		this.time_system = time_system;
+	}
 	// //////////////////////////////////////
 	// creadoPor (propiedad)
 	// //////////////////////////////////////
@@ -347,7 +359,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	@Override
 	public int compareTo(final Movimiento movimiento) {
 		return ObjectContracts.compare(this, movimiento,
-				"fecha");
+				"time_system");
 	}
 
 	// ////////////////////////////////////
