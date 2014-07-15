@@ -264,6 +264,30 @@ public class Computadora implements Comparable<Computadora>{
 		// additional business logic
 	}
 
+	/*****************************************************
+	 * Relacion Computadora/Tecnico
+	 */
+
+	// {{ Tecnico (property)
+	private Tecnico tecnico;
+
+	@Named("Tecnico Asignado")
+	@MemberOrder(sequence = "1")
+	@Column(allowsNull = "True")
+	public Tecnico getTecnico() {
+		return tecnico;
+	}
+
+	public void setTecnico(final Tecnico tecnico) {
+		this.tecnico = tecnico;
+	}
+
+	// }}
+
+	/**************************************************************
+	 * Relacion Computadora(Parent)/Movimiento(Child).
+	 */
+
 	@Persistent(mappedBy = "computadora", dependentElement = "False")
 	@Join
 	private SortedSet<Movimiento> movimientos = new TreeSet<Movimiento>();
