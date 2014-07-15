@@ -1,12 +1,12 @@
 package dom.computadora;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
@@ -16,15 +16,14 @@ import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
-import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
-import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Where;
+import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.impresora.Impresora;
 import dom.movimiento.Movimiento;
-import dom.persona.Persona;
+import dom.tecnico.Tecnico;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 
@@ -52,7 +51,7 @@ import dom.usuario.UsuarioRepositorio;
 @Audited
 @AutoComplete(repository = ComputadoraRepositorio.class, action = "autoComplete")
 @Bookmarkable
-public class Computadora {
+public class Computadora implements Comparable<Computadora>{
 
 	// //////////////////////////////////////
 	// Identificacion en la UI
@@ -63,7 +62,7 @@ public class Computadora {
 	}
 
 	public String iconName() {
-		return "COMPUTADORA";
+		return "Computadora";
 	}
 
 	// //////////////////////////////////////
@@ -188,6 +187,7 @@ public class Computadora {
 	// //////////////////////////////////////
 
 	private Impresora impresora;
+
 	@MemberOrder(sequence = "50")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Impresora getImpresora() {
@@ -196,7 +196,7 @@ public class Computadora {
 
 	public void setImpresora(Impresora impresora) {
 		this.impresora = impresora;
-	}	
+	}
 
 	// //////////////////////////////////////
 	// creadoPor
@@ -214,59 +214,7 @@ public class Computadora {
 		this.creadoPor = creadoPor;
 	}
 
-	// //////////////////////////////////////
-	// Relacion Computadora/Persona
-	// //////////////////////////////////////
-
-	@Persistent(mappedBy = "computadora", dependentElement = "False")
-	@Join
-	private SortedSet<Persona> personas = new TreeSet<Persona>();
-
-	@MemberOrder(sequence = "100")
-	public SortedSet<Persona> getPersona() {
-		return personas;
-	}
-
-	public void setPersona(final SortedSet<Persona> personas) {
-		this.personas = personas;
-	}
-
-	// }}
-	@Named("Buscar Persona")
-	@PublishedAction
-	// D:
-	@MemberOrder(name = "personas", sequence = "110")
-	public Computadora add(final Persona persona) {
-		// check for no-op
-		if (persona == null || getPersona().contains(persona)) {
-			return this;
-		}
-		// dissociate arg from its current parent (if any).
-		persona.clear();
-		// associate arg
-		persona.setComputadora(this);
-		this.getPersona().add(persona);
-		return this;
-		// additional business logic
-		// onAddToPersona(persona);
-	}
-
-	@Named("Persona")
-	@DescribedAs("Buscar el Usuario en mayuscula")
-	public List<Persona> autoComplete0Add(final @MinLength(2) String search) {
-		List<Usuario> usuarios = usuarioRepositorio.autoComplete(search);
-		List<Persona> personas = new ArrayList<Persona>();
-		for (Usuario usuario : usuarios) {
-			Persona unaP = usuario;
-			personas.add(unaP);
-		}
-		return personas;
-	}
 	
-
-	// //////////////////////////////////////
-	// Relacion Computadora(Parent)/Movimiento(Child). 
-	// //////////////////////////////////////
 	@Persistent(mappedBy = "computadora", dependentElement = "False")
 	@Join
 	private SortedSet<Movimiento> movimientos = new TreeSet<Movimiento>();
@@ -274,15 +222,15 @@ public class Computadora {
 	public SortedSet<Movimiento> getMovimientos() {
 		return movimientos;
 	}
-	
+
 	public void setMovimientos(SortedSet<Movimiento> movimientos) {
 		this.movimientos = movimientos;
 	}
+
 	@Named("Agregar Movimiento")
 	public void addToMovimiento(final Movimiento unMovimiento) {
 		// check for no-op
-		if (unMovimiento == null
-				|| getMovimientos().contains(unMovimiento)) {
+		if (unMovimiento == null || getMovimientos().contains(unMovimiento)) {
 			return;
 		}
 		// dissociate arg from its current parent (if any).
@@ -291,25 +239,30 @@ public class Computadora {
 		unMovimiento.setComputadora(this);
 		getMovimientos().add(unMovimiento);
 	}
+
 	@Named("Eliminar de Recepcion")
-	public void removeFromMovimiento(
-			final Movimiento unMovimiento) {
+	public void removeFromMovimiento(final Movimiento unMovimiento) {
 		// check for no-op
-		if (unMovimiento == null
-				|| !getMovimientos().contains(unMovimiento)) {
+		if (unMovimiento == null || !getMovimientos().contains(unMovimiento)) {
 			return;
 		}
 		// dissociate arg
 		unMovimiento.setComputadora(null);
 		getMovimientos().remove(unMovimiento);
 	}
-	
 
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
 
-
+	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
+
+	@Override
+	public int compareTo(Computadora computadora) {
+		// TODO Auto-generated method stub
+		return ObjectContracts.compare(this, computadora, "ip");
+	}
+
 }
