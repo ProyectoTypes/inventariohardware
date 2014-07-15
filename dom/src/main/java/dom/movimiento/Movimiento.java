@@ -2,7 +2,6 @@ package dom.movimiento;
 
 import java.util.List;
 
-import javax.inject.Named;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
@@ -15,12 +14,14 @@ import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MultiLine;
+import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
@@ -115,7 +116,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
-
+	
 	// //////////////////////////////////////
 	// creadoPor (propiedad)
 	// //////////////////////////////////////
@@ -194,23 +195,29 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.tecnico = tecnico;
 	}
 
-	@Named("Reparador")
+	/***********************************************************************
+	 * modificarTecnico: Permite asignar un Tecnico para la reparacion de la
+	 * computadora, a su vez se pasa al siguiente estado.
+	 * 
+	 * @param unTecnico
+	 * @return
+	 ***********************************************************************/
+	@Named("Tecnico Asignado")
 	public Movimiento modificarTecnico(final Tecnico unTecnico) {
 		Tecnico currentTecnico = this.getTecnico();
-		// check for no-op
 		if (unTecnico == null || unTecnico.equals(currentTecnico)) {
 			return this;
 		}
-		// associate new
-		setTecnico(unTecnico);
-		
+		this.setTecnico(unTecnico);
 		// Logica de Negocio: Agregar un nuevo estado (2).
+		unTecnico.addToComputadora(this.getComputadora());
+		// this.getComputadora().setTecnico(unTecnico);
 		this.container.warnUser("Estado: " + this.getEstado().toString());
 		this.estado.equipoRecibido();
-		
+
 		this.container.warnUser("Estado2: " + this.getEstado().toString()
 				+ "clase: " + this.getEstado().getClass());
-		
+
 		this.setEstadoActual(this.estado.toString());
 		return this;
 	}
@@ -291,10 +298,12 @@ public class Movimiento implements Comparable<Movimiento> {
 	public void equipoRecibido() {
 		this.estado.equipoRecibido();
 	}
+
 	@Programmatic
 	public void equipoReparado() {
 		this.estado.equipoReparado();
 	}
+
 	@Programmatic
 	public void equipoFinalizado() {
 		this.estado.equipoFinalizado();
@@ -338,7 +347,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	@Override
 	public int compareTo(final Movimiento movimiento) {
 		return ObjectContracts.compare(this, movimiento,
-				"fecha,creadoPor,observaciones");
+				"fecha");
 	}
 
 	// ////////////////////////////////////
