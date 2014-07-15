@@ -10,6 +10,7 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.query.QueryDefault;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
@@ -61,6 +62,8 @@ public class MovimientoRepositorio {
 //		unMovimiento.setComputadora(computadora);
 		unMovimiento.setObservaciones(observaciones);
 		unMovimiento.setFecha(LocalDate.now());
+		unMovimiento.setTime_system(LocalDateTime.now().withMillisOfSecond(2));
+
 		computadora.addToMovimiento(unMovimiento);
 		this.container.persistIfNotAlready(unMovimiento);
 		this.container.flush();
