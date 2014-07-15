@@ -214,6 +214,25 @@ public class Computadora implements Comparable<Computadora>{
 		this.creadoPor = creadoPor;
 	}
 
+	/*****************************************************
+	 * Relacion Computadora/Usuario
+	 */
+
+	// {{ Usuario (property)
+	private Usuario usuario;
+
+	@MemberOrder(sequence = "1")
+	@Column(allowsNull = "true")
+	// @Persistent(mappedBy = "usuario")
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(final Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	// }}
 	
 	@Persistent(mappedBy = "computadora", dependentElement = "False")
 	@Join
