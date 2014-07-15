@@ -14,7 +14,6 @@ import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.impresora.Impresora;
-import dom.persona.Persona;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 
@@ -45,19 +44,19 @@ public class ComputadoraRepositorio {
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
 	public Computadora addComputadora(
-						final @Named("Usuario") Persona personas,
+						final @Named("Usuario") Usuario usuario,
 						final @Named("Direccion Ip") String ip, 
 						final @Named("Mother") String mother, 
 						final @Named("Procesador")String procesador,
 						final @Named("Disco") CategoriaDisco disco,
 						final @Named("Memoria")String memoria,
 						final @Optional @Named("Impresora")Impresora impresora){
-		return nuevaComputadora(personas, ip, mother, procesador, disco, memoria,impresora,this.currentUserName());
+		return nuevaComputadora(usuario, ip, mother, procesador, disco, memoria,impresora,this.currentUserName());
 	}
 		
 	@Programmatic
 	public Computadora nuevaComputadora(
-						final Persona personas,
+						final Usuario usuario,
 						final String ip,
 						final String mother,
 						final String procesador,
@@ -66,7 +65,7 @@ public class ComputadoraRepositorio {
 						final Impresora impresora,
 						final String creadoPor){
 		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);
-		unaComputadora.getPersona().add(personas);
+		unaComputadora.setUsuario(usuario);;
 		unaComputadora.setIp(ip);
 		unaComputadora.setMother(mother);
 		unaComputadora.setProcesador(procesador);
@@ -75,6 +74,7 @@ public class ComputadoraRepositorio {
 		unaComputadora.setImpresora(impresora);
 		unaComputadora.setHabilitado(true);
 		unaComputadora.setCreadoPor(creadoPor);
+		
 		container.persistIfNotAlready(unaComputadora);
 		container.flush();
 		return unaComputadora;
