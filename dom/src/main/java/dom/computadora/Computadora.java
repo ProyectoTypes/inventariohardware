@@ -233,7 +233,37 @@ public class Computadora implements Comparable<Computadora>{
 	}
 
 	// }}
-	
+	// ///////////////////////////////////////////////////
+	// Operaciones de USUARIO: Agregar/Borrar
+	// ///////////////////////////////////////////////////
+	@Named("Modificar Usuario")
+	public void modifyUsuario(final Usuario unUsuario) {
+		Usuario currentUsuario = getUsuario();
+		// check for no-op
+		if (unUsuario == null || unUsuario.equals(currentUsuario)) {
+			return;
+		}
+		// dissociate existing
+		clearUsuario();
+		// associate new
+		unUsuario.setComputadora(this);
+		setUsuario(unUsuario);
+		// additional business logic
+	}
+
+	@Named("Borrar Usuario")
+	public void clearUsuario() {
+		Usuario currentUsuario = getUsuario();
+		// check for no-op
+		if (currentUsuario == null) {
+			return;
+		}
+		// dissociate existing
+		currentUsuario.setComputadora(null);
+		setUsuario(null);
+		// additional business logic
+	}
+
 	@Persistent(mappedBy = "computadora", dependentElement = "False")
 	@Join
 	private SortedSet<Movimiento> movimientos = new TreeSet<Movimiento>();
