@@ -6,7 +6,6 @@ import java.util.TreeSet;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
-import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
@@ -283,6 +282,31 @@ public class Computadora implements Comparable<Computadora>{
 	}
 
 	// }}
+
+	// ///////////////////////////////////////////////////
+	// Operaciones de Tecnico: Agregar/Borrar
+	// ///////////////////////////////////////////////////
+	public void modifyTecnico(final Tecnico unTecnico) {
+		Tecnico currentTecnico = getTecnico();
+		// check for no-op
+		if (unTecnico == null || unTecnico.equals(currentTecnico)) {
+			return;
+		}
+		// delegate to parent to associate
+		unTecnico.addToComputadora(this);
+		// additional business logic
+	}
+
+	public void clearTecnico() {
+		Tecnico currentTecnico = getTecnico();
+		// check for no-op
+		if (currentTecnico == null) {
+			return;
+		}
+		// delegate to parent to dissociate
+		currentTecnico.removeFromComputadora(this);
+		// additional business logic
+	}
 
 	/**************************************************************
 	 * Relacion Computadora(Parent)/Movimiento(Child).
