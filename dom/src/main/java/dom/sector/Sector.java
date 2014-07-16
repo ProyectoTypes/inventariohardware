@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
 import javax.jdo.annotations.Persistent;
@@ -167,36 +168,51 @@ public class Sector implements Comparable<Sector> {
 	}
 
 	/**
-	 * Agregando relacion entre sector y persona (1:n @Join). PARENT
+	 * Agregando relacion entre sector y persona (1:n @Join). PARENT 
 	 */
-	// {{ Persona (Collection)
-	@Persistent(mappedBy = "sector", dependentElement = "False")
+	// {{ Personas (Collection)
 	@Join
+	@Element(dependent = "False")
 	private SortedSet<Persona> personas = new TreeSet<Persona>();
 
-	@MemberOrder(sequence = "100")
-	public SortedSet<Persona> getPersona() {
+	@MemberOrder(sequence = "1")
+	public SortedSet<Persona> getPersonas() {
 		return personas;
 	}
 
-	public void setPersona(final SortedSet<Persona> personas) {
+	public void setPersonas(final SortedSet<Persona> personas) {
 		this.personas = personas;
 	}
+	// }}
+	
+	// {{ Persona (Collection)
+//	@Persistent(mappedBy = "sector", dependentElement = "False")
+//	@Join
+//	private SortedSet<Persona> personas = new TreeSet<Persona>();
+//
+//	@MemberOrder(sequence = "100")
+//	public SortedSet<Persona> getPersona() {
+//		return personas;
+//	}
+//
+//	public void setPersona(final SortedSet<Persona> personas) {
+//		this.personas = personas;
+//	}
 
 	// }}
 	@Named("Buscar Persona")
-	@PublishedAction// D:
+//	@PublishedAction// D:
 	@MemberOrder(name = "personas", sequence = "110")
-	public Sector add(final Persona persona) {
+	public Sector agregarPersona(final Persona persona) {
 		// check for no-op
-		if (persona == null || getPersona().contains(persona)) {
+		if (persona == null || getPersonas().contains(persona)) {
 			return this;
 		}
 		// dissociate arg from its current parent (if any).
 		persona.clear();
 		// associate arg
 		persona.setSector(this);
-		this.getPersona().add(persona);
+		this.getPersonas().add(persona);
 		return this;
 		// additional business logic
 		// onAddToPersona(persona);
@@ -204,7 +220,7 @@ public class Sector implements Comparable<Sector> {
 
 	@Named("Persona")
 	@DescribedAs("Buscar el Tecnico/Usuario en mayuscula")
-	public List<Persona> autoComplete0Add(final @MinLength(2) String search) {
+	public List<Persona> autoComplete0AgregarPersona(final @MinLength(2) String search) {
 		List<Tecnico> tecnicos = tecnicoRepositorio.autoComplete(search);
 		List<Usuario> usuarios = usuarioRepositorio.autoComplete(search);
 		List<Persona> personas = new ArrayList<Persona>();
@@ -230,12 +246,12 @@ public class Sector implements Comparable<Sector> {
 	@Named("Eliminar Persona")
 	public void remove(final Persona persona) {
 		// check for no-op
-		if (persona == null || !getPersona().contains(persona)) {
+		if (persona == null || !getPersonas().contains(persona)) {
 			return;
 		}
 		// dissociate arg
 		persona.setSector(null);
-		this.getPersona().remove(persona);
+		this.getPersonas().remove(persona);
 		return;
 		// additional business logic
 		// onRemoveFromPersona(persona);
