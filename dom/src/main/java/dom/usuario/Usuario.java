@@ -95,6 +95,32 @@ public class Usuario extends Persona implements Comparable<Persona> {
 		this.computadora = computadora;
 	}
 
+	// //////////////////////////////////////
+	// Operaciones de Computadora: 
+	// //////////////////////////////////////
+	public void modifyComputadora(
+			final Computadora unaComputadora) {
+		Computadora currentComputadora = getComputadora();
+		// check for no-op
+		if (unaComputadora == null
+				|| unaComputadora.equals(currentComputadora)) {
+			return;
+		}
+		// delegate to parent to associate
+		unaComputadora.modifyUsuario(this);
+		// additional business logic
+	}
+
+	public void clearComputadora() {
+		Computadora currentComputadora = getComputadora();
+		// check for no-op
+		if (currentComputadora == null) {
+			return;
+		}
+		// delegate to parent to dissociate
+		currentComputadora.clearUsuario();
+		// additional business logic
+	}
 	
 	// //////////////////////////////////////
 	// CompareTo
