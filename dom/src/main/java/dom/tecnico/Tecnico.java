@@ -202,7 +202,16 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		this.disponible = disponible;
 	}
 
-	
+	@Programmatic
+	public Boolean estaDisponible() {
+		BigDecimal tope = new BigDecimal(5);
+		if (this.cantidadComputadora.compareTo(tope) == -1)
+			return true;
+		else
+			return false;
+
+	}
+
 	// }}
 
 	// //////////////////////////////////////
