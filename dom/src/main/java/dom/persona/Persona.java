@@ -67,7 +67,8 @@ public abstract class Persona {
 
 	@Optional
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	@RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
+	@RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
 	@MemberOrder(sequence = "30")
 	public String getEmail() {
 		return email;
@@ -76,22 +77,23 @@ public abstract class Persona {
 	public void setEmail(final String email) {
 		this.email = email;
 	}
-	
+
 	// //////////////////////////////////////
 	// Habilitado (propiedad)
 	// //////////////////////////////////////
-	
+
 	public boolean habilitado;
 
 	@Hidden
-	@MemberOrder(sequence="40")    
-	public boolean getEstaHabilitado(){
+	@MemberOrder(sequence = "40")
+	public boolean getEstaHabilitado() {
 		return habilitado;
 	}
-	public void setHabilitado(final boolean habilitado){
-	   	this.habilitado = habilitado;
+
+	public void setHabilitado(final boolean habilitado) {
+		this.habilitado = habilitado;
 	}
-	
+
 	// //////////////////////////////////////
 	// creadoPor
 	// //////////////////////////////////////
@@ -107,90 +109,94 @@ public abstract class Persona {
 	public void setCreadoPor(String creadoPor) {
 		this.creadoPor = creadoPor;
 	}
-	
-	// //////////////////////////////////////
-	// Computadora (propiedad)
-	// //////////////////////////////////////
-	
-	private Computadora computadora;
-	@MemberOrder(sequence = "70")
-	@javax.jdo.annotations.Column(allowsNull ="true")
-	public Computadora getComputadora() {
-	  		return computadora;
-	  	}
-	public void setComputadora(Computadora computadora){
-		this.computadora = computadora;
-	}
+
+	/**
+	 * Computadora (propiedad) : Cambiado, ya que
+	 * Tecnico puede tener hasta 5 computadoras, y 
+	 * Usuario solo una.
+	 */
+
+//	private Computadora computadora;
+//
+//	@MemberOrder(sequence = "70")
+//	@javax.jdo.annotations.Column(allowsNull = "true")
+//	public Computadora getComputadora() {
+//		return computadora;
+//	}
+//
+//	public void setComputadora(Computadora computadora) {
+//		this.computadora = computadora;
+//	}
 
 	// //////////////////////////////////////
 	// Sector (propiedad)
 	// //////////////////////////////////////
-	
+
 	private Sector sector;
+
 	@MemberOrder(sequence = "100")
-	@javax.jdo.annotations.Column(allowsNull ="true")
+	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Sector getSector() {
-	  		return sector;
-	  	}
-	public void setSector(Sector sector){
+		return sector;
+	}
+
+	public void setSector(Sector sector) {
 		this.sector = sector;
 	}
-	
+
 	// //////////////////////////////////////
 	// Modificar Sector
 	// //////////////////////////////////////
-	
+
 	@MemberOrder(sequence = "110")
 	@Named("Modificar Sector")
-	public Persona mod(
-			final Sector sector) {
+	public Persona mod(final Sector sector) {
 		Sector currentSector = getSector();
 		// check for no-op
-		if (sector == null
-				|| sector.equals(currentSector)) {
+		if (sector == null || sector.equals(currentSector)) {
 			return this;
 		}
 		// delegate to parent to associate
-		sector.add(this);
+		sector.agregarPersona(this);
 		// additional business logic
-		//onModifySector(currentSector,	sector);
+		// onModifySector(currentSector, sector);
 		return this;
 	}
-	
+
 	// //////////////////////////////////////
 	// Buscar Sector
 	// //////////////////////////////////////
-	
+
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector")
 	public List<Sector> autoComplete0Mod(final @MinLength(2) String search) {
 		return sectorRepositorio.autoComplete(search);
 	}
-	
+
 	// //////////////////////////////////////
 	// Eliminar Sector
 	// //////////////////////////////////////
-	
+
 	@MemberOrder(sequence = "120")
 	@Named("Eliminar Sector")
-	public Persona clear() {
+	public void clear() {
 		Sector currentSector = this.getSector();
 		// check for no-op
 		if (currentSector == null) {
-			return this;
+			return ;
 		}
 		// delegate to parent to dissociate
 		currentSector.remove(this);
-		
-		return this;
+
+		return ;
 		// additional business logic
-		//onClearSector(currentSector);
+		// onClearSector(currentSector);
 	}
-	
-    // //////////////////////////////////////
-    // Injected Services
-    // //////////////////////////////////////
-	
+
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+
 	@javax.inject.Inject
 	private SectorRepositorio sectorRepositorio;
 }
