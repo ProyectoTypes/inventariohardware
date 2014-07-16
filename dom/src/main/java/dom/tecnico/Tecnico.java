@@ -2,10 +2,15 @@ package dom.tecnico;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
+import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Join;
 import javax.jdo.annotations.VersionStrategy;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
@@ -15,17 +20,18 @@ import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import dom.computadora.Computadora;
 import dom.movimiento.Movimiento;
 import dom.persona.Persona;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Tecnico_apellido_must_be_unique", members = {
-		"creadoPor", "apellido" }) })
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Tecnico_apellido_must_be_unique", members = { "id" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletarPorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnico.Tecnico "
@@ -82,32 +88,6 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return null;
 	}
 
-	// Campo que diferencia a tecnico de usuario. El valor por el momento se
-	// hara manualmente
-	// pero lo ideal es que cambie automaticamente segun el patron State.
-	private BigDecimal cantidadComputadora;
-@Max(5)
-	@javax.jdo.annotations.Column(allowsNull = "true")
-	public BigDecimal getCantidadComputadora() {
-		return cantidadComputadora;
-	}
-
-	public void setCantidadComputadora(BigDecimal cantidadComputadora) {
-		this.cantidadComputadora = cantidadComputadora;
-	}
-	
-
-	public void sumaComputadora() {
-		BigDecimal valor = new BigDecimal(1);
-		this.setCantidadComputadora(this.cantidadComputadora.add(valor));
-	}
-
-	public void restaComputadora() {
-		BigDecimal valor = new BigDecimal(-1);
-		this.setCantidadComputadora(this.cantidadComputadora.add(valor));
-
-	}
-
 	// {{ Movimiento (property)
 	private Movimiento movimiento;
 
@@ -122,6 +102,29 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	}
 
 	// }}
+
+	/**
+	 * Relacion entre Tecnico/Computadora. Un Tecnico podrá tener hasta 5
+	 * Computadoras.
+	 */
+	// {{ Computadoras (Collection)
+	@Join
+	@Element(dependent = "False")
+	private SortedSet<Computadora> computadoras = new TreeSet<Computadora>();
+
+	@MemberOrder(sequence = "1")
+	@Size(min = 0, max = 5)
+	// Chequear si funciona el @Size .
+	public SortedSet<Computadora> getComputadoras() {
+		return computadoras;
+	}
+
+	public void setComputadoras(final SortedSet<Computadora> computadoras) {
+		this.computadoras = computadoras;
+	}
+
+	// }}
+
 
 	// //////////////////////////////////////
 	// CompareTo
@@ -141,4 +144,5 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
+
 }
