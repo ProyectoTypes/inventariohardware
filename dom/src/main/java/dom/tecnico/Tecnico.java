@@ -189,7 +189,22 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 
 	}
 
+	// {{ Disponible (property)
+	private Boolean disponible;
+
+	@MemberOrder(sequence = "1")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public Boolean getDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(final Boolean disponible) {
+		this.disponible = disponible;
+	}
+
 	
+	// }}
+
 	// //////////////////////////////////////
 	// CompareTo
 	// //////////////////////////////////////
