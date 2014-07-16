@@ -125,7 +125,71 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 
 	// }}
 
+	// ///////////////////////////////////////////////////
+	// Operaciones de COMPUTADORA: Agregar/Borrar
+	// ///////////////////////////////////////////////////
+	@Named("Agregar Computadora")
+	public void addToComputadora(final Computadora unaComputadora) {
+		// check for no-op
+		if (unaComputadora == null
+				|| getComputadoras().contains(unaComputadora)) {
+			return;
+		}
+		// dissociate arg from its current parent (if any).
+		unaComputadora.clearTecnico();
+		// associate arg
+		unaComputadora.setTecnico(this);
+		this.getComputadoras().add(unaComputadora);
+	}
 
+	@Named("Eliminar Computadora")
+	public void removeFromComputadora(final Computadora unaComputadora) {
+		// check for no-op
+		if (unaComputadora == null
+				|| !getComputadoras().contains(unaComputadora)) {
+			return;
+		}
+		// dissociate arg
+		unaComputadora.setTecnico(null);
+		getComputadoras().remove(unaComputadora);
+	}
+
+	// ///////////////////////////////////////////////////
+	// Campo que diferencia a tecnico de usuario. El valor
+	// por el momento se hara manualmente pero lo ideal es
+	// que cambie automaticamente segun el patron State.
+	// ///////////////////////////////////////////////////
+
+	private BigDecimal cantidadComputadora;
+
+	@Max(5)
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public BigDecimal getCantidadComputadora() {
+		return cantidadComputadora;
+	}
+
+	public void setCantidadComputadora(BigDecimal cantidadComputadora) {
+		this.cantidadComputadora = cantidadComputadora;
+	}
+
+	/**
+	 * SumaComputadora: Controla que no sean mas de 5 equipos por Tecnico.
+	 * A.comparetTo(B) -> 0 : Si son iguales ; 1: A > B ; -1: B > A
+	 */
+	@Programmatic
+	public void sumaComputadora() {
+		BigDecimal valor = new BigDecimal(1);
+		this.setCantidadComputadora(this.cantidadComputadora.add(valor));
+	}
+
+	@Programmatic
+	public void restaComputadora() {
+		BigDecimal valor = new BigDecimal(-1);
+		this.setCantidadComputadora(this.cantidadComputadora.add(valor));
+
+	}
+
+	
 	// //////////////////////////////////////
 	// CompareTo
 	// //////////////////////////////////////
