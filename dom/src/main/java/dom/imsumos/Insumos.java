@@ -40,6 +40,18 @@ import org.apache.isis.applib.annotation.ObjectType;
 public class Insumos {
 
 	// //////////////////////////////////////
+	// Identificacion en la UI
+	// //////////////////////////////////////
+
+	public String title() {
+		return this.getCodigo();
+	}
+
+	public String iconName() {
+		return "Insumos";
+	}
+
+	// //////////////////////////////////////
 	// codigo (Atributo)
 	// //////////////////////////////////////
 	private String codigo;
