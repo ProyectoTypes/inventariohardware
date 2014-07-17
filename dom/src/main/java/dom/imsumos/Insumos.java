@@ -10,6 +10,7 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.Where;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
@@ -145,6 +146,22 @@ public class Insumos {
 
 	public void setHabilitado(final boolean habilitado) {
 		this.habilitado = habilitado;
+	}
+
+	// //////////////////////////////////////
+	// creadoPor
+	// //////////////////////////////////////
+
+	private String creadoPor;
+
+	@Hidden(where = Where.ALL_TABLES)
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	public String getCreadoPor() {
+		return creadoPor;
+	}
+
+	public void setCreadoPor(String creadoPor) {
+		this.creadoPor = creadoPor;
 	}
 
 }
