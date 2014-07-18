@@ -1,10 +1,13 @@
 package dom.insumos;
 
+import java.util.List;
+
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.query.QueryDefault;
 
 @Named("INSUMOS")
 public class InsumosRepositorio {
@@ -51,6 +54,22 @@ public class InsumosRepositorio {
 		container.persistIfNotAlready(unInsumo);
 		container.flush();
 		return unInsumo;
+	}
+
+	// //////////////////////////////////////
+	// Listar Insumos
+	// //////////////////////////////////////
+
+	@MemberOrder(sequence = "100")
+	public List<Insumos> listar() {
+		final List<Insumos> listaInsumos = this.container
+				.allMatches(new QueryDefault<Insumos>(Insumos.class,
+						"listarInsumoTrue", "creadoPor", this
+								.currentUserName()));
+		if (listaInsumos.isEmpty()) {
+			this.container.warnUser("No hay Insumos cargadas en el sistema.");
+		}
+		return listaInsumos;
 	}
 
 	// //////////////////////////////////////
