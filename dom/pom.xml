@@ -132,7 +132,18 @@
 			<groupId>com.danhaywood.isis.wicket</groupId>
 			<artifactId>danhaywood-isis-wicket-wickedcharts-applib</artifactId>
 		</dependency>
+		<!-- AGREGADO PARA ENVIAR EMAIL -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+			<version>1.1</version>
+		</dependency>
 
+		<dependency>
+			<groupId>velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.5</version>
+		</dependency>
 	</dependencies>
 
 </project>
