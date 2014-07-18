@@ -12,6 +12,8 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Where;
 
+import dom.movimiento.Movimiento;
+
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -162,6 +164,22 @@ public class Insumos {
 
 	public void setCreadoPor(String creadoPor) {
 		this.creadoPor = creadoPor;
+	}
+
+	// //////////////////////////////////////
+	// Relacion Movimiento/Insumos.
+	// //////////////////////////////////////
+
+	private Movimiento movimiento;
+
+	@MemberOrder(sequence = "80")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public Movimiento getMovimiento() {
+		return movimiento;
+	}
+
+	public void setMovimiento(Movimiento movimiento) {
+		this.movimiento = movimiento;
 	}
 
 }
