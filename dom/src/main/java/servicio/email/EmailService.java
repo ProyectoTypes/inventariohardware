@@ -27,6 +27,9 @@ import org.apache.isis.applib.AbstractFactoryAndRepository;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.NotContributed;
+import org.apache.isis.applib.annotation.NotContributed.As;
+import org.apache.isis.applib.annotation.NotInServiceMenu;
 
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
@@ -56,8 +59,12 @@ public class EmailService extends AbstractFactoryAndRepository {
 	 * send() Envio de mensajes, lo ideal seria crear una clase Email.
 	 * Condiciones para enviar un correo: La computadora debera ser creada con
 	 * un usuario, y debera tener asignado un tecnico cuando pase por Soporte
-	 * (Movimiento)
+	 * (Movimiento).
+	 * Se debe chequear que los email tanto de Tecnico como de Usuario no deben ser nulos.
+	 * Se debe cambiar de estado (Terminado).
 	 */
+	@NotContributed(As.ASSOCIATION)
+	@NotInServiceMenu
 	@Named("Enviar Correo")
 	public String send(Computadora unaComputadora) {
 		// Address dir = new Address();
