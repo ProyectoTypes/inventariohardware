@@ -6,10 +6,13 @@ import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
+import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Where;
+import org.joda.time.LocalDate;
+
 import dom.movimiento.Movimiento;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
@@ -162,6 +165,22 @@ public class Insumos {
 	public void setCreadoPor(String creadoPor) {
 		this.creadoPor = creadoPor;
 	}
+	// //////////////////////////////////////
+		// fecha (propiedad)
+		// //////////////////////////////////////
+
+		private LocalDate fecha;
+
+		@Disabled
+		@javax.jdo.annotations.Column(allowsNull = "false")
+		@MemberOrder(sequence = "100")
+		public LocalDate getFecha() {
+			return fecha;
+		}
+
+		public void setFecha(LocalDate fecha) {
+			this.fecha = fecha;
+		}
 
 	// //////////////////////////////////////
 	// Relacion Movimiento/Insumos.
