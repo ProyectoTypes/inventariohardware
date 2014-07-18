@@ -2,7 +2,6 @@ package dom.insumos;
 
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
-
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
@@ -11,7 +10,6 @@ import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Where;
-
 import dom.movimiento.Movimiento;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
@@ -20,20 +18,19 @@ import dom.movimiento.Movimiento;
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Insumos_must_be_unique", members = {
 		"creadoPor", "codigo" }) })
 @javax.jdo.annotations.Queries({
-		@javax.jdo.annotations.Query(name = "autoCompletePorInsumo", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.insumo.Insumo"
+		@javax.jdo.annotations.Query(name = "autoCompletePorInsumos", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.insumos.Insumos "
 				+ "WHERE creadoPor == :creadoPor && "
 				+ "codigo.indexOf(:codigo) >= 0"),
 		@javax.jdo.annotations.Query(name = "eliminarInsumoFalse", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.insumo.Insumo"
+				+ "FROM dom.insumos.Insumos "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && habilitado == false"),
-		@javax.jdo.annotations.Query(name = "eliminarInsumoTrue", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.insumo.Insumo"
-				+ "WHERE creadoPor == :creadoPor "
-				+ "   && habilitado == true"),
+		@javax.jdo.annotations.Query(name = "listarInsumoTrue", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.insumos.Insumos "
+				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorCodigo", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.insumo.Insumo"
+				+ "FROM dom.insumos.Insumos "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && codigo.indexOf(:codigo) >= 0"), })
 @ObjectType("INSUMOS")
