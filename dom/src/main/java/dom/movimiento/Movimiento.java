@@ -1,9 +1,13 @@
 package dom.movimiento;
 
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.inject.Named;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Join;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -24,6 +28,7 @@ import org.joda.time.LocalDate;
 
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
+import dom.insumos.Insumos;
 import dom.movimiento.estadoComputadora.Cancelado;
 import dom.movimiento.estadoComputadora.IEstado;
 import dom.movimiento.estadoComputadora.Recepcionado;
@@ -203,14 +208,14 @@ public class Movimiento implements Comparable<Movimiento> {
 		}
 		// associate new
 		setTecnico(unTecnico);
-		
+
 		// Logica de Negocio: Agregar un nuevo estado (2).
 		this.container.warnUser("Estado: " + this.getEstado().toString());
 		this.estado.equipoRecibido();
-		
+
 		this.container.warnUser("Estado2: " + this.getEstado().toString()
 				+ "clase: " + this.getEstado().getClass());
-		
+
 		this.setEstadoActual(this.estado.toString());
 		return this;
 	}
@@ -291,10 +296,12 @@ public class Movimiento implements Comparable<Movimiento> {
 	public void equipoRecibido() {
 		this.estado.equipoRecibido();
 	}
+
 	@Programmatic
 	public void equipoReparado() {
 		this.estado.equipoReparado();
 	}
+
 	@Programmatic
 	public void equipoFinalizado() {
 		this.estado.equipoFinalizado();
@@ -339,6 +346,22 @@ public class Movimiento implements Comparable<Movimiento> {
 	public int compareTo(final Movimiento movimiento) {
 		return ObjectContracts.compare(this, movimiento,
 				"fecha,creadoPor,observaciones");
+	}
+
+	// //////////////////////////////////////
+	// Relacion Moviemiento(Parent)/Insumos(Child).
+	// //////////////////////////////////////
+
+	@Persistent(mappedBy = "movimiento", dependentElement = "trueOrFalse")
+	@Join
+	private SortedSet<Insumos> insumos = new TreeSet<Insumos>();
+
+	public SortedSet<Insumos> getInsumos() {
+		return insumos;
+	}
+
+	public void setInsumos(final SortedSet<Insumos> insumos) {
+		this.insumos = insumos;
 	}
 
 	// ////////////////////////////////////
