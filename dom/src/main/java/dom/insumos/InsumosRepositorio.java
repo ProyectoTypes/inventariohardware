@@ -8,6 +8,7 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
+import org.joda.time.LocalDate;
 
 @Named("INSUMOS")
 public class InsumosRepositorio {
@@ -17,7 +18,7 @@ public class InsumosRepositorio {
 	// //////////////////////////////////////
 
 	public String title() {
-		return "insumos";
+		return "Insumos";
 	}
 
 	public String iconName() {
@@ -49,6 +50,7 @@ public class InsumosRepositorio {
 		unInsumo.setProducto(producto.toUpperCase().trim());
 		unInsumo.setMarca(marca.toUpperCase().trim());
 		unInsumo.setObservaciones(observaciones.toUpperCase().trim());
+		unInsumo.setFecha(LocalDate.now());
 		unInsumo.setHabilitado(true);
 		unInsumo.setCreadoPor(creadoPor);
 		container.persistIfNotAlready(unInsumo);
