@@ -1,8 +1,12 @@
 package dom.movimiento;
 
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Join;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -25,6 +29,7 @@ import org.joda.time.LocalDateTime;
 
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
+import dom.insumos.Insumos;
 import dom.movimiento.estadoComputadora.Cancelado;
 import dom.movimiento.estadoComputadora.IEstado;
 import dom.movimiento.estadoComputadora.Recepcionado;
@@ -116,6 +121,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
+
 	private LocalDateTime time_system;
 
 	@Disabled
@@ -129,6 +135,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	public void setTime_system(LocalDateTime time_system) {
 		this.time_system = time_system;
 	}
+
 	// //////////////////////////////////////
 	// creadoPor (propiedad)
 	// //////////////////////////////////////
@@ -214,7 +221,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * @param unTecnico
 	 * @return
 	 ***********************************************************************/
-	@Named("Tecnico Asignado")
+	@Named("Asignar Tecnico")
 	public Movimiento modificarTecnico(final Tecnico unTecnico) {
 		Tecnico currentTecnico = this.getTecnico();
 		if (unTecnico == null || unTecnico.equals(currentTecnico)) {
@@ -224,12 +231,15 @@ public class Movimiento implements Comparable<Movimiento> {
 		// Logica de Negocio: Agregar un nuevo estado (2).
 		unTecnico.addToComputadora(this.getComputadora());
 		// this.getComputadora().setTecnico(unTecnico);
-		this.container.warnUser("Estado: " + this.getEstado().toString());
+		// this.container.warnUser("Estado: " + this.getEstado().toString());
 		this.estado.equipoRecibido();
+		//
+		// this.container.warnUser("Estado2: " + this.getEstado().toString()
+		// + "clase: " + this.getEstado().getClass());
 
-		this.container.warnUser("Estado2: " + this.getEstado().toString()
-				+ "clase: " + this.getEstado().getClass());
-
+		// Logica de Negocio: Agregar un nuevo estado (2).
+		this.estado.equipoRecibido();
+		// this.container.warnUser(this.getEstado().toString());
 		this.setEstadoActual(this.estado.toString());
 		return this;
 	}
@@ -358,8 +368,23 @@ public class Movimiento implements Comparable<Movimiento> {
 	// //////////////////////////////////////
 	@Override
 	public int compareTo(final Movimiento movimiento) {
-		return ObjectContracts.compare(this, movimiento,
-				"time_system");
+		return ObjectContracts.compare(this, movimiento, "time_system");
+	}
+
+	// //////////////////////////////////////
+	// Relacion Moviemiento(Parent)/Insumos(Child).
+	// //////////////////////////////////////
+
+	@Persistent(mappedBy = "movimiento", dependentElement = "trueOrFalse")
+	@Join
+	private SortedSet<Insumos> insumos = new TreeSet<Insumos>();
+
+	public SortedSet<Insumos> getInsumos() {
+		return insumos;
+	}
+
+	public void setInsumos(final SortedSet<Insumos> insumos) {
+		this.insumos = insumos;
 	}
 
 	// ////////////////////////////////////
