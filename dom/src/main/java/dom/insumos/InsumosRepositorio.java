@@ -6,6 +6,7 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 
+@Named("INSUMOS")
 public class InsumosRepositorio {
 
 	// //////////////////////////////////////
