@@ -148,5 +148,14 @@ public class EmailService extends AbstractFactoryAndRepository {
 		}
 	}
 
+	@Named("Computadora")
+	@DescribedAs("Buscar el Computadora en mayuscula")
+	public List<Computadora> autoComplete0Send(final @MinLength(2) String search) {
+		return computadoraRepositorio.autoComplete(search);
+
+	}
+
+	@javax.inject.Inject
+	private ComputadoraRepositorio computadoraRepositorio;
 
 }
