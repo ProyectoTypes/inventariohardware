@@ -198,7 +198,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	public void setTecnico(final Tecnico tecnico) {
 		this.tecnico = tecnico;
 	}
-
+	
 	@Named("Reparador")
 	public Movimiento modificarTecnico(final Tecnico unTecnico) {
 		Tecnico currentTecnico = this.getTecnico();
@@ -209,13 +209,9 @@ public class Movimiento implements Comparable<Movimiento> {
 		// associate new
 		setTecnico(unTecnico);
 
-		// Logica de Negocio: Agregar un nuevo estado (2).
-		this.container.warnUser("Estado: " + this.getEstado().toString());
+		// Logica de Negocio: Agregar un nuevo estado (2).		
 		this.estado.equipoRecibido();
-
-		this.container.warnUser("Estado2: " + this.getEstado().toString()
-				+ "clase: " + this.getEstado().getClass());
-
+		this.container.warnUser(this.getEstado().toString());
 		this.setEstadoActual(this.estado.toString());
 		return this;
 	}
