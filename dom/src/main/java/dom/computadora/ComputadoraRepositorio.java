@@ -14,13 +14,13 @@ import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.impresora.Impresora;
+import dom.impresora.ImpresoraRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 
-
 @Named("COMPUTADORA")
 public class ComputadoraRepositorio {
-	
+
 	public ComputadoraRepositorio() {
 
 	}
@@ -36,36 +36,32 @@ public class ComputadoraRepositorio {
 	public String iconName() {
 		return "Computadora";
 	}
-	
+
 	// //////////////////////////////////////
 	// Agregar Computadora
 	// //////////////////////////////////////
-		
+
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
-	public Computadora addComputadora(
-						final @Named("Usuario") Usuario usuario,
-						final @Named("Direccion Ip") String ip, 
-						final @Named("Mother") String mother, 
-						final @Named("Procesador")String procesador,
-						final @Named("Disco") CategoriaDisco disco,
-						final @Named("Memoria")String memoria,
-						final @Optional @Named("Impresora")Impresora impresora){
-		return nuevaComputadora(usuario, ip, mother, procesador, disco, memoria,impresora,this.currentUserName());
+	public Computadora addComputadora(final @Named("Usuario") Usuario usuario,
+			final @Named("Direccion Ip") String ip,
+			final @Named("Mother") String mother,
+			final @Named("Procesador") String procesador,
+			final @Named("Disco") CategoriaDisco disco,
+			final @Named("Memoria") String memoria,
+			final @Optional @Named("Impresora") Impresora impresora) {
+		return nuevaComputadora(usuario, ip, mother, procesador, disco,
+				memoria, impresora, this.currentUserName());
 	}
-		
+
 	@Programmatic
-	public Computadora nuevaComputadora(
-						final Usuario usuario,
-						final String ip,
-						final String mother,
-						final String procesador,
-						final CategoriaDisco disco,
-						final String memoria,
-						final Impresora impresora,
-						final String creadoPor){
-		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);
-		unaComputadora.setUsuario(usuario);;
+	public Computadora nuevaComputadora(final Usuario usuario, final String ip,
+			final String mother, final String procesador,
+			final CategoriaDisco disco, final String memoria,
+			final Impresora impresora, final String creadoPor) {
+		final Computadora unaComputadora = container
+				.newTransientInstance(Computadora.class);
+		unaComputadora.setUsuario(usuario);
 		unaComputadora.setIp(ip);
 		unaComputadora.setMother(mother);
 		unaComputadora.setProcesador(procesador);
@@ -74,24 +70,35 @@ public class ComputadoraRepositorio {
 		unaComputadora.setImpresora(impresora);
 		unaComputadora.setHabilitado(true);
 		unaComputadora.setCreadoPor(creadoPor);
-		
+
 		container.persistIfNotAlready(unaComputadora);
 		container.flush();
 		return unaComputadora;
 	}
-	
-	
+
+	// //////////////////////////////////////
+	// Buscar Impresora
+	// //////////////////////////////////////
+
+	@Named("Impresora")
+	public List<Impresora> autoComplete6AddComputadora(
+			final @MinLength(2) String search) {
+		return impresoraRepositorio.autoComplete(search);
+
+	}
+
 	// //////////////////////////////////////
 	// Buscar Usuario
 	// //////////////////////////////////////
-	
+
 	@Named("Usuario")
-	@DescribedAs("Buscar el Computadora en mayuscula")
-	public List<Usuario> autoComplete0AddComputadora(final @MinLength(2) String search) {
+	@DescribedAs("Buscar el Usuario en mayuscula")
+	public List<Usuario> autoComplete0AddComputadora(
+			final @MinLength(2) String search) {
 		return usuarioRepositorio.autoComplete(search);
 
 	}
-	
+
 	// //////////////////////////////////////
 	// Listar Computadora
 	// //////////////////////////////////////
@@ -103,11 +110,12 @@ public class ComputadoraRepositorio {
 						"eliminarComputadoraTrue", "creadoPor", this
 								.currentUserName()));
 		if (listaComputadoras.isEmpty()) {
-			this.container.warnUser("No hay Computadoras cargados en el sistema.");
+			this.container
+					.warnUser("No hay Computadoras cargados en el sistema.");
 		}
 		return listaComputadoras;
 	}
-	
+
 	// //////////////////////////////////////
 	// Buscar Computadora
 	// //////////////////////////////////////
@@ -117,22 +125,21 @@ public class ComputadoraRepositorio {
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Ip") @MinLength(2) String apellido) {
 		final List<Computadora> listaComputadoras = this.container
 				.allMatches(new QueryDefault<Computadora>(Computadora.class,
-						"buscarPorIp", "creadoPor", this
-								.currentUserName(), "ip", apellido
-								.toUpperCase().trim()));
+						"buscarPorIp", "creadoPor", this.currentUserName(),
+						"ip", apellido.toUpperCase().trim()));
 		if (listaComputadoras.isEmpty())
 			this.container
 					.warnUser("No se encontraron Computadoras cargados en el sistema.");
 		return listaComputadoras;
-	}		
-		
-	@Programmatic
-	public List<Computadora> autoComplete( @Named("Ip") @MinLength(2) String ip) {
-		return container.allMatches(new QueryDefault<Computadora>(Computadora.class,
-				"autoCompletePorComputadora", "creadoPor", this.currentUserName(),
-				"ip", ip.toUpperCase().trim()));
 	}
-	
+
+	@Programmatic
+	public List<Computadora> autoComplete(@Named("Ip") @MinLength(2) String ip) {
+		return container.allMatches(new QueryDefault<Computadora>(
+				Computadora.class, "autoCompletePorComputadora", "creadoPor",
+				this.currentUserName(), "ip", ip.toUpperCase().trim()));
+	}
+
 	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////
@@ -147,11 +154,14 @@ public class ComputadoraRepositorio {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-	
+
 	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
-	
+
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
+	
+	@javax.inject.Inject
+	private ImpresoraRepositorio impresoraRepositorio;
 }
