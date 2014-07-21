@@ -27,9 +27,9 @@ import dom.computadora.Computadora;
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Impresora_modeloImpresora_must_be_unique", members = {
 		"creadoPor", "modeloImpresora" }) })
 @javax.jdo.annotations.Queries({
-		@javax.jdo.annotations.Query(name = "autoCompletePormodeloImpresora", language = "JDOQL", value = "SELECT "
+		@javax.jdo.annotations.Query(name = "autoCompletePorModeloImpresora", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
-				+ "WHERE creadoPor == :creadoPor && modeloImpresora.indexOf(:nombreImpresora) >= 0"),
+				+ "WHERE creadoPor == :creadoPor && modeloImpresora.indexOf(:modeloImpresora) >= 0"),
 		@javax.jdo.annotations.Query(name = "todasLasImpresoras", language = "JDOQL", value = "SELECT FROM dom.impresora.Impresora "
 				+ " WHERE creadoPor == :creadoPor && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarImpresoraFalse", language = "JDOQL", value = "SELECT "
