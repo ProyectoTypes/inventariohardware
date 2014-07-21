@@ -99,10 +99,10 @@ public class ImpresoraRepositorio {
 	}
 
 	@Programmatic
-	public List<Impresora> autoComplete(final String modeloImpresora) {
+	public List<Impresora> autoComplete(final String modelo) {
 		return container.allMatches(new QueryDefault<Impresora>(
 				Impresora.class, "autoCompletePorModeloImpresora", "creadoPor",
-				this.currentUserName(), "modeloImpresora", modeloImpresora
+				this.currentUserName(), "modeloImpresora", modelo
 						.toUpperCase().trim()));
 	}
 
