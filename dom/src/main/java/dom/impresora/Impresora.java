@@ -157,6 +157,15 @@ public class Impresora {
 		getComputadora().add(unaComputadora);
 	}
 	
+	@Named ("Eliminar de Computadora")
+	public void removeFromComputadora (final Computadora unaComputadora){
+		if (unaComputadora == null || !getComputadora().contains(unaComputadora)){
+			return;
+		}
+		unaComputadora.setImpresora(null);
+		this.getComputadora().remove(unaComputadora);
+		return;
+	}
 	// //////////////////////////////////////
 	// Complete (property),
 	// Se utiliza en las acciones add (action), DeshacerAgregar (action)
