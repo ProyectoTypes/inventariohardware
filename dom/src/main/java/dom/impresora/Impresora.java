@@ -15,6 +15,7 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
@@ -131,14 +132,13 @@ public class Impresora {
 	}
 
 	// //////////////////////////////////////
-	// Relacion Computadora/Impresora
+	// Relacion Impresora/Computadora
 	// //////////////////////////////////////
 
 	@Persistent(mappedBy = "impresora", dependentElement = "False")
 	@Join
 	private SortedSet<Computadora> computadora = new TreeSet<Computadora>();
 
-	@MemberOrder(sequence = "100")
 	public SortedSet<Computadora> getComputadora() {
 		return computadora;
 	}
@@ -146,7 +146,17 @@ public class Impresora {
 	public void setComputadora(final SortedSet<Computadora> computadora) {
 		this.computadora = computadora;
 	}
-
+	
+	@Named ("Agregar Impresora")
+	public void addToComputadora (final Computadora unaComputadora){
+		if (unaComputadora == null || getComputadora().contains(unaComputadora)){
+			return;
+		}
+		unaComputadora.clearImpresora();
+		unaComputadora.setImpresora(this);
+		getComputadora().add(unaComputadora);
+	}
+	
 	// //////////////////////////////////////
 	// Complete (property),
 	// Se utiliza en las acciones add (action), DeshacerAgregar (action)
