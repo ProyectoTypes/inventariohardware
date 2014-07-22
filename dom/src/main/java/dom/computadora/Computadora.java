@@ -1,5 +1,6 @@
 package dom.computadora;
 
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -9,6 +10,7 @@ import javax.jdo.annotations.Join;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
@@ -21,6 +23,7 @@ import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.impresora.Impresora;
+import dom.impresora.ImpresoraRepositorio;
 import dom.movimiento.Movimiento;
 import dom.tecnico.Tecnico;
 import dom.usuario.Usuario;
@@ -196,7 +199,7 @@ public class Computadora implements Comparable<Computadora>{
 	public void setImpresora(Impresora impresora) {
 		this.impresora = impresora;
 	}
-
+	
 	// //////////////////////////////////////
 	// creadoPor
 	// //////////////////////////////////////
@@ -347,6 +350,18 @@ public class Computadora implements Comparable<Computadora>{
 		unMovimiento.setComputadora(null);
 		getMovimientos().remove(unMovimiento);
 	}
+	
+	public void clearImpresora() {
+		Impresora currentImpresora = getImpresora();
+		// check for no-op
+		if (currentImpresora == null) {
+			return;
+		}
+		// dissociate existing
+		setImpresora(null);
+		// additional business logic
+		// onClearComputadora(currentComputadora);
+	}
 
 	// //////////////////////////////////////
 	// Injected Services
@@ -356,6 +371,9 @@ public class Computadora implements Comparable<Computadora>{
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
 
+	@javax.inject.Inject
+	private ImpresoraRepositorio impresoraRepositorio;
+	
 	@Override
 	public int compareTo(Computadora computadora) {
 		// TODO Auto-generated method stub
