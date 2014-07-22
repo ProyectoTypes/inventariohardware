@@ -70,6 +70,7 @@ public class ComputadoraRepositorio {
 		unaComputadora.setImpresora(impresora);
 		unaComputadora.setHabilitado(true);
 		unaComputadora.setCreadoPor(creadoPor);
+		impresora.addToComputadora(unaComputadora);
 
 		container.persistIfNotAlready(unaComputadora);
 		container.flush();
