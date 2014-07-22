@@ -200,6 +200,21 @@ public class Computadora implements Comparable<Computadora>{
 		this.impresora = impresora;
 	}
 	
+	@Named ("Cambiar Impresora")
+	public void modificarImpresora (final Impresora unaImpresora){
+		Impresora currentImpresora = getImpresora();
+		if (unaImpresora == null || unaImpresora.equals(currentImpresora)) {
+			return;			
+		}
+		clearImpresora();
+		setImpresora(unaImpresora);
+	}
+	
+	
+	public List<Impresora> autoComplete0ModificarImpresora(final String search){
+		return this.impresoraRepositorio.autoComplete(search);
+	}
+	
 	// //////////////////////////////////////
 	// creadoPor
 	// //////////////////////////////////////
@@ -362,6 +377,8 @@ public class Computadora implements Comparable<Computadora>{
 		// additional business logic
 		// onClearComputadora(currentComputadora);
 	}
+	
+	
 
 	// //////////////////////////////////////
 	// Injected Services
