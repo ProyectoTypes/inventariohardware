@@ -70,7 +70,9 @@ public class ComputadoraRepositorio {
 		unaComputadora.setImpresora(impresora);
 		unaComputadora.setHabilitado(true);
 		unaComputadora.setCreadoPor(creadoPor);
-		impresora.addToComputadora(unaComputadora);
+		if (impresora != null) {
+			impresora.addToComputadora(unaComputadora);
+		}
 
 		container.persistIfNotAlready(unaComputadora);
 		container.flush();
@@ -162,7 +164,7 @@ public class ComputadoraRepositorio {
 
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
-	
+
 	@javax.inject.Inject
 	private ImpresoraRepositorio impresoraRepositorio;
 }
