@@ -29,7 +29,6 @@ import java.util.TreeSet;
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
-import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.Audited;
@@ -43,7 +42,6 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
-import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
