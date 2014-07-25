@@ -23,7 +23,6 @@ package dom.usuario;
 
 import java.util.List;
 
-import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
