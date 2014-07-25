@@ -30,7 +30,6 @@ import javax.jdo.annotations.Join;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
-import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
@@ -411,10 +410,6 @@ public class Movimiento implements Comparable<Movimiento> {
 	// ////////////////////////////////////
 	// Injected Services
 	// ////////////////////////////////////
-
-	@javax.inject.Inject
-	private DomainObjectContainer container;
-
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
 
