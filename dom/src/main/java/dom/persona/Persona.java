@@ -36,7 +36,6 @@ import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 
-import dom.computadora.Computadora;
 import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
 
