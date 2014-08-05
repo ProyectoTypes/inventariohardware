@@ -47,6 +47,7 @@ import org.apache.isis.applib.util.ObjectContracts;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
+import servicio.email.EmailService;
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 import dom.insumos.Insumos;
@@ -79,6 +80,13 @@ import dom.tecnico.TecnicoRepositorio;
 @Bookmarkable
 public class Movimiento implements Comparable<Movimiento> {
 
+    /*@OneToOne
+    @Extension(key="implementation-classes",
+        value="dom.movimiento.estadoComputadora.Reparando,dom.movimiento.estadoComputadora.Cancelado,"
+        		+ "dom.movimiento.estadoComputadora.EquipoEntregad, dom.movimiento.estadoComputadora.Esperando"
+        		+ "dom.movimiento.estadoComputadora.Recepcionado", vendorName = "")
+	IEstado iestado;*/
+	
 	// //////////////////////////////////////
 	// Identificacion en la UI. Aparece como item del menu
 	// //////////////////////////////////////
@@ -241,7 +249,8 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * @param unTecnico
 	 * @return
 	 ***********************************************************************/
-	@Named("Asignar Tecnico")
+	@MemberOrder(sequence = "10")
+	@Named("Asignar")
 	public Movimiento modificarTecnico(final Tecnico unTecnico) {
 		Tecnico currentTecnico = this.getTecnico();
 		if (unTecnico == null || unTecnico.equals(currentTecnico)) {
@@ -250,20 +259,34 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.setTecnico(unTecnico);
 		// Logica de Negocio: Agregar un nuevo estado (2).
 		unTecnico.addToComputadora(this.getComputadora());
-		// this.getComputadora().setTecnico(unTecnico);
-		// this.container.warnUser("Estado: " + this.getEstado().toString());
 		this.estado.equipoRecibido();
-		//
-		// this.container.warnUser("Estado2: " + this.getEstado().toString()
-		// + "clase: " + this.getEstado().getClass());
-
-		// Logica de Negocio: Agregar un nuevo estado (2).
-		this.estado.equipoRecibido();
-		// this.container.warnUser(this.getEstado().toString());
 		this.setEstadoActual(this.estado.toString());
 		return this;
 	}
+	
+	@MemberOrder(sequence = "20")
+	@Named("Email")
+	public EmailService enviarEmail(final EmailService unEmailService) {
+		return null;
+	}
+	
+	@MemberOrder(sequence = "30")
+	@Named("Insumo")
+	public Insumos solicitarPedido(final Insumos unInsumo) {
+		return null;
+	}
 
+	//Estando en el estado Recibido, y al hacer el mismo metodo de nuevo, deberia 
+	//mostrar un cartel en la terminal o en el sistema, que diga que el equipo ya fue recibido.
+	/*
+	public Movimiento equipoYaFueRecibido()
+	{
+		this.estado.equipoRecibido();
+		this.setEstadoActual(this.estado.toString());
+		return this;
+	}*/
+	
+	
 	private String estadoActual;
 
 	@Disabled
@@ -355,7 +378,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	// Atributo estado.
 	private IEstado estado;
 
-	@Hidden
+//	@Hidden
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public IEstado getEstado() {
 		return estado;
