@@ -57,7 +57,7 @@ import dom.movimiento.Movimiento;
 				+ "FROM dom.insumos.Insumos "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && codigo.indexOf(:codigo) >= 0"), })
-@ObjectType("INSUMOS")
+@ObjectType("INSUMO")
 @Audited
 @AutoComplete(repository = InsumoRepositorio.class, action = "autoComplete")
 @Bookmarkable

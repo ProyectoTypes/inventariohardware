@@ -31,7 +31,7 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 import org.joda.time.LocalDate;
 
-@Named("INSUMOS")
+@Named("INSUMO")
 public class InsumoRepositorio {
 
 	// //////////////////////////////////////
