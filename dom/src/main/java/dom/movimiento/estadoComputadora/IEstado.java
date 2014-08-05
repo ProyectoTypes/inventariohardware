@@ -25,4 +25,5 @@ public interface IEstado {
 	public void equipoRecibido();
 	public void equipoReparado();
 	public void equipoFinalizado();
+	public void equipoEsperando();
 }
