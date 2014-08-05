@@ -19,7 +19,7 @@
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package dom.insumos;
+package dom.insumo;
 
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
@@ -59,9 +59,9 @@ import dom.movimiento.Movimiento;
 				+ "   && codigo.indexOf(:codigo) >= 0"), })
 @ObjectType("INSUMOS")
 @Audited
-@AutoComplete(repository = InsumosRepositorio.class, action = "autoComplete")
+@AutoComplete(repository = InsumoRepositorio.class, action = "autoComplete")
 @Bookmarkable
-public class Insumos {
+public class Insumo {
 
 	// //////////////////////////////////////
 	// Identificacion en la UI

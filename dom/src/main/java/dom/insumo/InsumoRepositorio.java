@@ -19,7 +19,7 @@
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package dom.insumos;
+package dom.insumo;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ import org.apache.isis.applib.query.QueryDefault;
 import org.joda.time.LocalDate;
 
 @Named("INSUMOS")
-public class InsumosRepositorio {
+public class InsumoRepositorio {
 
 	// //////////////////////////////////////
 	// Icono
@@ -52,7 +52,7 @@ public class InsumosRepositorio {
 
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
-	public Insumos addInsumos(final @Named("Codigo") String codigo,
+	public Insumo addInsumos(final @Named("Codigo") String codigo,
 			final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
@@ -62,10 +62,10 @@ public class InsumosRepositorio {
 	}
 
 	@Programmatic
-	public Insumos nuevosInsumos(final String codigo, final int cantidad,
+	public Insumo nuevosInsumos(final String codigo, final int cantidad,
 			final String producto, final String marca,
 			final String observaciones, final String creadoPor) {
-		final Insumos unInsumo = container.newTransientInstance(Insumos.class);
+		final Insumo unInsumo = container.newTransientInstance(Insumo.class);
 		unInsumo.setCodigo(codigo.toUpperCase().trim());
 		unInsumo.setCantidad(cantidad);
 		unInsumo.setProducto(producto.toUpperCase().trim());
@@ -84,9 +84,9 @@ public class InsumosRepositorio {
 	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "100")
-	public List<Insumos> listar() {
-		final List<Insumos> listaInsumos = this.container
-				.allMatches(new QueryDefault<Insumos>(Insumos.class,
+	public List<Insumo> listar() {
+		final List<Insumo> listaInsumos = this.container
+				.allMatches(new QueryDefault<Insumo>(Insumo.class,
 						"listarInsumoTrue", "creadoPor", this
 								.currentUserName()));
 		if (listaInsumos.isEmpty()) {
