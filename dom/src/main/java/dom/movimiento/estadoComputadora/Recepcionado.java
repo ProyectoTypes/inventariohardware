@@ -21,18 +21,12 @@
 */
 package dom.movimiento.estadoComputadora;
 
-import javax.jdo.annotations.Inheritance;
-import javax.jdo.annotations.InheritanceStrategy;
-import javax.jdo.annotations.PersistenceCapable;
-
 import org.apache.isis.applib.DomainObjectContainer;
 
 import dom.movimiento.Movimiento;
 
-@PersistenceCapable
-@Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public class Recepcionado implements IEstado {
-	
+
 	Movimiento movimiento;
 
 	public Recepcionado(Movimiento movimiento) {
@@ -49,6 +43,7 @@ public class Recepcionado implements IEstado {
 			this.container
 					.informUser("El Tecnico seleccionado no esta disponible.");
 		}
+		container.warnUser("Probando");
 	}
 
 	@Override
@@ -65,11 +60,15 @@ public class Recepcionado implements IEstado {
 
 	}
 
+	@Override
+	public void equipoEsperando() {
+		this.container.warnUser("Esperando.java - equipoEsperando(): El equipo se encuentra en espera");
+	}
+	
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 
 	public String toString() {
 		return "EQUIPO RECIBIDO";
 	}
-
 }

@@ -21,12 +21,44 @@
 */
 package dom.movimiento.estadoComputadora;
 
-import javax.jdo.annotations.Inheritance;
-import javax.jdo.annotations.InheritanceStrategy;
-import javax.jdo.annotations.PersistenceCapable;
+import org.apache.isis.applib.DomainObjectContainer;
 
-@PersistenceCapable
-@Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
-public class EquipoEntregado {
+import dom.movimiento.Movimiento;
 
+public class EquipoEntregado implements IEstado{
+	Movimiento movimiento;
+    
+	public EquipoEntregado(Movimiento movimiento)
+	{
+		this.movimiento=movimiento;
+	}
+	@Override
+	public void equipoRecibido() {
+		this.container.warnUser("Recepcionado.java - equipoRecibido(): El equipo NO ha sido Reparado/Entregado");
+		
+	}
+
+	@Override
+	public void equipoReparado() {
+		this.container.warnUser("Recepcionado.java - equipoReparado(): El equipo NO ha sido Recepcionado/Finalizado");
+		
+	}
+
+	@Override
+	public void equipoFinalizado() {
+		this.container.warnUser("Cancelado.java - equipoFinalizado(): FIN :) ");
+		
+	}
+	
+	@Override
+	public void equipoEsperando() {
+		this.container.warnUser("Esperando.java - equipoEsperando(): El equipo se encuentra en espera");
+	}
+	
+	@javax.inject.Inject
+	private DomainObjectContainer container;
+	
+	public String toString() {
+		return "EQUIPO ENTREGADO";
+	}
 }
