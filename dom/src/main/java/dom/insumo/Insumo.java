@@ -42,19 +42,19 @@ import dom.movimiento.Movimiento;
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Insumos_must_be_unique", members = {
 		"creadoPor", "codigo" }) })
 @javax.jdo.annotations.Queries({
-		@javax.jdo.annotations.Query(name = "autoCompletePorInsumos", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.insumos.Insumos "
+		@javax.jdo.annotations.Query(name = "autoCompletePorInsumo", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.insumo.Insumo "
 				+ "WHERE creadoPor == :creadoPor && "
 				+ "codigo.indexOf(:codigo) >= 0"),
 		@javax.jdo.annotations.Query(name = "eliminarInsumoFalse", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.insumos.Insumos "
+				+ "FROM dom.insumo.Insumo "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && habilitado == false"),
 		@javax.jdo.annotations.Query(name = "listarInsumoTrue", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.insumos.Insumos "
+				+ "FROM dom.insumo.Insumo "
 				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorCodigo", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.insumos.Insumos "
+				+ "FROM dom.insumo.Insumo "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && codigo.indexOf(:codigo) >= 0"), })
 @ObjectType("INSUMO")
