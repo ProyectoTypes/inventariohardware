@@ -50,7 +50,7 @@ import org.joda.time.LocalDateTime;
 import servicio.email.EmailService;
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
-import dom.insumos.Insumos;
+import dom.insumo.Insumo;
 import dom.movimiento.estadoComputadora.Cancelado;
 import dom.movimiento.estadoComputadora.IEstado;
 import dom.movimiento.estadoComputadora.Recepcionado;
@@ -272,7 +272,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	
 	@MemberOrder(sequence = "30")
 	@Named("Insumo")
-	public Insumos solicitarPedido(final Insumos unInsumo) {
+	public Insumo solicitarPedido(final Insumo unInsumo) {
 		return null;
 	}
 
@@ -420,13 +420,13 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	@Persistent(mappedBy = "movimiento", dependentElement = "trueOrFalse")
 	@Join
-	private SortedSet<Insumos> insumos = new TreeSet<Insumos>();
+	private SortedSet<Insumo> insumos = new TreeSet<Insumo>();
 
-	public SortedSet<Insumos> getInsumos() {
+	public SortedSet<Insumo> getInsumos() {
 		return insumos;
 	}
 
-	public void setInsumos(final SortedSet<Insumos> insumos) {
+	public void setInsumos(final SortedSet<Insumo> insumos) {
 		this.insumos = insumos;
 	}
 
