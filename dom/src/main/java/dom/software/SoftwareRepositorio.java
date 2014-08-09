@@ -21,6 +21,90 @@
 */
 package dom.software;
 
-public class SoftwareRepositorio {
+import java.util.List;
 
+import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.Optional;
+import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.query.QueryDefault;
+
+@Named("SOFTWARE")
+
+public class SoftwareRepositorio {
+	// //////////////////////////////////////
+	// Icono
+	// //////////////////////////////////////
+
+	public String title() {
+		return "Software";
+	}
+
+	public String iconName() {
+		return "Software";
+	}
+	
+	// //////////////////////////////////////
+	// Agregar Insumo
+	// //////////////////////////////////////
+
+	@MemberOrder(sequence = "10")
+	@Named("Agregar")
+	public Software addSoftware(final @Named("Codigo") String codigo,
+			final @Named("Tipo") int tipo,
+			final @Named("Nombre") String nombre,
+			final @Named("Marca") String marca,
+			final @Optional @Named("Observaciones") String observaciones) {
+		return nuevosSoftware(codigo, tipo, nombre, marca, observaciones,
+				this.currentUserName());
+	}
+	
+	@Programmatic
+	public Software nuevosSoftware(final String codigo, final int cantidad,
+			final String producto, final String marca,
+			final String observaciones, final String creadoPor) {
+		final Software unSoftware = container.newTransientInstance(Software.class);
+		unSoftware.setCodigo(codigo.toUpperCase().trim());
+		unSoftware.setTipo(codigo.toUpperCase().trim());
+		unSoftware.setNombre(codigo.toUpperCase().trim());
+		unSoftware.setMarca(marca.toUpperCase().trim());
+		unSoftware.setObservaciones(observaciones.toUpperCase().trim());
+		unSoftware.setHabilitado(true);
+		unSoftware.setCreadoPor(creadoPor);
+		container.persistIfNotAlready(unSoftware);
+		container.flush();
+		return unSoftware;
+	}
+
+	// //////////////////////////////////////
+	// Listar Insumos
+	// //////////////////////////////////////
+
+	@MemberOrder(sequence = "100")
+	public List<Software> listar() {
+		final List<Software> listaSoftware = this.container
+				.allMatches(new QueryDefault<Software>(Software.class,
+						"listarSoftwareTrue", "creadoPor", this
+								.currentUserName()));
+		if (listaSoftware.isEmpty()) {
+			this.container.warnUser("No hay Software cargadas en el sistema.");
+		}
+		return listaSoftware;
+	}
+
+	// //////////////////////////////////////
+	// CurrentUserName
+	// //////////////////////////////////////
+
+	private String currentUserName() {
+		return container.getUser().getName();
+	}
+
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 }
