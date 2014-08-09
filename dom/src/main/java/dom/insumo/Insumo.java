@@ -72,7 +72,7 @@ public class Insumo {
 	}
 
 	public String iconName() {
-		return "Insumos";
+		return "Insumo";
 	}
 
 	// //////////////////////////////////////
@@ -187,21 +187,21 @@ public class Insumo {
 		this.creadoPor = creadoPor;
 	}
 	// //////////////////////////////////////
-		// fecha (propiedad)
-		// //////////////////////////////////////
+	// fecha (propiedad)
+	// //////////////////////////////////////
 
-		private LocalDate fecha;
+	private LocalDate fecha;
 
-		@Disabled
-		@javax.jdo.annotations.Column(allowsNull = "false")
-		@MemberOrder(sequence = "100")
-		public LocalDate getFecha() {
-			return fecha;
-		}
+	@Disabled
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@MemberOrder(sequence = "100")
+	public LocalDate getFecha() {
+		return fecha;
+	}
 
-		public void setFecha(LocalDate fecha) {
-			this.fecha = fecha;
-		}
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
+	}
 
 	// //////////////////////////////////////
 	// Relacion Movimiento/Insumos.
@@ -218,5 +218,4 @@ public class Insumo {
 	public void setMovimiento(Movimiento movimiento) {
 		this.movimiento = movimiento;
 	}
-
 }
