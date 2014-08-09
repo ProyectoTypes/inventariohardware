@@ -39,30 +39,30 @@ public class InsumoRepositorio {
 	// //////////////////////////////////////
 
 	public String title() {
-		return "Insumos";
+		return "Insumo";
 	}
 
 	public String iconName() {
-		return "Insumos";
+		return "Insumo";
 	}
 
 	// //////////////////////////////////////
-	// Agregar Insumos
+	// Agregar Insumo
 	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
-	public Insumo addInsumos(final @Named("Codigo") String codigo,
+	public Insumo addInsumo(final @Named("Codigo") String codigo,
 			final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
 			final @Optional @Named("Observaciones") String observaciones) {
-		return nuevosInsumos(codigo, cantidad, producto, marca, observaciones,
+		return nuevosInsumo(codigo, cantidad, producto, marca, observaciones,
 				this.currentUserName());
 	}
 
 	@Programmatic
-	public Insumo nuevosInsumos(final String codigo, final int cantidad,
+	public Insumo nuevosInsumo(final String codigo, final int cantidad,
 			final String producto, final String marca,
 			final String observaciones, final String creadoPor) {
 		final Insumo unInsumo = container.newTransientInstance(Insumo.class);
@@ -85,14 +85,14 @@ public class InsumoRepositorio {
 
 	@MemberOrder(sequence = "100")
 	public List<Insumo> listar() {
-		final List<Insumo> listaInsumos = this.container
+		final List<Insumo> listaInsumo = this.container
 				.allMatches(new QueryDefault<Insumo>(Insumo.class,
 						"listarInsumoTrue", "creadoPor", this
 								.currentUserName()));
-		if (listaInsumos.isEmpty()) {
+		if (listaInsumo.isEmpty()) {
 			this.container.warnUser("No hay Insumos cargadas en el sistema.");
 		}
-		return listaInsumos;
+		return listaInsumo;
 	}
 
 	// //////////////////////////////////////
