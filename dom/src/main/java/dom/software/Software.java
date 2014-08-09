@@ -36,7 +36,7 @@ import org.apache.isis.applib.annotation.Where;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Insumos_must_be_unique", members = {
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Software_must_be_unique", members = {
 		"creadoPor", "codigo" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorSoftware", language = "JDOQL", value = "SELECT "
