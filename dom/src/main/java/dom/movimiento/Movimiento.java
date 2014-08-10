@@ -315,9 +315,16 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * FIN: Atributos del State.
 	 * ***************************************************
 	 */
+	/**
+	 * Permite seleccionar un tecnico desde una lista. El Tecnico es agregado en
+	 * la Computadora. Al tecnico se le suma una nueva computadora. Cambio de
+	 * estado a Reparando.
+	 * 
+	 * @param unTecnico
+	 * @return
+	 */
 	@PostConstruct
-	// @Programmatic
-	public Movimiento asignarTecnico() {
+	public Movimiento asignarTecnico(final Tecnico unTecnico) {
 		// Recepcionado -> Reparando.
 		this.estadoActivo();
 		IEstado estadoReparando = this.getEstado().asignarTecnico(this);
@@ -328,7 +335,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		return this;
 		// this.estado.asignarTecnico(this);
 	}
-
+	
 	@PostConstruct
 	// @Programmatic
 	@Named("Solicitar Repuestos")
@@ -354,6 +361,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		IEstado estadoEntregado = this.getEstado().finalizarSoporte(this);
 		this.setEstado(estadoEntregado);
 		this.setReparando(null);
+		this.setEsperando(null);
 		this.setEntregando(new Entregado());
 		this.container.flush();
 		return this;
@@ -389,7 +397,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		return this;
 	}
 
-	
+	// *********************************************************************************************
 	@Programmatic
 	public void estadoActivo() {
 		if (this.getRecepcionado() != null)
@@ -405,6 +413,33 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	}
 
+	// *********************************************************************************************
+
+	@MemberOrder(sequence = "20")
+	@Named("MOSTRAR ACTUAL")
+	@PostConstruct
+	public Movimiento mostrarLaClaseDelEstado() {
+
+		if (this.getEstado() != null) {
+			this.setObservaciones(this.getEstado().getClass().getSimpleName());
+
+		} else
+			this.setObservaciones("NO: NULL");
+		return this;
+	}
+
+	@PostConstruct
+	public Movimiento nulear() {
+		this.setRecepcionado(null);
+		this.setReparando(null);
+		this.setCancelado(null);
+		this.setEntregando(null);
+		this.container.flush();
+		// this.setIAnimal(new Delfin());
+		// this.setIAnimal(new Delfin());
+		return this;
+	}
+
 	// ********************************************
 	// ********************************************
 
@@ -412,8 +447,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * FIN: Operaciones del State.
 	 * ***************************************************
 	 */
-	
-	
+
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 
