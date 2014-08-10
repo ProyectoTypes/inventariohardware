@@ -315,34 +315,21 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * FIN: Atributos del State.
 	 * ***************************************************
 	 */
-	
-	// *********************************************************************************************
-	// *********************************************************************************************
-	/***********************************************************************
-	 * modificarTecnico: Permite asignar un Tecnico para la reparacion de la
-	 * computadora, a su vez se pasa al siguiente estado.
-	 * 
-	 * @param unTecnico
-	 * @return
-	 ***********************************************************************/
-	@MemberOrder(sequence = "10")
-	@Named("Asignar")
-	@PostConstruct
-	@Programmatic
-	public Movimiento modificarTecnico(final Tecnico unTecnico) {
-		Tecnico currentTecnico = this.getTecnico();
-		if (unTecnico == null || unTecnico.equals(currentTecnico)) {
-			return this;
-		}
-		this.setTecnico(unTecnico);
-		// Logica de Negocio: Agregar un nuevo estado (2).
-		unTecnico.addToComputadora(this.getComputadora());
-		// this.getEstado().equipoRecibido();
-		// this.setEstado(new Reparando(this));
 
-		return this;
+	@Programmatic
+	public void estadoActivo() {
+		if (this.getRecepcionado() != null)
+			this.setEstado(new Recepcionado());
+		else if (this.getReparando() != null)
+			this.setEstado(new Reparando());
+		else if (this.getEntregando() != null)
+			this.setEstado(new Entregado());
+		else if (this.getEsperando() != null)
+			this.setEstado(new Esperando());
+		else if (this.getCancelado() != null)
+			this.setEstado(new Cancelado());
+
 	}
-	
 
 	// ********************************************
 	// ********************************************
