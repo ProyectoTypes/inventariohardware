@@ -52,6 +52,7 @@ import org.joda.time.LocalDateTime;
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 import dom.insumo.Insumo;
+import dom.insumo.InsumoRepositorio;
 import dom.movimiento.estadoComputadora.Cancelado;
 import dom.movimiento.estadoComputadora.Entregado;
 import dom.movimiento.estadoComputadora.Esperando;
@@ -329,7 +330,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.setTecnico(unTecnico);
 		unTecnico.addToComputadora(this.getComputadora());
 		IEstado estadoReparando = this.getEstado().asignarTecnico(this);
-		//Operaciones mantenimiento de estado.
+		// Operaciones mantenimiento de estado.
 		this.setEstado(estadoReparando);
 		this.setRecepcionado(null);
 		this.setReparando(new Reparando());
@@ -345,16 +346,21 @@ public class Movimiento implements Comparable<Movimiento> {
 	@PostConstruct
 	// @Programmatic
 	@Named("Solicitar Repuestos")
-	public Movimiento esperarRepuestos() {
+	public Insumo esperarRepuestos(final @Named("Codigo") String codigo,
+			final @Named("Cantidad") int cantidad,
+			final @Named("Producto") String producto,
+			final @Named("Marca") String marca,
+			final @Optional @Named("Observaciones") String observaciones) {
 		// this.estado.esperarRepuestos(this);
 		// Reparando -> Esperando
+		Insumo unInsumo = this.insumoRepositorio.nuevosInsumo(codigo, cantidad, producto, marca, observaciones, this.getCreadoPor());
 		this.estadoActivo();
 		IEstado estadoEsperando = this.getEstado().esperarRepuestos(this);
 		this.setEstado(estadoEsperando);
 		this.setReparando(null);
 		this.setEsperando(new Esperando());
 		this.container.flush();
-		return this;
+		return unInsumo;
 	}
 
 	@PostConstruct
@@ -362,7 +368,6 @@ public class Movimiento implements Comparable<Movimiento> {
 	public Movimiento finalizarSoporte() {
 		// this.estado.finalizarSoporte(this);
 		// Reparando -> Entregando
-
 		this.estadoActivo();
 		IEstado estadoEntregado = this.getEstado().finalizarSoporte(this);
 		this.setEstado(estadoEntregado);
@@ -446,10 +451,8 @@ public class Movimiento implements Comparable<Movimiento> {
 		return this;
 	}
 
-	
 	/* ***************************************************
-	 * FIN: Patron State.
-	 * ***************************************************
+	 * FIN: Patron State. ***************************************************
 	 */
 
 	/********************************************************
@@ -542,8 +545,11 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
+	
+	@javax.inject.Inject
+	private InsumoRepositorio insumoRepositorio;
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-
+	
 }
