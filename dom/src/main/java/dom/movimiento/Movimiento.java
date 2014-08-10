@@ -344,8 +344,23 @@ public class Movimiento implements Comparable<Movimiento> {
 		return this;
 	}
 
-	
+	@PostConstruct
+	// @Programmatic
+	public Movimiento finalizarSoporte() {
+		// this.estado.finalizarSoporte(this);
+		// Reparando -> Entregando
 
+		this.estadoActivo();
+		IEstado estadoEntregado = this.getEstado().finalizarSoporte(this);
+		this.setEstado(estadoEntregado);
+		this.setReparando(null);
+		this.setEntregando(new Entregado());
+		this.container.flush();
+		return this;
+
+	}
+
+	
 	@Programmatic
 	public void estadoActivo() {
 		if (this.getRecepcionado() != null)
