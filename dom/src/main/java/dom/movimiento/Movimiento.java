@@ -329,6 +329,23 @@ public class Movimiento implements Comparable<Movimiento> {
 		// this.estado.asignarTecnico(this);
 	}
 
+	@PostConstruct
+	// @Programmatic
+	@Named("Solicitar Repuestos")
+	public Movimiento esperarRepuestos() {
+		// this.estado.esperarRepuestos(this);
+		// Reparando -> Esperando
+		this.estadoActivo();
+		IEstado estadoEsperando = this.getEstado().esperarRepuestos(this);
+		this.setEstado(estadoEsperando);
+		this.setReparando(null);
+		this.setEsperando(new Esperando());
+		this.container.flush();
+		return this;
+	}
+
+	
+
 	@Programmatic
 	public void estadoActivo() {
 		if (this.getRecepcionado() != null)
