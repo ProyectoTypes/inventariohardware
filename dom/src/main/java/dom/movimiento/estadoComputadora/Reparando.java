@@ -27,33 +27,34 @@ public class Reparando implements IEstado {
 
 	@Override
 	public IEstado asignarTecnico(Movimiento unM) {
-		// TODO Auto-generated method stub
-		return null;
+		unM.setEstadoActual("NO ES EL ESTADO RECIBIDO.");
+		return this;
+
 	}
 
 	@Override
 	public IEstado esperarRepuestos(Movimiento unM) {
-		// TODO Auto-generated method stub
-		return null;
+		unM.setEstadoActual("CAMBIA AL ESTADO ESPERANDO");
+		return new Esperando();
 	}
 
 	@Override
 	public IEstado finalizarSoporte(Movimiento unM) {
-		// TODO Auto-generated method stub
-		return null;
+		unM.setEstadoActual("CAMBIA AL ESTADO ENTREGANDO.");
+		return new Entregado();
 	}
 
 	@Override
 	public IEstado noHayRepuestos(Movimiento unM) {
 		// TODO Auto-generated method stub
-		return null;
+		unM.setEstadoActual("NO CANCELA: NO ES EL ESTADO ESPERANDO");
+		return this;
 	}
 
 	@Override
 	public IEstado llegaronRepuestos(Movimiento unM) {
-		// TODO Auto-generated method stub
-		return null;
+		unM.setEstadoActual("NO ES EL ESTADO ESPERANDO");
+		return this;
 	}
 
-	
 }
