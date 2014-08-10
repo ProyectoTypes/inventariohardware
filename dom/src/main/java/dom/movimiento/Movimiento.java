@@ -335,7 +335,12 @@ public class Movimiento implements Comparable<Movimiento> {
 		return this;
 		// this.estado.asignarTecnico(this);
 	}
-	
+
+	@Programmatic
+	private List<Tecnico> choice0AsignarTecnico() {
+		return this.tecnicoRepositorio.listar();
+	}
+
 	@PostConstruct
 	// @Programmatic
 	@Named("Solicitar Repuestos")
@@ -440,54 +445,11 @@ public class Movimiento implements Comparable<Movimiento> {
 		return this;
 	}
 
-	// ********************************************
-	// ********************************************
-
+	
 	/* ***************************************************
-	 * FIN: Operaciones del State.
+	 * FIN: Patron State.
 	 * ***************************************************
 	 */
-
-	@javax.inject.Inject
-	private DomainObjectContainer container;
-
-	@MemberOrder(sequence = "20")
-	@Named("Email")
-	@PostConstruct
-	@Programmatic
-	public Movimiento enviarEmail(@Optional final EmailService unEmailService) {
-
-		this.setEstadoActual(this.getEstado().getClass().getSimpleName());
-		// this.getEstado().equipoFinalizado();
-		this.container.flush();
-
-		return this;
-	}
-
-	@MemberOrder(sequence = "30")
-	@Named("Insumo")
-	@PostConstruct
-	@Programmatic
-	public Movimiento solicitarPedido(@Optional final Insumo unInsumo) {
-		// this.setEstado(new Reparando(this));
-
-		return this;
-	}
-
-	@Programmatic
-	public void clesarTecnico() {
-		Tecnico currentTecnico = getTecnico();
-		// check for no-op
-		if (currentTecnico == null) {
-			return;
-		}
-		// dissociate existing
-		setTecnico(null);
-	}
-
-	// public List<Tecnico> choices0ModificarTecnico() {
-	// return tecnicoRepositorio.listar();
-	// }
 
 	/********************************************************
 	 * Relacion Tecnico/Movimiento.
@@ -580,9 +542,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
 
-	@Programmatic
-	public void limpiaIAnimal() {
-		// TODO Auto-generated method stub
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 
-	}
 }
