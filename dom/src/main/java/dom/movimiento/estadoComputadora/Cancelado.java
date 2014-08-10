@@ -18,48 +18,69 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.movimiento.estadoComputadora;
 
-import org.apache.isis.applib.DomainObjectContainer;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.VersionStrategy;
+
+import org.apache.isis.applib.annotation.Audited;
+import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.ObjectType;
 
 import dom.movimiento.Movimiento;
 
-public class Cancelado implements IEstado{
-	
-	Movimiento movimiento;
-    
-	public Cancelado(Movimiento movimiento)
-	{
-		this.movimiento=movimiento;
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "idCancelado")
+@javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "canceladoUnique", members = { "idCancelado" }) })
+@ObjectType("CANCELADO")
+@Audited
+@Bookmarkable
+public class Cancelado implements IEstado {
+	// //////////////////////////////////////
+	// Identification in the UI
+	// //////////////////////////////////////
+
+	public String title() {
+		return "CANCELADO ";
 	}
-	@Override
-	public void equipoRecibido() {
-		this.container.warnUser("Recepcionado.java - equipoRecibido(): El equipo NO ha sido Reparado/Entregado");
-		
+
+	public String iconName() {
+		return "sector";
 	}
 
 	@Override
-	public void equipoReparado() {
-		this.container.warnUser("Recepcionado.java - equipoReparado(): El equipo NO ha sido Recepcionado/Finalizado");
-		
+	public IEstado asignarTecnico(Movimiento unM) {
+		unM.setEstadoActual("YA SE INICIALIZO.");
+		return this;
 	}
 
 	@Override
-	public void equipoFinalizado() {
-		this.container.warnUser("Cancelado.java - equipoFinalizado(): FIN :) ");
-		
+	public IEstado esperarRepuestos(Movimiento unM) {
+		unM.setEstadoActual("NO ES EL ESTADO ESPERANDO.");
+		return this;
 	}
-	
+
 	@Override
-	public void equipoEsperando() {
-		this.container.warnUser("Esperando.java - equipoEsperando(): El equipo se encuentra en espera");
+	public IEstado noHayRepuestos(Movimiento unM) {
+		// TODO Auto-generated method stub
+		unM.setEstadoActual("NO ES EL ESTADO ESPERANDO");
+		return this;
 	}
-	
-	@javax.inject.Inject
-	private DomainObjectContainer container;
-	
-	public String toString() {
-		return "EQUIPO CANCELADO";
+
+	@Override
+	public IEstado finalizarSoporte(Movimiento unM) {
+		unM.setEstadoActual("FINALIZACION DEL SOPORTE");
+		if (unM.getEstado().getClass().getSimpleName() == "Cancelado")
+			unM.setEstadoActual("SOPORTE CANCELADO");
+
+		return this;
+	}
+
+	@Override
+	public IEstado llegaronRepuestos(Movimiento unM) {
+		unM.setEstadoActual("NO ES EL ESTADO CANCELADO");
+		return this;
 	}
 }
