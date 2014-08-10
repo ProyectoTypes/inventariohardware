@@ -315,6 +315,19 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * FIN: Atributos del State.
 	 * ***************************************************
 	 */
+	@PostConstruct
+	// @Programmatic
+	public Movimiento asignarTecnico() {
+		// Recepcionado -> Reparando.
+		this.estadoActivo();
+		IEstado estadoReparando = this.getEstado().asignarTecnico(this);
+		this.setEstado(estadoReparando);
+		this.setRecepcionado(null);
+		this.setReparando(new Reparando());
+		this.container.flush();
+		return this;
+		// this.estado.asignarTecnico(this);
+	}
 
 	@Programmatic
 	public void estadoActivo() {
