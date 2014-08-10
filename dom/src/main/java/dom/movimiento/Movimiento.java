@@ -194,7 +194,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.cancelado = cancelacion;
 
 		this.estado = new Recepcionado();
-		this.estadoActual = this.estado.toString();
+		this.estadoActual = this.estado.getClass().getSimpleName();
 
 	}
 
@@ -326,20 +326,24 @@ public class Movimiento implements Comparable<Movimiento> {
 	@PostConstruct
 	public Movimiento asignarTecnico(final Tecnico unTecnico) {
 		// Recepcionado -> Reparando.
+		IEstado estadoReparando = null;
 		this.estadoActivo();
-		this.setTecnico(unTecnico);
-		unTecnico.addToComputadora(this.getComputadora());
-		IEstado estadoReparando = this.getEstado().asignarTecnico(this);
-		// Operaciones mantenimiento de estado.
-		this.setEstado(estadoReparando);
-		this.setRecepcionado(null);
-		this.setReparando(new Reparando());
-		this.container.flush();
+		if (unTecnico.estaDisponible()) {
+			this.setTecnico(unTecnico);
+			unTecnico.addToComputadora(this.getComputadora());
+			estadoReparando = this.getEstado().asignarTecnico(this);
+			// Operaciones mantenimiento de estado.
+			// this.setObservaciones("Esta disponible - estado: "
+			// + estadoReparando.getClass().getSimpleName());
+			this.setEstado(estadoReparando);
+			this.setRecepcionado(null);
+			this.setReparando(new Reparando());
+			this.container.flush();
+		}
 		return this;
 	}
 
-	@Programmatic
-	private List<Tecnico> choice0AsignarTecnico() {
+	public List<Tecnico> choices0AsignarTecnico() {
 		return this.tecnicoRepositorio.listar();
 	}
 
@@ -353,7 +357,8 @@ public class Movimiento implements Comparable<Movimiento> {
 			final @Optional @Named("Observaciones") String observaciones) {
 		// this.estado.esperarRepuestos(this);
 		// Reparando -> Esperando
-		Insumo unInsumo = this.insumoRepositorio.nuevosInsumo(codigo, cantidad, producto, marca, observaciones, this.getCreadoPor());
+		Insumo unInsumo = this.insumoRepositorio.nuevosInsumo(codigo, cantidad,
+				producto, marca, observaciones, this.getCreadoPor());
 		this.estadoActivo();
 		IEstado estadoEsperando = this.getEstado().esperarRepuestos(this);
 		this.setEstado(estadoEsperando);
@@ -429,6 +434,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	@MemberOrder(sequence = "20")
 	@Named("MOSTRAR ACTUAL")
 	@PostConstruct
+	@Programmatic
 	public Movimiento mostrarLaClaseDelEstado() {
 
 		if (this.getEstado() != null) {
@@ -439,6 +445,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		return this;
 	}
 
+	@Programmatic
 	@PostConstruct
 	public Movimiento nulear() {
 		this.setRecepcionado(null);
@@ -545,11 +552,11 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
-	
+
 	@javax.inject.Inject
 	private InsumoRepositorio insumoRepositorio;
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-	
+
 }
