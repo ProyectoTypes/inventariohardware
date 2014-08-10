@@ -360,6 +360,21 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	}
 
+	@PostConstruct
+	// @Programmatic
+	public Movimiento noHayRepuestos() {
+		// this.estado.noHayRepuestos(this);
+		// Esperando -> Cancelado
+		this.estadoActivo();
+		IEstado estadoCancelado = this.getEstado().noHayRepuestos(this);
+		this.setEstado(estadoCancelado);
+		this.setEsperando(null);
+		this.setCancelado(new Cancelado());
+		this.container.flush();
+		return this;
+
+	}
+
 	
 	@Programmatic
 	public void estadoActivo() {
