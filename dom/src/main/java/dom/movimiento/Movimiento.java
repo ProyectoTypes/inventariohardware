@@ -177,7 +177,26 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.creadoPor = creadoPor;
 	}
 
-	
+	/****************
+	 * CONSTRUCTOR::
+	 ****************/
+	public Movimiento() {
+		Recepcionado recepcion = new Recepcionado();
+		Reparando reparacion = null;
+		Entregado entregando = null;
+		Esperando esperando = null;
+		Cancelado cancelacion = null;
+
+		this.recepcionado = recepcion;
+		this.reparando = reparacion;
+		this.entregando = entregando;
+		this.esperando = esperando;
+		this.cancelado = cancelacion;
+
+		this.estado = new Recepcionado();
+		this.estadoActual = this.estado.toString();
+
+	}
 
 	/**********************************************************
 	 * PATRON STATE
@@ -296,6 +315,9 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * FIN: Atributos del State.
 	 * ***************************************************
 	 */
+	
+	// *********************************************************************************************
+	// *********************************************************************************************
 	/***********************************************************************
 	 * modificarTecnico: Permite asignar un Tecnico para la reparacion de la
 	 * computadora, a su vez se pasa al siguiente estado.
