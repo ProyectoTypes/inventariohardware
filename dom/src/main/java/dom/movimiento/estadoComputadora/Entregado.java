@@ -31,33 +31,32 @@ public class Entregado implements IEstado {
 
 	@Override
 	public IEstado asignarTecnico(Movimiento unM) {
-		// TODO Auto-generated method stub
-		return null;
+		unM.setEstadoActual("YA SE INICIALIZO.");
+		return this;
 	}
 
 	@Override
 	public IEstado esperarRepuestos(Movimiento unM) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public IEstado finalizarSoporte(Movimiento unM) {
-		// TODO Auto-generated method stub
-		return null;
+		unM.setEstadoActual("NO ES EL ESTADO ESPERANDO.");
+		return this;
 	}
 
 	@Override
 	public IEstado noHayRepuestos(Movimiento unM) {
 		// TODO Auto-generated method stub
-		return null;
+		unM.setEstadoActual("NO ES EL ESTADO ESPERANDO");
+		return this;
+	}
+
+	@Override
+	public IEstado finalizarSoporte(Movimiento unM) {
+		unM.setEstadoActual("FINALIZACION DEL SOPORTE");
+		return this;
 	}
 
 	@Override
 	public IEstado llegaronRepuestos(Movimiento unM) {
-		// TODO Auto-generated method stub
-		return null;
+		unM.setEstadoActual("NO ES EL ESTADO CANCELADO");
+		return this;
 	}
-
-	
 }
