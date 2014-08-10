@@ -49,7 +49,6 @@ import org.apache.isis.applib.util.ObjectContracts;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
-import servicio.email.EmailService;
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 import dom.insumo.Insumo;
@@ -327,13 +326,15 @@ public class Movimiento implements Comparable<Movimiento> {
 	public Movimiento asignarTecnico(final Tecnico unTecnico) {
 		// Recepcionado -> Reparando.
 		this.estadoActivo();
+		this.setTecnico(unTecnico);
+		unTecnico.addToComputadora(this.getComputadora());
 		IEstado estadoReparando = this.getEstado().asignarTecnico(this);
+		//Operaciones mantenimiento de estado.
 		this.setEstado(estadoReparando);
 		this.setRecepcionado(null);
 		this.setReparando(new Reparando());
 		this.container.flush();
 		return this;
-		// this.estado.asignarTecnico(this);
 	}
 
 	@Programmatic

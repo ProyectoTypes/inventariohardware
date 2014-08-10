@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.movimiento;
 
 import java.util.List;
@@ -59,43 +59,48 @@ public class MovimientoRepositorio {
 	// //////////////////////////////////////
 	// Insertar un Movimiento.
 	// //////////////////////////////////////
-	
+
 	@Named("Recepcion")
 	@MemberOrder(sequence = "10")
 	@PublishedAction
 	public Movimiento add(final @Named("Computadora") Computadora computadora,
-						final @Named("Observaciones") String observaciones) {
-		return nuevoMovimiento(computadora, observaciones, this.currentUserName());
+			final @Named("Observaciones") String observaciones) {
+		return nuevoMovimiento(computadora, observaciones,
+				this.currentUserName());
 	}
-	
-	public List<Computadora> autoComplete0Add(final @MinLength(2) String search) {
-		List<Computadora> listaComputadora = computadoraRepositorio.autoComplete(search.toUpperCase().trim());
-		return listaComputadora;
-	}
-	
+
 	@Programmatic
-	public Movimiento nuevoMovimiento(final Computadora computadora, final String observaciones, 
-				final String creadoPor) {
-		
-		final Movimiento unMovimiento = this.container.newTransientInstance(Movimiento.class);
+	public Movimiento nuevoMovimiento(final Computadora computadora,
+			final String observaciones, final String creadoPor) {
+
+		final Movimiento unMovimiento = this.container
+				.newTransientInstance(Movimiento.class);
 		unMovimiento.setHabilitado(true);
 		unMovimiento.setCreadoPor(creadoPor);
-//		unMovimiento.setComputadora(computadora);
+		// unMovimiento.setComputadora(computadora);
 		unMovimiento.setObservaciones(observaciones);
 		unMovimiento.setFecha(LocalDate.now());
 		unMovimiento.setTime_system(LocalDateTime.now().withMillisOfSecond(2));
-
 		computadora.addToMovimiento(unMovimiento);
+		// Recibido estadoInicial =
+		// this.container.newTransientInstance(Recibido.class);
+		// unMovimiento.setRecepcionado(estadoInicial);
 		this.container.persistIfNotAlready(unMovimiento);
 		this.container.flush();
 		return unMovimiento;
 
 	}
 
+	public List<Computadora> autoComplete0Add(final @MinLength(2) String search) {
+		List<Computadora> listaComputadora = computadoraRepositorio
+				.autoComplete(search.toUpperCase().trim());
+		return listaComputadora;
+	}
+
 	// ///////////////////////////////////////
 	// AutoComplete
 	// ///////////////////////////////////////
-	
+
 	/**
 	 * Servicio utilizado por Sector
 	 * 
@@ -116,8 +121,7 @@ public class MovimientoRepositorio {
 	public List<Movimiento> listar() {
 		final List<Movimiento> listaMovimientos = this.container
 				.allMatches(new QueryDefault<Movimiento>(Movimiento.class,
-						"listar", "creadoPor", this
-								.currentUserName()));
+						"listar", "creadoPor", this.currentUserName()));
 		if (listaMovimientos.isEmpty()) {
 			this.container
 					.warnUser("No hay Movimiento cargados en el sistema.");
@@ -139,11 +143,11 @@ public class MovimientoRepositorio {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-	
+
 	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
-	
+
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
 }
