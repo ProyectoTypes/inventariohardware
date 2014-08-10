@@ -18,8 +18,63 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.movimiento.estadoComputadora;
 
-public class Esperando {
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.VersionStrategy;
+
+import org.apache.isis.applib.annotation.Audited;
+import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.ObjectType;
+
+import dom.movimiento.Movimiento;
+
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "idEsperando")
+@javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "esperandoUnique", members = { "idEsperando" }) })
+@ObjectType("ESPERANDO")
+@Audited
+@Bookmarkable
+public class Esperando implements IEstado{
+	public String title() {
+		return "ESPERANDO";
+	}
+
+	public String iconName() {
+		return "sector";
+	}
+
+	@Override
+	public IEstado asignarTecnico(Movimiento unM) {
+		unM.setEstadoActual("NO ES EL ESTADO RECEPCIONADO");
+		return this;
+
+	}
+
+	@Override
+	public IEstado esperarRepuestos(Movimiento unM) {
+		unM.setEstadoActual("NO ESPERA: NO ES EL ESTADO REPARANDO.");
+		return this;
+	}
+
+	@Override
+	public IEstado finalizarSoporte(Movimiento unM) {
+		unM.setEstadoActual("NO FINALIZA: NO ES EL ESTADO REPARANDO.");
+		return this;
+	}
+	@Override
+	public IEstado noHayRepuestos(Movimiento unM) {
+		// TODO Auto-generated method stub
+		unM.setEstadoActual("CAMBIA AL NUEVO ESTADO CANCELADO");
+		return new Cancelado();
+	}
+
+
+	@Override
+	public IEstado llegaronRepuestos(Movimiento unM) {
+		unM.setEstadoActual("CAMBIA AL NUEVO ESTADO ENTREGANDO");
+		return new Entregado();
+	}
 }
