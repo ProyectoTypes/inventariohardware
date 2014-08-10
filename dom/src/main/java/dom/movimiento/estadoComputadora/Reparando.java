@@ -1,64 +1,59 @@
-/*
- * This is a software made for inventory control
- * 
- * Copyright (C) 2014, ProyectoTypes
- * 
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * 
- * 
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
 package dom.movimiento.estadoComputadora;
 
-import org.apache.isis.applib.DomainObjectContainer;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.VersionStrategy;
+
+import org.apache.isis.applib.annotation.Audited;
+import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.ObjectType;
 
 import dom.movimiento.Movimiento;
 
-public class Reparando implements IEstado{
-
-	Movimiento movimiento;
-	
-	public Reparando(Movimiento movimiento)
-	{
-		this.movimiento=movimiento;
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "idReparando")
+@javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "reparandoUnique", members = { "idReparando" }) })
+@ObjectType("REPARANDO")
+@Audited
+@Bookmarkable
+public class Reparando implements IEstado {
+	public String title() {
+		return "REPARANDO ";
 	}
 
-	@Override
-	public void equipoRecibido() {
-		this.container.warnUser("Reparando.java - recepcionando(): El equipo ya ha sido recepcionado");
-		
+	public String iconName() {
+		return "sector";
 	}
+
 	@Override
-	public void equipoReparado() {
-		this.movimiento.setEstado(this.movimiento.getCancelado());
-		
+	public IEstado asignarTecnico(Movimiento unM) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
 	@Override
-	public void equipoFinalizado() {
-		this.container.warnUser("Recepcionado.java - finalizado(): El equipo NO ha sido Recepcionado/Reparado");
-		
+	public IEstado esperarRepuestos(Movimiento unM) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	@Override
+	public IEstado finalizarSoporte(Movimiento unM) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IEstado noHayRepuestos(Movimiento unM) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IEstado llegaronRepuestos(Movimiento unM) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
-	@Override
-	public void equipoEsperando() {
-		this.container.warnUser("Esperando.java - equipoEsperando(): El equipo se encuentra en espera");
-	}
-	
-	@javax.inject.Inject
-	private DomainObjectContainer container;
-	
-	public String toString() {
-		return "EQUIPO EN REPARACION";
-	}
 }
