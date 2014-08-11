@@ -28,6 +28,7 @@ import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.ObjectType;
 
+import servicio.email.EmailService;
 import dom.movimiento.Movimiento;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
@@ -68,8 +69,13 @@ public class Esperando implements IEstado{
 	public IEstado noHayRepuestos(Movimiento unM) {
 		// TODO Auto-generated method stub
 		unM.setEstadoActual("CAMBIA AL NUEVO ESTADO CANCELADO");
+		emailService.send(unM.getComputadora());
+		unM.getTecnico().restaComputadora();
 		return new Cancelado();
 	}
+
+	@javax.inject.Inject
+	private EmailService emailService;
 
 
 	@Override
