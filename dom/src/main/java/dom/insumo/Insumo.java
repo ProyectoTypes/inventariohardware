@@ -37,10 +37,9 @@ import org.joda.time.LocalDate;
 import dom.movimiento.Movimiento;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
-@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "idInsumo")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Insumo_must_be_unique", members = {
-		"creadoPor", "codigo" }) })
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Insumo_must_be_unique", members = { "idInsumo" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorInsumo", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.insumo.Insumo "
@@ -62,14 +61,14 @@ import dom.movimiento.Movimiento;
 @Audited
 @AutoComplete(repository = InsumoRepositorio.class, action = "autoComplete")
 @Bookmarkable
-public class Insumo {
+public class Insumo implements Comparable<Insumo> {
 
 	// //////////////////////////////////////
 	// Identificacion en la UI
 	// //////////////////////////////////////
 
 	public String title() {
-		return this.getCodigo();
+		return this.getCodigo() + " - " + this.getMarca();
 	}
 
 	public String iconName() {
@@ -244,6 +243,12 @@ public class Insumo {
 	public void limpiarMovimiento() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public int compareTo(Insumo o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
