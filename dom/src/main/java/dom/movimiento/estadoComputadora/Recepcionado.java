@@ -3,6 +3,7 @@ package dom.movimiento.estadoComputadora;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.ObjectType;
@@ -29,7 +30,10 @@ public class Recepcionado implements IEstado {
 	@Override
 	public IEstado asignarTecnico(Movimiento unM) {
 		unM.setEstadoActual("CAMBIA DE ESTADO A REPARANDO - EN REPARACION.");
+		unM.getTecnico().sumaComputadora();
 		return new Reparando();
+		// this.container
+		// .informUser("El Tecnico seleccionado no esta disponible.");
 
 	}
 
@@ -57,5 +61,8 @@ public class Recepcionado implements IEstado {
 		unM.setEstadoActual("NO ES EL ESTADO ESPERANDO");
 		return this;
 	}
+
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 
 }
