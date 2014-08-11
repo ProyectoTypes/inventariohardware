@@ -495,6 +495,30 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.insumos = insumos;
 	}
 
+	public void agregarAInsumos(final Insumo insumo) {
+		// check for no-op
+		if (insumo == null || getInsumos().contains(insumo)) {
+			return;
+		}
+		// dissociate arg from its current parent (if any).
+		insumo.limpiarMovimiento();
+		// associate arg
+		insumo.setMovimiento(this);
+		getInsumos().add(insumo);
+	}
+
+	public void eliminarInsumos(final Insumo insumo) {
+		// check for no-op
+		if (insumo == null || !getInsumos().contains(insumo)) {
+			return;
+		}
+		// dissociate arg
+		insumo.setMovimiento(null);
+		getInsumos().remove(insumo);
+	}
+
+	
+
 	/********************************************************
 	 * Relacion Computadora/Movimiento.
 	 ********************************************************/
