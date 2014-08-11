@@ -359,17 +359,30 @@ public class Movimiento implements Comparable<Movimiento> {
 		// Reparando -> Esperando
 		Insumo unInsumo = null;
 		this.estadoActivo();
+		IEstado estadoEsperando = this.getEstado().esperarRepuestos(this);
 		if (this.getReparando() != null) {
 			unInsumo = this.insumoRepositorio.nuevosInsumo(codigo, cantidad,
 					producto, marca, observaciones, this.getCreadoPor());
-			IEstado estadoEsperando = this.getEstado().esperarRepuestos(this);
 			this.setEstado(estadoEsperando);
 			this.setReparando(null);
 			this.setEsperando(new Esperando());
 			this.agregarAInsumos(unInsumo);
 			this.container.flush();
 		}
+
 		return unInsumo;
+	}
+
+	public String validateEsperarRepuestos(
+			final @Named("Codigo") String codigo,
+			final @Named("Cantidad") int cantidad,
+			final @Named("Producto") String producto,
+			final @Named("Marca") String marca,
+			final @Optional @Named("Observaciones") String observaciones) {
+		if (this.getReparando() == null)
+			return "El equipo no se encuentra disponible para solicitar Insumos.";
+		else
+			return null;
 	}
 
 	@PostConstruct
@@ -378,8 +391,8 @@ public class Movimiento implements Comparable<Movimiento> {
 		// this.estado.finalizarSoporte(this);
 		// Reparando -> Entregando
 		this.estadoActivo();
-		if (this.getReparando() != null) {
-			IEstado estadoEntregado = this.getEstado().finalizarSoporte(this);
+		IEstado estadoEntregado = this.getEstado().finalizarSoporte(this);
+		if (this.getReparando() != null) {// Cambia los estados
 			this.setEstado(estadoEntregado);
 			this.setReparando(null);
 			this.setEsperando(null);
@@ -396,8 +409,8 @@ public class Movimiento implements Comparable<Movimiento> {
 		// this.estado.noHayRepuestos(this);
 		// Esperando -> Cancelado
 		this.estadoActivo();
-		if (this.getEsperando() != null) {
-			IEstado estadoCancelado = this.getEstado().noHayRepuestos(this);
+		IEstado estadoCancelado = this.getEstado().noHayRepuestos(this);
+		if (this.getEsperando() != null) {// Cambia los estados
 			this.setEstado(estadoCancelado);
 			this.setEsperando(null);
 			this.setCancelado(new Cancelado());
@@ -413,8 +426,8 @@ public class Movimiento implements Comparable<Movimiento> {
 		// this.estado.llegaronRepuestos(this);
 		// Esperando -> Entregando
 		this.estadoActivo();
-		if (this.getEsperando() != null) {
-			IEstado estadoEntregado = this.getEstado().llegaronRepuestos(this);
+		IEstado estadoEntregado = this.getEstado().llegaronRepuestos(this);
+		if (this.getEsperando() != null) {// Cambia los estados
 			this.setEstado(estadoEntregado);
 			this.setEsperando(null);
 			this.setEntregando(new Entregado());
