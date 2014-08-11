@@ -364,6 +364,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.setEstado(estadoEsperando);
 		this.setReparando(null);
 		this.setEsperando(new Esperando());
+		this.agregarAInsumos(unInsumo);
 		this.container.flush();
 		return unInsumo;
 	}
