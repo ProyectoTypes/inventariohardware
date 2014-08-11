@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.insumo;
 
 import java.util.List;
@@ -70,7 +70,8 @@ public class InsumoRepositorio {
 		unInsumo.setCantidad(cantidad);
 		unInsumo.setProducto(producto.toUpperCase().trim());
 		unInsumo.setMarca(marca.toUpperCase().trim());
-		unInsumo.setObservaciones(observaciones.toUpperCase().trim());
+		if (observaciones != null && observaciones != "")
+			unInsumo.setObservaciones(observaciones.toUpperCase().trim());
 		unInsumo.setFecha(LocalDate.now());
 		unInsumo.setHabilitado(true);
 		unInsumo.setCreadoPor(creadoPor);
@@ -87,8 +88,7 @@ public class InsumoRepositorio {
 	public List<Insumo> listar() {
 		final List<Insumo> listaInsumo = this.container
 				.allMatches(new QueryDefault<Insumo>(Insumo.class,
-						"listarInsumoTrue", "creadoPor", this
-								.currentUserName()));
+						"listarInsumoTrue", "creadoPor", this.currentUserName()));
 		if (listaInsumo.isEmpty()) {
 			this.container.warnUser("No hay Insumos cargadas en el sistema.");
 		}
