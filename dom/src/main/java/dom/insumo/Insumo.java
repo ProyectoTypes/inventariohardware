@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.insumo;
 
 import javax.jdo.annotations.IdentityType;
@@ -52,7 +52,8 @@ import dom.movimiento.Movimiento;
 				+ "   && habilitado == false"),
 		@javax.jdo.annotations.Query(name = "listarInsumoTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.insumo.Insumo "
-				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
+				+ "WHERE creadoPor == :creadoPor "
+				+ "   && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorCodigo", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.insumo.Insumo "
 				+ "WHERE creadoPor == :creadoPor "
@@ -186,6 +187,7 @@ public class Insumo {
 	public void setCreadoPor(String creadoPor) {
 		this.creadoPor = creadoPor;
 	}
+
 	// //////////////////////////////////////
 	// fecha (propiedad)
 	// //////////////////////////////////////
@@ -218,4 +220,30 @@ public class Insumo {
 	public void setMovimiento(Movimiento movimiento) {
 		this.movimiento = movimiento;
 	}
+
+	public void modifyMovimiento(final Movimiento movimiento) {
+		Movimiento currentMovimiento = getMovimiento();
+		// check for no-op
+		if (movimiento == null || movimiento.equals(currentMovimiento)) {
+			return;
+		}
+		// delegate to parent to associate
+		movimiento.agregarAInsumos(this);
+	}
+
+	public void clearMovimiento() {
+		Movimiento currentMovimiento = getMovimiento();
+		// check for no-op
+		if (currentMovimiento == null) {
+			return;
+		}
+		// delegate to parent to dissociate
+		currentMovimiento.eliminarInsumos(this);
+	}
+
+	public void limpiarMovimiento() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
