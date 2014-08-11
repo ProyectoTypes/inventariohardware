@@ -7,6 +7,7 @@ import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.ObjectType;
 
+import servicio.email.EmailService;
 import dom.movimiento.Movimiento;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
@@ -41,8 +42,13 @@ public class Reparando implements IEstado {
 	@Override
 	public IEstado finalizarSoporte(Movimiento unM) {
 		unM.setEstadoActual("CAMBIA AL ESTADO ENTREGANDO.");
+		emailService.send(unM.getComputadora());
+		unM.getTecnico().restaComputadora();
 		return new Entregado();
 	}
+
+	@javax.inject.Inject
+	private EmailService emailService;
 
 	@Override
 	public IEstado noHayRepuestos(Movimiento unM) {
