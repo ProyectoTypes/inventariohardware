@@ -225,7 +225,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 
 	@Programmatic
 	public Boolean estaDisponible() {
-		BigDecimal tope = new BigDecimal(5);
+		BigDecimal tope = new BigDecimal(10);
 		if (this.cantidadComputadora.compareTo(tope) == -1)
 			return true;
 		else
