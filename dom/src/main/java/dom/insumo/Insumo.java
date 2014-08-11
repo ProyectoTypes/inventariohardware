@@ -23,6 +23,7 @@ package dom.insumo;
 
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
+
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
@@ -31,6 +32,7 @@ import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Where;
 import org.joda.time.LocalDate;
 
@@ -239,7 +241,7 @@ public class Insumo implements Comparable<Insumo> {
 		// delegate to parent to dissociate
 		currentMovimiento.eliminarInsumos(this);
 	}
-
+	@Programmatic
 	public void limpiarMovimiento() {
 		// TODO Auto-generated method stub
 
