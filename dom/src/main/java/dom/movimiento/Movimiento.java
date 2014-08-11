@@ -328,7 +328,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		// Recepcionado -> Reparando.
 		IEstado estadoReparando = null;
 		this.estadoActivo();
-		if (unTecnico.estaDisponible()) {
+		if (this.getRecepcionado() != null && unTecnico.estaDisponible()) {
 			this.setTecnico(unTecnico);
 			unTecnico.addToComputadora(this.getComputadora());
 			estadoReparando = this.getEstado().asignarTecnico(this);
@@ -357,15 +357,18 @@ public class Movimiento implements Comparable<Movimiento> {
 			final @Optional @Named("Observaciones") String observaciones) {
 		// this.estado.esperarRepuestos(this);
 		// Reparando -> Esperando
-		Insumo unInsumo = this.insumoRepositorio.nuevosInsumo(codigo, cantidad,
-				producto, marca, observaciones, this.getCreadoPor());
+		Insumo unInsumo = null;
 		this.estadoActivo();
-		IEstado estadoEsperando = this.getEstado().esperarRepuestos(this);
-		this.setEstado(estadoEsperando);
-		this.setReparando(null);
-		this.setEsperando(new Esperando());
-		this.agregarAInsumos(unInsumo);
-		this.container.flush();
+		if (this.getReparando() != null) {
+			unInsumo = this.insumoRepositorio.nuevosInsumo(codigo, cantidad,
+					producto, marca, observaciones, this.getCreadoPor());
+			IEstado estadoEsperando = this.getEstado().esperarRepuestos(this);
+			this.setEstado(estadoEsperando);
+			this.setReparando(null);
+			this.setEsperando(new Esperando());
+			this.agregarAInsumos(unInsumo);
+			this.container.flush();
+		}
 		return unInsumo;
 	}
 
@@ -375,12 +378,14 @@ public class Movimiento implements Comparable<Movimiento> {
 		// this.estado.finalizarSoporte(this);
 		// Reparando -> Entregando
 		this.estadoActivo();
-		IEstado estadoEntregado = this.getEstado().finalizarSoporte(this);
-		this.setEstado(estadoEntregado);
-		this.setReparando(null);
-		this.setEsperando(null);
-		this.setEntregando(new Entregado());
-		this.container.flush();
+		if (this.getReparando() != null) {
+			IEstado estadoEntregado = this.getEstado().finalizarSoporte(this);
+			this.setEstado(estadoEntregado);
+			this.setReparando(null);
+			this.setEsperando(null);
+			this.setEntregando(new Entregado());
+			this.container.flush();
+		}
 		return this;
 
 	}
@@ -391,11 +396,13 @@ public class Movimiento implements Comparable<Movimiento> {
 		// this.estado.noHayRepuestos(this);
 		// Esperando -> Cancelado
 		this.estadoActivo();
-		IEstado estadoCancelado = this.getEstado().noHayRepuestos(this);
-		this.setEstado(estadoCancelado);
-		this.setEsperando(null);
-		this.setCancelado(new Cancelado());
-		this.container.flush();
+		if (this.getEsperando() != null) {
+			IEstado estadoCancelado = this.getEstado().noHayRepuestos(this);
+			this.setEstado(estadoCancelado);
+			this.setEsperando(null);
+			this.setCancelado(new Cancelado());
+			this.container.flush();
+		}
 		return this;
 
 	}
@@ -406,11 +413,13 @@ public class Movimiento implements Comparable<Movimiento> {
 		// this.estado.llegaronRepuestos(this);
 		// Esperando -> Entregando
 		this.estadoActivo();
-		IEstado estadoEntregado = this.getEstado().llegaronRepuestos(this);
-		this.setEstado(estadoEntregado);
-		this.setEsperando(null);
-		this.setEntregando(new Entregado());
-		this.container.flush();
+		if (this.getEsperando() != null) {
+			IEstado estadoEntregado = this.getEstado().llegaronRepuestos(this);
+			this.setEstado(estadoEntregado);
+			this.setEsperando(null);
+			this.setEntregando(new Entregado());
+			this.container.flush();
+		}
 		return this;
 	}
 
@@ -496,6 +505,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.insumos = insumos;
 	}
 
+	@Programmatic
 	public void agregarAInsumos(final Insumo insumo) {
 		// check for no-op
 		if (insumo == null || getInsumos().contains(insumo)) {
@@ -508,6 +518,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		getInsumos().add(insumo);
 	}
 
+	@Programmatic
 	public void eliminarInsumos(final Insumo insumo) {
 		// check for no-op
 		if (insumo == null || !getInsumos().contains(insumo)) {
@@ -517,8 +528,6 @@ public class Movimiento implements Comparable<Movimiento> {
 		insumo.setMovimiento(null);
 		getInsumos().remove(insumo);
 	}
-
-	
 
 	/********************************************************
 	 * Relacion Computadora/Movimiento.
