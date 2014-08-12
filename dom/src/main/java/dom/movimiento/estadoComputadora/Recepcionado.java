@@ -6,6 +6,7 @@ import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
 import dom.movimiento.Movimiento;
@@ -26,40 +27,52 @@ public class Recepcionado implements IEstado {
 	public String iconName() {
 		return "sector";
 	}
+	// {{ Movimiento (property)
+	private Movimiento movimiento;
+
+	@MemberOrder(sequence = "1")
+	public Movimiento getMovimiento() {
+		return movimiento;
+	}
+
+	public void setMovimiento(final Movimiento movimiento) {
+		this.movimiento = movimiento;
+	}
+	// }}
+	public Recepcionado(Movimiento unMovimiento)
+	{
+		this.movimiento= unMovimiento;
+	}
 
 	@Override
-	public IEstado asignarTecnico(Movimiento unM) {
-		unM.setEstadoActual("CAMBIA DE ESTADO A REPARANDO - EN REPARACION.");
-		unM.getTecnico().sumaComputadora();
-		return new Reparando();
+	public void asignarTecnico() {
+		this.getMovimiento().setEstadoActual("CAMBIA DE ESTADO A REPARANDO - EN REPARACION.");
+		this.getMovimiento().getTecnico().sumaComputadora();
+		this.getMovimiento().setEstado(this.getMovimiento().getReparando());
 		// this.container
 		// .informUser("El Tecnico seleccionado no esta disponible.");
 
 	}
 
 	@Override
-	public IEstado esperarRepuestos(Movimiento unM) {
-		unM.setEstadoActual("NO ESPERA: NO ES EL ESTADO REPARANDO.");
-		return this;
+	public void esperarRepuestos( ) {
+		this.getMovimiento().setEstadoActual("NO ESPERA: NO ES EL ESTADO REPARANDO.");
 	}
 
 	@Override
-	public IEstado finalizarSoporte(Movimiento unM) {
-		unM.setEstadoActual("NO FINALIZA: NO ES EL ESTADO REPARANDO.");
-		return this;
+	public void finalizarSoporte() {
+		this.getMovimiento().setEstadoActual("NO FINALIZA: NO ES EL ESTADO REPARANDO.");
 	}
 
 	@Override
-	public IEstado noHayRepuestos(Movimiento unM) {
+	public void noHayRepuestos( ) {
 		// TODO Auto-generated method stub
-		unM.setEstadoActual("NO CANCELA: NO ES EL ESTADO ESPERANDO");
-		return this;
+		this.getMovimiento().setEstadoActual("NO CANCELA: NO ES EL ESTADO ESPERANDO");
 	}
 
 	@Override
-	public IEstado llegaronRepuestos(Movimiento unM) {
-		unM.setEstadoActual("NO ES EL ESTADO ESPERANDO");
-		return this;
+	public void llegaronRepuestos( ) {
+		this.getMovimiento().setEstadoActual("NO ES EL ESTADO ESPERANDO");
 	}
 
 	@javax.inject.Inject

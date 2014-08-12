@@ -1,6 +1,5 @@
 package dom.movimiento.estadoComputadora;
 
-import dom.movimiento.Movimiento;
 
 public interface IEstado {
 	/**
@@ -11,7 +10,7 @@ public interface IEstado {
 	 * @param unM
 	 * @return
 	 */
-	public abstract IEstado asignarTecnico(Movimiento unM);
+	void asignarTecnico();
 
 	/**
 	 * esperarRepuestos: - Estado Actual: Reparando. - Nuevo Estado: Esperando.
@@ -20,7 +19,7 @@ public interface IEstado {
 	 * @param unM
 	 * @return
 	 */
-	public abstract IEstado esperarRepuestos(Movimiento unM);
+	void esperarRepuestos();
 
 	/**
 	 * finalizarSoporte: - Estado Actual: Reparando. - Nuevo Estado: Entregado.
@@ -29,7 +28,7 @@ public interface IEstado {
 	 * @param unM
 	 * @return
 	 */
-	public abstract IEstado finalizarSoporte(Movimiento unM);
+	void finalizarSoporte();
 
 	/**
 	 * noHayRepuestos - Estado Actual: Esperando. - Nuevo Estado: Cancelado.
@@ -37,7 +36,7 @@ public interface IEstado {
 	 * @param unM
 	 * @return
 	 */
-	public abstract IEstado noHayRepuestos(Movimiento unM);
+     void noHayRepuestos();
 
 	/**
 	 * llegaronRepuestos: - Estado Actual: Esperando. - Nuevo Estado: Reparando.
@@ -45,6 +44,6 @@ public interface IEstado {
 	 * @param unM
 	 * @return
 	 */
-	public abstract IEstado llegaronRepuestos(Movimiento unM);
+	void llegaronRepuestos();
 
 }

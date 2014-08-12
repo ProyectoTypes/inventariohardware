@@ -26,6 +26,7 @@ import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
 import dom.movimiento.Movimiento;
@@ -49,38 +50,48 @@ public class Cancelado implements IEstado {
 	public String iconName() {
 		return "sector";
 	}
+	public Cancelado(Movimiento movimiento) {
+		this.movimiento = movimiento;
+	}
+	// {{ Movimiento (property)
+		private Movimiento movimiento;
 
+		@MemberOrder(sequence = "1")
+		public Movimiento getMovimiento() {
+			return movimiento;
+		}
+
+		public void setMovimiento(final Movimiento movimiento) {
+			this.movimiento = movimiento;
+		}
+
+		// }}
 	@Override
-	public IEstado asignarTecnico(Movimiento unM) {
-		unM.setEstadoActual("YA SE INICIALIZO.");
-		return this;
+	public void asignarTecnico( ) {
+		this.getMovimiento().setEstadoActual("YA SE INICIALIZO.");
 	}
 
 	@Override
-	public IEstado esperarRepuestos(Movimiento unM) {
-		unM.setEstadoActual("NO ES EL ESTADO ESPERANDO.");
-		return this;
+	public void esperarRepuestos( ) {
+		this.getMovimiento().setEstadoActual("NO ES EL ESTADO ESPERANDO.");
 	}
 
 	@Override
-	public IEstado noHayRepuestos(Movimiento unM) {
+	public void noHayRepuestos( ) {
 		// TODO Auto-generated method stub
-		unM.setEstadoActual("NO ES EL ESTADO ESPERANDO");
-		return this;
+		this.getMovimiento().setEstadoActual("NO ES EL ESTADO ESPERANDO");
 	}
 
 	@Override
-	public IEstado finalizarSoporte(Movimiento unM) {
-		unM.setEstadoActual("FINALIZACION DEL SOPORTE");
-		if (unM.getEstado().getClass().getSimpleName() == "Cancelado")
-			unM.setEstadoActual("SOPORTE CANCELADO");
+	public void finalizarSoporte() {
+		this.getMovimiento().setEstadoActual("FINALIZACION DEL SOPORTE");
+		if (this.getMovimiento().getEstado().getClass().getSimpleName() == "Cancelado")
+			this.getMovimiento().setEstadoActual("SOPORTE CANCELADO");
 
-		return this;
 	}
 
 	@Override
-	public IEstado llegaronRepuestos(Movimiento unM) {
-		unM.setEstadoActual("NO ES EL ESTADO CANCELADO");
-		return this;
+	public void llegaronRepuestos( ) {
+		this.getMovimiento().setEstadoActual("NO ES EL ESTADO CANCELADO");
 	}
 }

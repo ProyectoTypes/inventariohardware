@@ -26,6 +26,7 @@ import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
 import servicio.email.EmailService;
@@ -38,49 +39,64 @@ import dom.movimiento.Movimiento;
 @ObjectType("ESPERANDO")
 @Audited
 @Bookmarkable
-public class Esperando implements IEstado{
+public class Esperando implements IEstado {
 	public String title() {
 		return "ESPERANDO";
 	}
 
 	public String iconName() {
-		return "sector";
+		return "sector"; // cambiar todos los iconos!!!!!
+	}
+	public Esperando(Movimiento movimiento) {
+		this.movimiento = movimiento;
+	}
+	// {{ Movimiento (property)
+	private Movimiento movimiento;
+
+	@MemberOrder(sequence = "1")
+	public Movimiento getMovimiento() {
+		return movimiento;
+	}
+
+	public void setMovimiento(final Movimiento movimiento) {
+		this.movimiento = movimiento;
+	}
+
+	// }}
+	@Override
+	public void asignarTecnico() {
+		this.getMovimiento().setEstadoActual("NO ES EL ESTADO RECEPCIONADO");
+
 	}
 
 	@Override
-	public IEstado asignarTecnico(Movimiento unM) {
-		unM.setEstadoActual("NO ES EL ESTADO RECEPCIONADO");
-		return this;
-
+	public void esperarRepuestos() {
+		this.getMovimiento().setEstadoActual(
+				"NO ESPERA: NO ES EL ESTADO REPARANDO.");
 	}
 
 	@Override
-	public IEstado esperarRepuestos(Movimiento unM) {
-		unM.setEstadoActual("NO ESPERA: NO ES EL ESTADO REPARANDO.");
-		return this;
+	public void finalizarSoporte() {
+		this.getMovimiento().setEstadoActual(
+				"NO FINALIZA: NO ES EL ESTADO REPARANDO.");
 	}
 
 	@Override
-	public IEstado finalizarSoporte(Movimiento unM) {
-		unM.setEstadoActual("NO FINALIZA: NO ES EL ESTADO REPARANDO.");
-		return this;
+	public void noHayRepuestos() {
+		this.getMovimiento()
+				.setEstadoActual("CAMBIA AL NUEVO ESTADO CANCELADO");
+		emailService.send(this.getMovimiento().getComputadora());
+		this.getMovimiento().getTecnico().restaComputadora();
+		this.getMovimiento().setEstado(this.getMovimiento().getCancelado());
 	}
+
 	@Override
-	public IEstado noHayRepuestos(Movimiento unM) {
-		// TODO Auto-generated method stub
-		unM.setEstadoActual("CAMBIA AL NUEVO ESTADO CANCELADO");
-		emailService.send(unM.getComputadora());
-		unM.getTecnico().restaComputadora();
-		return new Cancelado();
+	public void llegaronRepuestos() {
+		this.getMovimiento().setEstadoActual(
+				"CAMBIA AL NUEVO ESTADO ENTREGANDO");
+		this.getMovimiento().setEstado(this.getMovimiento().getEntregando());
 	}
 
 	@javax.inject.Inject
 	private EmailService emailService;
-
-
-	@Override
-	public IEstado llegaronRepuestos(Movimiento unM) {
-		unM.setEstadoActual("CAMBIA AL NUEVO ESTADO ENTREGANDO");
-		return new Entregado();
-	}
 }
