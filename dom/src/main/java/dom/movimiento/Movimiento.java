@@ -406,6 +406,7 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	@PostConstruct
 	// @Programmatic
+	
 	public Movimiento finalizarSoporte() {
 		// Reparando -> Entregando
 		this.getEstado().finalizarSoporte();
