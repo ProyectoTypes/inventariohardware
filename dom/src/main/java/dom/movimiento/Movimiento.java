@@ -334,6 +334,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * @return
 	 */
 	@PostConstruct
+	@DescribedAs("Comenzar a Reparar.")
 	public Movimiento asignarTecnico(final Tecnico unTecnico) {
 		// Recepcionado -> Reparando.
 		this.setTecnico(unTecnico);
@@ -406,7 +407,8 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	@PostConstruct
 	// @Programmatic
-	
+	@Named("Finalizar")
+	@DescribedAs("Envio de email.")
 	public Movimiento finalizarSoporte() {
 		// Reparando -> Entregando
 		this.getEstado().finalizarSoporte();
@@ -426,6 +428,7 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	@PostConstruct
 	// @Programmatic
+	@Named("Cancelar")
 	public Movimiento noHayRepuestos() {
 		// Esperando -> Cancelado
 		this.getEstado().noHayRepuestos();
@@ -445,6 +448,8 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	@PostConstruct
 	// @Programmatic
+	@Named("Ensamblar")
+	@DescribedAs("Llegaron los repuestos.")
 	public Movimiento llegaronRepuestos() {
 		this.getEstado().llegaronRepuestos();
 		// Esperando -> Entregando
