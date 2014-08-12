@@ -54,7 +54,7 @@ import dom.computadora.ComputadoraRepositorio;
 import dom.insumo.Insumo;
 import dom.insumo.InsumoRepositorio;
 import dom.movimiento.estadoComputadora.Cancelado;
-import dom.movimiento.estadoComputadora.Entregado;
+import dom.movimiento.estadoComputadora.Entregando;
 import dom.movimiento.estadoComputadora.Esperando;
 import dom.movimiento.estadoComputadora.IEstado;
 import dom.movimiento.estadoComputadora.Recepcionado;
@@ -181,19 +181,13 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * CONSTRUCTOR::
 	 ****************/
 	public Movimiento() {
-		Recepcionado recepcion = new Recepcionado();
-		Reparando reparacion = null;
-		Entregado entregando = null;
-		Esperando esperando = null;
-		Cancelado cancelacion = null;
+		this.recepcionado =  new Recepcionado(this);;
+		this.reparando = new Reparando(this);
+		this.entregando = new Entregando(this);
+		this.esperando = new Esperando(this);
+		this.cancelado = new Cancelado(this);
 
-		this.recepcionado = recepcion;
-		this.reparando = reparacion;
-		this.entregando = entregando;
-		this.esperando = esperando;
-		this.cancelado = cancelacion;
-
-		this.estado = new Recepcionado();
+		this.estado = this.recepcionado;
 		this.estadoActual = this.estado.getClass().getSimpleName();
 
 	}
@@ -277,17 +271,17 @@ public class Movimiento implements Comparable<Movimiento> {
 	/* *************************************************** */
 
 	// {{ Entregando (property)
-	private Entregado entregando;
+	private Entregando entregando;
 
 	// @Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	// @Programmatic
-	public Entregado getEntregando() {
+	public Entregando getEntregando() {
 		return entregando;
 	}
 
-	public void setEntregando(final Entregado entregando) {
+	public void setEntregando(final Entregando entregando) {
 		this.entregando = entregando;
 	}
 
@@ -326,20 +320,24 @@ public class Movimiento implements Comparable<Movimiento> {
 	@PostConstruct
 	public Movimiento asignarTecnico(final Tecnico unTecnico) {
 		// Recepcionado -> Reparando.
-		IEstado estadoReparando = null;
-		this.estadoActivo();
-		if (this.getRecepcionado() != null && unTecnico.estaDisponible()) {
-			this.setTecnico(unTecnico);
-			unTecnico.addToComputadora(this.getComputadora());
-			estadoReparando = this.getEstado().asignarTecnico(this);
-			// Operaciones mantenimiento de estado.
-			// this.setObservaciones("Esta disponible - estado: "
-			// + estadoReparando.getClass().getSimpleName());
-			this.setEstado(estadoReparando);
-			this.setRecepcionado(null);
-			this.setReparando(new Reparando());
-			this.container.flush();
-		}
+		this.getEstado().asignarTecnico();
+		this.setTecnico(unTecnico);
+		unTecnico.addToComputadora(this.getComputadora());
+
+		// IEstado estadoReparando = null;
+		// this.estadoActivo();
+		// if (this.getRecepcionado() != null && unTecnico.estaDisponible()) {
+		// this.setTecnico(unTecnico);
+		// unTecnico.addToComputadora(this.getComputadora());
+		// estadoReparando = this.getEstado().asignarTecnico(this);
+		// // Operaciones mantenimiento de estado.
+		// // this.setObservaciones("Esta disponible - estado: "
+		// // + estadoReparando.getClass().getSimpleName());
+		// this.setEstado(estadoReparando);
+		// this.setRecepcionado(null);
+		// this.setReparando(new Reparando());
+		// this.container.flush();
+		// }
 		return this;
 	}
 
@@ -356,19 +354,22 @@ public class Movimiento implements Comparable<Movimiento> {
 			final @Named("Marca") String marca,
 			final @Optional @Named("Observaciones") String observaciones) {
 		// this.estado.esperarRepuestos(this);
-		// Reparando -> Esperando
+		this.getEstado().esperarRepuestos();
 		Insumo unInsumo = null;
-		this.estadoActivo();
-		IEstado estadoEsperando = this.getEstado().esperarRepuestos(this);
-		if (this.getReparando() != null) {
-			unInsumo = this.insumoRepositorio.nuevosInsumo(codigo, cantidad,
-					producto, marca, observaciones, this.getCreadoPor());
-			this.setEstado(estadoEsperando);
-			this.setReparando(null);
-			this.setEsperando(new Esperando());
-			this.agregarAInsumos(unInsumo);
-			this.container.flush();
-		}
+		this.insumoRepositorio.nuevosInsumo(codigo, cantidad, producto, marca,
+				observaciones, this.getCreadoPor());
+		// Reparando -> Esperando
+		// this.estadoActivo();
+		// IEstado estadoEsperando = this.getEstado().esperarRepuestos(this);
+		// if (this.getReparando() != null) {
+		// unInsumo = this.insumoRepositorio.nuevosInsumo(codigo, cantidad,
+		// producto, marca, observaciones, this.getCreadoPor());
+		// this.setEstado(estadoEsperando);
+		// this.setReparando(null);
+		// this.setEsperando(new Esperando());
+		// this.agregarAInsumos(unInsumo);
+		// this.container.flush();
+		// }
 
 		return unInsumo;
 	}
@@ -388,17 +389,18 @@ public class Movimiento implements Comparable<Movimiento> {
 	@PostConstruct
 	// @Programmatic
 	public Movimiento finalizarSoporte() {
-		// this.estado.finalizarSoporte(this);
-		// Reparando -> Entregando
-		this.estadoActivo();
-		IEstado estadoEntregado = this.getEstado().finalizarSoporte(this);
-		if (this.getReparando() != null) {// Cambia los estados
-			this.setEstado(estadoEntregado);
-			this.setReparando(null);
-			this.setEsperando(null);
-			this.setEntregando(new Entregado());
-			this.container.flush();
-		}
+		this.getEstado().finalizarSoporte();
+
+		// // Reparando -> Entregando
+		// this.estadoActivo();
+		// IEstado estadoEntregado = this.getEstado().finalizarSoporte(this);
+		// if (this.getReparando() != null) {// Cambia los estados
+		// this.setEstado(estadoEntregado);
+		// this.setReparando(null);
+		// this.setEsperando(null);
+		// this.setEntregando(new Entregado());
+		// this.container.flush();
+		// }
 		return this;
 
 	}
@@ -406,16 +408,18 @@ public class Movimiento implements Comparable<Movimiento> {
 	@PostConstruct
 	// @Programmatic
 	public Movimiento noHayRepuestos() {
+		 this.getEstado().noHayRepuestos();
+
 		// this.estado.noHayRepuestos(this);
 		// Esperando -> Cancelado
-		this.estadoActivo();
-		IEstado estadoCancelado = this.getEstado().noHayRepuestos(this);
-		if (this.getEsperando() != null) {// Cambia los estados
-			this.setEstado(estadoCancelado);
-			this.setEsperando(null);
-			this.setCancelado(new Cancelado());
-			this.container.flush();
-		}
+		// this.estadoActivo();
+		// IEstado estadoCancelado = this.getEstado().noHayRepuestos(this);
+		// if (this.getEsperando() != null) {// Cambia los estados
+		// this.setEstado(estadoCancelado);
+		// this.setEsperando(null);
+		// this.setCancelado(new Cancelado());
+		// this.container.flush();
+		// }
 		return this;
 
 	}
@@ -423,34 +427,34 @@ public class Movimiento implements Comparable<Movimiento> {
 	@PostConstruct
 	// @Programmatic
 	public Movimiento llegaronRepuestos() {
-		// this.estado.llegaronRepuestos(this);
+		this.getEstado().llegaronRepuestos();
 		// Esperando -> Entregando
-		this.estadoActivo();
-		IEstado estadoEntregado = this.getEstado().llegaronRepuestos(this);
-		if (this.getEsperando() != null) {// Cambia los estados
-			this.setEstado(estadoEntregado);
-			this.setEsperando(null);
-			this.setEntregando(new Entregado());
-			this.container.flush();
-		}
+		// this.estadoActivo();
+		// IEstado estadoEntregado = this.getEstado().llegaronRepuestos(this);
+		// if (this.getEsperando() != null) {// Cambia los estados
+		// this.setEstado(estadoEntregado);
+		// this.setEsperando(null);
+		// this.setEntregando(new Entregado());
+		// this.container.flush();
+		// }
 		return this;
 	}
 
 	// *********************************************************************************************
-	@Programmatic
-	public void estadoActivo() {
-		if (this.getRecepcionado() != null)
-			this.setEstado(new Recepcionado());
-		else if (this.getReparando() != null)
-			this.setEstado(new Reparando());
-		else if (this.getEntregando() != null)
-			this.setEstado(new Entregado());
-		else if (this.getEsperando() != null)
-			this.setEstado(new Esperando());
-		else if (this.getCancelado() != null)
-			this.setEstado(new Cancelado());
-
-	}
+	// @Programmatic
+	// public void estadoActivo() {
+	// if (this.getRecepcionado() != null)
+	// this.setEstado(new Recepcionado());
+	// else if (this.getReparando() != null)
+	// this.setEstado(new Reparando());
+	// else if (this.getEntregando() != null)
+	// this.setEstado(new Entregado());
+	// else if (this.getEsperando() != null)
+	// this.setEstado(new Esperando());
+	// else if (this.getCancelado() != null)
+	// this.setEstado(new Cancelado());
+	//
+	// }
 
 	// *********************************************************************************************
 
