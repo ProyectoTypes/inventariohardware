@@ -213,7 +213,8 @@ public class Movimiento implements Comparable<Movimiento> {
 			@javax.jdo.annotations.Column(name = "idcancelado"),
 			@javax.jdo.annotations.Column(name = "identregando") })
 	@Optional
-	@Hidden(where = Where.PARENTED_TABLES)//Se esconden los campos en la grilla
+	@Hidden(where = Where.PARENTED_TABLES)
+	// Se esconden los campos en la grilla
 	@Disabled
 	public IEstado getEstado() {
 		return estado;
@@ -363,17 +364,18 @@ public class Movimiento implements Comparable<Movimiento> {
 	@PostConstruct
 	// @Programmatic
 	@Named("Solicitar Repuestos")
-	public Insumo esperarRepuestos(final @Named("Codigo") String codigo,
+	public Movimiento esperarRepuestos(final @Named("Codigo") String codigo,
 			final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
 			final @Optional @Named("Observaciones") String observaciones) {
-		// this.estado.esperarRepuestos(this);
+		// Reparando -> Esperando
 		this.getEstado().esperarRepuestos();
-		Insumo unInsumo = null;
+
 		this.insumoRepositorio.nuevosInsumo(codigo, cantidad, producto, marca,
 				observaciones, this.getCreadoPor());
-		// Reparando -> Esperando
+
+		return this;
 		// this.estadoActivo();
 		// IEstado estadoEsperando = this.getEstado().esperarRepuestos(this);
 		// if (this.getReparando() != null) {
@@ -386,7 +388,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		// this.container.flush();
 		// }
 
-		return unInsumo;
+		// return unInsumo;
 	}
 
 	public String validateEsperarRepuestos(
@@ -395,7 +397,8 @@ public class Movimiento implements Comparable<Movimiento> {
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
 			final @Optional @Named("Observaciones") String observaciones) {
-		if (this.getReparando() == null)
+		if (this.getEstado().getClass().getSimpleName()
+				.contentEquals(this.getEsperando().getClass().getSimpleName()))
 			return "El equipo no se encuentra disponible para solicitar Insumos.";
 		else
 			return null;
@@ -404,9 +407,9 @@ public class Movimiento implements Comparable<Movimiento> {
 	@PostConstruct
 	// @Programmatic
 	public Movimiento finalizarSoporte() {
+		// Reparando -> Entregando
 		this.getEstado().finalizarSoporte();
 
-		// // Reparando -> Entregando
 		// this.estadoActivo();
 		// IEstado estadoEntregado = this.getEstado().finalizarSoporte(this);
 		// if (this.getReparando() != null) {// Cambia los estados
@@ -423,10 +426,10 @@ public class Movimiento implements Comparable<Movimiento> {
 	@PostConstruct
 	// @Programmatic
 	public Movimiento noHayRepuestos() {
+		// Esperando -> Cancelado
 		this.getEstado().noHayRepuestos();
 
 		// this.estado.noHayRepuestos(this);
-		// Esperando -> Cancelado
 		// this.estadoActivo();
 		// IEstado estadoCancelado = this.getEstado().noHayRepuestos(this);
 		// if (this.getEsperando() != null) {// Cambia los estados
