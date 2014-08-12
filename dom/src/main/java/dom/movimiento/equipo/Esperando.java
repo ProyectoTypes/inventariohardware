@@ -88,6 +88,7 @@ public class Esperando implements IEstado {
 		this.getMovimiento()
 				.setEstadoActual("CAMBIA AL NUEVO ESTADO CANCELADO");
 		emailService.send(this.getMovimiento().getComputadora());
+		this.getMovimiento().getComputadora().setHabilitado(false);
 		this.getMovimiento().getTecnico().restaComputadora();
 		this.getMovimiento().setEstado(this.getMovimiento().getCancelado());
 	}
