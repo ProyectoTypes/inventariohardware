@@ -183,7 +183,6 @@ public class Movimiento implements Comparable<Movimiento> {
 	 ****************/
 	public Movimiento() {
 		this.recepcionado = new Recepcionado(this);
-		;
 		this.reparando = new Reparando(this);
 		this.entregando = new Entregando(this);
 		this.esperando = new Esperando(this);
@@ -336,9 +335,9 @@ public class Movimiento implements Comparable<Movimiento> {
 	@PostConstruct
 	public Movimiento asignarTecnico(final Tecnico unTecnico) {
 		// Recepcionado -> Reparando.
-		this.getEstado().asignarTecnico();
 		this.setTecnico(unTecnico);
 		unTecnico.addToComputadora(this.getComputadora());
+		this.getEstado().asignarTecnico();
 
 		// IEstado estadoReparando = null;
 		// this.estadoActivo();
