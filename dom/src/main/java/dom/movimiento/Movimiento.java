@@ -26,6 +26,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
 import javax.jdo.annotations.Persistent;
@@ -53,12 +54,12 @@ import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 import dom.insumo.Insumo;
 import dom.insumo.InsumoRepositorio;
-import dom.movimiento.estadoComputadora.Cancelado;
-import dom.movimiento.estadoComputadora.Entregando;
-import dom.movimiento.estadoComputadora.Esperando;
-import dom.movimiento.estadoComputadora.IEstado;
-import dom.movimiento.estadoComputadora.Recepcionado;
-import dom.movimiento.estadoComputadora.Reparando;
+import dom.movimiento.equipo.Cancelado;
+import dom.movimiento.equipo.Entregando;
+import dom.movimiento.equipo.Esperando;
+import dom.movimiento.equipo.IEstado;
+import dom.movimiento.equipo.Recepcionado;
+import dom.movimiento.equipo.Reparando;
 import dom.tecnico.Tecnico;
 import dom.tecnico.TecnicoRepositorio;
 
@@ -181,7 +182,8 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * CONSTRUCTOR::
 	 ****************/
 	public Movimiento() {
-		this.recepcionado =  new Recepcionado(this);;
+		this.recepcionado = new Recepcionado(this);
+		;
 		this.reparando = new Reparando(this);
 		this.entregando = new Entregando(this);
 		this.esperando = new Esperando(this);
@@ -199,7 +201,21 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	// @Hidden
 	// @Programmatic
-	@javax.jdo.annotations.Column(allowsNull = "true")
+	@Persistent(extensions = {
+			@Extension(vendorName = "datanucleus", key = "mapping-strategy", value = "per-implementation"),
+			@Extension(vendorName = "datanucleus", key = "implementation-classes", value = "dom.movimiento.equipo.Recepcionado"
+					+ ",dom.movimiento.equipo.Reparando"
+					+ ",dom.movimiento.equipo.Esperando"
+					+ ",dom.movimiento.equipo.Cancelado"
+					+ ",dom.movimiento.equipo.Entregando") }, columns = {
+			@javax.jdo.annotations.Column(name = "idrecepcionado"),
+			@javax.jdo.annotations.Column(name = "idreparando"),
+			@javax.jdo.annotations.Column(name = "idesperando"),
+			@javax.jdo.annotations.Column(name = "idcancelado"),
+			@javax.jdo.annotations.Column(name = "identregando") })
+	@Optional
+	@Hidden(where = Where.PARENTED_TABLES)//Se esconden los campos en la grilla
+	@Disabled
 	public IEstado getEstado() {
 		return estado;
 	}
@@ -408,7 +424,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	@PostConstruct
 	// @Programmatic
 	public Movimiento noHayRepuestos() {
-		 this.getEstado().noHayRepuestos();
+		this.getEstado().noHayRepuestos();
 
 		// this.estado.noHayRepuestos(this);
 		// Esperando -> Cancelado
