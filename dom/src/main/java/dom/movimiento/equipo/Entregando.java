@@ -1,4 +1,4 @@
-package dom.movimiento.estadoComputadora;
+package dom.movimiento.equipo;
 
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
@@ -36,6 +36,8 @@ public class Entregando implements IEstado {
 	private Movimiento movimiento;
 
 	@MemberOrder(sequence = "1")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+
 	public Movimiento getMovimiento() {
 		return movimiento;
 	}
