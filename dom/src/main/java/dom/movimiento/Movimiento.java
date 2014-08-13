@@ -372,9 +372,13 @@ public class Movimiento implements Comparable<Movimiento> {
 			final @Optional @Named("Observaciones") String observaciones) {
 		// Reparando -> Esperando
 		this.getEstado().esperarRepuestos();
-
-		this.insumoRepositorio.nuevosInsumo(codigo, cantidad, producto, marca,
-				observaciones, this.getCreadoPor());
+		Insumo uninsumo = null;
+		if (this.getEstado().getClass().getSimpleName()
+				.contentEquals(this.getEsperando().getClass().getSimpleName())){
+			uninsumo =this.insumoRepositorio.nuevosInsumo(codigo, cantidad, producto,
+					marca, observaciones, this.getCreadoPor());
+			this.agregarAInsumos(uninsumo);
+		}
 
 		return this;
 		// this.estadoActivo();
@@ -392,18 +396,18 @@ public class Movimiento implements Comparable<Movimiento> {
 		// return unInsumo;
 	}
 
-	public String validateEsperarRepuestos(
-			final @Named("Codigo") String codigo,
-			final @Named("Cantidad") int cantidad,
-			final @Named("Producto") String producto,
-			final @Named("Marca") String marca,
-			final @Optional @Named("Observaciones") String observaciones) {
-		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getEsperando().getClass().getSimpleName()))
-			return "El equipo no se encuentra disponible para solicitar Insumos.";
-		else
-			return null;
-	}
+	// public String validateEsperarRepuestos(
+	// final @Named("Codigo") String codigo,
+	// final @Named("Cantidad") int cantidad,
+	// final @Named("Producto") String producto,
+	// final @Named("Marca") String marca,
+	// final @Optional @Named("Observaciones") String observaciones) {
+	// if (this.getEstado().getClass().getSimpleName()
+	// .contentEquals(this.getEsperando().getClass().getSimpleName()))
+	// return "El equipo no se encuentra disponible para solicitar Insumos.";
+	// else
+	// return null;
+	// }
 
 	@PostConstruct
 	// @Programmatic
