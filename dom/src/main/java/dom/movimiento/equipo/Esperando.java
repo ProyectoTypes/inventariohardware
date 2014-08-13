@@ -97,6 +97,8 @@ public class Esperando implements IEstado {
 	public void llegaronRepuestos() {
 		this.getMovimiento().setEstadoActual(
 				"CAMBIA AL NUEVO ESTADO ENTREGANDO");
+		emailService.send(this.getMovimiento().getComputadora());
+		this.getMovimiento().getTecnico().restaComputadora();
 		this.getMovimiento().setEstado(this.getMovimiento().getEntregando());
 	}
 
