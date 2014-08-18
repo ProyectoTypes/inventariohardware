@@ -92,7 +92,7 @@ public class ComputadoraRepositorio {
 		unaComputadora.setHabilitado(true);
 		unaComputadora.setCreadoPor(creadoPor);
 		if (impresora != null) {
-			impresora.addToComputadora(unaComputadora);
+			impresora.agregarComputadora(unaComputadora);
 		}
 
 		container.persistIfNotAlready(unaComputadora);
