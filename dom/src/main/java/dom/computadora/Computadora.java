@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.computadora;
 
 import java.util.List;
@@ -73,7 +73,7 @@ import dom.usuario.UsuarioRepositorio;
 @Audited
 @AutoComplete(repository = ComputadoraRepositorio.class, action = "autoComplete")
 @Bookmarkable
-public class Computadora implements Comparable<Computadora>{
+public class Computadora implements Comparable<Computadora> {
 
 	// //////////////////////////////////////
 	// Identificacion en la UI
@@ -219,22 +219,34 @@ public class Computadora implements Comparable<Computadora>{
 	public void setImpresora(Impresora impresora) {
 		this.impresora = impresora;
 	}
-	
-	@Named ("Cambiar Impresora")
-	public void modificarImpresora (final Impresora unaImpresora){
+
+	public Computadora modificarImpresora(final Impresora impresora) {
 		Impresora currentImpresora = getImpresora();
-		if (unaImpresora == null || unaImpresora.equals(currentImpresora)) {
-			return;			
+		// check for no-op
+		if (impresora == null || impresora.equals(currentImpresora)) {
+			return this;
 		}
-		clearImpresora();
-		setImpresora(unaImpresora);
+		// associate new
+		impresora.agregarComputadora(this);
+		return this;
+		// additional business logic
+
 	}
-	
-	
-	public List<Impresora> autoComplete0ModificarImpresora(final String search){
+
+	public void limpiarImpresora() {
+		Impresora currentImpresora = getImpresora();
+		// check for no-op
+		if (currentImpresora == null) {
+			return;
+		}
+		// dissociate existing
+		currentImpresora.limpiarComputadora(this);
+	}
+
+	public List<Impresora> autoComplete0ModificarImpresora(final String search) {
 		return this.impresoraRepositorio.autoComplete(search);
 	}
-	
+
 	// //////////////////////////////////////
 	// creadoPor
 	// //////////////////////////////////////
@@ -385,20 +397,6 @@ public class Computadora implements Comparable<Computadora>{
 		unMovimiento.setComputadora(null);
 		getMovimientos().remove(unMovimiento);
 	}
-	
-	public void clearImpresora() {
-		Impresora currentImpresora = getImpresora();
-		// check for no-op
-		if (currentImpresora == null) {
-			return;
-		}
-		// dissociate existing
-		setImpresora(null);
-		// additional business logic
-		// onClearComputadora(currentComputadora);
-	}
-	
-	
 
 	// //////////////////////////////////////
 	// Injected Services
@@ -410,7 +408,7 @@ public class Computadora implements Comparable<Computadora>{
 
 	@javax.inject.Inject
 	private ImpresoraRepositorio impresoraRepositorio;
-	
+
 	@Override
 	public int compareTo(Computadora computadora) {
 		// TODO Auto-generated method stub
