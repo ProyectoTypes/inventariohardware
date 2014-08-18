@@ -179,7 +179,7 @@ public class Impresora {
 	}
 	
 	@Named ("Eliminar de Computadora")
-	public void removeFromComputadora (final Computadora unaComputadora){
+	public void limpiarComputadora (final Computadora unaComputadora){
 		if (unaComputadora == null || !getComputadora().contains(unaComputadora)){
 			return;
 		}
