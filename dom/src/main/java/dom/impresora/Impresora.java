@@ -169,11 +169,11 @@ public class Impresora {
 	}
 	
 	@Named ("Agregar Impresora")
-	public void addToComputadora (final Computadora unaComputadora){
+	public void agregarComputadora (final Computadora unaComputadora){
 		if (unaComputadora == null || getComputadora().contains(unaComputadora)){
 			return;
 		}
-		unaComputadora.clearImpresora();
+		unaComputadora.limpiarImpresora();
 		unaComputadora.setImpresora(this);
 		getComputadora().add(unaComputadora);
 	}
