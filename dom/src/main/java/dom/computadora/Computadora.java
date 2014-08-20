@@ -29,6 +29,7 @@ import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.Audited;
@@ -49,8 +50,8 @@ import dom.tecnico.Tecnico;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 
-@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
-@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.APPLICATION)
+//@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.UUIDSTRING, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Computadora_ip_must_be_unique", members = {
 		"creadoPor", "ip" }) })
@@ -90,10 +91,11 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 	// IP (propiedad)
 	// //////////////////////////////////////
-
+	@PrimaryKey
 	private String ip;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
+	@javax.jdo.annotations.PrimaryKey(column="id")
 	@DescribedAs("Direccion IP de la Computadora:")
 	@MemberOrder(sequence = "10")
 	public String getIp() {
