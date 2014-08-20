@@ -68,7 +68,7 @@ public class EmailService extends AbstractFactoryAndRepository {
 	@NotContributed(As.ASSOCIATION)
 	@NotInServiceMenu
 	@Named("Enviar Correo")
-	public String send(Computadora unaComputadora) {
+	public String send(final Computadora unaComputadora) {
 		// Address dir = new Address();
 		// dir.setEmailAddress("cipoleto@gmail.com");
 		// dir.setName("Daniel");
@@ -166,5 +166,4 @@ public class EmailService extends AbstractFactoryAndRepository {
 
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
-
 }
