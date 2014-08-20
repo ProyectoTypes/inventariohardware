@@ -60,7 +60,7 @@ public class ComputadoraServicioGrafico  {
     public WickedChart filtrarPorDiscoRigido() {
         
         Map<CategoriaDisco, AtomicInteger> byCategory = Maps.newTreeMap();
-        List<Computadora> allToDos = toDoItems.listar();
+        List<Computadora> allToDos = computadoraRepositorio.listar();
         for (Computadora unaComputadora : allToDos) {
             CategoriaDisco category = unaComputadora.getDisco();
             AtomicInteger integer = byCategory.get(category);
@@ -128,6 +128,6 @@ public class ComputadoraServicioGrafico  {
     // //////////////////////////////////////
 
     @javax.inject.Inject
-    private ComputadoraRepositorio toDoItems;
+    private ComputadoraRepositorio computadoraRepositorio;
 
 }
