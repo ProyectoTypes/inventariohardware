@@ -107,7 +107,7 @@ public class Sector implements Comparable<Sector> {
 		return nombreSector;
 	}
 
-	public void setNombreSector(String nombreSector) {
+	public void setNombreSector(final String nombreSector) {
 		this.nombreSector = nombreSector;
 	}
 
@@ -123,7 +123,7 @@ public class Sector implements Comparable<Sector> {
 		return creadoPor;
 	}
 
-	public void setCreadoPor(String creadoPor) {
+	public void setCreadoPor(final String creadoPor) {
 		this.creadoPor = creadoPor;
 	}
 
@@ -265,5 +265,4 @@ public class Sector implements Comparable<Sector> {
 	private TecnicoRepositorio tecnicoRepositorio;
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
-
 }
