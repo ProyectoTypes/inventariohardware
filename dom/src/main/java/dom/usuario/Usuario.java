@@ -111,7 +111,7 @@ public class Usuario extends Persona implements Comparable<Persona> {
 		return computadora;
 	}
 
-	public void setComputadora(Computadora computadora) {
+	public void setComputadora(final Computadora computadora) {
 		this.computadora = computadora;
 	}
 
@@ -160,5 +160,4 @@ public class Usuario extends Persona implements Comparable<Persona> {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-
 }
