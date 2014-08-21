@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import javax.annotation.PostConstruct;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
@@ -198,8 +197,6 @@ public class Movimiento implements Comparable<Movimiento> {
 	 **********************************************************/
 	private IEstado estado;
 
-	// @Hidden
-	// @Programmatic
 	@Persistent(extensions = {
 			@Extension(vendorName = "datanucleus", key = "mapping-strategy", value = "per-implementation"),
 			@Extension(vendorName = "datanucleus", key = "implementation-classes", value = "dom.movimiento.equipo.Recepcionado"
@@ -214,7 +211,6 @@ public class Movimiento implements Comparable<Movimiento> {
 			@javax.jdo.annotations.Column(name = "identregando") })
 	@Optional
 	@Hidden(where = Where.PARENTED_TABLES)
-	// Se esconden los campos en la grilla
 	@Disabled
 	public IEstado getEstado() {
 		return estado;
@@ -244,7 +240,6 @@ public class Movimiento implements Comparable<Movimiento> {
 	// @Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	// @Programmatic
 	public Recepcionado getRecepcionado() {
 		return this.recepcionado;
 	}
@@ -259,7 +254,6 @@ public class Movimiento implements Comparable<Movimiento> {
 	// @Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	// @Programmatic
 	public Reparando getReparando() {
 		return reparando;
 	}
@@ -275,7 +269,6 @@ public class Movimiento implements Comparable<Movimiento> {
 	// @Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	// @Programmatic
 	public Cancelado getCancelado() {
 		return this.cancelado;
 	}
@@ -292,7 +285,6 @@ public class Movimiento implements Comparable<Movimiento> {
 	// @Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	// @Programmatic
 	public Entregando getEntregando() {
 		return entregando;
 	}
@@ -310,7 +302,6 @@ public class Movimiento implements Comparable<Movimiento> {
 	// @Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	// @Programmatic
 	public Esperando getEsperando() {
 		return esperando;
 	}
@@ -326,35 +317,19 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * ***************************************************
 	 */
 	/**
-	 * Permite seleccionar un tecnico desde una lista. El Tecnico es agregado en
-	 * la Computadora. Al tecnico se le suma una nueva computadora. Cambio de
-	 * estado a Reparando.
+	 * Recepcionado -> Reparando. Permite seleccionar un tecnico desde una
+	 * lista. El Tecnico es agregado en la Computadora. Al tecnico se le suma
+	 * una nueva computadora. Cambio de estado a Reparando.
 	 * 
 	 * @param unTecnico
 	 * @return
 	 */
-	@PostConstruct
+	@Named("")
 	@DescribedAs("Comenzar a Reparar.")
 	public Movimiento asignarTecnico(final Tecnico unTecnico) {
-		// Recepcionado -> Reparando.
 		this.setTecnico(unTecnico);
 		unTecnico.addToComputadora(this.getComputadora());
 		this.getEstado().asignarTecnico();
-
-		// IEstado estadoReparando = null;
-		// this.estadoActivo();
-		// if (this.getRecepcionado() != null && unTecnico.estaDisponible()) {
-		// this.setTecnico(unTecnico);
-		// unTecnico.addToComputadora(this.getComputadora());
-		// estadoReparando = this.getEstado().asignarTecnico(this);
-		// // Operaciones mantenimiento de estado.
-		// // this.setObservaciones("Esta disponible - estado: "
-		// // + estadoReparando.getClass().getSimpleName());
-		// this.setEstado(estadoReparando);
-		// this.setRecepcionado(null);
-		// this.setReparando(new Reparando());
-		// this.container.flush();
-		// }
 		return this;
 	}
 
@@ -362,8 +337,6 @@ public class Movimiento implements Comparable<Movimiento> {
 		return this.tecnicoRepositorio.listar();
 	}
 
-	@PostConstruct
-	// @Programmatic
 	@Named("Solicitar Repuestos")
 	public Movimiento esperarRepuestos(final @Named("Codigo") String codigo,
 			final @Named("Cantidad") int cantidad,
@@ -374,147 +347,44 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.getEstado().esperarRepuestos();
 		Insumo uninsumo = null;
 		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getEsperando().getClass().getSimpleName())){
-			uninsumo =this.insumoRepositorio.nuevosInsumo(codigo, cantidad, producto,
-					marca, observaciones, this.getCreadoPor());
+				.contentEquals(this.getEsperando().getClass().getSimpleName())) {
+			uninsumo = this.insumoRepositorio.addInsumo(codigo, cantidad,
+					producto, marca, observaciones);
 			this.agregarAInsumos(uninsumo);
 		}
 
 		return this;
-		// this.estadoActivo();
-		// IEstado estadoEsperando = this.getEstado().esperarRepuestos(this);
-		// if (this.getReparando() != null) {
-		// unInsumo = this.insumoRepositorio.nuevosInsumo(codigo, cantidad,
-		// producto, marca, observaciones, this.getCreadoPor());
-		// this.setEstado(estadoEsperando);
-		// this.setReparando(null);
-		// this.setEsperando(new Esperando());
-		// this.agregarAInsumos(unInsumo);
-		// this.container.flush();
-		// }
-
-		// return unInsumo;
 	}
 
-	// public String validateEsperarRepuestos(
-	// final @Named("Codigo") String codigo,
-	// final @Named("Cantidad") int cantidad,
-	// final @Named("Producto") String producto,
-	// final @Named("Marca") String marca,
-	// final @Optional @Named("Observaciones") String observaciones) {
-	// if (this.getEstado().getClass().getSimpleName()
-	// .contentEquals(this.getEsperando().getClass().getSimpleName()))
-	// return "El equipo no se encuentra disponible para solicitar Insumos.";
-	// else
-	// return null;
-	// }
-
-	@PostConstruct
-	// @Programmatic
 	@Named("Finalizar")
 	@DescribedAs("Envio de email.")
 	public Movimiento finalizarSoporte() {
 		// Reparando -> Entregando
 		this.getEstado().finalizarSoporte();
-
-		// this.estadoActivo();
-		// IEstado estadoEntregado = this.getEstado().finalizarSoporte(this);
-		// if (this.getReparando() != null) {// Cambia los estados
-		// this.setEstado(estadoEntregado);
-		// this.setReparando(null);
-		// this.setEsperando(null);
-		// this.setEntregando(new Entregado());
-		// this.container.flush();
-		// }
 		return this;
 
 	}
 
-	@PostConstruct
 	// @Programmatic
 	@Named("Cancelar")
 	public Movimiento noHayRepuestos() {
 		// Esperando -> Cancelado
 		this.getEstado().noHayRepuestos();
-
-		// this.estado.noHayRepuestos(this);
-		// this.estadoActivo();
-		// IEstado estadoCancelado = this.getEstado().noHayRepuestos(this);
-		// if (this.getEsperando() != null) {// Cambia los estados
-		// this.setEstado(estadoCancelado);
-		// this.setEsperando(null);
-		// this.setCancelado(new Cancelado());
-		// this.container.flush();
-		// }
 		return this;
 
 	}
 
-	@PostConstruct
 	// @Programmatic
 	@Named("Ensamblar")
 	@DescribedAs("Llegaron los repuestos.")
 	public Movimiento llegaronRepuestos() {
 		this.getEstado().llegaronRepuestos();
-		// Esperando -> Entregando
-		// this.estadoActivo();
-		// IEstado estadoEntregado = this.getEstado().llegaronRepuestos(this);
-		// if (this.getEsperando() != null) {// Cambia los estados
-		// this.setEstado(estadoEntregado);
-		// this.setEsperando(null);
-		// this.setEntregando(new Entregado());
-		// this.container.flush();
-		// }
-		return this;
-	}
 
-	// *********************************************************************************************
-	// @Programmatic
-	// public void estadoActivo() {
-	// if (this.getRecepcionado() != null)
-	// this.setEstado(new Recepcionado());
-	// else if (this.getReparando() != null)
-	// this.setEstado(new Reparando());
-	// else if (this.getEntregando() != null)
-	// this.setEstado(new Entregado());
-	// else if (this.getEsperando() != null)
-	// this.setEstado(new Esperando());
-	// else if (this.getCancelado() != null)
-	// this.setEstado(new Cancelado());
-	//
-	// }
-
-	// *********************************************************************************************
-
-	@MemberOrder(sequence = "20")
-	@Named("MOSTRAR ACTUAL")
-	@PostConstruct
-	@Programmatic
-	public Movimiento mostrarLaClaseDelEstado() {
-
-		if (this.getEstado() != null) {
-			this.setObservaciones(this.getEstado().getClass().getSimpleName());
-
-		} else
-			this.setObservaciones("NO: NULL");
-		return this;
-	}
-
-	@Programmatic
-	@PostConstruct
-	public Movimiento nulear() {
-		this.setRecepcionado(null);
-		this.setReparando(null);
-		this.setCancelado(null);
-		this.setEntregando(null);
-		this.container.flush();
-		// this.setIAnimal(new Delfin());
-		// this.setIAnimal(new Delfin());
 		return this;
 	}
 
 	/* ***************************************************
-	 * FIN: Patron State. ***************************************************
+	 * FIN: Patron State.
 	 */
 
 	/********************************************************
@@ -552,24 +422,19 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	@Programmatic
 	public void agregarAInsumos(final Insumo insumo) {
-		// check for no-op
 		if (insumo == null || getInsumos().contains(insumo)) {
 			return;
 		}
-		// dissociate arg from its current parent (if any).
 		insumo.limpiarMovimiento();
-		// associate arg
 		insumo.setMovimiento(this);
 		getInsumos().add(insumo);
 	}
 
 	@Programmatic
 	public void eliminarInsumos(final Insumo insumo) {
-		// check for no-op
 		if (insumo == null || !getInsumos().contains(insumo)) {
 			return;
 		}
-		// dissociate arg
 		insumo.setMovimiento(null);
 		getInsumos().remove(insumo);
 	}
@@ -635,6 +500,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	@javax.inject.Inject
 	private InsumoRepositorio insumoRepositorio;
 
+	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 
