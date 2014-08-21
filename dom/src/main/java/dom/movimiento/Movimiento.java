@@ -410,7 +410,13 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	}
 
-	
+	public boolean hideNoHayRepuestos() {
+		if (this.getEstado().getClass().getSimpleName()
+				.contentEquals(this.getEsperando().getClass().getSimpleName()))
+			return false;
+		else
+			return true;
+	}
 
 	/**
 	 * Esperando -> Entregado. Llegaron los repuestos, se ensamblo la maquina y
