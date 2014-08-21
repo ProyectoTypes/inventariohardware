@@ -1,0 +1,130 @@
+{
+  "columns": [
+    {
+      "span": 4,
+      "memberGroups": {
+        "Datos Generales": {
+          "members": {
+            "estado": {
+              "hidden": {
+                "where": "PARENTED_TABLES"
+              },
+              "disabled": {}
+            },
+            "tecnico": {},
+            "fecha": {
+              "disabled": {},
+              "typicalLength": {
+                "value": 12
+              }
+            },
+            "computadora": {}
+          }
+        },
+        "Detalles": {
+          "members": {
+            "observaciones": {
+              "describedAs": {
+                "value": "Observaciones de la Computadora:"
+              },
+              "typicalLength": {
+                "value": 200
+              },
+              "multiLine": {
+                "numberOfLines": 5
+              }
+            }
+          }
+        },
+        "Estados": {
+          "members": {
+            "time_system": {
+              "hidden": {},
+              "disabled": {},
+              "typicalLength": {
+                "value": 12
+              }
+            },
+            "estaHabilitado": {
+              "hidden": {},
+              "disabled": {},
+              "typicalLength": {
+                "value": 5
+              }
+            },
+            "cancelado": {},
+            "entregando": {},
+            "esperando": {},
+            "recepcionado": {},
+            "reparando": {},
+            "creadoPor": {
+              "hidden": {},
+              "typicalLength": {
+                "value": 25
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "span": 0,
+      "memberGroups": {}
+    },
+    {
+      "span": 0,
+      "memberGroups": {}
+    },
+    {
+      "span": 8,
+      "collections": {
+        "insumos": {
+          "paged": {
+            "value": 10
+          }
+        }
+      }
+    }
+  ],
+  "actions": {
+    "downloadLayout": {
+      "named": {
+        "value": "Download Layout"
+      }
+    },
+    "asignarTecnico": {
+      "named": {
+        "value": "Asignar Tecnico"
+      },
+      "describedAs": {
+        "value": "Comenzar a Reparar."
+      }
+    },
+    "esperarRepuestos": {
+      "named": {
+        "value": "Solicitar Repuestos"
+      }
+    },
+    "finalizarSoporte": {
+      "named": {
+        "value": "Finalizar Soporte"
+      },
+      "describedAs": {
+        "value": "Envio de email."
+      }
+    },
+    "llegaronRepuestos": {
+      "named": {
+        "value": "Ensamblado/Finalizado"
+      },
+      "describedAs": {
+        "value": "El equipo es reparado con los respuestos solicitados."
+      }
+    },
+    "noHayRepuestos": {
+      "named": {
+        "value": "Cancelar Soporte"
+      }
+    }
+  }
+}
