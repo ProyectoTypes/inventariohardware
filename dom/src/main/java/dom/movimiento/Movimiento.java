@@ -90,7 +90,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	// //////////////////////////////////////
 
 	public String title() {
-		return "SOPORTE TECNICO:" + this.getEstado().toString();
+		return "SOPORTE TECNICO:";
 	}
 
 	public String iconName() {
@@ -189,8 +189,6 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.cancelado = new Cancelado(this);
 
 		this.estado = this.recepcionado;
-		this.estadoActual = this.estado.getClass().getSimpleName();
-
 	}
 
 	/**********************************************************
@@ -221,19 +219,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.estado = estado;
 	}
 
-	private String estadoActual;
-
-	@Disabled
-	@MemberOrder(sequence = "300")
-	@javax.jdo.annotations.Column(allowsNull = "true")
-	public String getEstadoActual() {
-		return this.estadoActual;
-	}
-
-	public void setEstadoActual(String mostrarEstado) {
-		this.estadoActual = mostrarEstado;
-	}
-
+	
 	/* *************************************************** */
 
 	private Recepcionado recepcionado;
