@@ -24,6 +24,7 @@ package dom.movimiento.equipo;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.MemberOrder;
@@ -71,30 +72,32 @@ public class Cancelado implements IEstado {
 	// }}
 	@Override
 	public void asignarTecnico() {
-		this.getMovimiento().setEstadoActual("YA SE INICIALIZO.");
+		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
 	}
 
 	@Override
 	public void esperarRepuestos() {
-		this.getMovimiento().setEstadoActual("NO ES EL ESTADO ESPERANDO.");
+		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
+
 	}
 
 	@Override
 	public void noHayRepuestos() {
-		// TODO Auto-generated method stub
-		this.getMovimiento().setEstadoActual("NO ES EL ESTADO ESPERANDO");
+		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
+
 	}
 
 	@Override
 	public void finalizarSoporte() {
-		this.getMovimiento().setEstadoActual("FINALIZACION DEL SOPORTE");
-		if (this.getMovimiento().getEstado().getClass().getSimpleName() == "Cancelado")
-			this.getMovimiento().setEstadoActual("SOPORTE CANCELADO");
+		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
 
 	}
 
 	@Override
 	public void llegaronRepuestos() {
-		this.getMovimiento().setEstadoActual("NO ES EL ESTADO CANCELADO");
+		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
 	}
+
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 }
