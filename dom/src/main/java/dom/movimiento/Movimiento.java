@@ -21,9 +21,9 @@
  */
 package dom.movimiento;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdentityType;
@@ -324,11 +324,10 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * @param unTecnico
 	 * @return
 	 */
-	@Named("")
+	@Named("Asignar Tecnico")
 	@DescribedAs("Comenzar a Reparar.")
 	public Movimiento asignarTecnico(final Tecnico unTecnico) {
 		this.setTecnico(unTecnico);
-		unTecnico.addToComputadora(this.getComputadora());
 		this.getEstado().asignarTecnico();
 		return this;
 	}
@@ -433,13 +432,13 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	@Persistent(mappedBy = "movimiento", dependentElement = "trueOrFalse")
 	@Join
-	private SortedSet<Insumo> insumos = new TreeSet<Insumo>();
+	private List<Insumo> insumos = new ArrayList<Insumo>();
 
-	public SortedSet<Insumo> getInsumos() {
+	public List<Insumo> getInsumos() {
 		return insumos;
 	}
 
-	public void setInsumos(final SortedSet<Insumo> insumos) {
+	public void setInsumos(final List<Insumo> insumos) {
 		this.insumos = insumos;
 	}
 
