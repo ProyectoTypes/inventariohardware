@@ -3,6 +3,7 @@ package dom.movimiento.equipo;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.MemberOrder;
@@ -85,4 +86,6 @@ public class Recepcionado implements IEstado {
 	public void llegaronRepuestos() {
 		this.getMovimiento().setEstadoActual("NO ES EL ESTADO ESPERANDO");
 	}
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 }
