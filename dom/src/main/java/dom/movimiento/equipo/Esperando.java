@@ -24,6 +24,7 @@ package dom.movimiento.equipo;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.MemberOrder;
@@ -47,15 +48,16 @@ public class Esperando implements IEstado {
 	public String iconName() {
 		return "sector"; // cambiar todos los iconos!!!!!
 	}
+
 	public Esperando(Movimiento movimiento) {
 		this.movimiento = movimiento;
 	}
+
 	// {{ Movimiento (property)
 	private Movimiento movimiento;
 
 	@MemberOrder(sequence = "1")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-
 	public Movimiento getMovimiento() {
 		return movimiento;
 	}
@@ -67,26 +69,28 @@ public class Esperando implements IEstado {
 	// }}
 	@Override
 	public void asignarTecnico() {
-		this.getMovimiento().setEstadoActual("NO ES EL ESTADO RECEPCIONADO");
+		this.container.informUser("EL TECNICO YA HA SIDO ASIGNADO.");
+
 
 	}
-
+	//Deberia seguir solicitando insumos?? 
 	@Override
 	public void esperarRepuestos() {
-		this.getMovimiento().setEstadoActual(
-				"NO ESPERA: NO ES EL ESTADO REPARANDO.");
+		this.container.informUser("SOLICITANDO INSUMOS??????");
+
 	}
 
 	@Override
 	public void finalizarSoporte() {
-		this.getMovimiento().setEstadoActual(
-				"NO FINALIZA: NO ES EL ESTADO REPARANDO.");
+		this.container.informUser("EL EQUIPO NO SE TERMINO DE REPARAR");
+
 	}
 
 	@Override
 	public void noHayRepuestos() {
-		this.getMovimiento()
-				.setEstadoActual("CAMBIA AL NUEVO ESTADO CANCELADO");
+		this.container
+				.informUser("EL EQUIPO NO PUEDE SER REPARADO POR FALTA DE REPUESTOS.");
+
 		emailService.send(this.getMovimiento().getComputadora());
 		this.getMovimiento().getComputadora().setHabilitado(false);
 		this.getMovimiento().getTecnico().restaComputadora();
@@ -95,8 +99,8 @@ public class Esperando implements IEstado {
 
 	@Override
 	public void llegaronRepuestos() {
-		this.getMovimiento().setEstadoActual(
-				"CAMBIA AL NUEVO ESTADO ENTREGANDO");
+		this.container
+				.informUser("EL EQUIPO FUE ENSAMBLADO Y ESTA LISTO PARA SER ENTREGADO.");
 		emailService.send(this.getMovimiento().getComputadora());
 		this.getMovimiento().getTecnico().restaComputadora();
 		this.getMovimiento().setEstado(this.getMovimiento().getEntregando());
@@ -104,4 +108,6 @@ public class Esperando implements IEstado {
 
 	@javax.inject.Inject
 	private EmailService emailService;
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 }
