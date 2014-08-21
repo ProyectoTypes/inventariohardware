@@ -40,6 +40,8 @@ import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MultiLine;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.NotContributed;
+import org.apache.isis.applib.annotation.NotContributed.As;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
@@ -88,7 +90,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	// //////////////////////////////////////
 
 	public String title() {
-		return "Movimiento";
+		return "SOPORTE TECNICO:" + this.getEstado().toString();
 	}
 
 	public String iconName() {
@@ -325,6 +327,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	 */
 	@Named("Asignar Tecnico")
 	@DescribedAs("Comenzar a Reparar.")
+	@NotContributed(As.ASSOCIATION)
 	public Movimiento asignarTecnico(final Tecnico unTecnico) {
 		this.setTecnico(unTecnico);
 		this.getEstado().asignarTecnico();
@@ -362,6 +365,14 @@ public class Movimiento implements Comparable<Movimiento> {
 		return this;
 	}
 
+	public boolean hideEsperarRepuestos() {
+		if (this.getEstado().getClass().getSimpleName()
+				.contentEquals(this.getReparando().getClass().getSimpleName()))
+			return false;
+		else
+			return true;
+	}
+
 	/**
 	 * Reparando -> Entregando. Finalizar el Soporte Tecnico de la computadora.
 	 * A partir de aca no puede realizar ninguna accion de soporte sobre la
@@ -380,10 +391,10 @@ public class Movimiento implements Comparable<Movimiento> {
 	public boolean hideFinalizarSoporte() {
 		// TODO: return true if action is hidden, false if visible
 		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getEsperando().getClass().getSimpleName()))
-			return true;
-		else
+				.contentEquals(this.getReparando().getClass().getSimpleName()))
 			return false;
+		else
+			return true;
 	}
 
 	/**
@@ -399,6 +410,8 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	}
 
+	
+
 	/**
 	 * Esperando -> Entregado. Llegaron los repuestos, se ensamblo la maquina y
 	 * se finalizo la reparacion.
@@ -411,6 +424,7 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.getEstado().llegaronRepuestos();
 		return this;
 	}
+
 
 	/* ***************************************************
 	 * FIN: Patron State.
