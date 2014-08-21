@@ -23,7 +23,6 @@ package dom.movimiento;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedSet;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdentityType;
@@ -360,7 +359,6 @@ public class Movimiento implements Comparable<Movimiento> {
 					producto, marca, observaciones);
 			this.agregarAInsumos(uninsumo);
 		}
-
 		return this;
 	}
 
@@ -371,12 +369,21 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * 
 	 * @return
 	 */
-	@Named("Finalizar")
+	@Named("Finalizar Soporte")
 	@DescribedAs("Envio de email.")
 	public Movimiento finalizarSoporte() {
 		this.getEstado().finalizarSoporte();
 		return this;
 
+	}
+
+	public boolean hideFinalizarSoporte() {
+		// TODO: return true if action is hidden, false if visible
+		if (this.getEstado().getClass().getSimpleName()
+				.contentEquals(this.getEsperando().getClass().getSimpleName()))
+			return true;
+		else
+			return false;
 	}
 
 	/**
@@ -398,8 +405,8 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * 
 	 * @return
 	 */
-	@Named("Equipo Ensamblado")
-	@DescribedAs("Llegaron los repuestos.")
+	@Named("Ensamblado/Finalizado")
+	@DescribedAs("El equipo es reparado con los respuestos solicitados.")
 	public Movimiento llegaronRepuestos() {
 		this.getEstado().llegaronRepuestos();
 		return this;
