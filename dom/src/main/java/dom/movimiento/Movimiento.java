@@ -337,13 +337,22 @@ public class Movimiento implements Comparable<Movimiento> {
 		return this.tecnicoRepositorio.listar();
 	}
 
+	/**
+	 * Reparando -> Esperando. Esperar Repuestos: Permite generar un insumo.
+	 * 
+	 * @param codigo
+	 * @param cantidad
+	 * @param producto
+	 * @param marca
+	 * @param observaciones
+	 * @return
+	 */
 	@Named("Solicitar Repuestos")
 	public Movimiento esperarRepuestos(final @Named("Codigo") String codigo,
 			final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
 			final @Optional @Named("Observaciones") String observaciones) {
-		// Reparando -> Esperando
 		this.getEstado().esperarRepuestos();
 		Insumo uninsumo = null;
 		if (this.getEstado().getClass().getSimpleName()
@@ -356,30 +365,44 @@ public class Movimiento implements Comparable<Movimiento> {
 		return this;
 	}
 
+	/**
+	 * Reparando -> Entregando. Finalizar el Soporte Tecnico de la computadora.
+	 * A partir de aca no puede realizar ninguna accion de soporte sobre la
+	 * computadora.
+	 * 
+	 * @return
+	 */
 	@Named("Finalizar")
 	@DescribedAs("Envio de email.")
 	public Movimiento finalizarSoporte() {
-		// Reparando -> Entregando
 		this.getEstado().finalizarSoporte();
 		return this;
 
 	}
 
-	// @Programmatic
-	@Named("Cancelar")
+	/**
+	 * Esperando -> Cancelado. No es posible conseguir repuestos para la
+	 * computadora.
+	 * 
+	 * @return
+	 */
+	@Named("Cancelar Soporte")
 	public Movimiento noHayRepuestos() {
-		// Esperando -> Cancelado
 		this.getEstado().noHayRepuestos();
 		return this;
 
 	}
 
-	// @Programmatic
-	@Named("Ensamblar")
+	/**
+	 * Esperando -> Entregado. Llegaron los repuestos, se ensamblo la maquina y
+	 * se finalizo la reparacion.
+	 * 
+	 * @return
+	 */
+	@Named("Equipo Ensamblado")
 	@DescribedAs("Llegaron los repuestos.")
 	public Movimiento llegaronRepuestos() {
 		this.getEstado().llegaronRepuestos();
-
 		return this;
 	}
 
