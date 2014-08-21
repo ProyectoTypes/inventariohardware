@@ -431,6 +431,13 @@ public class Movimiento implements Comparable<Movimiento> {
 		return this;
 	}
 
+	public boolean hideLlegaronRepuestos() {
+		if (this.getEstado().getClass().getSimpleName()
+				.contentEquals(this.getEsperando().getClass().getSimpleName()))
+			return false;
+		else
+			return true;
+	}
 
 	/* ***************************************************
 	 * FIN: Patron State.
