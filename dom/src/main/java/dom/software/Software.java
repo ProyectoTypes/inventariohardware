@@ -85,7 +85,7 @@ public class Software {
 		return codigo;
 	}
 
-	public void setCodigo(String codigo) {
+	public void setCodigo(final String codigo) {
 		this.codigo = codigo;
 	}
 	
@@ -102,7 +102,7 @@ public class Software {
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
+	public void setTipo(final String tipo) {
 		this.tipo = tipo;
 	}
 	
@@ -119,7 +119,7 @@ public class Software {
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
+	public void setNombre(final String nombre) {
 		this.nombre = nombre;
 	}
 	
@@ -136,7 +136,7 @@ public class Software {
 		return marca;
 	}
 
-	public void setMarca(String marca) {
+	public void setMarca(final String marca) {
 		this.marca = marca;
 	}
 	
@@ -153,7 +153,7 @@ public class Software {
 		return observaciones;
 	}
 
-	public void setObservaciones(String observaciones) {
+	public void setObservaciones(final String observaciones) {
 		this.observaciones = observaciones;
 	}
 	
@@ -186,7 +186,7 @@ public class Software {
 		return creadoPor;
 	}
 
-	public void setCreadoPor(String creadoPor) {
+	public void setCreadoPor(final String creadoPor) {
 		this.creadoPor = creadoPor;
 	}
 }

@@ -189,7 +189,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return cantidadComputadora;
 	}
 
-	public void setCantidadComputadora(BigDecimal cantidadComputadora) {
+	public void setCantidadComputadora(final BigDecimal cantidadComputadora) {
 		this.cantidadComputadora = cantidadComputadora;
 	}
 
@@ -253,5 +253,4 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-
 }

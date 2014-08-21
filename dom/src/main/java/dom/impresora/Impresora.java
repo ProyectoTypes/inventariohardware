@@ -148,7 +148,7 @@ public class Impresora {
 		return creadoPor;
 	}
 
-	public void setCreadoPor(String creadoPor) {
+	public void setCreadoPor(final String creadoPor) {
 		this.creadoPor = creadoPor;
 	}
 
