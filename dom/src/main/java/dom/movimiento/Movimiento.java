@@ -90,7 +90,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	// //////////////////////////////////////
 
 	public String title() {
-		return "SOPORTE TECNICO:";
+		return "SOPORTE TECNICO";
 	}
 
 	public String iconName() {
@@ -105,7 +105,7 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Observaciones de la Computadora:")
-	@MemberOrder(sequence = "20")
+	@MemberOrder(name="Detalles",sequence = "20")
 	@MultiLine(numberOfLines = 15)
 	public String getObservaciones() {
 		return observaciones;
@@ -139,7 +139,7 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	@Disabled
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "20")
+	@MemberOrder(name= "Datos Generales",sequence = "30")
 	public LocalDate getFecha() {
 		return fecha;
 	}
@@ -211,6 +211,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	@Optional
 	@Hidden(where = Where.PARENTED_TABLES)
 	@Disabled
+	@MemberOrder(name= "Datos Generales",sequence = "0")
 	public IEstado getEstado() {
 		return estado;
 	}
@@ -440,7 +441,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	private Tecnico tecnico;
 
 	@Optional
-	@MemberOrder(sequence = "1")
+	@MemberOrder(name= "Datos Generales",sequence = "10")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Tecnico getTecnico() {
 		return tecnico;
