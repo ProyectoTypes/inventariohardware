@@ -3,6 +3,7 @@ package dom.movimiento.equipo;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.MemberOrder;
@@ -46,24 +47,25 @@ public class Reparando implements IEstado {
 	}
 
 	// }}
+	//Deberia dejar que se asigne otro tecnico. y restarle la cant al anterior.
 	@Override
 	public void asignarTecnico() {
-		this.getMovimiento().setEstadoActual("NO ES EL ESTADO RECIBIDO.");
+		this.container.informUser("YA SE ASIGNO UN TECNICO.");
 
 	}
 
 	@Override
 	public void esperarRepuestos() {
-		this.getMovimiento().setEstadoActual("CAMBIA AL ESTADO ESPERANDO");
 		this.getMovimiento().setEstado(this.getMovimiento().getEsperando());
+		this.container.informUser("ESPERANDO QUE LOS REPUESTOS LLEGUEN.");
 	}
 
 	@Override
 	public void finalizarSoporte() {
-		this.getMovimiento().setEstadoActual("CAMBIA AL ESTADO ENTREGANDO.");
 		emailService.send(this.getMovimiento().getComputadora());
 		this.getMovimiento().getTecnico().restaComputadora();
 		this.getMovimiento().setEstado(this.getMovimiento().getEntregando());
+		this.container.informUser("SOPORTE TECNICO FINALIZADO.");
 	}
 
 	@javax.inject.Inject
@@ -71,14 +73,14 @@ public class Reparando implements IEstado {
 
 	@Override
 	public void noHayRepuestos() {
-		// TODO Auto-generated method stub
-		this.getMovimiento().setEstadoActual(
-				"NO CANCELA: NO ES EL ESTADO ESPERANDO");
+		this.container.informUser("EL EQUIPO CONTINUA EN REPARACION.");
+
 	}
 
 	@Override
 	public void llegaronRepuestos() {
-		this.getMovimiento().setEstadoActual("NO ES EL ESTADO ESPERANDO");
+		this.container.informUser("ES NECESARIO SOLICITAR REPUESTOS.");
 	}
-
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 }
