@@ -168,7 +168,7 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	private String creadoPor;
 
-	@Hidden(where = Where.ALL_TABLES)
+	@Hidden
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	public String getCreadoPor() {
 		return creadoPor;
@@ -219,7 +219,6 @@ public class Movimiento implements Comparable<Movimiento> {
 		this.estado = estado;
 	}
 
-	
 	/* *************************************************** */
 
 	private Recepcionado recepcionado;
@@ -315,6 +314,11 @@ public class Movimiento implements Comparable<Movimiento> {
 	@DescribedAs("Comenzar a Reparar.")
 	@NotContributed(As.ASSOCIATION)
 	public Movimiento asignarTecnico(final Tecnico unTecnico) {
+		//En caso que necesite cambiar el tecnico.
+		if (this.getTecnico() != null) {
+			this.getTecnico().restaComputadora();
+			this.setTecnico(null);
+		}
 		this.setTecnico(unTecnico);
 		this.getEstado().asignarTecnico();
 		return this;
