@@ -169,7 +169,7 @@ public class Computadora implements Comparable<Computadora> {
 		return disco;
 	}
 
-	public void setDisco(CategoriaDisco disco) {
+	public void setDisco(final CategoriaDisco disco) {
 		this.disco = disco;
 	}
 
@@ -218,7 +218,7 @@ public class Computadora implements Comparable<Computadora> {
 		return impresora;
 	}
 
-	public void setImpresora(Impresora impresora) {
+	public void setImpresora(final Impresora impresora) {
 		this.impresora = impresora;
 	}
 
@@ -261,7 +261,7 @@ public class Computadora implements Comparable<Computadora> {
 		return creadoPor;
 	}
 
-	public void setCreadoPor(String creadoPor) {
+	public void setCreadoPor(final String creadoPor) {
 		this.creadoPor = creadoPor;
 	}
 
@@ -416,5 +416,4 @@ public class Computadora implements Comparable<Computadora> {
 		// TODO Auto-generated method stub
 		return ObjectContracts.compare(this, computadora, "ip");
 	}
-
 }
