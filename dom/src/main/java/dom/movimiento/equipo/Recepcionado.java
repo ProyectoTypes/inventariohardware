@@ -48,7 +48,6 @@ public class Recepcionado implements IEstado {
 
 	@Override
 	public void asignarTecnico() {
-		this.getMovimiento().setEstadoActual("DE REPARANDO - A REPARACION.");
 		if (this.getMovimiento().getTecnico().estaDisponible()) {
 			this.getMovimiento().getTecnico().sumaComputadora();
 			this.getMovimiento().getTecnico()
