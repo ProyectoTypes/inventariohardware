@@ -146,7 +146,7 @@ public class Insumo implements Comparable<Insumo> {
 	// //////////////////////////////////////
 	private String observaciones;
 
-	@javax.jdo.annotations.Column(allowsNull = "false")
+	@javax.jdo.annotations.Column(allowsNull = "true")
 	@DescribedAs("Observaciones del insumo:")
 	@MemberOrder(sequence = "50")
 	public String getObservaciones() {
