@@ -89,7 +89,7 @@ public class Insumo implements Comparable<Insumo> {
 		return codigo;
 	}
 
-	public void setCodigo(String codigo) {
+	public void setCodigo(final String codigo) {
 		this.codigo = codigo;
 	}
 
@@ -105,7 +105,7 @@ public class Insumo implements Comparable<Insumo> {
 		return cantidad;
 	}
 
-	public void setCantidad(int cantidad) {
+	public void setCantidad(final int cantidad) {
 		this.cantidad = cantidad;
 	}
 
@@ -121,7 +121,7 @@ public class Insumo implements Comparable<Insumo> {
 		return producto;
 	}
 
-	public void setProducto(String producto) {
+	public void setProducto(final String producto) {
 		this.producto = producto;
 	}
 
@@ -137,7 +137,7 @@ public class Insumo implements Comparable<Insumo> {
 		return marca;
 	}
 
-	public void setMarca(String marca) {
+	public void setMarca(final String marca) {
 		this.marca = marca;
 	}
 
@@ -153,7 +153,7 @@ public class Insumo implements Comparable<Insumo> {
 		return observaciones;
 	}
 
-	public void setObservaciones(String observaciones) {
+	public void setObservaciones(final String observaciones) {
 		this.observaciones = observaciones;
 	}
 
@@ -185,7 +185,7 @@ public class Insumo implements Comparable<Insumo> {
 		return creadoPor;
 	}
 
-	public void setCreadoPor(String creadoPor) {
+	public void setCreadoPor(final String creadoPor) {
 		this.creadoPor = creadoPor;
 	}
 
@@ -202,7 +202,7 @@ public class Insumo implements Comparable<Insumo> {
 		return fecha;
 	}
 
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(final LocalDate fecha) {
 		this.fecha = fecha;
 	}
 
@@ -218,7 +218,7 @@ public class Insumo implements Comparable<Insumo> {
 		return movimiento;
 	}
 
-	public void setMovimiento(Movimiento movimiento) {
+	public void setMovimiento(final Movimiento movimiento) {
 		this.movimiento = movimiento;
 	}
 
@@ -252,5 +252,4 @@ public class Insumo implements Comparable<Insumo> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }
