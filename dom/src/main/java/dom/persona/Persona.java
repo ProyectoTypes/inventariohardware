@@ -126,7 +126,7 @@ public abstract class Persona {
 		return creadoPor;
 	}
 
-	public void setCreadoPor(String creadoPor) {
+	public void setCreadoPor(final String creadoPor) {
 		this.creadoPor = creadoPor;
 	}
 
@@ -160,7 +160,7 @@ public abstract class Persona {
 		return sector;
 	}
 
-	public void setSector(Sector sector) {
+	public void setSector(final Sector sector) {
 		this.sector = sector;
 	}
 
