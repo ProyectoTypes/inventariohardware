@@ -3,6 +3,7 @@ package dom.movimiento.equipo;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.MemberOrder;
@@ -47,42 +48,44 @@ public class Recepcionado implements IEstado {
 
 	@Override
 	public void asignarTecnico() {
-		this.getMovimiento().setEstadoActual(
-				"CAMBIA DE ESTADO A REPARANDO - EN REPARACION.");
+		this.getMovimiento().setEstadoActual("DE REPARANDO - A REPARACION.");
 		if (this.getMovimiento().getTecnico().estaDisponible()) {
 			this.getMovimiento().getTecnico().sumaComputadora();
-			this.getMovimiento().getTecnico().addToComputadora(this.getMovimiento().getComputadora());
+			this.getMovimiento().getTecnico()
+					.addToComputadora(this.getMovimiento().getComputadora());
 			this.getMovimiento().setEstado(this.getMovimiento().getReparando());
 		} else {
 			this.getMovimiento().setTecnico(null);
-			 this.container
-			 .informUser("El Tecnico seleccionado no esta disponible.");
+			this.container
+					.informUser("El Tecnico seleccionado no esta disponible.");
 		}
-		
 
 	}
 
 	@Override
 	public void esperarRepuestos() {
-		this.getMovimiento().setEstadoActual(
-				"NO ESPERA: NO ES EL ESTADO REPARANDO.");
+		this.container
+				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
 
 	@Override
 	public void finalizarSoporte() {
-		this.getMovimiento().setEstadoActual(
-				"NO FINALIZA: NO ES EL ESTADO REPARANDO.");
+		this.container
+				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
 
 	@Override
 	public void noHayRepuestos() {
-		// TODO Auto-generated method stub
-		this.getMovimiento().setEstadoActual(
-				"NO CANCELA: NO ES EL ESTADO ESPERANDO");
+		this.container
+				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
 
 	@Override
 	public void llegaronRepuestos() {
-		this.getMovimiento().setEstadoActual("NO ES EL ESTADO ESPERANDO");
+		this.container
+				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
+
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 }
