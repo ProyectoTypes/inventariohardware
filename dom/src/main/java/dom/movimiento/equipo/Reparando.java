@@ -50,7 +50,17 @@ public class Reparando implements IEstado {
 	//Deberia dejar que se asigne otro tecnico. y restarle la cant al anterior.
 	@Override
 	public void asignarTecnico() {
-		this.container.informUser("YA SE ASIGNO UN TECNICO.");
+		if (this.getMovimiento().getTecnico().estaDisponible()) {
+			this.getMovimiento().getTecnico().sumaComputadora();
+			this.getMovimiento().getTecnico()
+					.addToComputadora(this.getMovimiento().getComputadora());
+			this.getMovimiento().setEstado(this.getMovimiento().getReparando());
+			this.container.informUser("ASIGNADO NUEVO TECNICO.");
+		} else {
+			this.getMovimiento().setTecnico(null);
+			this.container
+					.informUser("El Tecnico seleccionado no esta disponible.");
+		}
 
 	}
 
