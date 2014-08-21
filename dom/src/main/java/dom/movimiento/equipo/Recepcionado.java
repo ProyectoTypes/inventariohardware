@@ -52,13 +52,14 @@ public class Recepcionado implements IEstado {
 				"CAMBIA DE ESTADO A REPARANDO - EN REPARACION.");
 		if (this.getMovimiento().getTecnico().estaDisponible()) {
 			this.getMovimiento().getTecnico().sumaComputadora();
+			this.getMovimiento().getTecnico().addToComputadora(this.getMovimiento().getComputadora());
 			this.getMovimiento().setEstado(this.getMovimiento().getReparando());
 		} else {
 			this.getMovimiento().setTecnico(null);
-			this.getMovimiento().clearComputadora();
+			 this.container
+			 .informUser("El Tecnico seleccionado no esta disponible.");
 		}
-		// this.container
-		// .informUser("El Tecnico seleccionado no esta disponible.");
+		
 
 	}
 
