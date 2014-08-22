@@ -385,7 +385,7 @@ public class Computadora implements Comparable<Computadora> {
 	public void setMovimientos(List<Movimiento> movimientos) {
 		this.movimientos = movimientos;
 	}
-
+	@Hidden
 	@Named("Agregar Movimiento")
 	public void addToMovimiento(final Movimiento unMovimiento) {
 		// check for no-op
