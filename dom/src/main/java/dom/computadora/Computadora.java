@@ -22,8 +22,6 @@
 package dom.computadora;
 
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
@@ -65,7 +63,7 @@ import dom.usuario.UsuarioRepositorio;
 				+ "   && habilitado == false"),
 		@javax.jdo.annotations.Query(name = "eliminarComputadoraTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
-				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
+				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
 				+ "WHERE creadoPor == :creadoPor "
