@@ -366,13 +366,23 @@ public class Computadora implements Comparable<Computadora> {
 
 	@Persistent(mappedBy = "computadora", dependentElement = "False")
 	@Join
-	private SortedSet<Movimiento> movimientos = new TreeSet<Movimiento>();
+//	private SortedSet<Movimiento> movimientos = new TreeSet<Movimiento>();
+//
+//	public SortedSet<Movimiento> getMovimientos() {
+//		return movimientos;
+//	}
+//
+//	public void setMovimientos(SortedSet<Movimiento> movimientos) {
+//		this.movimientos = movimientos;
+//	}
 
-	public SortedSet<Movimiento> getMovimientos() {
+	List<Movimiento> movimientos;
+	
+	public List<Movimiento> getMovimientos() {
 		return movimientos;
 	}
 
-	public void setMovimientos(SortedSet<Movimiento> movimientos) {
+	public void setMovimientos(List<Movimiento> movimientos) {
 		this.movimientos = movimientos;
 	}
 
