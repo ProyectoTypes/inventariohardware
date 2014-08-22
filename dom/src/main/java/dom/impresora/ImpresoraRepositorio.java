@@ -31,6 +31,8 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 
+import dom.impresora.Impresora.TipoImpresora;
+
 @Named("IMPRESORA")
 public class ImpresoraRepositorio {
 
@@ -55,21 +57,21 @@ public class ImpresoraRepositorio {
 	public Impresora addImpresora(
 			final @Named("Modelo") String modeloImpresora,
 			final @Named("Fabricante") String fabricanteImpresora,
-			final @Named("Tipo") String tipoImpresora) {
+			final @Named("Tipo") TipoImpresora tipoImpresora) {
 		return nuevaImpresora(modeloImpresora, fabricanteImpresora,
 				tipoImpresora, this.currentUserName());
 	}
 
 	@Programmatic
 	public Impresora nuevaImpresora(final String modeloImpresora,
-			final String fabricanteImpresora, final String tipoImpresora,
+			final String fabricanteImpresora, final TipoImpresora tipoImpresora,
 			final String creadoPor) {
 		final Impresora unaImpresora = container
 				.newTransientInstance(Impresora.class);
 		unaImpresora.setModeloImpresora(modeloImpresora.toUpperCase().trim());
 		unaImpresora.setFabricanteImpresora(fabricanteImpresora.toUpperCase()
 				.trim());
-		unaImpresora.setTipoImpresora(tipoImpresora.toUpperCase().trim());
+		unaImpresora.setTipo(tipoImpresora);
 		unaImpresora.setHabilitado(true);
 		unaImpresora.setCreadoPor(creadoPor);
 		container.persistIfNotAlready(unaImpresora);
