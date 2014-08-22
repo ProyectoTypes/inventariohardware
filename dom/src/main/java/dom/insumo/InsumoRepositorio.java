@@ -88,7 +88,7 @@ public class InsumoRepositorio {
 	public List<Insumo> listar() {
 		final List<Insumo> listaInsumo = this.container
 				.allMatches(new QueryDefault<Insumo>(Insumo.class,
-						"listarInsumoTrue", "creadoPor", this.currentUserName()));
+						"listarInsumoTrue"));
 		if (listaInsumo.isEmpty()) {
 			this.container.warnUser("No hay Insumos cargadas en el sistema.");
 		}

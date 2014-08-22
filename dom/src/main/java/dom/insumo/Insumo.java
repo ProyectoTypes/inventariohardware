@@ -53,8 +53,7 @@ import dom.movimiento.Movimiento;
 				+ "   && habilitado == false"),
 		@javax.jdo.annotations.Query(name = "listarInsumoTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.insumo.Insumo "
-				+ "WHERE creadoPor == :creadoPor "
-				+ "   && habilitado == true"),
+				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorCodigo", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.insumo.Insumo "
 				+ "WHERE creadoPor == :creadoPor "
