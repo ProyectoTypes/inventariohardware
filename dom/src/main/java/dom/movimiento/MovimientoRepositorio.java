@@ -121,7 +121,7 @@ public class MovimientoRepositorio {
 	public List<Movimiento> listar() {
 		final List<Movimiento> listaMovimientos = this.container
 				.allMatches(new QueryDefault<Movimiento>(Movimiento.class,
-						"listar", "creadoPor", this.currentUserName()));
+						"listar"));
 		if (listaMovimientos.isEmpty()) {
 			this.container
 					.warnUser("No hay Movimiento cargados en el sistema.");

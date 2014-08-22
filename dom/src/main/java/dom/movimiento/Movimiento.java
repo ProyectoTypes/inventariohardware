@@ -74,7 +74,7 @@ import dom.tecnico.TecnicoRepositorio;
 				+ "tecnico.getNombre().indexOf(:buscarTecnico) >= 0"),
 		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.movimiento.Movimiento "
-				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
+				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.movimiento.Movimiento "
 				+ "WHERE creadoPor == :creadoPor "
