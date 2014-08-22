@@ -234,7 +234,7 @@ public class Computadora implements Comparable<Computadora> {
 		// additional business logic
 
 	}
-
+	@Hidden
 	public void limpiarImpresora() {
 		Impresora currentImpresora = getImpresora();
 		// check for no-op
