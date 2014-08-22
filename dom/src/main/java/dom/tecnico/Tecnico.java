@@ -64,7 +64,7 @@ import dom.persona.Persona;
 				+ "   && habilitado == false"),
 		@javax.jdo.annotations.Query(name = "eliminarTecnicoTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnico.Tecnico "
-				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
+				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnio.Tecnico"
 				+ "WHERE creadoPor == :creadoPor && "

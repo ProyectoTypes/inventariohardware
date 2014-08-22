@@ -110,7 +110,7 @@ public class TecnicoRepositorio {
 	public List<Tecnico> listar()
 	{
 		final List<Tecnico> listaTecnicos = this.container.allMatches(
-				new QueryDefault<Tecnico>(Tecnico.class, "eliminarTecnicoTrue","creadoPor",this.currentUserName()));
+				new QueryDefault<Tecnico>(Tecnico.class, "eliminarTecnicoTrue"));
 		if(listaTecnicos.isEmpty())
 		{
 			this.container.warnUser("No hay tecnicos cargados en el sistema");
