@@ -85,8 +85,7 @@ public class SoftwareRepositorio {
 	public List<Software> listar() {
 		final List<Software> listaSoftware = this.container
 				.allMatches(new QueryDefault<Software>(Software.class,
-						"listarSoftwareTrue", "creadoPor", this
-								.currentUserName()));
+						"listarSoftwareTrue"));
 		if (listaSoftware.isEmpty()) {
 			this.container.warnUser("No hay Software cargadas en el sistema.");
 		}
