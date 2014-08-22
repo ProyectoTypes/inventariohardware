@@ -59,7 +59,7 @@ import dom.computadora.Computadora;
 				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarImpresoraTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
-				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
+				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPormodeloImpresora", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
 				+ "WHERE creadoPor == :creadoPor "
