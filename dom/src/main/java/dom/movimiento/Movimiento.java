@@ -105,7 +105,7 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Observaciones de la Computadora:")
-	@MemberOrder(name="Detalles",sequence = "20")
+	@MemberOrder(name = "Detalles", sequence = "20")
 	@MultiLine(numberOfLines = 15)
 	public String getObservaciones() {
 		return observaciones;
@@ -139,7 +139,7 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	@Disabled
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(name= "Datos Generales",sequence = "30")
+	@MemberOrder(name = "Datos Generales", sequence = "30")
 	public LocalDate getFecha() {
 		return fecha;
 	}
@@ -211,7 +211,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	@Optional
 	@Hidden(where = Where.PARENTED_TABLES)
 	@Disabled
-	@MemberOrder(name= "Datos Generales",sequence = "0")
+	@MemberOrder(name = "Datos Generales", sequence = "0")
 	public IEstado getEstado() {
 		return estado;
 	}
@@ -224,7 +224,7 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	private Recepcionado recepcionado;
 
-	 @Hidden
+	@Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Recepcionado getRecepcionado() {
@@ -238,7 +238,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	/* *************************************************** */
 	private Reparando reparando;
 
-	 @Hidden
+	@Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Reparando getReparando() {
@@ -253,7 +253,7 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	private Cancelado cancelado;
 
-	 @Hidden
+	@Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Cancelado getCancelado() {
@@ -269,7 +269,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	// {{ Entregando (property)
 	private Entregando entregando;
 
-	 @Hidden
+	@Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Entregando getEntregando() {
@@ -286,7 +286,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	// {{ Esperando (property)
 	private Esperando esperando;
 
-	 @Hidden
+	@Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Esperando getEsperando() {
@@ -315,7 +315,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	@DescribedAs("Comenzar a Reparar.")
 	@NotContributed(As.ASSOCIATION)
 	public Movimiento asignarTecnico(final Tecnico unTecnico) {
-		//En caso que necesite cambiar el tecnico.
+		// En caso que necesite cambiar el tecnico.
 		if (this.getTecnico() != null) {
 			this.getTecnico().restaComputadora();
 			this.setTecnico(null);
@@ -339,8 +339,8 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * @param observaciones
 	 * @return
 	 */
-	@Named("Solicitar Repuestos")
-	public Movimiento esperarRepuestos(final @Named("Codigo") String codigo,
+	@Named("Solicitar Insumos")
+	public Movimiento solicitarInsumos(final @Named("Codigo") String codigo,
 			final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
@@ -356,14 +356,25 @@ public class Movimiento implements Comparable<Movimiento> {
 		return this;
 	}
 
-	public boolean hideEsperarRepuestos() {
+	/**
+	 * En este metodo se observa que el soporte este en estado reparando o en
+	 * esperando para ocultar o mostrar el metodo solicitar insumos.
+	 * 
+	 * @return boolean
+	 */
+	public boolean hideSolicitarInsumos() {
 		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getReparando().getClass().getSimpleName()))
+				.contentEquals(this.getReparando().getClass().getSimpleName())
+				|| this.getEstado()
+						.getClass()
+						.getSimpleName()
+						.contentEquals(
+								this.getEsperando().getClass().getSimpleName()))
 			return false;
 		else
 			return true;
 	}
-
+	
 	/**
 	 * Reparando -> Entregando. Finalizar el Soporte Tecnico de la computadora.
 	 * A partir de aca no puede realizar ninguna accion de soporte sobre la
@@ -429,15 +440,16 @@ public class Movimiento implements Comparable<Movimiento> {
 		else
 			return true;
 	}
-	
-	public Movimiento asignarEquipo(final @Named("Computadora") Computadora computadora)
-	{
+
+	public Movimiento asignarEquipo(
+			final @Named("Computadora") Computadora computadora) {
 		this.getComputadora().setHabilitado(false);
 		this.setComputadora(computadora);
 		this.getEstado().asignarEquipo();
-		
+
 		return this;
 	}
+
 	/* ***************************************************
 	 * FIN: Patron State.
 	 */
@@ -449,7 +461,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	private Tecnico tecnico;
 
 	@Optional
-	@MemberOrder(name= "Datos Generales",sequence = "10")
+	@MemberOrder(name = "Datos Generales", sequence = "10")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Tecnico getTecnico() {
 		return tecnico;
