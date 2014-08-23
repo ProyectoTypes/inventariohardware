@@ -22,8 +22,6 @@
 package dom.computadora;
 
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
@@ -65,7 +63,7 @@ import dom.usuario.UsuarioRepositorio;
 				+ "   && habilitado == false"),
 		@javax.jdo.annotations.Query(name = "eliminarComputadoraTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
-				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
+				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
 				+ "WHERE creadoPor == :creadoPor "
@@ -234,7 +232,7 @@ public class Computadora implements Comparable<Computadora> {
 		// additional business logic
 
 	}
-
+	@Hidden
 	public void limpiarImpresora() {
 		Impresora currentImpresora = getImpresora();
 		// check for no-op
@@ -366,16 +364,26 @@ public class Computadora implements Comparable<Computadora> {
 
 	@Persistent(mappedBy = "computadora", dependentElement = "False")
 	@Join
-	private SortedSet<Movimiento> movimientos = new TreeSet<Movimiento>();
+//	private SortedSet<Movimiento> movimientos = new TreeSet<Movimiento>();
+//
+//	public SortedSet<Movimiento> getMovimientos() {
+//		return movimientos;
+//	}
+//
+//	public void setMovimientos(SortedSet<Movimiento> movimientos) {
+//		this.movimientos = movimientos;
+//	}
 
-	public SortedSet<Movimiento> getMovimientos() {
+	List<Movimiento> movimientos;
+	
+	public List<Movimiento> getMovimientos() {
 		return movimientos;
 	}
 
-	public void setMovimientos(SortedSet<Movimiento> movimientos) {
+	public void setMovimientos(List<Movimiento> movimientos) {
 		this.movimientos = movimientos;
 	}
-
+	@Hidden
 	@Named("Agregar Movimiento")
 	public void addToMovimiento(final Movimiento unMovimiento) {
 		// check for no-op
@@ -388,7 +396,7 @@ public class Computadora implements Comparable<Computadora> {
 		unMovimiento.setComputadora(this);
 		getMovimientos().add(unMovimiento);
 	}
-
+	@Hidden
 	@Named("Eliminar de Recepcion")
 	public void removeFromMovimiento(final Movimiento unMovimiento) {
 		// check for no-op

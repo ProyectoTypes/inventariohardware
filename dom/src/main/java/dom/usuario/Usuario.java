@@ -46,21 +46,21 @@ import dom.persona.Persona;
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Usuario_apellido_must_be_unique", members = { "id" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorApellido", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.usuario.Usuario "
-				+ "WHERE creadoPor == :creadoPor && "
-				+ "apellido.indexOf(:apellido) >= 0"),
+				+ "FROM dom.usuario.Usuario "),
 		@javax.jdo.annotations.Query(name = "eliminarUsuarioFalse", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && habilitado == false"),
 		@javax.jdo.annotations.Query(name = "eliminarUsuarioTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario "
-				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
+				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && apellido.indexOf(:apellido) >= 0"),
-		@javax.jdo.annotations.Query(name = "getUsuario", language = "JDOQL", value = "SELECT FROM dom.usuario.Usuario WHERE creadoPor == :creadoPor") })
+		@javax.jdo.annotations.Query(name = "getUsuario", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.usuario.Usuario "
+				+ "WHERE creadoPor == :creadoPor") })
 @ObjectType("USUARIO")
 @Audited
 @AutoComplete(repository = UsuarioRepositorio.class, action = "autoComplete")

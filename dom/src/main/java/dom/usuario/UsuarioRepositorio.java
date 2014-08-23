@@ -105,8 +105,7 @@ public class UsuarioRepositorio {
 	public List<Usuario> listar() {
 		final List<Usuario> listaUsuarios = this.container
 				.allMatches(new QueryDefault<Usuario>(Usuario.class,
-						"eliminarUsuarioTrue", "creadoPor", this
-								.currentUserName()));
+						"eliminarUsuarioTrue"));
 		if (listaUsuarios.isEmpty()) {
 			this.container.warnUser("No hay Usuarios cargados en el sistema.");
 		}

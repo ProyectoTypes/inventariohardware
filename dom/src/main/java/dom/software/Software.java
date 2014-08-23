@@ -49,7 +49,7 @@ import org.apache.isis.applib.annotation.Where;
 				+ "   && habilitado == false"),
 		@javax.jdo.annotations.Query(name = "listarSoftwareTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.software.Software "
-				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
+				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorCodigo", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.software.Software "
 				+ "WHERE creadoPor == :creadoPor "

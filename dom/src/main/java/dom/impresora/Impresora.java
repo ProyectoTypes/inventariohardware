@@ -59,7 +59,7 @@ import dom.computadora.Computadora;
 				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarImpresoraTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
-				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
+				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPormodeloImpresora", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
 				+ "WHERE creadoPor == :creadoPor "
@@ -122,18 +122,18 @@ public class Impresora {
 	// Tipo de Impresora
 	// //////////////////////////////////////
 
-	private String tipoImpresora;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
-	@DescribedAs("Tipo de Impresora:")
-	@MemberOrder(sequence = "30")
-	public String getTipoImpresora() {
-		return tipoImpresora;
+	public static enum TipoImpresora{
+		LASER, CHORRO_DE_TINTA,MATRIZ_DE_PUNTO;
+	}
+	private TipoImpresora tipo;
+	
+	@javax.jdo.annotations.Column(allowsNull = "false")	
+	public TipoImpresora getTipo() {
+		return tipo;
 	}
 
-	public void setTipoImpresora(final String tipoImpresora) {
-		this.tipoImpresora = tipoImpresora;
+	public void setTipo(TipoImpresora tipo) {
+		this.tipo = tipo;
 	}
 
 	// //////////////////////////////////////
@@ -186,21 +186,6 @@ public class Impresora {
 		unaComputadora.setImpresora(null);
 		this.getComputadora().remove(unaComputadora);
 		return;
-	}
-	// //////////////////////////////////////
-	// Complete (property),
-	// Se utiliza en las acciones add (action), DeshacerAgregar (action)
-	// //////////////////////////////////////
-
-	private boolean complete;
-
-	@Disabled
-	public boolean isComplete() {
-		return complete;
-	}
-
-	public void setComplete(final boolean complete) {
-		this.complete = complete;
 	}
 
 	// //////////////////////////////////////

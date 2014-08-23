@@ -131,8 +131,7 @@ public class ComputadoraRepositorio {
 	public List<Computadora> listar() {
 		final List<Computadora> listaComputadoras = this.container
 				.allMatches(new QueryDefault<Computadora>(Computadora.class,
-						"eliminarComputadoraTrue", "creadoPor", this
-								.currentUserName()));
+						"eliminarComputadoraTrue"));
 		if (listaComputadoras.isEmpty()) {
 			this.container
 					.warnUser("No hay Computadoras cargados en el sistema.");

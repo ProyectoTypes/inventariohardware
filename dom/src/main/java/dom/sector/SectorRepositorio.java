@@ -79,7 +79,7 @@ public class SectorRepositorio {
 	public List<Sector> listar()
 	{
 		final List<Sector> listarSectores = this.container.allMatches(
-				new QueryDefault<Sector>(Sector.class, "todosLosSectores", "creadoPor",this.currentUserName()));
+				new QueryDefault<Sector>(Sector.class, "todosLosSectores"));
 		if(listarSectores.isEmpty())
 			this.container.warnUser("No se encontraron sectores cargados en el sistema.");
 		return listarSectores;
