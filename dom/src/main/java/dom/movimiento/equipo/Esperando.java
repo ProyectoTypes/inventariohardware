@@ -71,12 +71,11 @@ public class Esperando implements IEstado {
 	public void asignarTecnico() {
 		this.container.informUser("EL TECNICO YA HA SIDO ASIGNADO.");
 
-
 	}
-	//Deberia seguir solicitando insumos?? 
+
 	@Override
 	public void solicitarInsumos() {
-		this.container.informUser("SOLICITANDO INSUMOS??????");
+		this.container.informUser("SOLICITANDO NUEVOS INSUMOS");
 
 	}
 
@@ -114,6 +113,6 @@ public class Esperando implements IEstado {
 	@Override
 	public void asignarEquipo() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
