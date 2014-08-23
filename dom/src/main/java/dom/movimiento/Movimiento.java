@@ -224,7 +224,7 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	private Recepcionado recepcionado;
 
-	// @Hidden
+	 @Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Recepcionado getRecepcionado() {
@@ -238,7 +238,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	/* *************************************************** */
 	private Reparando reparando;
 
-	// @Hidden
+	 @Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Reparando getReparando() {
@@ -253,7 +253,7 @@ public class Movimiento implements Comparable<Movimiento> {
 
 	private Cancelado cancelado;
 
-	// @Hidden
+	 @Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Cancelado getCancelado() {
@@ -269,7 +269,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	// {{ Entregando (property)
 	private Entregando entregando;
 
-	// @Hidden
+	 @Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Entregando getEntregando() {
@@ -286,7 +286,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	// {{ Esperando (property)
 	private Esperando esperando;
 
-	// @Hidden
+	 @Hidden
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Esperando getEsperando() {
@@ -345,7 +345,7 @@ public class Movimiento implements Comparable<Movimiento> {
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
 			final @Optional @Named("Observaciones") String observaciones) {
-		this.getEstado().esperarRepuestos();
+		this.getEstado().solicitarInsumos();
 		Insumo uninsumo = null;
 		if (this.getEstado().getClass().getSimpleName()
 				.contentEquals(this.getEsperando().getClass().getSimpleName())) {
@@ -429,7 +429,15 @@ public class Movimiento implements Comparable<Movimiento> {
 		else
 			return true;
 	}
-
+	
+	public Movimiento asignarEquipo(final @Named("Computadora") Computadora computadora)
+	{
+		this.getComputadora().setHabilitado(false);
+		this.setComputadora(computadora);
+		this.getEstado().asignarEquipo();
+		
+		return this;
+	}
 	/* ***************************************************
 	 * FIN: Patron State.
 	 */
