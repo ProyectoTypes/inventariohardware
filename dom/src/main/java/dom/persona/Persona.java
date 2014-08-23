@@ -85,7 +85,7 @@ public abstract class Persona {
 
 	private String email;
 
-	@Optional
+	
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	@RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
