@@ -19,7 +19,7 @@ public interface IEstado {
 	 * @param unM
 	 * @return
 	 */
-	void esperarRepuestos();
+	void solicitarInsumos();
 
 	/**
 	 * finalizarSoporte: - Estado Actual: Reparando. - Nuevo Estado: Entregado.
@@ -45,5 +45,8 @@ public interface IEstado {
 	 * @return
 	 */
 	void llegaronRepuestos();
+	
+	
+	void asignarEquipo();
 
 }
