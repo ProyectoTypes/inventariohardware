@@ -65,7 +65,7 @@ public class Reparando implements IEstado {
 	}
 
 	@Override
-	public void esperarRepuestos() {
+	public void solicitarInsumos() {
 		this.getMovimiento().setEstado(this.getMovimiento().getEsperando());
 		this.container.informUser("ESPERANDO QUE LOS REPUESTOS LLEGUEN.");
 	}
@@ -93,4 +93,11 @@ public class Reparando implements IEstado {
 	}
 	@javax.inject.Inject
 	private DomainObjectContainer container;
+
+	@Override
+	public void asignarEquipo() {
+		
+		
+		
+	}
 }

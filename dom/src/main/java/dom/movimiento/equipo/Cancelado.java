@@ -76,7 +76,7 @@ public class Cancelado implements IEstado {
 	}
 
 	@Override
-	public void esperarRepuestos() {
+	public void solicitarInsumos() {
 		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
 
 	}
@@ -100,4 +100,10 @@ public class Cancelado implements IEstado {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
+
+	@Override
+	public void asignarEquipo() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -62,7 +62,7 @@ public class Recepcionado implements IEstado {
 	}
 
 	@Override
-	public void esperarRepuestos() {
+	public void solicitarInsumos() {
 		this.container
 				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
@@ -87,4 +87,10 @@ public class Recepcionado implements IEstado {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
+
+	@Override
+	public void asignarEquipo() {
+		
+		
+	}
 }

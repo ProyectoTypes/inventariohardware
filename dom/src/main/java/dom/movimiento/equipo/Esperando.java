@@ -75,7 +75,7 @@ public class Esperando implements IEstado {
 	}
 	//Deberia seguir solicitando insumos?? 
 	@Override
-	public void esperarRepuestos() {
+	public void solicitarInsumos() {
 		this.container.informUser("SOLICITANDO INSUMOS??????");
 
 	}
@@ -110,4 +110,10 @@ public class Esperando implements IEstado {
 	private EmailService emailService;
 	@javax.inject.Inject
 	private DomainObjectContainer container;
+
+	@Override
+	public void asignarEquipo() {
+		// TODO Auto-generated method stub
+		
+	}
 }
