@@ -98,4 +98,11 @@ public class MonitorRepositorio {
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
+	
+
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 }
