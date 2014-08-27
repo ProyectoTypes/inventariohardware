@@ -45,5 +45,20 @@ public class MonitorRepositorio {
 		return "Monitor";
 	}
 	
+	// //////////////////////////////////////
+	// Agregar Monitor
+	// //////////////////////////////////////
 
+	@MemberOrder(sequence = "10")
+	@Named("Agregar")
+	public Monitor addMonitor(final @Named("Codigo") String codigo,
+			final @Named("Tipo") int tipo,
+			final @Named("Nombre") String nombre,
+			final @Named("Marca") String marca,
+			final @Optional @Named("Observaciones") String observaciones) {
+		return nuevosMonitor(codigo, tipo, nombre, marca, observaciones,
+				this.currentUserName());
+	}
+	
+	
 }
