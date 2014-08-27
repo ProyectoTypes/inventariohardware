@@ -77,5 +77,20 @@ public class MonitorRepositorio {
 		return unMonitor;
 	}
 
-	
+	// //////////////////////////////////////
+	// Listar Insumos
+	// //////////////////////////////////////
+
+	@MemberOrder(sequence = "100")
+	public List<Monitor> listar() {
+		final List<Monitor> listaSoftware = this.container
+				.allMatches(new QueryDefault<Monitor>(Monitor.class,
+						"listarMonitorTrue"));
+		if (listaSoftware.isEmpty()) {
+			this.container.warnUser("No hay Software cargadas en el sistema.");
+		}
+		return listaSoftware;
+	}
+
+
 }
