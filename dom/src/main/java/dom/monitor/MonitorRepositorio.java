@@ -92,5 +92,10 @@ public class MonitorRepositorio {
 		return listaSoftware;
 	}
 
-
+	// //////////////////////////////////////
+	// CurrentUserName
+	// //////////////////////////////////////
+	private String currentUserName() {
+		return container.getUser().getName();
+	}
 }
