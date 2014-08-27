@@ -43,11 +43,11 @@ import org.apache.isis.applib.annotation.Where;
 				+ "FROM dom.monitor.Monitor "
 				+ "WHERE creadoPor == :creadoPor && "
 				+ "codigo.indexOf(:codigo) >= 0"),
-		@javax.jdo.annotations.Query(name = "eliminarSoftwareFalse", language = "JDOQL", value = "SELECT "
+		@javax.jdo.annotations.Query(name = "eliminarMonitorFalse", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.monito.Monitor "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && habilitado == false"),
-		@javax.jdo.annotations.Query(name = "listarSoftwareTrue", language = "JDOQL", value = "SELECT "
+		@javax.jdo.annotations.Query(name = "listarMonitorTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.monitor.Monitor "
 				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorCodigo", language = "JDOQL", value = "SELECT "
