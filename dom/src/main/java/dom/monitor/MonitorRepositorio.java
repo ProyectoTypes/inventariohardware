@@ -60,5 +60,22 @@ public class MonitorRepositorio {
 				this.currentUserName());
 	}
 	
+	@Programmatic
+	public Monitor nuevosMonitor(final String codigo, final int cantidad,
+			final String producto, final String marca,
+			final String observaciones, final String creadoPor) {
+		final Monitor unMonitor = container.newTransientInstance(Monitor.class);
+		unMonitor.setCodigo(codigo.toUpperCase().trim());
+		unMonitor.setTipo(codigo.toUpperCase().trim());
+		unMonitor.setPulgadas(codigo.toUpperCase().trim());
+		unMonitor.setMarca(marca.toUpperCase().trim());
+		unMonitor.setObservaciones(observaciones.toUpperCase().trim());
+		unMonitor.setHabilitado(true);
+		unMonitor.setCreadoPor(creadoPor);
+		container.persistIfNotAlready(unMonitor);
+		container.flush();
+		return unMonitor;
+	}
+
 	
 }
