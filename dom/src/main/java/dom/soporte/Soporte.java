@@ -85,6 +85,19 @@ import dom.tecnico.TecnicoRepositorio;
 @Bookmarkable
 public class Soporte implements Comparable<Soporte> {
 
+	/****************
+	 * CONSTRUCTOR: Utilizado para el patron State.
+	 ****************/
+	public Soporte() {
+		this.recepcionado = new Recepcionado(this);
+		this.reparando = new Reparando(this);
+		this.entregando = new Entregando(this);
+		this.esperando = new Esperando(this);
+		this.cancelado = new Cancelado(this);
+
+		this.estado = this.recepcionado;
+	}
+
 	// //////////////////////////////////////
 	// Identificacion en la UI. Aparece como item del menu
 	// //////////////////////////////////////
@@ -178,17 +191,105 @@ public class Soporte implements Comparable<Soporte> {
 		this.creadoPor = creadoPor;
 	}
 
-	/****************
-	 * CONSTRUCTOR::
-	 ****************/
-	public Soporte() {
-		this.recepcionado = new Recepcionado(this);
-		this.reparando = new Reparando(this);
-		this.entregando = new Entregando(this);
-		this.esperando = new Esperando(this);
-		this.cancelado = new Cancelado(this);
+	/********************************************************
+	 * Relacion Tecnico/Movimiento.
+	 ********************************************************/
 
-		this.estado = this.recepcionado;
+	private Tecnico tecnico;
+
+	@Optional
+	@MemberOrder(name = "Datos Generales", sequence = "10")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public Tecnico getTecnico() {
+		return tecnico;
+	}
+
+	public void setTecnico(final Tecnico tecnico) {
+		this.tecnico = tecnico;
+	}
+
+	/**********************************************************************
+	 * Relacion Moviemiento(Parent)/Insumos(Child).
+	 **********************************************************************/
+
+	@Persistent(mappedBy = "soporte", dependentElement = "False")
+	@Join
+	private List<Insumo> insumos = new ArrayList<Insumo>();
+
+	public List<Insumo> getInsumos() {
+		return insumos;
+	}
+
+	public void setInsumos(final List<Insumo> insumos) {
+		this.insumos = insumos;
+	}
+
+	@Programmatic
+	public void agregarAInsumos(final Insumo insumo) {
+		if (insumo == null || getInsumos().contains(insumo)) {
+			return;
+		}
+		insumo.limpiarSoporte();
+		insumo.setSoporte(this);
+		getInsumos().add(insumo);
+	}
+
+	@Programmatic
+	public void eliminarInsumos(final Insumo insumo) {
+		if (insumo == null || !getInsumos().contains(insumo)) {
+			return;
+		}
+		insumo.setSoporte(null);
+		getInsumos().remove(insumo);
+	}
+
+	/********************************************************
+	 * Relacion Computadora/Movimiento.
+	 ********************************************************/
+
+	private Computadora computadora;
+
+	@MemberOrder(sequence = "100")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public Computadora getComputadora() {
+		return computadora;
+	}
+
+	public void setComputadora(Computadora computadora) {
+		this.computadora = computadora;
+	}
+
+	@Programmatic
+	@Named("Cambiar Computadora")
+	public void modificarComputadora(final Computadora unaComputadora) {
+		Computadora currentComputadora = getComputadora();
+		if (unaComputadora == null || unaComputadora.equals(currentComputadora)) {
+			return;
+		}
+		setComputadora(unaComputadora);
+	}
+
+	@Programmatic
+	public void clearComputadora() {
+		Computadora currentComputadora = getComputadora();
+		if (currentComputadora == null) {
+			return;
+		}
+		setComputadora(null);
+	}
+
+	@Programmatic
+	public List<Computadora> autoComplete0ModificarComputadora(
+			final String search) {
+		return this.computadoraRepositorio.autoComplete(search);
+	}
+
+	// //////////////////////////////////////
+	// CompareTo
+	// //////////////////////////////////////
+	@Override
+	public int compareTo(final Soporte movimiento) {
+		return ObjectContracts.compare(this, movimiento, "time_system");
 	}
 
 	/**********************************************************
@@ -198,11 +299,11 @@ public class Soporte implements Comparable<Soporte> {
 
 	@Persistent(extensions = {
 			@Extension(vendorName = "datanucleus", key = "mapping-strategy", value = "per-implementation"),
-			@Extension(vendorName = "datanucleus", key = "implementation-classes", value = "dom.movimiento.equipo.Recepcionado"
-					+ ",dom.movimiento.equipo.Reparando"
-					+ ",dom.movimiento.equipo.Esperando"
-					+ ",dom.movimiento.equipo.Cancelado"
-					+ ",dom.movimiento.equipo.Entregando") }, columns = {
+			@Extension(vendorName = "datanucleus", key = "implementation-classes", value = "dom.soporte.estadoSoporte.Recepcionado"
+					+ ",dom.soporte.estadoSoporte.Reparando"
+					+ ",dom.soporte.estadoSoporte.Esperando"
+					+ ",dom.soporte.estadoSoporte.Cancelado"
+					+ ",dom.soporte.estadoSoporte.Entregando") }, columns = {
 			@javax.jdo.annotations.Column(name = "idrecepcionado"),
 			@javax.jdo.annotations.Column(name = "idreparando"),
 			@javax.jdo.annotations.Column(name = "idesperando"),
@@ -374,7 +475,7 @@ public class Soporte implements Comparable<Soporte> {
 		else
 			return true;
 	}
-	
+
 	/**
 	 * Reparando -> Entregando. Finalizar el Soporte Tecnico de la computadora.
 	 * A partir de aca no puede realizar ninguna accion de soporte sobre la
@@ -449,111 +550,11 @@ public class Soporte implements Comparable<Soporte> {
 
 		return this;
 	}
+	
 
 	/* ***************************************************
 	 * FIN: Patron State.
 	 */
-
-	/********************************************************
-	 * Relacion Tecnico/Movimiento.
-	 ********************************************************/
-
-	private Tecnico tecnico;
-
-	@Optional
-	@MemberOrder(name = "Datos Generales", sequence = "10")
-	@javax.jdo.annotations.Column(allowsNull = "true")
-	public Tecnico getTecnico() {
-		return tecnico;
-	}
-
-	public void setTecnico(final Tecnico tecnico) {
-		this.tecnico = tecnico;
-	}
-
-	/**********************************************************************
-	 * Relacion Moviemiento(Parent)/Insumos(Child).
-	 **********************************************************************/
-
-	@Persistent(mappedBy = "movimiento", dependentElement = "trueOrFalse")
-	@Join
-	private List<Insumo> insumos = new ArrayList<Insumo>();
-
-	public List<Insumo> getInsumos() {
-		return insumos;
-	}
-
-	public void setInsumos(final List<Insumo> insumos) {
-		this.insumos = insumos;
-	}
-
-	@Programmatic
-	public void agregarAInsumos(final Insumo insumo) {
-		if (insumo == null || getInsumos().contains(insumo)) {
-			return;
-		}
-		insumo.limpiarSoporte();
-		insumo.setSoporte(this);
-		getInsumos().add(insumo);
-	}
-
-	@Programmatic
-	public void eliminarInsumos(final Insumo insumo) {
-		if (insumo == null || !getInsumos().contains(insumo)) {
-			return;
-		}
-		insumo.setSoporte(null);
-		getInsumos().remove(insumo);
-	}
-
-	/********************************************************
-	 * Relacion Computadora/Movimiento.
-	 ********************************************************/
-
-	private Computadora computadora;
-
-	@MemberOrder(sequence = "100")
-	@javax.jdo.annotations.Column(allowsNull = "true")
-	public Computadora getComputadora() {
-		return computadora;
-	}
-
-	public void setComputadora(Computadora computadora) {
-		this.computadora = computadora;
-	}
-
-	@Programmatic
-	@Named("Cambiar Computadora")
-	public void modificarComputadora(final Computadora unaComputadora) {
-		Computadora currentComputadora = getComputadora();
-		if (unaComputadora == null || unaComputadora.equals(currentComputadora)) {
-			return;
-		}
-		setComputadora(unaComputadora);
-	}
-
-	@Programmatic
-	public void clearComputadora() {
-		Computadora currentComputadora = getComputadora();
-		if (currentComputadora == null) {
-			return;
-		}
-		setComputadora(null);
-	}
-
-	@Programmatic
-	public List<Computadora> autoComplete0ModificarComputadora(
-			final String search) {
-		return this.computadoraRepositorio.autoComplete(search);
-	}
-
-	// //////////////////////////////////////
-	// CompareTo
-	// //////////////////////////////////////
-	@Override
-	public int compareTo(final Soporte movimiento) {
-		return ObjectContracts.compare(this, movimiento, "time_system");
-	}
 
 	// ////////////////////////////////////
 	// Injected Services
