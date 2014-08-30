@@ -19,7 +19,7 @@
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package dom.movimiento;
+package dom.soporte;
 
 import java.util.List;
 
@@ -40,9 +40,9 @@ import dom.tecnico.TecnicoRepositorio;
 
 @DomainService
 @Named("Movimiento")
-public class MovimientoRepositorio {
+public class SoporteRepositorio {
 
-	public MovimientoRepositorio() {
+	public SoporteRepositorio() {
 
 	}
 
@@ -65,18 +65,18 @@ public class MovimientoRepositorio {
 	@Named("Recepcion")
 	@MemberOrder(sequence = "10")
 	@PublishedAction
-	public Movimiento add(final @Named("Computadora") Computadora computadora,
+	public Soporte add(final @Named("Computadora") Computadora computadora,
 			final @Named("Observaciones") String observaciones) {
 		return nuevoMovimiento(computadora, observaciones,
 				this.currentUserName());
 	}
 
 	@Programmatic
-	public Movimiento nuevoMovimiento(final Computadora computadora,
+	public Soporte nuevoMovimiento(final Computadora computadora,
 			final String observaciones, final String creadoPor) {
 
-		final Movimiento unMovimiento = this.container
-				.newTransientInstance(Movimiento.class);
+		final Soporte unMovimiento = this.container
+				.newTransientInstance(Soporte.class);
 		unMovimiento.setHabilitado(true);
 		unMovimiento.setCreadoPor(creadoPor);
 		// unMovimiento.setComputadora(computadora);
@@ -108,9 +108,9 @@ public class MovimientoRepositorio {
 	 * 
 	 */
 	@Programmatic
-	public List<Movimiento> autoComplete(final String buscarTecnico) {
-		return container.allMatches(new QueryDefault<Movimiento>(
-				Movimiento.class, "autoCompleteMovimiento", "creadoPor", this
+	public List<Soporte> autoComplete(final String buscarTecnico) {
+		return container.allMatches(new QueryDefault<Soporte>(
+				Soporte.class, "autoCompleteMovimiento", "creadoPor", this
 						.currentUserName(), "buscarTecnico", buscarTecnico
 						.toUpperCase().trim()));
 	}
@@ -120,9 +120,9 @@ public class MovimientoRepositorio {
 	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "20")
-	public List<Movimiento> listar() {
-		final List<Movimiento> listaMovimientos = this.container
-				.allMatches(new QueryDefault<Movimiento>(Movimiento.class,
+	public List<Soporte> listar() {
+		final List<Soporte> listaMovimientos = this.container
+				.allMatches(new QueryDefault<Soporte>(Soporte.class,
 						"listar"));
 		if (listaMovimientos.isEmpty()) {
 			this.container

@@ -1,4 +1,4 @@
-package dom.movimiento.equipo;
+package dom.soporte.estadoSoporte;
 
 
 public interface IEstado {

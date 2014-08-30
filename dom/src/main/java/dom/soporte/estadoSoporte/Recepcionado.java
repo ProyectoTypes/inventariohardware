@@ -1,4 +1,4 @@
-package dom.movimiento.equipo;
+package dom.soporte.estadoSoporte;
 
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
@@ -9,7 +9,7 @@ import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
-import dom.movimiento.Movimiento;
+import dom.soporte.Soporte;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "idRecibido")
@@ -29,20 +29,20 @@ public class Recepcionado implements IEstado {
 	}
 
 	// {{ Movimiento (property)
-	private Movimiento movimiento;
+	private Soporte movimiento;
 
 	@MemberOrder(sequence = "1")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	public Movimiento getMovimiento() {
+	public Soporte getMovimiento() {
 		return movimiento;
 	}
 
-	public void setMovimiento(final Movimiento movimiento) {
+	public void setMovimiento(final Soporte movimiento) {
 		this.movimiento = movimiento;
 	}
 
 	// }}
-	public Recepcionado(Movimiento unMovimiento) {
+	public Recepcionado(Soporte unMovimiento) {
 		this.movimiento = unMovimiento;
 	}
 

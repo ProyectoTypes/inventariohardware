@@ -19,7 +19,7 @@
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package dom.movimiento;
+package dom.soporte;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,12 +54,12 @@ import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 import dom.insumo.Insumo;
 import dom.insumo.InsumoRepositorio;
-import dom.movimiento.equipo.Cancelado;
-import dom.movimiento.equipo.Entregando;
-import dom.movimiento.equipo.Esperando;
-import dom.movimiento.equipo.IEstado;
-import dom.movimiento.equipo.Recepcionado;
-import dom.movimiento.equipo.Reparando;
+import dom.soporte.estadoSoporte.Cancelado;
+import dom.soporte.estadoSoporte.Entregando;
+import dom.soporte.estadoSoporte.Esperando;
+import dom.soporte.estadoSoporte.IEstado;
+import dom.soporte.estadoSoporte.Recepcionado;
+import dom.soporte.estadoSoporte.Reparando;
 import dom.tecnico.Tecnico;
 import dom.tecnico.TecnicoRepositorio;
 
@@ -81,9 +81,9 @@ import dom.tecnico.TecnicoRepositorio;
 				+ "   && computadora.getIp().indexOf(:ip) >= 0"), })
 @ObjectType("MOVIMIENTO")
 @Audited
-@AutoComplete(repository = MovimientoRepositorio.class, action = "autoComplete")
+@AutoComplete(repository = SoporteRepositorio.class, action = "autoComplete")
 @Bookmarkable
-public class Movimiento implements Comparable<Movimiento> {
+public class Soporte implements Comparable<Soporte> {
 
 	// //////////////////////////////////////
 	// Identificacion en la UI. Aparece como item del menu
@@ -181,7 +181,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	/****************
 	 * CONSTRUCTOR::
 	 ****************/
-	public Movimiento() {
+	public Soporte() {
 		this.recepcionado = new Recepcionado(this);
 		this.reparando = new Reparando(this);
 		this.entregando = new Entregando(this);
@@ -314,7 +314,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	@Named("Asignar Tecnico")
 	@DescribedAs("Comenzar a Reparar.")
 	@NotContributed(As.ASSOCIATION)
-	public Movimiento asignarTecnico(final Tecnico unTecnico) {
+	public Soporte asignarTecnico(final Tecnico unTecnico) {
 		// En caso que necesite cambiar el tecnico.
 		if (this.getTecnico() != null) {
 			this.getTecnico().restaComputadora();
@@ -340,7 +340,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * @return
 	 */
 	@Named("Solicitar Insumos")
-	public Movimiento solicitarInsumos(final @Named("Codigo") String codigo,
+	public Soporte solicitarInsumos(final @Named("Codigo") String codigo,
 			final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
@@ -384,7 +384,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	 */
 	@Named("Finalizar Soporte")
 	@DescribedAs("Envio de email.")
-	public Movimiento finalizarSoporte() {
+	public Soporte finalizarSoporte() {
 		this.getEstado().finalizarSoporte();
 		return this;
 
@@ -406,7 +406,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	 * @return
 	 */
 	@Named("Cancelar Soporte")
-	public Movimiento noHayRepuestos() {
+	public Soporte noHayRepuestos() {
 		this.getEstado().noHayRepuestos();
 		return this;
 
@@ -428,7 +428,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	 */
 	@Named("Ensamblado/Finalizado")
 	@DescribedAs("El equipo es reparado con los respuestos solicitados.")
-	public Movimiento llegaronRepuestos() {
+	public Soporte llegaronRepuestos() {
 		this.getEstado().llegaronRepuestos();
 		return this;
 	}
@@ -441,7 +441,7 @@ public class Movimiento implements Comparable<Movimiento> {
 			return true;
 	}
 
-	public Movimiento asignarEquipo(
+	public Soporte asignarEquipo(
 			final @Named("Computadora") Computadora computadora) {
 		this.getComputadora().setHabilitado(false);
 		this.setComputadora(computadora);
@@ -551,7 +551,7 @@ public class Movimiento implements Comparable<Movimiento> {
 	// CompareTo
 	// //////////////////////////////////////
 	@Override
-	public int compareTo(final Movimiento movimiento) {
+	public int compareTo(final Soporte movimiento) {
 		return ObjectContracts.compare(this, movimiento, "time_system");
 	}
 
