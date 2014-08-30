@@ -27,6 +27,7 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 import org.apache.isis.applib.AbstractFactoryAndRepository;
 import org.apache.isis.applib.annotation.DescribedAs;
+import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.NotContributed;
@@ -36,6 +37,7 @@ import org.apache.isis.applib.annotation.NotInServiceMenu;
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 
+@DomainService
 public class EmailService extends AbstractFactoryAndRepository {
 	private static final String PROPERTY_ROOT = "mail.smtp.";
 

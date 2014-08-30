@@ -21,14 +21,7 @@
 */
 package dom.sector;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.Join;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.Audited;
@@ -39,18 +32,10 @@ import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberGroupLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
-import org.apache.isis.applib.annotation.MinLength;
-import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
-
-import dom.persona.Persona;
-import dom.tecnico.Tecnico;
-import dom.tecnico.TecnicoRepositorio;
-import dom.usuario.Usuario;
-import dom.usuario.UsuarioRepositorio;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
@@ -98,6 +83,7 @@ public class Sector implements Comparable<Sector> {
 	// //////////////////////////////////////
 	// Descripcion de las propiedades.
 	// //////////////////////////////////////
+	
 	private String nombreSector;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -130,7 +116,8 @@ public class Sector implements Comparable<Sector> {
 
 	// //////////////////////////////////////
 	// Complete (property),
-	// Se utiliza en las acciones add (action), DeshacerAgregar (action)
+	// Se utiliza en las acciones add (action)
+	// DeshacerAgregar (action)
 	// //////////////////////////////////////
 
 	private boolean complete;
@@ -160,20 +147,12 @@ public class Sector implements Comparable<Sector> {
 		this.habilitado = habilitado;
 	}
 
-	// !!!!!!!!!! chequear si es necesario hacer un @SortedBy(DependenciesComparator.class), junto al DependenciesComparator 
 	/**
-	 * Implementacion de la interface comparable, necesaria para toda entidad. 
+	 * Implementacion de la interface comparable, necesaria para toda entidad.
+	 *  
 	 */
 	@Override
 	public int compareTo(final Sector sector) {
 		return ObjectContracts.compare(this, sector, "nombreSector");
 	}
-
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-	@javax.inject.Inject
-	private TecnicoRepositorio tecnicoRepositorio;
-	@javax.inject.Inject
-	private UsuarioRepositorio usuarioRepositorio;
 }

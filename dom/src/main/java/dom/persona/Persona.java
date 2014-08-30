@@ -167,6 +167,16 @@ public abstract class Persona {
 	public List<Sector> autoComplete0Mod(final @MinLength(2) String search) {
 		return sectorRepositorio.autoComplete(search);
 	}
+	
+	// //////////////////////////////////////
+	// Autocomplete Sector
+	// //////////////////////////////////////
+
+	@Named("Sector")
+	@DescribedAs("Buscar el Sector")
+	public List<Sector> autoCompleteSector(final @MinLength(2) String search) {
+		return sectorRepositorio.autoComplete(search);
+	}
 
 	// //////////////////////////////////////
 	// Eliminar Sector

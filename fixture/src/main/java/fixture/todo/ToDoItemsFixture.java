@@ -21,16 +21,14 @@ package fixture.todo;
 
 import java.math.BigDecimal;
 
+import org.apache.isis.applib.clock.Clock;
+import org.apache.isis.applib.fixtures.AbstractFixture;
+import org.joda.time.LocalDate;
+
 import dom.todo.ToDoItem;
 import dom.todo.ToDoItem.Category;
 import dom.todo.ToDoItem.Subcategory;
 import dom.todo.ToDoItems;
-
-import org.joda.time.LocalDate;
-
-import org.apache.isis.applib.clock.Clock;
-import org.apache.isis.applib.fixtures.AbstractFixture;
-import org.apache.isis.objectstore.jdo.applib.service.support.IsisJdoSupport;
 
 public class ToDoItemsFixture extends AbstractFixture {
 
@@ -48,8 +46,6 @@ public class ToDoItemsFixture extends AbstractFixture {
     public void install() {
 
         final String ownedBy = this.user != null? this.user : getContainer().getUser().getName();
-        
-        isisJdoSupport.executeUpdate("delete from \"ToDoItem\" where \"ownedBy\" = '" + ownedBy + "'");
 
         installFor(ownedBy);
         
@@ -95,8 +91,5 @@ public class ToDoItemsFixture extends AbstractFixture {
 
     @javax.inject.Inject
     private ToDoItems toDoItems;
-
-    @javax.inject.Inject
-    private IsisJdoSupport isisJdoSupport;
 
 }
