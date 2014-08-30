@@ -28,7 +28,6 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
-import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
@@ -134,7 +133,7 @@ public class UsuarioRepositorio {
 	@Programmatic
 	public List<Usuario> autoComplete(final String apellido) {
 		return container.allMatches(new QueryDefault<Usuario>(Usuario.class,
-				"autoCompletePorApellido", "creadoPor", this.currentUserName(),
+				"autoCompletePorApellido",
 				"apellido", apellido.toUpperCase().trim()));
 	}
 
