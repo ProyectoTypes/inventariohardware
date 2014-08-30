@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DescribedAs;
+import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
@@ -37,6 +38,7 @@ import org.apache.isis.applib.query.QueryDefault;
 import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
 
+@DomainService
 @Named("TECNICO")
 public class TecnicoRepositorio {
 
