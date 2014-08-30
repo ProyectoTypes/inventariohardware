@@ -20,24 +20,24 @@
 	<modelVersion>4.0.0</modelVersion>
 
     <parent>
-    	    <groupId>com.projecttype</groupId>
-    		<artifactId>informatica</artifactId>
-    		<version>1.0-SNAPSHOT</version>
+    	<groupId>com.proyectotypes</groupId>
+        <artifactId>informatica</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
 	<artifactId>informatica-fixture</artifactId>
-	<name>Informatica Wicket/Restful/JDO Fixtures</name>
+	<name>Informatica App Fixtures</name>
 
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>informatica-dom</artifactId>
 		</dependency>
-		
 		<dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
+            		<groupId>postgresql</groupId>
+            		<artifactId>postgresql</artifactId>
+        	</dependency>
 	</dependencies>
-
 </project>
+
+
