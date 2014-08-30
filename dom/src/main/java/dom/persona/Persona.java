@@ -32,7 +32,6 @@ import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
-import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 
@@ -130,24 +129,6 @@ public abstract class Persona {
 		this.creadoPor = creadoPor;
 	}
 
-	/**
-	 * Computadora (propiedad) : Cambiado, ya que
-	 * Tecnico puede tener hasta 5 computadoras, y 
-	 * Usuario solo una.
-	 */
-
-//	private Computadora computadora;
-//
-//	@MemberOrder(sequence = "70")
-//	@javax.jdo.annotations.Column(allowsNull = "true")
-//	public Computadora getComputadora() {
-//		return computadora;
-//	}
-//
-//	public void setComputadora(Computadora computadora) {
-//		this.computadora = computadora;
-//	}
-
 	// //////////////////////////////////////
 	// Sector (propiedad)
 	// //////////////////////////////////////
@@ -172,14 +153,9 @@ public abstract class Persona {
 	@Named("Modificar Sector")
 	public Persona mod(final Sector sector) {
 		Sector currentSector = getSector();
-		// check for no-op
 		if (sector == null || sector.equals(currentSector)) {
 			return this;
 		}
-		// delegate to parent to associate
-		sector.agregarPersona(this);
-		// additional business logic
-		// onModifySector(currentSector, sector);
 		return this;
 	}
 
@@ -205,12 +181,7 @@ public abstract class Persona {
 		if (currentSector == null) {
 			return ;
 		}
-		// delegate to parent to dissociate
-		currentSector.remove(this);
-
 		return ;
-		// additional business logic
-		// onClearSector(currentSector);
 	}
 
 	// //////////////////////////////////////
