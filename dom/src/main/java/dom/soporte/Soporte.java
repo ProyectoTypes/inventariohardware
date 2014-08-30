@@ -38,6 +38,7 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.MultiLine;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.NotContributed;
@@ -550,8 +551,8 @@ public class Soporte implements Comparable<Soporte> {
 		return this;
 	}
 
-	public List<Computadora> autoComplete0Computadora() {
-		return this.computadoraRepositorio.listar();
+	public List<Computadora> autoComplete0AsignarEquipo(final @MinLength(2) String search) {
+		return this.computadoraRepositorio.autoComplete(search);
 	}
 
 	public boolean hideAsignarEquipo() {
