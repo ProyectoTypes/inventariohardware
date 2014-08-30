@@ -39,7 +39,6 @@ import org.apache.wicket.request.Response;
 import org.apache.wicket.request.http.WebRequest;
 
 import org.apache.isis.viewer.wicket.ui.app.registry.ComponentFactoryRegistrar;
-import org.apache.isis.viewer.wicket.ui.pages.PageClassList;
 import org.apache.isis.viewer.wicket.viewer.IsisWicketApplication;
 import org.apache.isis.viewer.wicket.viewer.integration.wicket.AuthenticatedWebSessionForIsis;
 
@@ -115,8 +114,7 @@ public class InformaticaApplication extends IsisWicketApplication {
             @Override
             protected void configure() {
                 bind(ComponentFactoryRegistrar.class).to(ComponentFactoryRegistrarForInformaticaApp.class);
-                bind(PageClassList.class).to(PageClassListForInformaticaApp.class);
-                
+                                
                 bind(String.class).annotatedWith(Names.named("applicationName")).toInstance("Informatica");
                 bind(String.class).annotatedWith(Names.named("applicationCss")).toInstance("css/application.css");
                 bind(String.class).annotatedWith(Names.named("applicationJs")).toInstance("scripts/application.js");
