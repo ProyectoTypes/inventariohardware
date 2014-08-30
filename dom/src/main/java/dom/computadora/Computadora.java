@@ -38,12 +38,11 @@ import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
-import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.impresora.Impresora;
 import dom.impresora.ImpresoraRepositorio;
-import dom.movimiento.Movimiento;
+import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
@@ -142,19 +141,6 @@ public class Computadora implements Comparable<Computadora> {
 	// Disco (propiedad)
 	// //////////////////////////////////////
 
-	// private String disco;
-	//
-	// @javax.jdo.annotations.Column(allowsNull = "false")
-	// @DescribedAs("Disco de la Computadora:")
-	// @MemberOrder(sequence = "40")
-	// public String getDisco() {
-	// return disco;
-	// }
-	//
-	// public void setDisco(final String disco) {
-	// this.disco = disco;
-	// }
-
 	public static enum CategoriaDisco {
 		Seagate, Western, Otro;
 
@@ -219,27 +205,25 @@ public class Computadora implements Comparable<Computadora> {
 	public void setImpresora(final Impresora impresora) {
 		this.impresora = impresora;
 	}
-
+	
+	public List<Impresora> choicesImpresora() {
+		return this.impresoraRepositorio.listar();
+	}
+	
 	public Computadora modificarImpresora(final Impresora impresora) {
 		Impresora currentImpresora = getImpresora();
-		// check for no-op
 		if (impresora == null || impresora.equals(currentImpresora)) {
 			return this;
 		}
-		// associate new
 		impresora.agregarComputadora(this);
 		return this;
-		// additional business logic
-
 	}
 	@Hidden
 	public void limpiarImpresora() {
 		Impresora currentImpresora = getImpresora();
-		// check for no-op
 		if (currentImpresora == null) {
 			return;
 		}
-		// dissociate existing
 		currentImpresora.limpiarComputadora(this);
 	}
 
@@ -253,7 +237,7 @@ public class Computadora implements Comparable<Computadora> {
 
 	private String creadoPor;
 
-	@Hidden(where = Where.ALL_TABLES)
+	@Hidden
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	public String getCreadoPor() {
 		return creadoPor;
@@ -272,7 +256,6 @@ public class Computadora implements Comparable<Computadora> {
 
 	@MemberOrder(sequence = "1")
 	@Column(allowsNull = "true")
-	// @Persistent(mappedBy = "usuario")
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -288,16 +271,12 @@ public class Computadora implements Comparable<Computadora> {
 	@Named("Modificar Usuario")
 	public void modifyUsuario(final Usuario unUsuario) {
 		Usuario currentUsuario = getUsuario();
-		// check for no-op
 		if (unUsuario == null || unUsuario.equals(currentUsuario)) {
 			return;
 		}
-		// dissociate existing
 		clearUsuario();
-		// associate new
 		unUsuario.setComputadora(this);
 		setUsuario(unUsuario);
-		// additional business logic
 	}
 
 	@Named("Borrar Usuario")
@@ -332,30 +311,26 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	// }}
-
+	public String disableTecnico() {
+		return "Editar Tecnico se realiza desde Soporte Tecnico."; // TODO: return reason why collection read-only, null if editable
+	}
 	// ///////////////////////////////////////////////////
 	// Operaciones de Tecnico: Agregar/Borrar
 	// ///////////////////////////////////////////////////
 	public void modifyTecnico(final Tecnico unTecnico) {
 		Tecnico currentTecnico = getTecnico();
-		// check for no-op
 		if (unTecnico == null || unTecnico.equals(currentTecnico)) {
 			return;
 		}
-		// delegate to parent to associate
 		unTecnico.addToComputadora(this);
-		// additional business logic
 	}
 
 	public void clearTecnico() {
 		Tecnico currentTecnico = getTecnico();
-		// check for no-op
 		if (currentTecnico == null) {
 			return;
 		}
-		// delegate to parent to dissociate
 		currentTecnico.removeFromComputadora(this);
-		// additional business logic
 	}
 
 	/**************************************************************
@@ -364,48 +339,33 @@ public class Computadora implements Comparable<Computadora> {
 
 	@Persistent(mappedBy = "computadora", dependentElement = "False")
 	@Join
-//	private SortedSet<Movimiento> movimientos = new TreeSet<Movimiento>();
-//
-//	public SortedSet<Movimiento> getMovimientos() {
-//		return movimientos;
-//	}
-//
-//	public void setMovimientos(SortedSet<Movimiento> movimientos) {
-//		this.movimientos = movimientos;
-//	}
-
-	List<Movimiento> movimientos;
+	private List<Soporte> soporte;
 	
-	public List<Movimiento> getMovimientos() {
-		return movimientos;
+	public List<Soporte> getSoporte() {
+		return soporte;
 	}
 
-	public void setMovimientos(List<Movimiento> movimientos) {
-		this.movimientos = movimientos;
+	public void setSoporte(List<Soporte> soportes) {
+		this.soporte = soportes;
 	}
 	@Hidden
 	@Named("Agregar Movimiento")
-	public void addToMovimiento(final Movimiento unMovimiento) {
-		// check for no-op
-		if (unMovimiento == null || getMovimientos().contains(unMovimiento)) {
+	public void addToSoporte(final Soporte unSoporte) {
+		if (unSoporte == null || getSoporte().contains(unSoporte)) {
 			return;
 		}
-		// dissociate arg from its current parent (if any).
-		unMovimiento.clearComputadora();
-		// associate arg
-		unMovimiento.setComputadora(this);
-		getMovimientos().add(unMovimiento);
+		unSoporte.clearComputadora();
+		unSoporte.setComputadora(this);
+		getSoporte().add(unSoporte);
 	}
 	@Hidden
 	@Named("Eliminar de Recepcion")
-	public void removeFromMovimiento(final Movimiento unMovimiento) {
-		// check for no-op
-		if (unMovimiento == null || !getMovimientos().contains(unMovimiento)) {
+	public void removeFromSoporte(final Soporte unSoporte) {
+		if (unSoporte == null || !getSoporte().contains(unSoporte)) {
 			return;
 		}
-		// dissociate arg
-		unMovimiento.setComputadora(null);
-		getMovimientos().remove(unMovimiento);
+		unSoporte.setComputadora(null);
+		getSoporte().remove(unSoporte);
 	}
 
 	// //////////////////////////////////////
@@ -421,7 +381,6 @@ public class Computadora implements Comparable<Computadora> {
 
 	@Override
 	public int compareTo(Computadora computadora) {
-		// TODO Auto-generated method stub
 		return ObjectContracts.compare(this, computadora, "ip");
 	}
 }
