@@ -96,8 +96,7 @@ public class Reparando implements IEstado {
 
 	@Override
 	public void asignarEquipo() {
-		
-		
-		
+		this.getMovimiento().setEstado(this.getMovimiento().getCancelado());
+		this.container.informUser("EQUIPO DADO DE BAJA.");
 	}
 }
