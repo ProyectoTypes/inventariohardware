@@ -85,9 +85,10 @@ import dom.tecnico.TecnicoRepositorio;
 @Bookmarkable
 public class Soporte implements Comparable<Soporte> {
 
-	/****************
+	/**********************************************
 	 * CONSTRUCTOR: Utilizado para el patron State.
-	 ****************/
+	 **********************************************/
+	
 	public Soporte() {
 		this.recepcionado = new Recepcionado(this);
 		this.reparando = new Reparando(this);
@@ -98,9 +99,9 @@ public class Soporte implements Comparable<Soporte> {
 		this.estado = this.recepcionado;
 	}
 
-	// //////////////////////////////////////
-	// Identificacion en la UI. Aparece como item del menu
-	// //////////////////////////////////////
+	// ////////////////////////////////////////////////////
+	// Identificacion en la UI. Aparece como item del menu.
+	// ////////////////////////////////////////////////////
 
 	public String title() {
 		return "SOPORTE TECNICO";
@@ -209,7 +210,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/**********************************************************************
-	 * Relacion Moviemiento(Parent)/Insumos(Child).
+	 * Relacion Movimiento(Parent)/Insumos(Child).
 	 **********************************************************************/
 
 	@Persistent(mappedBy = "soporte", dependentElement = "False")
@@ -287,6 +288,7 @@ public class Soporte implements Comparable<Soporte> {
 	// //////////////////////////////////////
 	// CompareTo
 	// //////////////////////////////////////
+	
 	@Override
 	public int compareTo(final Soporte movimiento) {
 		return ObjectContracts.compare(this, movimiento, "time_system");
@@ -322,7 +324,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/* *************************************************** */
-
+	
 	private Recepcionado recepcionado;
 
 	@Hidden
@@ -337,6 +339,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/* *************************************************** */
+	
 	private Reparando reparando;
 
 	@Hidden
@@ -351,7 +354,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/* *************************************************** */
-
+	
 	private Cancelado cancelado;
 
 	@Hidden
@@ -367,7 +370,6 @@ public class Soporte implements Comparable<Soporte> {
 
 	/* *************************************************** */
 
-	// {{ Entregando (property)
 	private Entregando entregando;
 
 	@Hidden
@@ -381,10 +383,8 @@ public class Soporte implements Comparable<Soporte> {
 		this.entregando = entregando;
 	}
 
-	// }}
 	/* *************************************************** */
 
-	// {{ Esperando (property)
 	private Esperando esperando;
 
 	@Hidden
@@ -398,12 +398,11 @@ public class Soporte implements Comparable<Soporte> {
 		this.esperando = esperando;
 	}
 
-	// }}
-
 	/* ***************************************************
 	 * FIN: Atributos del State.
 	 * ***************************************************
 	 */
+	
 	/**
 	 * Recepcionado -> Reparando. Permite seleccionar un tecnico desde una
 	 * lista. El Tecnico es agregado en la Computadora. Al tecnico se le suma
@@ -551,7 +550,14 @@ public class Soporte implements Comparable<Soporte> {
 		return this;
 	}
 	
-
+	public boolean hideAsignarEquipo() {
+		if (this.getEstado().getClass().getSimpleName()
+				.contentEquals(this.getReparando().getClass().getSimpleName()))
+			return false;
+		else
+			return true;
+	}
+	
 	/* ***************************************************
 	 * FIN: Patron State.
 	 */
@@ -559,6 +565,7 @@ public class Soporte implements Comparable<Soporte> {
 	// ////////////////////////////////////
 	// Injected Services
 	// ////////////////////////////////////
+	
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
 
@@ -571,5 +578,4 @@ public class Soporte implements Comparable<Soporte> {
 	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-
 }
