@@ -83,7 +83,7 @@ public class TecnicoRepositorio {
 		unTecnico.setEmail(email);
 		unTecnico.setHabilitado(true);
 		unTecnico.setCreadoPor(creadoPor);
-		unTecnico.setMovimiento(null);
+		unTecnico.setSoporte(null);
 
 		unTecnico.setCantidadComputadora(new BigDecimal(0));
 		unTecnico.setSector(sector);

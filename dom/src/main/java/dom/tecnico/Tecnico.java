@@ -46,8 +46,8 @@ import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.computadora.Computadora;
-import dom.movimiento.Movimiento;
 import dom.persona.Persona;
+import dom.soporte.Soporte;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
@@ -106,16 +106,16 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	}
 
 	// {{ Movimiento (property)
-	private Movimiento movimiento;
+	private Soporte soporte;
 
 	@MemberOrder(sequence = "200")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	public Movimiento getMovimiento() {
-		return movimiento;
+	public Soporte getSoporte() {
+		return soporte;
 	}
 
-	public void setMovimiento(final Movimiento movimiento) {
-		this.movimiento = movimiento;
+	public void setSoporte(final Soporte soporte) {
+		this.soporte = soporte;
 	}
 
 	// }}
