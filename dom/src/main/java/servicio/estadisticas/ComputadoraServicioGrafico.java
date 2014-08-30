@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.isis.applib.annotation.ActionSemantics;
+import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.annotation.Named;
 
@@ -53,6 +54,7 @@ import dom.computadora.Computadora;
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.ComputadoraRepositorio;
 
+@DomainService
 @Named("Estadisticas")
 public class ComputadoraServicioGrafico  {
 //Para probar voy a realizar un grafico que muestre todas las computadoras por sector.
