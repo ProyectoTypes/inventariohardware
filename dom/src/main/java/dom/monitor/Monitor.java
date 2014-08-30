@@ -54,7 +54,7 @@ import org.apache.isis.applib.annotation.Where;
 				+ "FROM dom.monitor.Monitor "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && codigo.indexOf(:codigo) >= 0"), })
-@ObjectType("SOFTWARE")
+@ObjectType("MONITOR")
 @Audited
 @AutoComplete(repository = MonitorRepositorio.class, action = "autoComplete")
 @Bookmarkable
