@@ -36,7 +36,7 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Where;
 import org.joda.time.LocalDate;
 
-import dom.movimiento.Movimiento;
+import dom.soporte.Soporte;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "idInsumo")
@@ -209,39 +209,40 @@ public class Insumo implements Comparable<Insumo> {
 	// Relacion Movimiento/Insumos.
 	// //////////////////////////////////////
 
-	private Movimiento movimiento;
+	private Soporte soporte;
 
 	@MemberOrder(sequence = "80")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	public Movimiento getMovimiento() {
-		return movimiento;
+	public Soporte getSoporte() {
+		return soporte;
 	}
 
-	public void setMovimiento(final Movimiento movimiento) {
-		this.movimiento = movimiento;
+	public void setSoporte(final Soporte soporte) {
+		this.soporte = soporte;
 	}
 
-	public void modifyMovimiento(final Movimiento movimiento) {
-		Movimiento currentMovimiento = getMovimiento();
-		// check for no-op
-		if (movimiento == null || movimiento.equals(currentMovimiento)) {
+	public void modifySoporte(final Soporte soporte) {
+		Soporte currentSoporte = getSoporte();
+		if (soporte == null || soporte.equals(currentSoporte)) {
 			return;
 		}
-		// delegate to parent to associate
-		movimiento.agregarAInsumos(this);
+		soporte.agregarAInsumos(this);
 	}
 
-	public void clearMovimiento() {
-		Movimiento currentMovimiento = getMovimiento();
-		// check for no-op
-		if (currentMovimiento == null) {
+	public void clearSoporte() {
+		Soporte currentSoporte = getSoporte();
+		if (currentSoporte == null) {
 			return;
 		}
-		// delegate to parent to dissociate
-		currentMovimiento.eliminarInsumos(this);
+		currentSoporte.eliminarInsumos(this);
 	}
+	
+	/**
+	 * TERMINAR DE IMPLEMENTAR CORRECTAMENTE LOS SIGUIENTES METODOS.
+	 */
+	
 	@Programmatic
-	public void limpiarMovimiento() {
+	public void limpiarSoporte() {
 		// TODO Auto-generated method stub
 
 	}
