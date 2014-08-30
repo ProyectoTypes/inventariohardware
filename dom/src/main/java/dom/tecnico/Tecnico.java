@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.tecnico;
 
 import java.math.BigDecimal;
@@ -63,8 +63,7 @@ import dom.persona.Persona;
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && habilitado == false"),
 		@javax.jdo.annotations.Query(name = "eliminarTecnicoTrue", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.tecnico.Tecnico "
-				+ "WHERE habilitado == true"),
+				+ "FROM dom.tecnico.Tecnico " + "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnio.Tecnico"
 				+ "WHERE creadoPor == :creadoPor && "
@@ -73,9 +72,9 @@ import dom.persona.Persona;
 @ObjectType("TECNICO")
 @Audited
 @AutoComplete(repository = TecnicoRepositorio.class, action = "autoComplete")
-//
 @Bookmarkable
 public class Tecnico extends Persona implements Comparable<Persona> {
+
 	// //////////////////////////////////////
 	// Identification in the UI
 	// //////////////////////////////////////
@@ -88,9 +87,6 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return "Tecnico";
 	}
 
-	// //////////////////////////////////////
-	// Borrar Usuario
-	// //////////////////////////////////////
 	/**
 	 * Método que utilizo para deshabilitar un Tecnico.
 	 * 
@@ -151,36 +147,28 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	// ///////////////////////////////////////////////////
 	@Named("Agregar Computadora")
 	public void addToComputadora(final Computadora unaComputadora) {
-		// check for no-op
 		if (unaComputadora == null
 				|| getComputadoras().contains(unaComputadora)) {
 			return;
 		}
-		// dissociate arg from its current parent (if any).
 		unaComputadora.clearTecnico();
-		// associate arg
 		unaComputadora.setTecnico(this);
 		this.getComputadoras().add(unaComputadora);
 	}
 
 	@Named("Eliminar Computadora")
 	public void removeFromComputadora(final Computadora unaComputadora) {
-		// check for no-op
 		if (unaComputadora == null
 				|| !getComputadoras().contains(unaComputadora)) {
 			return;
 		}
-		// dissociate arg
 		unaComputadora.setTecnico(null);
 		getComputadoras().remove(unaComputadora);
 	}
 
-	// ///////////////////////////////////////////////////
-	// Campo que diferencia a tecnico de usuario. El valor
-	// por el momento se hara manualmente pero lo ideal es
-	// que cambie automaticamente segun el patron State.
-	// ///////////////////////////////////////////////////
-
+	/*
+	 * Permite saber cuantas computadoras esta reparando el tecnico.
+	 */
 	private BigDecimal cantidadComputadora;
 
 	@Max(5)
@@ -238,10 +226,6 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	// //////////////////////////////////////
 	// CompareTo
 	// //////////////////////////////////////
-	/**
-	 * Implementa Comparable<Tecnico> Necesario para ordenar por apellido la
-	 * clase Tecnico.
-	 */
 	@Override
 	public int compareTo(final Persona persona) {
 		return ObjectContracts.compare(this, persona, "apellido");

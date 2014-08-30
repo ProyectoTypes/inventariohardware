@@ -29,7 +29,6 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
-import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
@@ -76,13 +75,12 @@ public class UsuarioRepositorio {
 	public Usuario nuevoUsuario(final Sector sector, final String apellido, final String nombre,
 			final String email, final String creadoPor) {
 		final Usuario unUsuario = container.newTransientInstance(Usuario.class);
-//		unUsuario.setSector(sector);
+		unUsuario.setSector(sector);
 		unUsuario.setApellido(apellido.toUpperCase().trim());
 		unUsuario.setNombre(nombre.toUpperCase().trim());
 		unUsuario.setEmail(email);
 		unUsuario.setHabilitado(true);
 		unUsuario.setCreadoPor(creadoPor);
-		sector.agregarPersona(unUsuario);
 		container.persistIfNotAlready(unUsuario);
 		container.flush();
 		return unUsuario;
@@ -136,7 +134,7 @@ public class UsuarioRepositorio {
 	@Programmatic
 	public List<Usuario> autoComplete(final String apellido) {
 		return container.allMatches(new QueryDefault<Usuario>(Usuario.class,
-				"autoCompletePorApellido", "creadoPor", this.currentUserName(),
+				"autoCompletePorApellido",
 				"apellido", apellido.toUpperCase().trim()));
 	}
 
