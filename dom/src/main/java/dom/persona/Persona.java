@@ -33,7 +33,6 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.RegEx;
-import org.apache.isis.applib.annotation.Where;
 
 import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
@@ -119,7 +118,7 @@ public abstract class Persona {
 
 	private String creadoPor;
 
-	@Hidden(where = Where.ALL_TABLES)
+	@Hidden
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	public String getCreadoPor() {
 		return creadoPor;
