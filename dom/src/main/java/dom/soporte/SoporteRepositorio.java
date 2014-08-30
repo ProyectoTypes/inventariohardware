@@ -39,7 +39,7 @@ import dom.computadora.ComputadoraRepositorio;
 import dom.tecnico.TecnicoRepositorio;
 
 @DomainService
-@Named("Movimiento")
+@Named("Soporte")
 public class SoporteRepositorio {
 
 	public SoporteRepositorio() {
@@ -79,14 +79,10 @@ public class SoporteRepositorio {
 				.newTransientInstance(Soporte.class);
 		unMovimiento.setHabilitado(true);
 		unMovimiento.setCreadoPor(creadoPor);
-		// unMovimiento.setComputadora(computadora);
 		unMovimiento.setObservaciones(observaciones);
 		unMovimiento.setFecha(LocalDate.now());
 		unMovimiento.setTime_system(LocalDateTime.now().withMillisOfSecond(2));
-		computadora.addToMovimiento(unMovimiento);
-		// Recibido estadoInicial =
-		// this.container.newTransientInstance(Recibido.class);
-		// unMovimiento.setRecepcionado(estadoInicial);
+		computadora.addToSoporte(unMovimiento);
 		this.container.persistIfNotAlready(unMovimiento);
 		this.container.flush();
 		return unMovimiento;

@@ -79,7 +79,7 @@ import dom.tecnico.TecnicoRepositorio;
 				+ "FROM dom.movimiento.Movimiento "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && computadora.getIp().indexOf(:ip) >= 0"), })
-@ObjectType("MOVIMIENTO")
+@ObjectType("SOPORTE")
 @Audited
 @AutoComplete(repository = SoporteRepositorio.class, action = "autoComplete")
 @Bookmarkable
@@ -492,8 +492,8 @@ public class Soporte implements Comparable<Soporte> {
 		if (insumo == null || getInsumos().contains(insumo)) {
 			return;
 		}
-		insumo.limpiarMovimiento();
-		insumo.setMovimiento(this);
+		insumo.limpiarSoporte();
+		insumo.setSoporte(this);
 		getInsumos().add(insumo);
 	}
 
@@ -502,7 +502,7 @@ public class Soporte implements Comparable<Soporte> {
 		if (insumo == null || !getInsumos().contains(insumo)) {
 			return;
 		}
-		insumo.setMovimiento(null);
+		insumo.setSoporte(null);
 		getInsumos().remove(insumo);
 	}
 
