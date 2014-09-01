@@ -47,6 +47,7 @@ import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.computadora.Computadora;
 import dom.persona.Persona;
+import dom.sector.Sector;
 import dom.soporte.Soporte;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
@@ -222,6 +223,23 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	}
 
 	// }}
+
+	/**
+	 * Elimina el sector de forma logica.
+	 * 
+	 * @return
+	 */
+
+	@MemberOrder(sequence = "120")
+	@Named("Eliminar Sector")
+	public Tecnico clear() {
+		Sector currentSector = this.getSector();
+		if (currentSector == null) {
+			return this;
+		}
+		this.getSector().setHabilitado(false);
+		return this;
+	}
 
 	// //////////////////////////////////////
 	// CompareTo
