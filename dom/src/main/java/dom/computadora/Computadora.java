@@ -248,8 +248,6 @@ public class Computadora implements Comparable<Computadora> {
 		currentImpresora.limpiarComputadora(this);
 	}
 
-	
-
 	// //////////////////////////////////////
 	// creadoPor
 	// //////////////////////////////////////
@@ -395,6 +393,20 @@ public class Computadora implements Comparable<Computadora> {
 		}
 		unSoporte.setComputadora(null);
 		getSoporte().remove(unSoporte);
+	}
+
+	public List<Impresora> choices0ModificarImpresora() {
+		return this.impresoraRepositorio.listar();
+	}
+
+	@Named("Nueva Impresora")
+	public Impresora addImpresora(
+			final @Named("Modelo") String modeloImpresora,
+			final @Named("Fabricante") String fabricanteImpresora,
+			final @Named("Tipo") TipoImpresora tipoImpresora) {
+		return impresoraRepositorio.nuevaImpresora(modeloImpresora,
+				fabricanteImpresora, tipoImpresora, this.currentUserName());
+
 	}
 
 	// //////////////////////////////////////
