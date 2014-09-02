@@ -18,13 +18,14 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.impresora;
 
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DescribedAs;
+import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
@@ -33,6 +34,7 @@ import org.apache.isis.applib.query.QueryDefault;
 
 import dom.impresora.Impresora.TipoImpresora;
 
+@DomainService
 @Named("IMPRESORA")
 public class ImpresoraRepositorio {
 
@@ -64,8 +66,8 @@ public class ImpresoraRepositorio {
 
 	@Programmatic
 	public Impresora nuevaImpresora(final String modeloImpresora,
-			final String fabricanteImpresora, final TipoImpresora tipoImpresora,
-			final String creadoPor) {
+			final String fabricanteImpresora,
+			final TipoImpresora tipoImpresora, final String creadoPor) {
 		final Impresora unaImpresora = container
 				.newTransientInstance(Impresora.class);
 		unaImpresora.setModeloImpresora(modeloImpresora.toUpperCase().trim());
@@ -123,9 +125,8 @@ public class ImpresoraRepositorio {
 	@Programmatic
 	public List<Impresora> autoComplete(final String modelo) {
 		return container.allMatches(new QueryDefault<Impresora>(
-				Impresora.class, "autoCompletePorModeloImpresora", "creadoPor",
-				this.currentUserName(), "modeloImpresora", modelo
-						.toUpperCase().trim()));
+				Impresora.class, "autoCompletePorModeloImpresora",
+				"modeloImpresora", modelo.toUpperCase().trim()));
 	}
 
 	// //////////////////////////////////////
