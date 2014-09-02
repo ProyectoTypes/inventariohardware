@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.impresora;
 
 import java.util.SortedSet;
@@ -50,15 +50,14 @@ import dom.computadora.Computadora;
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorModeloImpresora", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
-				+ "WHERE creadoPor == :creadoPor && modeloImpresora.indexOf(:modeloImpresora) >= 0"),
+				+ "modeloImpresora.indexOf(:modeloImpresora) >= 0"),
 		@javax.jdo.annotations.Query(name = "todasLasImpresoras", language = "JDOQL", value = "SELECT FROM dom.impresora.Impresora "
 				+ " WHERE creadoPor == :creadoPor && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarImpresoraFalse", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
 				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarImpresoraTrue", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.impresora.Impresora "
-				+ "WHERE habilitado == true"),
+				+ "FROM dom.impresora.Impresora " + "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPormodeloImpresora", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
 				+ "WHERE creadoPor == :creadoPor "
@@ -121,12 +120,13 @@ public class Impresora {
 	// Tipo de Impresora
 	// //////////////////////////////////////
 
-	public static enum TipoImpresora{
-		LASER, CHORRO_DE_TINTA,MATRIZ_DE_PUNTO;
+	public static enum TipoImpresora {
+		LASER, CHORRO_DE_TINTA, MATRIZ_DE_PUNTO;
 	}
+
 	private TipoImpresora tipo;
-	
-	@javax.jdo.annotations.Column(allowsNull = "false")	
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
 	public TipoImpresora getTipo() {
 		return tipo;
 	}
@@ -166,20 +166,21 @@ public class Impresora {
 	public void setComputadora(final SortedSet<Computadora> computadora) {
 		this.computadora = computadora;
 	}
-	
-	@Named ("Agregar Impresora")
-	public void agregarComputadora (final Computadora unaComputadora){
-		if (unaComputadora == null || getComputadora().contains(unaComputadora)){
+
+	@Named("Agregar Impresora")
+	public void agregarComputadora(final Computadora unaComputadora) {
+		if (unaComputadora == null || getComputadora().contains(unaComputadora)) {
 			return;
 		}
 		unaComputadora.limpiarImpresora();
 		unaComputadora.setImpresora(this);
 		getComputadora().add(unaComputadora);
 	}
-	
-	@Named ("Eliminar de Computadora")
-	public void limpiarComputadora (final Computadora unaComputadora){
-		if (unaComputadora == null || !getComputadora().contains(unaComputadora)){
+
+	@Named("Eliminar de Computadora")
+	public void limpiarComputadora(final Computadora unaComputadora) {
+		if (unaComputadora == null
+				|| !getComputadora().contains(unaComputadora)) {
 			return;
 		}
 		unaComputadora.setImpresora(null);

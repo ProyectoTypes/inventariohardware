@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.computadora;
 
 import java.util.List;
@@ -118,10 +118,9 @@ public class ComputadoraRepositorio {
 	// Buscar Impresora
 	// //////////////////////////////////////
 
-	@Named("Impresora")
-	public List<Impresora> autoComplete6AddComputadora(
-			final @MinLength(2) String search) {
-		return impresoraRepositorio.autoComplete(search);
+	// @Named("Impresora")
+	public List<Impresora> choices6AddComputadora() {
+		return this.impresoraRepositorio.listar();
 
 	}
 
