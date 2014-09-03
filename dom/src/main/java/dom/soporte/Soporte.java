@@ -229,11 +229,11 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	@Programmatic
-	public void agregarAInsumos(final Insumo insumo) {
+	public void agregarUnInsumo(final Insumo insumo) {
 		if (insumo == null || getInsumos().contains(insumo)) {
 			return;
 		}
-		insumo.limpiarSoporte();
+		// insumo.limpiarSoporte();
 		insumo.setSoporte(this);
 		getInsumos().add(insumo);
 	}
@@ -406,10 +406,14 @@ public class Soporte implements Comparable<Soporte> {
 	 * ***************************************************
 	 */
 
+	/* ***************************************************
+	 * Operaciones del State.
+	 * ***************************************************
+	 */
 	@Named("Asignar Tecnico")
 	@DescribedAs("Comenzar a Reparar.")
 	@NotContributed(As.ASSOCIATION)
-	@CssClass("x-caution")
+	@CssClass("x-highlight")
 	public Soporte asignarTecnico(final Tecnico tecnico) {
 		this.getEstado().asignarTecnico(tecnico);
 		return this;
@@ -419,32 +423,20 @@ public class Soporte implements Comparable<Soporte> {
 		return this.tecnicoRepositorio.listar();
 	}
 
-	/**
-	 * Reparando -> Esperando. Esperar Repuestos: Permite generar un insumo.
-	 * 
-	 * @param codigo
-	 * @param cantidad
-	 * @param producto
-	 * @param marca
-	 * @param observaciones
-	 * @return
-	 */
+	/* ************************ */
+
 	@Named("Solicitar Insumos")
 	public Soporte solicitarInsumos(final @Named("Codigo") String codigo,
 			final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
 			final @Optional @Named("Observaciones") String observaciones) {
-		this.getEstado().solicitarInsumos();
-		Insumo uninsumo = null;
-		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getEsperando().getClass().getSimpleName())) {
-			uninsumo = this.insumoRepositorio.addInsumo(codigo, cantidad,
-					producto, marca, observaciones);
-			this.agregarAInsumos(uninsumo);
-		}
+		this.getEstado().solicitarInsumos(codigo, cantidad, producto, marca,
+				observaciones);
 		return this;
 	}
+
+	/* ************************ */
 
 	/**
 	 * En este metodo se observa que el soporte este en estado reparando o en
@@ -464,6 +456,8 @@ public class Soporte implements Comparable<Soporte> {
 		else
 			return true;
 	}
+
+	/* ************************ */
 
 	/**
 	 * Reparando -> Entregando. Finalizar el Soporte Tecnico de la computadora.
@@ -495,9 +489,11 @@ public class Soporte implements Comparable<Soporte> {
 	 * 
 	 * @return
 	 */
+	/* ************************ */
+
 	@Named("Cancelar Soporte")
 	public Soporte noHayRepuestos() {
-		this.getEstado().noHayRepuestos();
+		this.getEstado().noHayInsumos();
 		return this;
 
 	}
@@ -510,6 +506,8 @@ public class Soporte implements Comparable<Soporte> {
 			return true;
 	}
 
+	/* ************************ */
+
 	/**
 	 * Esperando -> Entregado. Llegaron los repuestos, se ensamblo la maquina y
 	 * se finalizo la reparacion.
@@ -519,7 +517,7 @@ public class Soporte implements Comparable<Soporte> {
 	@Named("Ensamblado/Finalizado")
 	@DescribedAs("El equipo es reparado con los respuestos solicitados.")
 	public Soporte llegaronRepuestos() {
-		this.getEstado().llegaronRepuestos();
+		this.getEstado().llegaronInsumos();
 		return this;
 	}
 
@@ -531,6 +529,8 @@ public class Soporte implements Comparable<Soporte> {
 			return true;
 	}
 
+	/* ************************ */
+
 	public Soporte asignarEquipo(
 			final @Named("Computadora") Computadora computadora) {
 		this.getComputadora().setHabilitado(false);
@@ -540,7 +540,8 @@ public class Soporte implements Comparable<Soporte> {
 		return this;
 	}
 
-	public List<Computadora> autoComplete0AsignarEquipo(final @MinLength(2) String search) {
+	public List<Computadora> autoComplete0AsignarEquipo(
+			final @MinLength(2) String search) {
 		return this.computadoraRepositorio.autoComplete(search);
 	}
 
@@ -553,7 +554,8 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/* ***************************************************
-	 * FIN: Patron State.
+	 * FIN: Operaciones del State.
+	 * ***************************************************
 	 */
 
 	// ////////////////////////////////////
