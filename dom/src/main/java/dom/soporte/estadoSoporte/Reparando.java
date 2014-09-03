@@ -11,6 +11,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 
 import servicio.email.EmailService;
 import dom.soporte.Soporte;
+import dom.tecnico.Tecnico;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "idReparando")
@@ -28,36 +29,48 @@ public class Reparando implements IEstado {
 		return "sector";
 	}
 
-	public Reparando(Soporte movimiento) {
-		this.movimiento = movimiento;
+	public Reparando(Soporte soporte) {
+		this.soporte = soporte;
 	}
 
 	// {{ Movimiento (property)
-	private Soporte movimiento;
+	private Soporte soporte;
 
 	@MemberOrder(sequence = "1")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-
-	public Soporte getMovimiento() {
-		return movimiento;
-	}
-
-	public void setMovimiento(final Soporte movimiento) {
-		this.movimiento = movimiento;
+	public Soporte getSoporte() {
+		return soporte;
 	}
 
 	// }}
-	//Deberia dejar que se asigne otro tecnico. y restarle la cant al anterior.
+	/**
+	 * Permite cambiar el Tecnico encargado del Soporte Tecnico.
+	 * <p>
+	 * Chequea que el nuevo Tecnico este Disponible, en caso afirmativo,
+	 * desvincula el Tecnico anterior de la Computadora y del Soporte, y vincula
+	 * el Tecnico nuevo al Soporte.
+	 * </p>
+	 * <p>
+	 * Se mantiene en el estado Reparando
+	 * </p>
+	 * 
+	 * @param tecnico
+	 */
 	@Override
-	public void asignarTecnico() {
-		if (this.getMovimiento().getTecnico().estaDisponible()) {
-			this.getMovimiento().getTecnico().sumaComputadora();
-			this.getMovimiento().getTecnico()
-					.addToComputadora(this.getMovimiento().getComputadora());
-			this.getMovimiento().setEstado(this.getMovimiento().getReparando());
+	public void asignarTecnico(final Tecnico tecnico) {
+		if (this.getSoporte().getTecnico() != null) {
+			this.getSoporte().getTecnico()
+					.desvincularComputadora(this.getSoporte().getComputadora());
+			this.getSoporte().setTecnico(null);
+		}
+		if (this.getSoporte().getTecnico().estaDisponible()) {
+			this.getSoporte().getTecnico().sumaComputadora();
+			this.getSoporte().getTecnico()
+					.addToComputadora(this.getSoporte().getComputadora());
+			this.getSoporte().setEstado(this.getSoporte().getReparando());
 			this.container.informUser("ASIGNADO NUEVO TECNICO.");
 		} else {
-			this.getMovimiento().setTecnico(null);
+			this.getSoporte().setTecnico(null);
 			this.container
 					.informUser("El Tecnico seleccionado no esta disponible.");
 		}
@@ -66,15 +79,15 @@ public class Reparando implements IEstado {
 
 	@Override
 	public void solicitarInsumos() {
-		this.getMovimiento().setEstado(this.getMovimiento().getEsperando());
+		this.getSoporte().setEstado(this.getSoporte().getEsperando());
 		this.container.informUser("ESPERANDO QUE LOS REPUESTOS LLEGUEN.");
 	}
 
 	@Override
 	public void finalizarSoporte() {
-		emailService.send(this.getMovimiento().getComputadora());
-		this.getMovimiento().getTecnico().restaComputadora();
-		this.getMovimiento().setEstado(this.getMovimiento().getEntregando());
+		emailService.send(this.getSoporte().getComputadora());
+		this.getSoporte().getTecnico().desvincularComputadora();
+		this.getSoporte().setEstado(this.getSoporte().getEntregando());
 		this.container.informUser("SOPORTE TECNICO FINALIZADO.");
 	}
 
@@ -91,12 +104,13 @@ public class Reparando implements IEstado {
 	public void llegaronRepuestos() {
 		this.container.informUser("ES NECESARIO SOLICITAR REPUESTOS.");
 	}
+
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 
 	@Override
 	public void asignarEquipo() {
-		this.getMovimiento().setEstado(this.getMovimiento().getCancelado());
+		this.getSoporte().setEstado(this.getSoporte().getCancelado());
 		this.container.informUser("EQUIPO DADO DE BAJA.");
 	}
 }
