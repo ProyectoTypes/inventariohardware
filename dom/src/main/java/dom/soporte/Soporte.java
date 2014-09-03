@@ -34,6 +34,7 @@ import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.CssClass;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
@@ -202,6 +203,7 @@ public class Soporte implements Comparable<Soporte> {
 	@Optional
 	@MemberOrder(name = "Datos Generales", sequence = "10")
 	@javax.jdo.annotations.Column(allowsNull = "true")
+	@Disabled
 	public Tecnico getTecnico() {
 		return tecnico;
 	}
@@ -404,25 +406,12 @@ public class Soporte implements Comparable<Soporte> {
 	 * ***************************************************
 	 */
 
-	/**
-	 * Recepcionado -> Reparando. Permite seleccionar un tecnico desde una
-	 * lista. El Tecnico es agregado en la Computadora. Al tecnico se le suma
-	 * una nueva computadora. Cambio de estado a Reparando.
-	 * 
-	 * @param unTecnico
-	 * @return
-	 */
 	@Named("Asignar Tecnico")
 	@DescribedAs("Comenzar a Reparar.")
 	@NotContributed(As.ASSOCIATION)
-	public Soporte asignarTecnico(final Tecnico unTecnico) {
-		// En caso que necesite cambiar el tecnico.
-		if (this.getTecnico() != null) {
-			this.getTecnico().restaComputadora();
-			this.setTecnico(null);
-		}
-		this.setTecnico(unTecnico);
-		this.getEstado().asignarTecnico();
+	@CssClass("x-caution")
+	public Soporte asignarTecnico(final Tecnico tecnico) {
+		this.getEstado().asignarTecnico(tecnico);
 		return this;
 	}
 
