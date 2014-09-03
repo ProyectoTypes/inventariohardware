@@ -1,5 +1,7 @@
 package dom.soporte.estadoSoporte;
 
+import dom.tecnico.Tecnico;
+
 
 public interface IEstado {
 	/**
@@ -10,7 +12,7 @@ public interface IEstado {
 	 * @param unM
 	 * @return
 	 */
-	void asignarTecnico();
+	void asignarTecnico(final Tecnico tecnico);
 
 	/**
 	 * esperarRepuestos: - Estado Actual: Reparando. - Nuevo Estado: Esperando.
@@ -36,7 +38,7 @@ public interface IEstado {
 	 * @param unM
 	 * @return
 	 */
-     void noHayRepuestos();
+     void noHayInsumos();
 
 	/**
 	 * llegaronRepuestos: - Estado Actual: Esperando. - Nuevo Estado: Reparando.
@@ -44,7 +46,7 @@ public interface IEstado {
 	 * @param unM
 	 * @return
 	 */
-	void llegaronRepuestos();
+	void llegaronInsumos();
 	
 	
 	void asignarEquipo();
