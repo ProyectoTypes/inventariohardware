@@ -10,6 +10,7 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
 import dom.soporte.Soporte;
+import dom.tecnico.Tecnico;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "idRecibido")
@@ -29,32 +30,40 @@ public class Recepcionado implements IEstado {
 	}
 
 	// {{ Movimiento (property)
-	private Soporte movimiento;
+	private Soporte soporte;
 
 	@MemberOrder(sequence = "1")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	public Soporte getMovimiento() {
-		return movimiento;
-	}
-
-	public void setMovimiento(final Soporte movimiento) {
-		this.movimiento = movimiento;
+	public Soporte getSoporte() {
+		return soporte;
 	}
 
 	// }}
 	public Recepcionado(Soporte unMovimiento) {
-		this.movimiento = unMovimiento;
+		this.soporte = unMovimiento;
 	}
 
+	/**
+	 * Permite asignar un Tecnico encargado del Soporte Tecnico.
+	 * 
+	 * <p>
+	 * Verifica que el Tecnico nuevo este disponible, en caso afirmativo lo
+	 * vincula con Soporte.
+	 * </p>
+	 * <p>
+	 * Es el encargado de cambiar de estados: Recepcionado -> Reparando.
+	 * </p>
+	 * @param tecnico
+	 */
 	@Override
-	public void asignarTecnico() {
-		if (this.getMovimiento().getTecnico().estaDisponible()) {
-			this.getMovimiento().getTecnico().sumaComputadora();
-			this.getMovimiento().getTecnico()
-					.addToComputadora(this.getMovimiento().getComputadora());
-			this.getMovimiento().setEstado(this.getMovimiento().getReparando());
+	public void asignarTecnico(final Tecnico tecnico) {
+		if (this.getSoporte().getTecnico().estaDisponible()) {
+			this.getSoporte().getTecnico().sumaComputadora();
+			this.getSoporte().getTecnico()
+					.addToComputadora(this.getSoporte().getComputadora());
+			this.getSoporte().setEstado(this.getSoporte().getReparando());
 		} else {
-			this.getMovimiento().setTecnico(null);
+			this.getSoporte().setTecnico(null);
 			this.container
 					.informUser("El Tecnico seleccionado no esta disponible.");
 		}
@@ -90,7 +99,6 @@ public class Recepcionado implements IEstado {
 
 	@Override
 	public void asignarEquipo() {
-		
-		
+
 	}
 }
