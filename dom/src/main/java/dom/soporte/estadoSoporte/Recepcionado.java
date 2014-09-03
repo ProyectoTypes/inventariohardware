@@ -21,6 +21,9 @@ import dom.tecnico.Tecnico;
 @Bookmarkable
 public class Recepcionado implements IEstado {
 
+	public Recepcionado(Soporte soporte) {
+		this.soporte = soporte;
+	}
 	public String title() {
 		return "RECIBIDO ";
 	}
@@ -37,11 +40,13 @@ public class Recepcionado implements IEstado {
 	public Soporte getSoporte() {
 		return soporte;
 	}
-
-	// }}
-	public Recepcionado(Soporte unMovimiento) {
-		this.soporte = unMovimiento;
+	@SuppressWarnings("unused")
+	private void setSoporte(final Soporte soporte)
+	{
+		this.soporte = soporte;
 	}
+	// }}
+	
 
 	/**
 	 * Permite asignar un Tecnico encargado del Soporte Tecnico.
@@ -57,7 +62,9 @@ public class Recepcionado implements IEstado {
 	 */
 	@Override
 	public void asignarTecnico(final Tecnico tecnico) {
-		if (this.getSoporte().getTecnico().estaDisponible()) {
+		
+		if (tecnico.estaDisponible()) {
+			this.getSoporte().setTecnico(tecnico);
 			this.getSoporte().getTecnico().sumaComputadora();
 			this.getSoporte().getTecnico()
 					.addToComputadora(this.getSoporte().getComputadora());
@@ -83,13 +90,13 @@ public class Recepcionado implements IEstado {
 	}
 
 	@Override
-	public void noHayRepuestos() {
+	public void noHayInsumos() {
 		this.container
 				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
 
 	@Override
-	public void llegaronRepuestos() {
+	public void llegaronInsumos() {
 		this.container
 				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
