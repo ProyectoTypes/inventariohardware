@@ -226,7 +226,7 @@ public class Insumo implements Comparable<Insumo> {
 		if (soporte == null || soporte.equals(currentSoporte)) {
 			return;
 		}
-		soporte.agregarAInsumos(this);
+		soporte.agregarUnInsumo(this);
 	}
 
 	public void clearSoporte() {
