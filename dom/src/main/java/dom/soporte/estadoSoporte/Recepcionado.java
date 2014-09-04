@@ -9,6 +9,8 @@ import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
+import dom.computadora.Computadora.CategoriaDisco;
+import dom.impresora.Impresora;
 import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
 
@@ -24,6 +26,7 @@ public class Recepcionado implements IEstado {
 	public Recepcionado(Soporte soporte) {
 		this.soporte = soporte;
 	}
+
 	public String title() {
 		return "RECIBIDO ";
 	}
@@ -32,7 +35,7 @@ public class Recepcionado implements IEstado {
 		return "sector";
 	}
 
-	// {{ Movimiento (property)
+	// {{ Soporte (property)
 	private Soporte soporte;
 
 	@MemberOrder(sequence = "1")
@@ -40,13 +43,13 @@ public class Recepcionado implements IEstado {
 	public Soporte getSoporte() {
 		return soporte;
 	}
+
 	@SuppressWarnings("unused")
-	private void setSoporte(final Soporte soporte)
-	{
+	private void setSoporte(final Soporte soporte) {
 		this.soporte = soporte;
 	}
+
 	// }}
-	
 
 	/**
 	 * Permite asignar un Tecnico encargado del Soporte Tecnico.
@@ -58,11 +61,12 @@ public class Recepcionado implements IEstado {
 	 * <p>
 	 * Es el encargado de cambiar de estados: Recepcionado -> Reparando.
 	 * </p>
+	 * 
 	 * @param tecnico
 	 */
 	@Override
 	public void asignarTecnico(final Tecnico tecnico) {
-		
+
 		if (tecnico.estaDisponible()) {
 			this.getSoporte().setTecnico(tecnico);
 			this.getSoporte().getTecnico().sumaComputadora();
@@ -78,7 +82,9 @@ public class Recepcionado implements IEstado {
 	}
 
 	@Override
-	public void solicitarInsumos() {
+	public void solicitarInsumos(final String codigo, final int cantidad,
+			final String producto, final String marca,
+			final String observaciones) {
 		this.container
 				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
@@ -90,7 +96,9 @@ public class Recepcionado implements IEstado {
 	}
 
 	@Override
-	public void noHayInsumos() {
+	public void noHayInsumos(final String ip, final String mother,
+			final String procesador, final CategoriaDisco disco,
+			final String memoria, final Impresora impresora) {
 		this.container
 				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
@@ -101,11 +109,14 @@ public class Recepcionado implements IEstado {
 				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
 
+	@Override
+	public void asignarNuevoEquipo(final String ip, final String mother,
+			final String procesador, final CategoriaDisco disco,
+			final String memoria, final Impresora impresora) {
+		this.container
+				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
+	}
+
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-
-	@Override
-	public void asignarEquipo() {
-
-	}
 }
