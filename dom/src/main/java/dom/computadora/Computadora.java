@@ -68,7 +68,7 @@ import dom.usuario.Usuario;
 		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
 				+ "WHERE creadoPor == :creadoPor "
-				+ "   && ip.indexOf(:ip) >= 0")})
+				+ "   && ip.indexOf(:ip) >= 0") })
 @ObjectType("COMPUTADORA")
 @Audited
 @AutoComplete(repository = ComputadoraRepositorio.class, action = "autoComplete")
@@ -235,11 +235,11 @@ public class Computadora implements Comparable<Computadora> {
 
 	@Hidden
 	public void limpiarImpresora() {
-		Impresora currentImpresora = getImpresora();
-		if (currentImpresora == null) {
+		Impresora impresora = getImpresora();
+		if (impresora == null) {
 			return;
 		}
-		currentImpresora.limpiarComputadora(this);
+		impresora.limpiarComputadora(this);
 	}
 
 	@Named("Nueva Impresora")
@@ -317,12 +317,12 @@ public class Computadora implements Comparable<Computadora> {
 
 	@Named("Borrar Usuario")
 	public void clearUsuario() {
-		Usuario currentUsuario = getUsuario();
-		if (currentUsuario == null) {
+		Usuario usuario = getUsuario();
+		if (usuario == null) {
 			return;
 		}
-		currentUsuario.setComputadora(null);
-		setUsuario(null);
+		usuario.setComputadora(null);
+		this.setUsuario(null);
 	}
 
 	/*****************************************************
