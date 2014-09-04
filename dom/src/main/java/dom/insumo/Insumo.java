@@ -210,7 +210,8 @@ public class Insumo implements Comparable<Insumo> {
 	// //////////////////////////////////////
 
 	private Soporte soporte;
-
+	
+	@Hidden(where=Where.ALL_TABLES)
 	@MemberOrder(sequence = "80")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Soporte getSoporte() {
