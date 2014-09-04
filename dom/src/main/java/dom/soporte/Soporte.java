@@ -515,24 +515,27 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/* ************************ */
-
-	public Soporte asignarEquipo(
-			final @Named("Computadora") Computadora computadora) {
-		this.getComputadora().setHabilitado(false);
-		this.setComputadora(computadora);
-		this.getEstado().asignarEquipo();
-
+	@DescribedAs("Ingresando una nueva Computadora al Usuario.")
+	public Soporte asignarNuevoEquipo(final @Named("Direccion Ip") String ip,
+			final @Named("Mother") String mother,
+			final @Named("Procesador") String procesador,
+			final @Named("Disco") CategoriaDisco disco,
+			final @Named("Memoria") String memoria,
+			final @Optional @Named("Impresora") Impresora impresora) {
+		this.getEstado().asignarNuevoEquipo(ip, mother, procesador, disco,
+				memoria, impresora);
 		return this;
 	}
 
-	public List<Computadora> autoComplete0AsignarEquipo(
+	public List<Impresora> autoComplete5AsignarNuevoEquipo(
 			final @MinLength(2) String search) {
-		return this.computadoraRepositorio.autoComplete(search);
+		return this.impresoraRepositorio.autoComplete(search);
 	}
 
-	public boolean hideAsignarEquipo() {
-			return false;
+	public boolean hideAsignarNuevoEquipo() {
+		return false;
 	}
+
 	/* ***************************************************
 	 * FIN: Operaciones del State.
 	 * ***************************************************
