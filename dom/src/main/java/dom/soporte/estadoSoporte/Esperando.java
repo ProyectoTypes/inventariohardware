@@ -31,7 +31,10 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
 import servicio.email.EmailService;
+import dom.insumo.Insumo;
+import dom.insumo.InsumoRepositorio;
 import dom.soporte.Soporte;
+import dom.tecnico.Tecnico;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "idEsperando")
@@ -49,32 +52,38 @@ public class Esperando implements IEstado {
 		return "sector"; // cambiar todos los iconos!!!!!
 	}
 
-	public Esperando(Soporte movimiento) {
-		this.movimiento = movimiento;
+	public Esperando(Soporte soporte) {
+		this.soporte = soporte;
 	}
 
 	// {{ Movimiento (property)
-	private Soporte movimiento;
+	private Soporte soporte;
 
 	@MemberOrder(sequence = "1")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	public Soporte getMovimiento() {
-		return movimiento;
+	public Soporte getSoporte() {
+		return soporte;
 	}
 
-	public void setMovimiento(final Soporte movimiento) {
-		this.movimiento = movimiento;
+	@SuppressWarnings("unused")
+	private void setSoporte(final Soporte soporte) {
+		this.soporte = soporte;
 	}
 
 	// }}
 	@Override
-	public void asignarTecnico() {
+	public void asignarTecnico(final Tecnico tecnico) {
 		this.container.informUser("EL TECNICO YA HA SIDO ASIGNADO.");
 
 	}
 
 	@Override
-	public void solicitarInsumos() {
+	public void solicitarInsumos(final String codigo, final int cantidad,
+			final String producto, final String marca,
+			final String observaciones) {
+		Insumo unInsumo = this.insumoRepositorio.addInsumo(codigo, cantidad,
+				producto, marca, observaciones);
+		this.getSoporte().agregarUnInsumo(unInsumo);
 		this.container.informUser("SOLICITANDO NUEVOS INSUMOS");
 
 	}
@@ -86,29 +95,33 @@ public class Esperando implements IEstado {
 	}
 
 	@Override
-	public void noHayRepuestos() {
+	public void noHayInsumos() {
 		this.container
 				.informUser("EL EQUIPO NO PUEDE SER REPARADO POR FALTA DE REPUESTOS.");
 
-		emailService.send(this.getMovimiento().getComputadora());
-		this.getMovimiento().getComputadora().setHabilitado(false);
-		this.getMovimiento().getTecnico().restaComputadora();
-		this.getMovimiento().setEstado(this.getMovimiento().getCancelado());
+		emailService.send(this.getSoporte().getComputadora());
+		this.getSoporte().getComputadora().setHabilitado(false);
+		this.getSoporte().getTecnico()
+				.desvincularComputadora(this.getSoporte().getComputadora());
+		this.getSoporte().setEstado(this.getSoporte().getCancelado());
 	}
 
 	@Override
-	public void llegaronRepuestos() {
+	public void llegaronInsumos() {
 		this.container
 				.informUser("EL EQUIPO FUE ENSAMBLADO Y ESTA LISTO PARA SER ENTREGADO.");
-		emailService.send(this.getMovimiento().getComputadora());
-		this.getMovimiento().getTecnico().restaComputadora();
-		this.getMovimiento().setEstado(this.getMovimiento().getEntregando());
+		emailService.send(this.getSoporte().getComputadora());
+		this.getSoporte().getTecnico()
+				.desvincularComputadora(this.getSoporte().getComputadora());
+		this.getSoporte().setEstado(this.getSoporte().getEntregando());
 	}
 
 	@javax.inject.Inject
 	private EmailService emailService;
 	@javax.inject.Inject
 	private DomainObjectContainer container;
+	@javax.inject.Inject
+	private InsumoRepositorio insumoRepositorio;
 
 	@Override
 	public void asignarEquipo() {
