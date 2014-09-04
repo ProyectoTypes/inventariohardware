@@ -9,7 +9,10 @@ import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
+import dom.computadora.Computadora.CategoriaDisco;
+import dom.impresora.Impresora;
 import dom.soporte.Soporte;
+import dom.tecnico.Tecnico;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "idEntregado")
@@ -30,56 +33,64 @@ public class Entregando implements IEstado {
 	public String iconName() {
 		return "sector";
 	}
-	public Entregando(Soporte movimiento) {
-		this.movimiento = movimiento;
+
+	public Entregando(Soporte soporte) {
+		this.soporte = soporte;
 	}
-	// {{ Movimiento (property)
-	private Soporte movimiento;
+
+	// {{ Soporte (property)
+	private Soporte soporte;
 
 	@MemberOrder(sequence = "1")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-
-	public Soporte getMovimiento() {
-		return movimiento;
+	public Soporte getSoporte() {
+		return soporte;
 	}
 
-	public void setMovimiento(final Soporte movimiento) {
-		this.movimiento = movimiento;
+	@SuppressWarnings("unused")
+	private void setSoporte(final Soporte soporte) {
+		this.soporte = soporte;
 	}
 
 	// }}
 	@Override
-	public void asignarTecnico( ) {
-		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
-		
-	}
-
-	@Override
-	public void solicitarInsumos( ) {
-		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
-	}
-
-	@Override
-	public void noHayRepuestos( ) {
-		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
-	}
-
-	@Override
-	public void finalizarSoporte( ) {
+	public void asignarTecnico(final Tecnico tecnico) {
 		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
 
 	}
 
 	@Override
-	public void llegaronRepuestos( ) {
-		this.container.informUser("EL EQUIPO NO SE TERMINO DE REPARAR");
+	public void solicitarInsumos(final String codigo, final int cantidad,
+			final String producto, final String marca,
+			final String observaciones) {
+		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
 	}
+
+	@Override
+	public void noHayInsumos(final String ip, final String mother,
+			final String procesador, final CategoriaDisco disco,
+			final String memoria, final Impresora impresora) {
+		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
+	}
+
+	@Override
+	public void finalizarSoporte() {
+		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
+
+	}
+
+	@Override
+	public void llegaronInsumos() {
+		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO");
+	}
+
+	@Override
+	public void asignarNuevoEquipo(final String ip, final String mother,
+			final String procesador, final CategoriaDisco disco,
+			final String memoria, final Impresora impresora) {
+		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
+	}
+
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-
-	@Override
-	public void asignarEquipo() {
-		// TODO Auto-generated method stub
-		
-	}
 }
