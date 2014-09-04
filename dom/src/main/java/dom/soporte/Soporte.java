@@ -436,8 +436,6 @@ public class Soporte implements Comparable<Soporte> {
 		return this;
 	}
 
-	/* ************************ */
-
 	/**
 	 * En este metodo se observa que el soporte este en estado reparando o en
 	 * esperando para ocultar o mostrar el metodo solicitar insumos.
@@ -445,16 +443,7 @@ public class Soporte implements Comparable<Soporte> {
 	 * @return boolean
 	 */
 	public boolean hideSolicitarInsumos() {
-		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getReparando().getClass().getSimpleName())
-				|| this.getEstado()
-						.getClass()
-						.getSimpleName()
-						.contentEquals(
-								this.getEsperando().getClass().getSimpleName()))
 			return false;
-		else
-			return true;
 	}
 
 	/* ************************ */
@@ -475,12 +464,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	public boolean hideFinalizarSoporte() {
-		// TODO: return true if action is hidden, false if visible
-		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getReparando().getClass().getSimpleName()))
 			return false;
-		else
-			return true;
 	}
 
 	/**
@@ -499,11 +483,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	public boolean hideNoHayRepuestos() {
-		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getEsperando().getClass().getSimpleName()))
 			return false;
-		else
-			return true;
 	}
 
 	/* ************************ */
@@ -522,11 +502,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	public boolean hideLlegaronRepuestos() {
-		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getEsperando().getClass().getSimpleName()))
 			return false;
-		else
-			return true;
 	}
 
 	/* ************************ */
@@ -546,11 +522,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	public boolean hideAsignarEquipo() {
-		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getReparando().getClass().getSimpleName()))
 			return false;
-		else
-			return true;
 	}
 
 	/* ***************************************************
