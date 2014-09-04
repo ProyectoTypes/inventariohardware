@@ -30,7 +30,6 @@ import javax.jdo.annotations.Join;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
-import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
@@ -53,9 +52,11 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
 import dom.computadora.Computadora;
+import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.ComputadoraRepositorio;
+import dom.impresora.Impresora;
+import dom.impresora.ImpresoraRepositorio;
 import dom.insumo.Insumo;
-import dom.insumo.InsumoRepositorio;
 import dom.soporte.estadoSoporte.Cancelado;
 import dom.soporte.estadoSoporte.Entregando;
 import dom.soporte.estadoSoporte.Esperando;
@@ -264,7 +265,6 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	@Programmatic
-	@Named("Cambiar Computadora")
 	public void modificarComputadora(final Computadora unaComputadora) {
 		Computadora currentComputadora = getComputadora();
 		if (unaComputadora == null || unaComputadora.equals(currentComputadora)) {
@@ -279,7 +279,8 @@ public class Soporte implements Comparable<Soporte> {
 		if (currentComputadora == null) {
 			return;
 		}
-		setComputadora(null);
+		this.getComputadora().setHabilitado(false);
+		this.setComputadora(null);
 	}
 
 	@Programmatic
@@ -411,7 +412,7 @@ public class Soporte implements Comparable<Soporte> {
 	 * ***************************************************
 	 */
 	@Named("Asignar Tecnico")
-	@DescribedAs("Comenzar a Reparar.")
+	@DescribedAs("Seleccionar un Tecnico para comenzar el Soporte.")
 	@NotContributed(As.ASSOCIATION)
 	@CssClass("x-highlight")
 	public Soporte asignarTecnico(final Tecnico tecnico) {
@@ -426,6 +427,7 @@ public class Soporte implements Comparable<Soporte> {
 	/* ************************ */
 
 	@Named("Solicitar Insumos")
+	@DescribedAs("Realizar nuevo pedido de Insumos.")
 	public Soporte solicitarInsumos(final @Named("Codigo") String codigo,
 			final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
@@ -443,7 +445,7 @@ public class Soporte implements Comparable<Soporte> {
 	 * @return boolean
 	 */
 	public boolean hideSolicitarInsumos() {
-			return false;
+		return false;
 	}
 
 	/* ************************ */
@@ -456,7 +458,7 @@ public class Soporte implements Comparable<Soporte> {
 	 * @return
 	 */
 	@Named("Finalizar Soporte")
-	@DescribedAs("Envio de email.")
+	@DescribedAs("Soporte finalizado con exito. Enviar email.")
 	public Soporte finalizarSoporte() {
 		this.getEstado().finalizarSoporte();
 		return this;
@@ -464,7 +466,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	public boolean hideFinalizarSoporte() {
-			return false;
+		return false;
 	}
 
 	/**
@@ -475,15 +477,22 @@ public class Soporte implements Comparable<Soporte> {
 	 */
 	/* ************************ */
 
-	@Named("Cancelar Soporte")
-	public Soporte noHayRepuestos() {
-		this.getEstado().noHayInsumos();
+	@Named("No hay Insumos")
+	@DescribedAs("No hay Repuestos disponibles para finalizar el Soporte.")
+	public Soporte noHayInsumos(final @Named("Direccion Ip") String ip,
+			final @Named("Mother") String mother,
+			final @Named("Procesador") String procesador,
+			final @Named("Disco") CategoriaDisco disco,
+			final @Named("Memoria") String memoria,
+			final @Optional @Named("Impresora") Impresora impresora) {
+		this.getEstado().noHayInsumos(ip, mother, procesador, disco, memoria,
+				impresora);
 		return this;
 
 	}
 
-	public boolean hideNoHayRepuestos() {
-			return false;
+	public boolean hideNoHayInsumos() {
+		return false;// this.getEstado().esconde();
 	}
 
 	/* ************************ */
@@ -494,7 +503,7 @@ public class Soporte implements Comparable<Soporte> {
 	 * 
 	 * @return
 	 */
-	@Named("Ensamblado/Finalizado")
+	@Named("Ensamblar nuevos Insumos")
 	@DescribedAs("El equipo es reparado con los respuestos solicitados.")
 	public Soporte llegaronRepuestos() {
 		this.getEstado().llegaronInsumos();
@@ -502,7 +511,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	public boolean hideLlegaronRepuestos() {
-			return false;
+		return false;
 	}
 
 	/* ************************ */
@@ -524,7 +533,6 @@ public class Soporte implements Comparable<Soporte> {
 	public boolean hideAsignarEquipo() {
 			return false;
 	}
-
 	/* ***************************************************
 	 * FIN: Operaciones del State.
 	 * ***************************************************
@@ -541,9 +549,5 @@ public class Soporte implements Comparable<Soporte> {
 	private ComputadoraRepositorio computadoraRepositorio;
 
 	@javax.inject.Inject
-	private InsumoRepositorio insumoRepositorio;
-
-	@SuppressWarnings("unused")
-	@javax.inject.Inject
-	private DomainObjectContainer container;
+	private ImpresoraRepositorio impresoraRepositorio;
 }
