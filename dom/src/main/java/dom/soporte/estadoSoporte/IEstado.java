@@ -1,58 +1,26 @@
 package dom.soporte.estadoSoporte;
 
+import dom.computadora.Computadora.CategoriaDisco;
+import dom.impresora.Impresora;
 import dom.tecnico.Tecnico;
 
-
 public interface IEstado {
-	/**
-	 * asignarTecnico: - Estado actual: Recibido. - Cambia al nuevo estado:
-	 * Reparando. - Otras operaciones: Asignar Tecnico, controlar cantidad de
-	 * comp. por Tecnico.
-	 * 
-	 * @param unM
-	 * @return
-	 */
 	void asignarTecnico(final Tecnico tecnico);
 
-	/**
-	 * esperarRepuestos: - Estado Actual: Reparando. - Nuevo Estado: Esperando.
-	 * - Otras Operaciones:
-	 * 
-	 * @param unM
-	 * @return
-	 */
-	void solicitarInsumos(final String codigo,
-			final int cantidad,
-			final String producto,
-			final String marca,
+	void solicitarInsumos(final String codigo, final int cantidad,
+			final String producto, final String marca,
 			final String observaciones);
 
-	/**
-	 * finalizarSoporte: - Estado Actual: Reparando. - Nuevo Estado: Entregado.
-	 * - Otras Operaciones:
-	 * 
-	 * @param unM
-	 * @return
-	 */
 	void finalizarSoporte();
 
-	/**
-	 * noHayRepuestos - Estado Actual: Esperando. - Nuevo Estado: Cancelado.
-	 * 
-	 * @param unM
-	 * @return
-	 */
-     void noHayInsumos();
+	void noHayInsumos(final String ip, final String mother,
+			final String procesador, final CategoriaDisco disco,
+			final String memoria, final Impresora impresora);
 
-	/**
-	 * llegaronRepuestos: - Estado Actual: Esperando. - Nuevo Estado: Reparando.
-	 * 
-	 * @param unM
-	 * @return
-	 */
 	void llegaronInsumos();
-	
-	
-	void asignarEquipo();
+
+	void asignarNuevoEquipo(final String ip, final String mother,
+			final String procesador, final CategoriaDisco disco,
+			final String memoria, final Impresora impresora);
 
 }
