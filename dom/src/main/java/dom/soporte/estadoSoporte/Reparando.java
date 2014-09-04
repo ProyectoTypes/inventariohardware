@@ -18,7 +18,6 @@ import dom.insumo.Insumo;
 import dom.insumo.InsumoRepositorio;
 import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
-import dom.usuario.Usuario;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "idReparando")
@@ -74,10 +73,8 @@ public class Reparando implements IEstado {
 
 		if (this.getSoporte().getTecnico().estaDisponible()) {
 			if (this.getSoporte().getTecnico() != null) {
-				this.getSoporte()
-						.getTecnico()
-						.desvincularComputadora(
-								this.getSoporte().getComputadora());
+				this.getSoporte().getTecnico()
+						.restaComputadora(this.getSoporte().getComputadora());
 				this.getSoporte().setTecnico(null);
 			}
 			this.getSoporte().getTecnico().sumaComputadora();
@@ -115,15 +112,20 @@ public class Reparando implements IEstado {
 
 	@Override
 	public void finalizarSoporte() {
+		// Enviando email.
 		emailService.send(this.getSoporte().getComputadora());
+		// Desvinculando tecnico/computadora.
 		this.getSoporte().getTecnico()
-				.desvincularComputadora(this.getSoporte().getComputadora());
+				.removeFromComputadora(this.getSoporte().getComputadora());
+		this.getSoporte().setEstado(this.getSoporte().getCancelado());
 		this.getSoporte().setEstado(this.getSoporte().getEntregando());
 		this.container.informUser("SOPORTE TECNICO FINALIZADO.");
 	}
 
 	@Override
-	public void noHayInsumos() {
+	public void noHayInsumos(final String ip, final String mother,
+			final String procesador, final CategoriaDisco disco,
+			final String memoria, final Impresora impresora) {
 		this.container.informUser("EL EQUIPO CONTINUA EN REPARACION.");
 
 	}
@@ -134,31 +136,46 @@ public class Reparando implements IEstado {
 	}
 
 	/**
-	 * Deshabilita la Computadora, desvinculandolo del Usuario y de la
-	 * Impresora. Ingresa al sistema una nueva Computadora con el Usuario
-	 * correspondiente.
+	 * No es posible realizar el Soporte a causa de que los insumos no se
+	 * encuentran disponibles, se debera asignar una nueva Computadora al
+	 * Usuario.
 	 * <p>
-	 * Reparando -> Cancelado
+	 * El Usuario será desvinculado de la Computadora anterior, al igual que el
+	 * Tecnico. Impresora deberá ser desvinculada de la Computadora.
+	 * </p>
+	 * <p>
+	 * Cambio de Estado: Esperando -> Cancelado
 	 * </p>
 	 * 
 	 * @param ip
-	 *            ,mother,procesador,disco,memoria,impresora
+	 * @param mother
+	 * @param procesador
+	 * @param disco
+	 * @param memoria
+	 * @param impresora
 	 */
 	@Override
 	public void asignarNuevoEquipo(final String ip, final String mother,
 			final String procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora) {
+		// Creando nueva computadora.
+		this.computadoraRepositorio.addComputadora(this.getSoporte()
+				.getComputadora().getUsuario(), ip, mother, procesador, disco,
+				memoria, impresora);
 
-		Usuario usuario = this.getSoporte().getComputadora().getUsuario();
-		this.getSoporte().getComputadora().setHabilitado(false);
-		this.getSoporte().getComputadora().setUsuario(null);
-		this.getSoporte().getComputadora().setImpresora(null);
+		// Desvinculando Usuario/Tecnico/Impresora de Computadora -
+		this.getSoporte().getComputadora().getUsuario().clearComputadora();
 
-		this.computadoraRepositorio.addComputadora(usuario, ip, mother,
-				procesador, disco, memoria, impresora);
+		this.getSoporte().getTecnico()
+				.removeFromComputadora(this.getSoporte().getComputadora());
+
+		this.getSoporte().getComputadora().limpiarImpresora();
 
 		this.getSoporte().setEstado(this.getSoporte().getCancelado());
-		this.container.informUser("EQUIPO DADO DE BAJA. ASIGNADO NUEVO EQUIPO.");
+
+		this.getSoporte().setEstado(this.getSoporte().getCancelado());
+		this.container
+				.informUser("EQUIPO DADO DE BAJA. ASIGNADO NUEVO EQUIPO.");
 	}
 
 	@Inject
