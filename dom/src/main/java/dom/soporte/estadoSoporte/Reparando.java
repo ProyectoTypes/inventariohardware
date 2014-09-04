@@ -11,10 +11,14 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
 import servicio.email.EmailService;
+import dom.computadora.Computadora.CategoriaDisco;
+import dom.computadora.ComputadoraRepositorio;
+import dom.impresora.Impresora;
 import dom.insumo.Insumo;
 import dom.insumo.InsumoRepositorio;
 import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
+import dom.usuario.Usuario;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "idReparando")
@@ -94,6 +98,9 @@ public class Reparando implements IEstado {
 	 * <p>
 	 * Cambio de Estado: Reparando -> Esperando
 	 * </p>
+	 * 
+	 * @param codigo
+	 *            ,cantidad,producto,marca,observaciones
 	 */
 	@Override
 	public void solicitarInsumos(final String codigo, final int cantidad,
@@ -115,9 +122,6 @@ public class Reparando implements IEstado {
 		this.container.informUser("SOPORTE TECNICO FINALIZADO.");
 	}
 
-	@javax.inject.Inject
-	private EmailService emailService;
-
 	@Override
 	public void noHayInsumos() {
 		this.container.informUser("EL EQUIPO CONTINUA EN REPARACION.");
@@ -129,14 +133,40 @@ public class Reparando implements IEstado {
 		this.container.informUser("ES NECESARIO SOLICITAR REPUESTOS.");
 	}
 
+	/**
+	 * Deshabilita la Computadora, desvinculandolo del Usuario y de la
+	 * Impresora. Ingresa al sistema una nueva Computadora con el Usuario
+	 * correspondiente.
+	 * <p>
+	 * Reparando -> Cancelado
+	 * </p>
+	 * 
+	 * @param ip
+	 *            ,mother,procesador,disco,memoria,impresora
+	 */
+	@Override
+	public void asignarNuevoEquipo(final String ip, final String mother,
+			final String procesador, final CategoriaDisco disco,
+			final String memoria, final Impresora impresora) {
+
+		Usuario usuario = this.getSoporte().getComputadora().getUsuario();
+		this.getSoporte().getComputadora().setHabilitado(false);
+		this.getSoporte().getComputadora().setUsuario(null);
+		this.getSoporte().getComputadora().setImpresora(null);
+
+		this.computadoraRepositorio.addComputadora(usuario, ip, mother,
+				procesador, disco, memoria, impresora);
+
+		this.getSoporte().setEstado(this.getSoporte().getCancelado());
+		this.container.informUser("EQUIPO DADO DE BAJA. ASIGNADO NUEVO EQUIPO.");
+	}
+
+	@Inject
+	private EmailService emailService;
 	@Inject
 	private DomainObjectContainer container;
 	@Inject
 	private InsumoRepositorio insumoRepositorio;
-
-	@Override
-	public void asignarEquipo() {
-		this.getSoporte().setEstado(this.getSoporte().getCancelado());
-		this.container.informUser("EQUIPO DADO DE BAJA.");
-	}
+	@Inject
+	private ComputadoraRepositorio computadoraRepositorio;
 }
