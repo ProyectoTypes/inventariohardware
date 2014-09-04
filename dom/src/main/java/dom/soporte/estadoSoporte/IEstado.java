@@ -21,7 +21,11 @@ public interface IEstado {
 	 * @param unM
 	 * @return
 	 */
-	void solicitarInsumos();
+	void solicitarInsumos(final String codigo,
+			final int cantidad,
+			final String producto,
+			final String marca,
+			final String observaciones);
 
 	/**
 	 * finalizarSoporte: - Estado Actual: Reparando. - Nuevo Estado: Entregado.
