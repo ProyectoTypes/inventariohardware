@@ -21,6 +21,7 @@
  */
 package dom.soporte.estadoSoporte;
 
+import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
@@ -31,6 +32,9 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
 import servicio.email.EmailService;
+import dom.computadora.Computadora.CategoriaDisco;
+import dom.computadora.ComputadoraRepositorio;
+import dom.impresora.Impresora;
 import dom.insumo.Insumo;
 import dom.insumo.InsumoRepositorio;
 import dom.soporte.Soporte;
@@ -56,7 +60,7 @@ public class Esperando implements IEstado {
 		this.soporte = soporte;
 	}
 
-	// {{ Movimiento (property)
+	// {{ Soporte (property)
 	private Soporte soporte;
 
 	@MemberOrder(sequence = "1")
@@ -77,6 +81,18 @@ public class Esperando implements IEstado {
 
 	}
 
+	/**
+	 * Se podra realizar un nuevo pedido de insumos.
+	 * <p>
+	 * No hay Cambio de Estado
+	 * </p>
+	 * 
+	 * @param codigo
+	 * @param cantidad
+	 * @param producto
+	 * @param marca
+	 * @param observaciones
+	 */
 	@Override
 	public void solicitarInsumos(final String codigo, final int cantidad,
 			final String producto, final String marca,
@@ -94,38 +110,74 @@ public class Esperando implements IEstado {
 
 	}
 
+	/**
+	 * Si los insumos por alguna razon no estan disponibles, el Usuario será
+	 * informado via email. Además, el Tecnico será desvinculado de la
+	 * Computadora, y estará libre para recibir una nueva.
+	 * <p>
+	 * Cambio de Estado: Esperando -> Cancelado
+	 * </p>
+	 */
 	@Override
-	public void noHayInsumos() {
+	public void noHayInsumos(final String ip, final String mother,
+			final String procesador, final CategoriaDisco disco,
+			final String memoria, final Impresora impresora) {
+		// Enviando email
+		emailService.send(this.getSoporte().getComputadora());
+		
+		// Creando nueva Computadora.
+		this.computadoraRepositorio.addComputadora(this.getSoporte()
+				.getComputadora().getUsuario(), ip, mother, procesador, disco,
+				memoria, impresora);
+
+		// Desvinculando
+		this.getSoporte().getComputadora().getUsuario().clearComputadora();
+		this.getSoporte().getTecnico()
+				.removeFromComputadora(this.getSoporte().getComputadora());
+		this.getSoporte().setEstado(this.getSoporte().getCancelado());
+		this.getSoporte().getComputadora().limpiarImpresora();
+
 		this.container
 				.informUser("EL EQUIPO NO PUEDE SER REPARADO POR FALTA DE REPUESTOS.");
 
-		emailService.send(this.getSoporte().getComputadora());
-		this.getSoporte().getComputadora().setHabilitado(false);
-		this.getSoporte().getTecnico()
-				.desvincularComputadora(this.getSoporte().getComputadora());
-		this.getSoporte().setEstado(this.getSoporte().getCancelado());
 	}
 
+	/**
+	 * El equipo ha sido reparado exitosamente con los repuestos que se habian
+	 * solicitado. Al Tecnico se le desvinculará la Computadora.
+	 * <p>
+	 * Automaticamente el Usuario sera informado via email.
+	 * </p>
+	 * <p>
+	 * Cambio de Estados: Esperando -> Entregando
+	 * </p>
+	 */
 	@Override
 	public void llegaronInsumos() {
+		// Enviando email.
+		emailService.send(this.getSoporte().getComputadora());
+		// Desvinculando tecnico/computadora.
+		this.getSoporte().getTecnico()
+				.removeFromComputadora(this.getSoporte().getComputadora());
+		this.getSoporte().setEstado(this.getSoporte().getCancelado());
 		this.container
 				.informUser("EL EQUIPO FUE ENSAMBLADO Y ESTA LISTO PARA SER ENTREGADO.");
-		emailService.send(this.getSoporte().getComputadora());
-		this.getSoporte().getTecnico()
-				.desvincularComputadora(this.getSoporte().getComputadora());
-		this.getSoporte().setEstado(this.getSoporte().getEntregando());
 	}
-
-	@javax.inject.Inject
-	private EmailService emailService;
-	@javax.inject.Inject
-	private DomainObjectContainer container;
-	@javax.inject.Inject
-	private InsumoRepositorio insumoRepositorio;
 
 	@Override
-	public void asignarEquipo() {
-		// TODO Auto-generated method stub
+	public void asignarNuevoEquipo(final String ip, final String mother,
+			final String procesador, final CategoriaDisco disco,
+			final String memoria, final Impresora impresora) {
 
 	}
+
+	@Inject
+	private EmailService emailService;
+	@Inject
+	private DomainObjectContainer container;
+	@Inject
+	private InsumoRepositorio insumoRepositorio;
+	@Inject
+	private ComputadoraRepositorio computadoraRepositorio;
+
 }
