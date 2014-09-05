@@ -38,10 +38,7 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
-import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.ObjectType;
-import org.apache.isis.applib.annotation.Optional;
-import org.apache.isis.applib.annotation.NotContributed.As;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.impresora.Impresora;
