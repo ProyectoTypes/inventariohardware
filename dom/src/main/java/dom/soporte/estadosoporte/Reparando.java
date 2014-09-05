@@ -1,4 +1,4 @@
-package dom.soporte.estadoSoporte;
+package dom.soporte.estadosoporte;
 
 import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;

@@ -57,12 +57,12 @@ import dom.computadora.ComputadoraRepositorio;
 import dom.impresora.Impresora;
 import dom.impresora.ImpresoraRepositorio;
 import dom.insumo.Insumo;
-import dom.soporte.estadoSoporte.Cancelado;
-import dom.soporte.estadoSoporte.Entregando;
-import dom.soporte.estadoSoporte.Esperando;
-import dom.soporte.estadoSoporte.IEstado;
-import dom.soporte.estadoSoporte.Recepcionado;
-import dom.soporte.estadoSoporte.Reparando;
+import dom.soporte.estadosoporte.Cancelado;
+import dom.soporte.estadosoporte.Entregando;
+import dom.soporte.estadosoporte.Esperando;
+import dom.soporte.estadosoporte.IEstado;
+import dom.soporte.estadosoporte.Recepcionado;
+import dom.soporte.estadosoporte.Reparando;
 import dom.tecnico.Tecnico;
 import dom.tecnico.TecnicoRepositorio;
 

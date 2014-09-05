@@ -19,7 +19,7 @@
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package dom.soporte.estadoSoporte;
+package dom.soporte.estadosoporte;
 
 import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;

@@ -1,4 +1,4 @@
-package dom.soporte.estadoSoporte;
+package dom.soporte.estadosoporte;
 
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;

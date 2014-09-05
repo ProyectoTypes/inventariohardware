@@ -1,4 +1,4 @@
-package dom.soporte.estadoSoporte;
+package dom.soporte.estadosoporte;
 
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.impresora.Impresora;
