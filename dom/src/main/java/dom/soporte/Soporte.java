@@ -69,17 +69,17 @@ import dom.tecnico.TecnicoRepositorio;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Movimiento_observaciones_must_be_unique", members = { "fecha,creadoPor,observaciones" }) })
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Soporte_unique", members = { "fecha,creadoPor,observaciones" }) })
 @javax.jdo.annotations.Queries({
-		@javax.jdo.annotations.Query(name = "autoCompletePorMovimiento", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.movimiento.Movimiento "
+		@javax.jdo.annotations.Query(name = "autoCompletePorSoporte", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.soporte.Soporte "
 				+ "WHERE creadoPor == :creadoPor && "
 				+ "tecnico.getNombre().indexOf(:buscarTecnico) >= 0"),
 		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.movimiento.Movimiento "
+				+ "FROM dom.soporte.Soporte "
 				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.movimiento.Movimiento "
+				+ "FROM dom.soporte.Soporte "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && computadora.getIp().indexOf(:ip) >= 0"), })
 @ObjectType("SOPORTE")
@@ -111,7 +111,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	public String iconName() {
-		return "Movimiento";
+		return "Soporte";
 	}
 
 	// //////////////////////////////////////
@@ -196,7 +196,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/********************************************************
-	 * Relacion Tecnico/Movimiento.
+	 * Relacion Tecnico/Soporte.
 	 ********************************************************/
 
 	private Tecnico tecnico;
@@ -214,7 +214,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/**********************************************************************
-	 * Relacion Movimiento(Parent)/Insumos(Child).
+	 * Relacion Soporte(Parent)/Insumos(Child).
 	 **********************************************************************/
 
 	@Persistent(mappedBy = "soporte", dependentElement = "False")
@@ -249,7 +249,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/********************************************************
-	 * Relacion Computadora/Movimiento.
+	 * Relacion Computadora/Soporte.
 	 ********************************************************/
 
 	private Computadora computadora;
@@ -294,8 +294,8 @@ public class Soporte implements Comparable<Soporte> {
 	// //////////////////////////////////////
 
 	@Override
-	public int compareTo(final Soporte movimiento) {
-		return ObjectContracts.compare(this, movimiento, "time_system");
+	public int compareTo(final Soporte soporte) {
+		return ObjectContracts.compare(this, soporte, "time_system");
 	}
 
 	/**********************************************************
@@ -305,11 +305,11 @@ public class Soporte implements Comparable<Soporte> {
 
 	@Persistent(extensions = {
 			@Extension(vendorName = "datanucleus", key = "mapping-strategy", value = "per-implementation"),
-			@Extension(vendorName = "datanucleus", key = "implementation-classes", value = "dom.soporte.estadoSoporte.Recepcionado"
-					+ ",dom.soporte.estadoSoporte.Reparando"
-					+ ",dom.soporte.estadoSoporte.Esperando"
-					+ ",dom.soporte.estadoSoporte.Cancelado"
-					+ ",dom.soporte.estadoSoporte.Entregando") }, columns = {
+			@Extension(vendorName = "datanucleus", key = "implementation-classes", value = "dom.soporte.estadosoporte.Recepcionado"
+					+ ",dom.soporte.estadosoporte.Reparando"
+					+ ",dom.soporte.estadosoporte.Esperando"
+					+ ",dom.soporte.estadosoporte.Cancelado"
+					+ ",dom.soporte.estadosoporte.Entregando") }, columns = {
 			@javax.jdo.annotations.Column(name = "idrecepcionado"),
 			@javax.jdo.annotations.Column(name = "idreparando"),
 			@javax.jdo.annotations.Column(name = "idesperando"),
