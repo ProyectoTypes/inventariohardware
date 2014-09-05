@@ -164,7 +164,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 			return;
 		}
 		unaComputadora.setTecnico(null);
-		getComputadoras().remove(unaComputadora);
+		this.getComputadoras().remove(unaComputadora);
 	}
 
 	/*
@@ -188,15 +188,14 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	 */
 	@Programmatic
 	public void sumaComputadora() {
-		BigDecimal valor = new BigDecimal(1);
+		BigDecimal valor = BigDecimal.valueOf(1);
 		this.setCantidadComputadora(this.cantidadComputadora.add(valor));
 	}
 
 	@Programmatic
-	public void restaComputadora() {
-		BigDecimal valor = new BigDecimal(-1);
+	public void restaComputadora(final Computadora computadora) {
+		BigDecimal valor = BigDecimal.valueOf(-1);
 		this.setCantidadComputadora(this.cantidadComputadora.add(valor));
-
 	}
 
 	// {{ Disponible (property)
@@ -214,7 +213,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 
 	@Programmatic
 	public Boolean estaDisponible() {
-		BigDecimal tope = new BigDecimal(10);
+		BigDecimal tope = BigDecimal.valueOf(10);
 		if (this.cantidadComputadora.compareTo(tope) == -1)
 			return true;
 		else
