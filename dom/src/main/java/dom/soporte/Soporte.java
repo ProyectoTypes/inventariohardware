@@ -76,8 +76,7 @@ import dom.tecnico.TecnicoRepositorio;
 				+ "WHERE creadoPor == :creadoPor && "
 				+ "tecnico.getNombre().indexOf(:buscarTecnico) >= 0"),
 		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.soporte.Soporte "
-				+ "WHERE habilitado == true"),
+				+ "FROM dom.soporte.Soporte " + "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.soporte.Soporte "
 				+ "WHERE creadoPor == :creadoPor "
@@ -211,6 +210,28 @@ public class Soporte implements Comparable<Soporte> {
 
 	public void setTecnico(final Tecnico tecnico) {
 		this.tecnico = tecnico;
+	}
+
+	public void modifyTecnico(final Tecnico tecnico) {
+		Tecnico currentTecnico = getTecnico();
+		if (tecnico == null || tecnico.equals(currentTecnico)) {
+			return;
+		}
+
+		this.clearTecnico();
+		tecnico.setSoporte(this);
+		setTecnico(tecnico);
+	}
+
+	public void clearTecnico() {
+		Tecnico tecnico = this.getTecnico();
+		if (tecnico == null) {
+			return;
+		}
+		tecnico.setSoporte(null);
+		this.setTecnico(null);
+		// additional business logic
+		tecnico.removeFromComputadora(this.getComputadora());
 	}
 
 	/**********************************************************************
@@ -425,6 +446,10 @@ public class Soporte implements Comparable<Soporte> {
 		return this.tecnicoRepositorio.listar();
 	}
 
+	public boolean hideAsignarTecnico() {
+		return this.getEstado().escondeAsignarTecnico();
+	}
+
 	/* ************************ */
 
 	@Named("Solicitar Insumos")
@@ -446,7 +471,7 @@ public class Soporte implements Comparable<Soporte> {
 	 * @return boolean
 	 */
 	public boolean hideSolicitarInsumos() {
-		return false;
+		return this.getEstado().escondeSolicitarInsumos();
 	}
 
 	/* ************************ */
@@ -467,7 +492,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	public boolean hideFinalizarSoporte() {
-		return false;
+		return this.getEstado().escondeFinalizarSoporte();
 	}
 
 	/**
@@ -493,7 +518,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	public boolean hideNoHayInsumos() {
-		return false;// this.getEstado().esconde();
+		return this.getEstado().escondeNoHayInsumos();//
 	}
 
 	/* ************************ */
@@ -506,13 +531,13 @@ public class Soporte implements Comparable<Soporte> {
 	 */
 	@Named("Ensamblar nuevos Insumos")
 	@DescribedAs("El equipo es reparado con los respuestos solicitados.")
-	public Soporte llegaronRepuestos() {
+	public Soporte llegaronInsumos() {
 		this.getEstado().llegaronInsumos();
 		return this;
 	}
 
-	public boolean hideLlegaronRepuestos() {
-		return false;
+	public boolean hideLlegaronInsumos() {
+		return this.getEstado().escondeLlegaronInsumos();
 	}
 
 	/* ************************ */
@@ -534,7 +559,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	public boolean hideAsignarNuevoEquipo() {
-		return false;
+		return this.getEstado().escondeAsignarNuevoEquipo();
 	}
 
 	/* ***************************************************
