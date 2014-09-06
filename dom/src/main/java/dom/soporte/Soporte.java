@@ -156,7 +156,7 @@ public class Soporte implements Comparable<Soporte> {
 
 	@Disabled
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(name = "Datos Generales", sequence = "30")
+	@MemberOrder(name = "Datos Generales", sequence = "10")
 	public LocalDate getFecha() {
 		return fecha;
 	}
@@ -202,7 +202,7 @@ public class Soporte implements Comparable<Soporte> {
 	private Tecnico tecnico;
 
 	@Optional
-	@MemberOrder(name = "Datos Generales", sequence = "10")
+	@MemberOrder(name = "Datos Generales", sequence = "11")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	@Disabled
 	public Tecnico getTecnico() {
@@ -221,6 +221,7 @@ public class Soporte implements Comparable<Soporte> {
 	@Join
 	private List<Insumo> insumos = new ArrayList<Insumo>();
 
+	@MemberOrder(name = "Insumos Solicitados", sequence = "31")
 	public List<Insumo> getInsumos() {
 		return insumos;
 	}
@@ -254,8 +255,8 @@ public class Soporte implements Comparable<Soporte> {
 
 	private Computadora computadora;
 
-	@MemberOrder(sequence = "100")
 	@javax.jdo.annotations.Column(allowsNull = "true")
+	@MemberOrder(name = "Insumos Solicitados", sequence = "30")
 	public Computadora getComputadora() {
 		return computadora;
 	}
@@ -318,7 +319,7 @@ public class Soporte implements Comparable<Soporte> {
 	@Optional
 	@Hidden(where = Where.PARENTED_TABLES)
 	@Disabled
-	@MemberOrder(name = "Datos Generales", sequence = "0")
+	@MemberOrder(name = "Datos Generales", sequence = "12")
 	public IEstado getEstado() {
 		return estado;
 	}

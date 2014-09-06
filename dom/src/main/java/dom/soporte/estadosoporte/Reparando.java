@@ -119,7 +119,7 @@ public class Reparando implements IEstado {
 				.removeFromComputadora(this.getSoporte().getComputadora());
 		this.getSoporte().setEstado(this.getSoporte().getCancelado());
 		this.getSoporte().setEstado(this.getSoporte().getEntregando());
-		this.container.informUser("SOPORTE TECNICO FINALIZADO.");
+		this.container.informUser("SOPORTE TECNICO FINALIZADO. EL USUARIO HA SIDO NOTIFICADO VIA EMAIL.");
 	}
 
 	@Override

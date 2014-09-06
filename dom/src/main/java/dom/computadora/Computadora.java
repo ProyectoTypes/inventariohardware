@@ -305,14 +305,14 @@ public class Computadora implements Comparable<Computadora> {
 	// Operaciones de USUARIO: Agregar/Borrar
 	// ///////////////////////////////////////////////////
 	@Named("Modificar Usuario")
-	public void modifyUsuario(final Usuario unUsuario) {
-		Usuario currentUsuario = getUsuario();
-		if (unUsuario == null || unUsuario.equals(currentUsuario)) {
+	public void modifyUsuario(final Usuario user) {
+		Usuario usuario = getUsuario();
+		if (user == null || user.equals(usuario)) {
 			return;
 		}
-		clearUsuario();
-		unUsuario.setComputadora(this);
-		setUsuario(unUsuario);
+		this.clearUsuario();
+		user.setComputadora(this);
+		this.setUsuario(user);
 	}
 
 	@Named("Borrar Usuario")
@@ -364,7 +364,7 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	/**************************************************************
-	 * Relacion Computadora(Parent)/Movimiento(Child).
+	 * Relacion Computadora(Parent)/Soporte(Child).
 	 */
 
 	@Persistent(mappedBy = "computadora", dependentElement = "False")
