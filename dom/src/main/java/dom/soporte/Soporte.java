@@ -212,7 +212,27 @@ public class Soporte implements Comparable<Soporte> {
 		this.tecnico = tecnico;
 	}
 
-	
+	public void modifyTecnico(final Tecnico tecnico) {
+		Tecnico currentTecnico = getTecnico();
+		if (tecnico == null || tecnico.equals(currentTecnico)) {
+			return;
+		}
+
+		this.clearTecnico();
+		tecnico.setSoporte(this);
+		setTecnico(tecnico);
+	}
+
+	public void clearTecnico() {
+		Tecnico tecnico = this.getTecnico();
+		if (tecnico == null) {
+			return;
+		}
+		tecnico.setSoporte(null);
+		this.setTecnico(null);
+		// additional business logic
+		tecnico.removeFromComputadora(this.getComputadora());
+	}
 
 	/**********************************************************************
 	 * Relacion Soporte(Parent)/Insumos(Child).
