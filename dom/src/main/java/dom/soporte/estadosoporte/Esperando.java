@@ -122,24 +122,23 @@ public class Esperando implements IEstado {
 	public void noHayInsumos(final String ip, final String mother,
 			final String procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora) {
-		// Enviando email
-		emailService.send(this.getSoporte().getComputadora());
-		
-		// Creando nueva Computadora.
-		this.computadoraRepositorio.addComputadora(this.getSoporte()
-				.getComputadora().getUsuario(), ip, mother, procesador, disco,
-				memoria, impresora);
+			// Enviando email
+			emailService.send(this.getSoporte().getComputadora());
 
-		// Desvinculando
-		this.getSoporte().getComputadora().getUsuario().clearComputadora();
-		this.getSoporte().getTecnico()
-				.removeFromComputadora(this.getSoporte().getComputadora());
-		this.getSoporte().setEstado(this.getSoporte().getCancelado());
-		this.getSoporte().getComputadora().limpiarImpresora();
+			// Creando nueva Computadora.
+			this.computadoraRepositorio.addComputadora(this.getSoporte()
+					.getComputadora().getUsuario(), ip, mother, procesador,
+					disco, memoria, impresora);
 
-		this.container
-				.informUser("EL EQUIPO NO PUEDE SER REPARADO POR FALTA DE REPUESTOS.");
+			// Desvinculando
+			this.getSoporte().getComputadora().getUsuario().clearComputadora();
+			this.getSoporte().getTecnico()
+					.removeFromComputadora(this.getSoporte().getComputadora());
+			this.getSoporte().setEstado(this.getSoporte().getCancelado());
+			this.getSoporte().getComputadora().limpiarImpresora();
 
+			this.container
+					.informUser("EL EQUIPO NO PUEDE SER REPARADO POR FALTA DE REPUESTOS.");
 	}
 
 	/**
