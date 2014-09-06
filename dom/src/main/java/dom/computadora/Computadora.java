@@ -90,6 +90,7 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 	// IP (propiedad)
 	// //////////////////////////////////////
+	
 	@PrimaryKey
 	private String ip;
 
@@ -145,7 +146,6 @@ public class Computadora implements Comparable<Computadora> {
 
 	public static enum CategoriaDisco {
 		Seagate, Western, Otro;
-
 	}
 
 	private CategoriaDisco disco;
@@ -278,7 +278,7 @@ public class Computadora implements Comparable<Computadora> {
 
 	/*****************************************************
 	 * Relacion Computadora/Usuario
-	 */
+	 ****************************************************/
 
 	// {{ Usuario (property)
 	private Usuario usuario;
@@ -299,11 +299,12 @@ public class Computadora implements Comparable<Computadora> {
 		else
 			return "El Usuario ya tiene asignado una Computadora. Seleccione otro.";
 	}
-
 	// }}
+	
 	// ///////////////////////////////////////////////////
 	// Operaciones de USUARIO: Agregar/Borrar
 	// ///////////////////////////////////////////////////
+	
 	@Named("Modificar Usuario")
 	public void modifyUsuario(final Usuario user) {
 		Usuario usuario = getUsuario();
@@ -327,7 +328,7 @@ public class Computadora implements Comparable<Computadora> {
 
 	/*****************************************************
 	 * Relacion Computadora/Tecnico
-	 */
+	 ****************************************************/
 
 	// {{ Tecnico (property)
 	private Tecnico tecnico;
@@ -343,10 +344,12 @@ public class Computadora implements Comparable<Computadora> {
 	public void setTecnico(final Tecnico tecnico) {
 		this.tecnico = tecnico;
 	}
+	// }}
 
 	// ///////////////////////////////////////////////////
 	// Operaciones de Tecnico: Agregar/Borrar
 	// ///////////////////////////////////////////////////
+	
 	public void modifyTecnico(final Tecnico unTecnico) {
 		Tecnico currentTecnico = getTecnico();
 		if (unTecnico == null || unTecnico.equals(currentTecnico)) {
@@ -365,7 +368,7 @@ public class Computadora implements Comparable<Computadora> {
 
 	/**************************************************************
 	 * Relacion Computadora(Parent)/Soporte(Child).
-	 */
+	 *************************************************************/
 
 	@Persistent(mappedBy = "computadora", dependentElement = "False")
 	@Join
@@ -408,9 +411,10 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
+	
 	@Inject
 	private ImpresoraRepositorio impresoraRepositorio;
+	
 	@Inject
 	private DomainObjectContainer container;
-
 }
