@@ -106,6 +106,7 @@ public class Reparando implements IEstado {
 		Insumo unInsumo = this.insumoRepositorio.addInsumo(codigo, cantidad,
 				producto, marca, observaciones);
 		this.getSoporte().agregarUnInsumo(unInsumo);
+		this.getSoporte().clearTecnico();
 		this.getSoporte().setEstado(this.getSoporte().getEsperando());
 		this.container.informUser("EN ESPERA DE LOS INSUMOS SOLICITADOS.");
 	}
@@ -119,7 +120,8 @@ public class Reparando implements IEstado {
 				.removeFromComputadora(this.getSoporte().getComputadora());
 		this.getSoporte().setEstado(this.getSoporte().getCancelado());
 		this.getSoporte().setEstado(this.getSoporte().getEntregando());
-		this.container.informUser("SOPORTE TECNICO FINALIZADO. EL USUARIO HA SIDO NOTIFICADO VIA EMAIL.");
+		this.container
+				.informUser("SOPORTE TECNICO FINALIZADO. EL USUARIO HA SIDO NOTIFICADO VIA EMAIL.");
 	}
 
 	@Override
@@ -170,12 +172,40 @@ public class Reparando implements IEstado {
 				.removeFromComputadora(this.getSoporte().getComputadora());
 
 		this.getSoporte().getComputadora().limpiarImpresora();
-
-		this.getSoporte().setEstado(this.getSoporte().getCancelado());
-
+		this.getSoporte().getComputadora().setHabilitado(false);
 		this.getSoporte().setEstado(this.getSoporte().getCancelado());
 		this.container
 				.informUser("EQUIPO DADO DE BAJA. ASIGNADO NUEVO EQUIPO.");
+	}
+
+	@Override
+	public boolean escondeAsignarTecnico() {
+		return false;
+	}
+
+	@Override
+	public boolean escondeFinalizarSoporte() {
+		return false;
+	}
+
+	@Override
+	public boolean escondeSolicitarInsumos() {
+		return false;
+	}
+
+	@Override
+	public boolean escondeLlegaronInsumos() {
+		return true;
+	}
+
+	@Override
+	public boolean escondeNoHayInsumos() {
+		return true;
+	}
+
+	@Override
+	public boolean escondeAsignarNuevoEquipo() {
+		return false;
 	}
 
 	@Inject
@@ -186,4 +216,5 @@ public class Reparando implements IEstado {
 	private InsumoRepositorio insumoRepositorio;
 	@Inject
 	private ComputadoraRepositorio computadoraRepositorio;
+
 }
