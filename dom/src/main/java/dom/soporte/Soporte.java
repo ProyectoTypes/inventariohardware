@@ -446,10 +446,6 @@ public class Soporte implements Comparable<Soporte> {
 		return this.tecnicoRepositorio.listar();
 	}
 
-	public boolean hideAsignarTecnico() {
-		return this.getEstado().escondeAsignarTecnico();
-	}
-
 	/* ************************ */
 
 	@Named("Solicitar Insumos")
