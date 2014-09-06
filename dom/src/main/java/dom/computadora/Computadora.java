@@ -280,7 +280,7 @@ public class Computadora implements Comparable<Computadora> {
 	 * Relacion Computadora/Usuario
 	 ****************************************************/
 
-	// {{ Usuario (property)
+	// Usuario (property)
 	private Usuario usuario;
 
 	@MemberOrder(sequence = "1")
@@ -299,7 +299,6 @@ public class Computadora implements Comparable<Computadora> {
 		else
 			return "El Usuario ya tiene asignado una Computadora. Seleccione otro.";
 	}
-	// }}
 	
 	// ///////////////////////////////////////////////////
 	// Operaciones de USUARIO: Agregar/Borrar
@@ -330,7 +329,7 @@ public class Computadora implements Comparable<Computadora> {
 	 * Relacion Computadora/Tecnico
 	 ****************************************************/
 
-	// {{ Tecnico (property)
+	// Tecnico (property)
 	private Tecnico tecnico;
 
 	@Disabled
@@ -344,7 +343,6 @@ public class Computadora implements Comparable<Computadora> {
 	public void setTecnico(final Tecnico tecnico) {
 		this.tecnico = tecnico;
 	}
-	// }}
 
 	// ///////////////////////////////////////////////////
 	// Operaciones de Tecnico: Agregar/Borrar
@@ -406,6 +404,14 @@ public class Computadora implements Comparable<Computadora> {
 	@Override
 	public int compareTo(Computadora computadora) {
 		return ObjectContracts.compare(this, computadora, "ip");
+	}
+	
+	// Ocultar boton Agregar Computadora.
+	public boolean HideaddComputadora(final Usuario usuario) {
+		if (usuario.getComputadora() == null)
+			return false;
+		else
+			return true;
 	}
 
 	// //////////////////////////////////////
