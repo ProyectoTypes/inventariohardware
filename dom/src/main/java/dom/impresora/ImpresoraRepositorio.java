@@ -25,6 +25,8 @@ import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DescribedAs;
+import org.apache.isis.applib.annotation.DomainService;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
@@ -32,8 +34,9 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 
 import dom.impresora.Impresora.TipoImpresora;
-
+@DomainService
 @Named("IMPRESORA")
+@Hidden
 public class ImpresoraRepositorio {
 
 	// //////////////////////////////////////
@@ -91,6 +94,7 @@ public class ImpresoraRepositorio {
 		if (listaImpresora.isEmpty()) {
 			this.container
 					.warnUser("No hay Impresoras cargadas en el sistema.");
+			return null;
 		}
 		return listaImpresora;
 	}
@@ -115,8 +119,10 @@ public class ImpresoraRepositorio {
 								.currentUserName(), "modeloImpresora",
 						modeloImpresora.toUpperCase().trim()));
 		if (listaImpresora.isEmpty())
-			this.container
+		{	this.container
 					.warnUser("No se encontraron Impresoras cargados en el sistema.");
+			return null;
+		}
 		return listaImpresora;
 	}
 

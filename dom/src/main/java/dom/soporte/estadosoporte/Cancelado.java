@@ -19,7 +19,7 @@
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package dom.soporte.estadoSoporte;
+package dom.soporte.estadosoporte;
 
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
@@ -30,7 +30,10 @@ import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
+import dom.computadora.Computadora.CategoriaDisco;
+import dom.impresora.Impresora;
 import dom.soporte.Soporte;
+import dom.tecnico.Tecnico;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "idCancelado")
@@ -52,37 +55,42 @@ public class Cancelado implements IEstado {
 		return "sector";
 	}
 
-	public Cancelado(Soporte movimiento) {
-		this.movimiento = movimiento;
+	public Cancelado(Soporte soporte) {
+		this.soporte = soporte;
 	}
 
-	// {{ Movimiento (property)
-	private Soporte movimiento;
+	// {{ Soporte (property)
+	private Soporte soporte;
 
 	@MemberOrder(sequence = "1")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	public Soporte getMovimiento() {
-		return movimiento;
+	public Soporte getSoporte() {
+		return soporte;
 	}
 
-	public void setMovimiento(final Soporte movimiento) {
-		this.movimiento = movimiento;
+	@SuppressWarnings("unused")
+	private void setSoporte(final Soporte soporte) {
+		this.soporte = soporte;
 	}
 
 	// }}
 	@Override
-	public void asignarTecnico() {
+	public void asignarTecnico(final Tecnico tecnico) {
 		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
 	}
 
 	@Override
-	public void solicitarInsumos() {
+	public void solicitarInsumos(final String codigo, final int cantidad,
+			final String producto, final String marca,
+			final String observaciones) {
 		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
 
 	}
 
 	@Override
-	public void noHayRepuestos() {
+	public void noHayInsumos(final String ip, final String mother,
+			final String procesador, final CategoriaDisco disco,
+			final String memoria, final Impresora impresora) {
 		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
 
 	}
@@ -94,16 +102,19 @@ public class Cancelado implements IEstado {
 	}
 
 	@Override
-	public void llegaronRepuestos() {
+	public void llegaronInsumos() {
 		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
+	}
+
+	@Override
+	public void asignarNuevoEquipo(final String ip, final String mother,
+			final String procesador, final CategoriaDisco disco,
+			final String memoria, final Impresora impresora) {
+		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
+
 	}
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 
-	@Override
-	public void asignarEquipo() {
-		// TODO Auto-generated method stub
-		
-	}
 }

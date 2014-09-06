@@ -47,6 +47,7 @@ import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.computadora.Computadora;
 import dom.persona.Persona;
+import dom.sector.Sector;
 import dom.soporte.Soporte;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
@@ -163,7 +164,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 			return;
 		}
 		unaComputadora.setTecnico(null);
-		getComputadoras().remove(unaComputadora);
+		this.getComputadoras().remove(unaComputadora);
 	}
 
 	/*
@@ -187,15 +188,14 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	 */
 	@Programmatic
 	public void sumaComputadora() {
-		BigDecimal valor = new BigDecimal(1);
+		BigDecimal valor = BigDecimal.valueOf(1);
 		this.setCantidadComputadora(this.cantidadComputadora.add(valor));
 	}
 
 	@Programmatic
-	public void restaComputadora() {
-		BigDecimal valor = new BigDecimal(-1);
+	public void restaComputadora(final Computadora computadora) {
+		BigDecimal valor = BigDecimal.valueOf(-1);
 		this.setCantidadComputadora(this.cantidadComputadora.add(valor));
-
 	}
 
 	// {{ Disponible (property)
@@ -213,7 +213,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 
 	@Programmatic
 	public Boolean estaDisponible() {
-		BigDecimal tope = new BigDecimal(10);
+		BigDecimal tope = BigDecimal.valueOf(10);
 		if (this.cantidadComputadora.compareTo(tope) == -1)
 			return true;
 		else
@@ -222,6 +222,23 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	}
 
 	// }}
+
+	/**
+	 * Elimina el sector de forma logica.
+	 * 
+	 * @return
+	 */
+
+	@MemberOrder(sequence = "120")
+	@Named("Eliminar Sector")
+	public Tecnico clear() {
+		Sector currentSector = this.getSector();
+		if (currentSector == null) {
+			return this;
+		}
+		this.getSector().setHabilitado(false);
+		return this;
+	}
 
 	// //////////////////////////////////////
 	// CompareTo

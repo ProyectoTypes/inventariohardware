@@ -109,6 +109,7 @@ public class EmailService extends AbstractFactoryAndRepository {
 
 		String portValue = getContainer().getProperty(PROPERTY_ROOT + "port",
 				"587");
+		
 		int port = Integer.valueOf(portValue).intValue();
 		// Emisor
 		String authenticationName = getContainer().getProperty(
@@ -127,6 +128,7 @@ public class EmailService extends AbstractFactoryAndRepository {
 			SimpleEmail simpleEmail = new SimpleEmail();
 			simpleEmail.setHostName(smtpHost);
 			simpleEmail.setSmtpPort(port);
+			simpleEmail.setSSL(true);
 			if (authenticationName != null) {
 				simpleEmail.setAuthentication(authenticationName,
 						authenticationPassword);

@@ -51,7 +51,7 @@ public class SoporteRepositorio {
 	// //////////////////////////////////////
 
 	public String getId() {
-		return "movimiento";
+		return "soporte";
 	}
 
 	public String iconName() {
@@ -59,7 +59,7 @@ public class SoporteRepositorio {
 	}
 
 	// //////////////////////////////////////
-	// Insertar un Movimiento.
+	// Insertar un Soporte.
 	// //////////////////////////////////////
 
 	@Named("Recepcion")
@@ -67,25 +67,25 @@ public class SoporteRepositorio {
 	@PublishedAction
 	public Soporte add(final @Named("Computadora") Computadora computadora,
 			final @Named("Observaciones") String observaciones) {
-		return nuevoMovimiento(computadora, observaciones,
+		return nuevoSoporte(computadora, observaciones,
 				this.currentUserName());
 	}
 
 	@Programmatic
-	public Soporte nuevoMovimiento(final Computadora computadora,
+	public Soporte nuevoSoporte(final Computadora computadora,
 			final String observaciones, final String creadoPor) {
 
-		final Soporte unMovimiento = this.container
+		final Soporte unSoporte = this.container
 				.newTransientInstance(Soporte.class);
-		unMovimiento.setHabilitado(true);
-		unMovimiento.setCreadoPor(creadoPor);
-		unMovimiento.setObservaciones(observaciones);
-		unMovimiento.setFecha(LocalDate.now());
-		unMovimiento.setTime_system(LocalDateTime.now().withMillisOfSecond(2));
-		computadora.addToSoporte(unMovimiento);
-		this.container.persistIfNotAlready(unMovimiento);
+		unSoporte.setHabilitado(true);
+		unSoporte.setCreadoPor(creadoPor);
+		unSoporte.setObservaciones(observaciones);
+		unSoporte.setFecha(LocalDate.now());
+		unSoporte.setTime_system(LocalDateTime.now().withMillisOfSecond(2));
+		computadora.addToSoporte(unSoporte);
+		this.container.persistIfNotAlready(unSoporte);
 		this.container.flush();
-		return unMovimiento;
+		return unSoporte;
 
 	}
 
@@ -106,7 +106,7 @@ public class SoporteRepositorio {
 	@Programmatic
 	public List<Soporte> autoComplete(final String buscarTecnico) {
 		return container.allMatches(new QueryDefault<Soporte>(
-				Soporte.class, "autoCompleteMovimiento", "creadoPor", this
+				Soporte.class, "autoCompleteSoporte", "creadoPor", this
 						.currentUserName(), "buscarTecnico", buscarTecnico
 						.toUpperCase().trim()));
 	}
@@ -117,14 +117,14 @@ public class SoporteRepositorio {
 
 	@MemberOrder(sequence = "20")
 	public List<Soporte> listar() {
-		final List<Soporte> listaMovimientos = this.container
+		final List<Soporte> lista = this.container
 				.allMatches(new QueryDefault<Soporte>(Soporte.class,
 						"listar"));
-		if (listaMovimientos.isEmpty()) {
+		if (lista.isEmpty()) {
 			this.container
-					.warnUser("No hay Movimiento cargados en el sistema.");
+					.warnUser("No hay Soportes cargados en el sistema.");
 		}
-		return listaMovimientos;
+		return lista;
 	}
 
 	// //////////////////////////////////////

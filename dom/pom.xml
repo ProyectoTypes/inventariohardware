@@ -26,7 +26,7 @@
 	</parent>
 
 	<artifactId>informatica-dom</artifactId>
-	<name>Simple App DOM</name>
+	<name>Informatica DOM</name>
 
 	<build>
         <resources>

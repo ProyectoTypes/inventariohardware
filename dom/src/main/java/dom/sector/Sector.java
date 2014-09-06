@@ -28,7 +28,6 @@ import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
-import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberGroupLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
@@ -114,22 +113,6 @@ public class Sector implements Comparable<Sector> {
 		this.creadoPor = creadoPor;
 	}
 
-	// //////////////////////////////////////
-	// Complete (property),
-	// Se utiliza en las acciones add (action)
-	// DeshacerAgregar (action)
-	// //////////////////////////////////////
-
-	private boolean complete;
-
-	@Disabled
-	public boolean isComplete() {
-		return complete;
-	}
-
-	public void setComplete(final boolean complete) {
-		this.complete = complete;
-	}
 
 	// //////////////////////////////////////
 	// Habilitado

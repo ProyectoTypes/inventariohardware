@@ -84,7 +84,8 @@ public class ComputadoraRepositorio {
 			final Impresora impresora, final String creadoPor) {
 		final Computadora unaComputadora = container
 				.newTransientInstance(Computadora.class);
-		unaComputadora.setUsuario(usuario);
+		
+		unaComputadora.modifyUsuario(usuario);
 		unaComputadora.setIp(ip);
 		unaComputadora.setMother(mother);
 		unaComputadora.setProcesador(procesador);
@@ -100,6 +101,17 @@ public class ComputadoraRepositorio {
 		container.persistIfNotAlready(unaComputadora);
 		container.flush();
 		return unaComputadora;
+	}
+	public String validateAddComputadora(final @Named("Usuario") Usuario usuario,
+			final @Named("Direccion Ip") String ip,
+			final @Named("Mother") String mother,
+			final @Named("Procesador") String procesador,
+			final @Named("Disco") CategoriaDisco disco,
+			final @Named("Memoria") String memoria,
+			final @Optional @Named("Impresora") Impresora impresora) {
+		if (usuario.getComputadora()==null)
+			return null;
+		return "El Usuario ya posee una Computadora. Seleccione otro. "; // TODO: return reason why proposed value is invalid, null if valid
 	}
 
 	// //////////////////////////////////////

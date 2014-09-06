@@ -23,6 +23,7 @@ package dom.computadora;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
@@ -35,6 +36,7 @@ import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
+import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
@@ -42,16 +44,13 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.impresora.Impresora;
-import dom.impresora.ImpresoraRepositorio;
 import dom.impresora.Impresora.TipoImpresora;
+import dom.impresora.ImpresoraRepositorio;
 import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
 import dom.usuario.Usuario;
-import dom.usuario.UsuarioRepositorio;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.APPLICATION)
-// @javax.jdo.annotations.DatastoreIdentity(strategy =
-// javax.jdo.annotations.IdGeneratorStrategy.UUIDSTRING, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Computadora_ip_must_be_unique", members = {
 		"creadoPor", "ip" }) })
@@ -69,7 +68,7 @@ import dom.usuario.UsuarioRepositorio;
 		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
 				+ "WHERE creadoPor == :creadoPor "
-				+ "   && ip.indexOf(:ip) >= 0"), })
+				+ "   && ip.indexOf(:ip) >= 0") })
 @ObjectType("COMPUTADORA")
 @Audited
 @AutoComplete(repository = ComputadoraRepositorio.class, action = "autoComplete")
@@ -211,6 +210,7 @@ public class Computadora implements Comparable<Computadora> {
 
 	public List<Impresora> choicesImpresora() {
 		return this.impresoraRepositorio.listar();
+
 	}
 
 	public Computadora modificarImpresora(final Impresora impresora) {
@@ -225,24 +225,39 @@ public class Computadora implements Comparable<Computadora> {
 	@Named("Borrar Impresora")
 	public Computadora quitarImpresora() {
 		Impresora currentImpresora = getImpresora();
-		// check for no-op
 		if (currentImpresora == null) {
 			return this;
 		}
-		// dissociate existing
 		currentImpresora.setComputadora(null);
 		setImpresora(null);
 		return this;
-		// additional business logic
 	}
 
 	@Hidden
 	public void limpiarImpresora() {
-		Impresora currentImpresora = getImpresora();
-		if (currentImpresora == null) {
+		Impresora impresora = getImpresora();
+		if (impresora == null) {
 			return;
 		}
-		currentImpresora.limpiarComputadora(this);
+		impresora.limpiarComputadora(this);
+	}
+
+	@Named("Nueva Impresora")
+	public Impresora addImpresora(
+			final @Named("Modelo") String modeloImpresora,
+			final @Named("Fabricante") String fabricanteImpresora,
+			final @Named("Tipo") TipoImpresora tipoImpresora) {
+		return impresoraRepositorio.nuevaImpresora(modeloImpresora,
+				fabricanteImpresora, tipoImpresora, this.currentUserName());
+
+	}
+
+	// //////////////////////////////////////
+	// CurrentUserName
+	// //////////////////////////////////////
+
+	private String currentUserName() {
+		return container.getUser().getName();
 	}
 
 	// //////////////////////////////////////
@@ -278,32 +293,36 @@ public class Computadora implements Comparable<Computadora> {
 		this.usuario = usuario;
 	}
 
+	public String validateUsuario(final Usuario usuario) {
+		if (usuario.getComputadora() == null)
+			return null;
+		else
+			return "El Usuario ya tiene asignado una Computadora. Seleccione otro.";
+	}
+
 	// }}
 	// ///////////////////////////////////////////////////
 	// Operaciones de USUARIO: Agregar/Borrar
 	// ///////////////////////////////////////////////////
 	@Named("Modificar Usuario")
-	public void modifyUsuario(final Usuario unUsuario) {
-		Usuario currentUsuario = getUsuario();
-		if (unUsuario == null || unUsuario.equals(currentUsuario)) {
+	public void modifyUsuario(final Usuario user) {
+		Usuario usuario = getUsuario();
+		if (user == null || user.equals(usuario)) {
 			return;
 		}
-		clearUsuario();
-		unUsuario.setComputadora(this);
-		setUsuario(unUsuario);
+		this.clearUsuario();
+		user.setComputadora(this);
+		this.setUsuario(user);
 	}
 
 	@Named("Borrar Usuario")
 	public void clearUsuario() {
-		Usuario currentUsuario = getUsuario();
-		// check for no-op
-		if (currentUsuario == null) {
+		Usuario usuario = getUsuario();
+		if (usuario == null) {
 			return;
 		}
-		// dissociate existing
-		currentUsuario.setComputadora(null);
-		setUsuario(null);
-		// additional business logic
+		usuario.setComputadora(null);
+		this.setUsuario(null);
 	}
 
 	/*****************************************************
@@ -313,6 +332,7 @@ public class Computadora implements Comparable<Computadora> {
 	// {{ Tecnico (property)
 	private Tecnico tecnico;
 
+	@Disabled
 	@Named("Tecnico Asignado")
 	@MemberOrder(sequence = "1")
 	@Column(allowsNull = "True")
@@ -322,18 +342,6 @@ public class Computadora implements Comparable<Computadora> {
 
 	public void setTecnico(final Tecnico tecnico) {
 		this.tecnico = tecnico;
-	}
-
-	// }}
-	public String disableTecnico() {
-		return "Editar Tecnico se realiza desde Soporte Tecnico."; // TODO:
-																	// return
-																	// reason
-																	// why
-																	// collection
-																	// read-only,
-																	// null if
-																	// editable
 	}
 
 	// ///////////////////////////////////////////////////
@@ -356,7 +364,7 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	/**************************************************************
-	 * Relacion Computadora(Parent)/Movimiento(Child).
+	 * Relacion Computadora(Parent)/Soporte(Child).
 	 */
 
 	@Persistent(mappedBy = "computadora", dependentElement = "False")
@@ -372,7 +380,7 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	@Hidden
-	@Named("Agregar Movimiento")
+	@Named("Agregar Soporte")
 	public void addToSoporte(final Soporte unSoporte) {
 		if (unSoporte == null || getSoporte().contains(unSoporte)) {
 			return;
@@ -392,45 +400,17 @@ public class Computadora implements Comparable<Computadora> {
 		getSoporte().remove(unSoporte);
 	}
 
-	public List<Impresora> choices0ModificarImpresora() {
-		return this.impresoraRepositorio.listar();
-	}
-
-	@Named("Nueva Impresora")
-	public Impresora addImpresora(
-			final @Named("Modelo") String modeloImpresora,
-			final @Named("Fabricante") String fabricanteImpresora,
-			final @Named("Tipo") TipoImpresora tipoImpresora) {
-		return impresoraRepositorio.nuevaImpresora(modeloImpresora,
-				fabricanteImpresora, tipoImpresora, this.currentUserName());
-
-	}
-
-	// //////////////////////////////////////
-	// CurrentUserName
-	// //////////////////////////////////////
-
-	private String currentUserName() {
-		return container.getUser().getName();
-	}
-
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
-	@SuppressWarnings("unused")
-	@javax.inject.Inject
-	private UsuarioRepositorio usuarioRepositorio;
-
-	@javax.inject.Inject
-	private ImpresoraRepositorio impresoraRepositorio;
-
 	@Override
 	public int compareTo(Computadora computadora) {
 		return ObjectContracts.compare(this, computadora, "ip");
 	}
 
-	@javax.inject.Inject
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+	@Inject
+	private ImpresoraRepositorio impresoraRepositorio;
+	@Inject
 	private DomainObjectContainer container;
 
 }

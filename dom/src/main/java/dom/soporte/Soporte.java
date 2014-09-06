@@ -30,10 +30,10 @@ import javax.jdo.annotations.Join;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
-import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.CssClass;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
@@ -52,32 +52,34 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
 import dom.computadora.Computadora;
+import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.ComputadoraRepositorio;
+import dom.impresora.Impresora;
+import dom.impresora.ImpresoraRepositorio;
 import dom.insumo.Insumo;
-import dom.insumo.InsumoRepositorio;
-import dom.soporte.estadoSoporte.Cancelado;
-import dom.soporte.estadoSoporte.Entregando;
-import dom.soporte.estadoSoporte.Esperando;
-import dom.soporte.estadoSoporte.IEstado;
-import dom.soporte.estadoSoporte.Recepcionado;
-import dom.soporte.estadoSoporte.Reparando;
+import dom.soporte.estadosoporte.Cancelado;
+import dom.soporte.estadosoporte.Entregando;
+import dom.soporte.estadosoporte.Esperando;
+import dom.soporte.estadosoporte.IEstado;
+import dom.soporte.estadosoporte.Recepcionado;
+import dom.soporte.estadosoporte.Reparando;
 import dom.tecnico.Tecnico;
 import dom.tecnico.TecnicoRepositorio;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Movimiento_observaciones_must_be_unique", members = { "fecha,creadoPor,observaciones" }) })
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Soporte_unique", members = { "fecha,creadoPor,observaciones" }) })
 @javax.jdo.annotations.Queries({
-		@javax.jdo.annotations.Query(name = "autoCompletePorMovimiento", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.movimiento.Movimiento "
+		@javax.jdo.annotations.Query(name = "autoCompletePorSoporte", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.soporte.Soporte "
 				+ "WHERE creadoPor == :creadoPor && "
 				+ "tecnico.getNombre().indexOf(:buscarTecnico) >= 0"),
 		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.movimiento.Movimiento "
+				+ "FROM dom.soporte.Soporte "
 				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.movimiento.Movimiento "
+				+ "FROM dom.soporte.Soporte "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && computadora.getIp().indexOf(:ip) >= 0"), })
 @ObjectType("SOPORTE")
@@ -109,7 +111,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	public String iconName() {
-		return "Movimiento";
+		return "Soporte";
 	}
 
 	// //////////////////////////////////////
@@ -154,7 +156,7 @@ public class Soporte implements Comparable<Soporte> {
 
 	@Disabled
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(name = "Datos Generales", sequence = "30")
+	@MemberOrder(name = "Datos Generales", sequence = "10")
 	public LocalDate getFecha() {
 		return fecha;
 	}
@@ -194,14 +196,15 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/********************************************************
-	 * Relacion Tecnico/Movimiento.
+	 * Relacion Tecnico/Soporte.
 	 ********************************************************/
 
 	private Tecnico tecnico;
 
 	@Optional
-	@MemberOrder(name = "Datos Generales", sequence = "10")
+	@MemberOrder(name = "Datos Generales", sequence = "11")
 	@javax.jdo.annotations.Column(allowsNull = "true")
+	@Disabled
 	public Tecnico getTecnico() {
 		return tecnico;
 	}
@@ -211,13 +214,14 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/**********************************************************************
-	 * Relacion Movimiento(Parent)/Insumos(Child).
+	 * Relacion Soporte(Parent)/Insumos(Child).
 	 **********************************************************************/
 
 	@Persistent(mappedBy = "soporte", dependentElement = "False")
 	@Join
 	private List<Insumo> insumos = new ArrayList<Insumo>();
 
+	@MemberOrder(name = "Insumos Solicitados", sequence = "31")
 	public List<Insumo> getInsumos() {
 		return insumos;
 	}
@@ -227,11 +231,11 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	@Programmatic
-	public void agregarAInsumos(final Insumo insumo) {
+	public void agregarUnInsumo(final Insumo insumo) {
 		if (insumo == null || getInsumos().contains(insumo)) {
 			return;
 		}
-		insumo.limpiarSoporte();
+		// insumo.limpiarSoporte();
 		insumo.setSoporte(this);
 		getInsumos().add(insumo);
 	}
@@ -246,13 +250,13 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/********************************************************
-	 * Relacion Computadora/Movimiento.
+	 * Relacion Computadora/Soporte.
 	 ********************************************************/
 
 	private Computadora computadora;
 
-	@MemberOrder(sequence = "100")
 	@javax.jdo.annotations.Column(allowsNull = "true")
+	@MemberOrder(name = "Insumos Solicitados", sequence = "30")
 	public Computadora getComputadora() {
 		return computadora;
 	}
@@ -262,7 +266,6 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	@Programmatic
-	@Named("Cambiar Computadora")
 	public void modificarComputadora(final Computadora unaComputadora) {
 		Computadora currentComputadora = getComputadora();
 		if (unaComputadora == null || unaComputadora.equals(currentComputadora)) {
@@ -277,7 +280,8 @@ public class Soporte implements Comparable<Soporte> {
 		if (currentComputadora == null) {
 			return;
 		}
-		setComputadora(null);
+		this.getComputadora().setHabilitado(false);
+		this.setComputadora(null);
 	}
 
 	@Programmatic
@@ -291,8 +295,8 @@ public class Soporte implements Comparable<Soporte> {
 	// //////////////////////////////////////
 
 	@Override
-	public int compareTo(final Soporte movimiento) {
-		return ObjectContracts.compare(this, movimiento, "time_system");
+	public int compareTo(final Soporte soporte) {
+		return ObjectContracts.compare(this, soporte, "time_system");
 	}
 
 	/**********************************************************
@@ -302,11 +306,11 @@ public class Soporte implements Comparable<Soporte> {
 
 	@Persistent(extensions = {
 			@Extension(vendorName = "datanucleus", key = "mapping-strategy", value = "per-implementation"),
-			@Extension(vendorName = "datanucleus", key = "implementation-classes", value = "dom.soporte.estadoSoporte.Recepcionado"
-					+ ",dom.soporte.estadoSoporte.Reparando"
-					+ ",dom.soporte.estadoSoporte.Esperando"
-					+ ",dom.soporte.estadoSoporte.Cancelado"
-					+ ",dom.soporte.estadoSoporte.Entregando") }, columns = {
+			@Extension(vendorName = "datanucleus", key = "implementation-classes", value = "dom.soporte.estadosoporte.Recepcionado"
+					+ ",dom.soporte.estadosoporte.Reparando"
+					+ ",dom.soporte.estadosoporte.Esperando"
+					+ ",dom.soporte.estadosoporte.Cancelado"
+					+ ",dom.soporte.estadosoporte.Entregando") }, columns = {
 			@javax.jdo.annotations.Column(name = "idrecepcionado"),
 			@javax.jdo.annotations.Column(name = "idreparando"),
 			@javax.jdo.annotations.Column(name = "idesperando"),
@@ -315,7 +319,7 @@ public class Soporte implements Comparable<Soporte> {
 	@Optional
 	@Hidden(where = Where.PARENTED_TABLES)
 	@Disabled
-	@MemberOrder(name = "Datos Generales", sequence = "0")
+	@MemberOrder(name = "Datos Generales", sequence = "12")
 	public IEstado getEstado() {
 		return estado;
 	}
@@ -404,25 +408,16 @@ public class Soporte implements Comparable<Soporte> {
 	 * ***************************************************
 	 */
 
-	/**
-	 * Recepcionado -> Reparando. Permite seleccionar un tecnico desde una
-	 * lista. El Tecnico es agregado en la Computadora. Al tecnico se le suma
-	 * una nueva computadora. Cambio de estado a Reparando.
-	 * 
-	 * @param unTecnico
-	 * @return
+	/* ***************************************************
+	 * Operaciones del State.
+	 * ***************************************************
 	 */
 	@Named("Asignar Tecnico")
-	@DescribedAs("Comenzar a Reparar.")
+	@DescribedAs("Seleccionar un Tecnico para comenzar el Soporte.")
 	@NotContributed(As.ASSOCIATION)
-	public Soporte asignarTecnico(final Tecnico unTecnico) {
-		// En caso que necesite cambiar el tecnico.
-		if (this.getTecnico() != null) {
-			this.getTecnico().restaComputadora();
-			this.setTecnico(null);
-		}
-		this.setTecnico(unTecnico);
-		this.getEstado().asignarTecnico();
+	@CssClass("x-highlight")
+	public Soporte asignarTecnico(final Tecnico tecnico) {
+		this.getEstado().asignarTecnico(tecnico);
 		return this;
 	}
 
@@ -430,30 +425,17 @@ public class Soporte implements Comparable<Soporte> {
 		return this.tecnicoRepositorio.listar();
 	}
 
-	/**
-	 * Reparando -> Esperando. Esperar Repuestos: Permite generar un insumo.
-	 * 
-	 * @param codigo
-	 * @param cantidad
-	 * @param producto
-	 * @param marca
-	 * @param observaciones
-	 * @return
-	 */
+	/* ************************ */
+
 	@Named("Solicitar Insumos")
+	@DescribedAs("Realizar nuevo pedido de Insumos.")
 	public Soporte solicitarInsumos(final @Named("Codigo") String codigo,
 			final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
 			final @Optional @Named("Observaciones") String observaciones) {
-		this.getEstado().solicitarInsumos();
-		Insumo uninsumo = null;
-		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getEsperando().getClass().getSimpleName())) {
-			uninsumo = this.insumoRepositorio.addInsumo(codigo, cantidad,
-					producto, marca, observaciones);
-			this.agregarAInsumos(uninsumo);
-		}
+		this.getEstado().solicitarInsumos(codigo, cantidad, producto, marca,
+				observaciones);
 		return this;
 	}
 
@@ -464,17 +446,10 @@ public class Soporte implements Comparable<Soporte> {
 	 * @return boolean
 	 */
 	public boolean hideSolicitarInsumos() {
-		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getReparando().getClass().getSimpleName())
-				|| this.getEstado()
-						.getClass()
-						.getSimpleName()
-						.contentEquals(
-								this.getEsperando().getClass().getSimpleName()))
-			return false;
-		else
-			return true;
+		return false;
 	}
+
+	/* ************************ */
 
 	/**
 	 * Reparando -> Entregando. Finalizar el Soporte Tecnico de la computadora.
@@ -484,7 +459,7 @@ public class Soporte implements Comparable<Soporte> {
 	 * @return
 	 */
 	@Named("Finalizar Soporte")
-	@DescribedAs("Envio de email.")
+	@DescribedAs("Soporte finalizado con exito. Enviar email.")
 	public Soporte finalizarSoporte() {
 		this.getEstado().finalizarSoporte();
 		return this;
@@ -492,12 +467,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	public boolean hideFinalizarSoporte() {
-		// TODO: return true if action is hidden, false if visible
-		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getReparando().getClass().getSimpleName()))
-			return false;
-		else
-			return true;
+		return false;
 	}
 
 	/**
@@ -506,20 +476,27 @@ public class Soporte implements Comparable<Soporte> {
 	 * 
 	 * @return
 	 */
-	@Named("Cancelar Soporte")
-	public Soporte noHayRepuestos() {
-		this.getEstado().noHayRepuestos();
+	/* ************************ */
+
+	@Named("No hay Insumos")
+	@DescribedAs("No hay Repuestos disponibles para finalizar el Soporte.")
+	public Soporte noHayInsumos(final @Named("Direccion Ip") String ip,
+			final @Named("Mother") String mother,
+			final @Named("Procesador") String procesador,
+			final @Named("Disco") CategoriaDisco disco,
+			final @Named("Memoria") String memoria,
+			final @Optional @Named("Impresora") Impresora impresora) {
+		this.getEstado().noHayInsumos(ip, mother, procesador, disco, memoria,
+				impresora);
 		return this;
 
 	}
 
-	public boolean hideNoHayRepuestos() {
-		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getEsperando().getClass().getSimpleName()))
-			return false;
-		else
-			return true;
+	public boolean hideNoHayInsumos() {
+		return false;// this.getEstado().esconde();
 	}
+
+	/* ************************ */
 
 	/**
 	 * Esperando -> Entregado. Llegaron los repuestos, se ensamblo la maquina y
@@ -527,44 +504,42 @@ public class Soporte implements Comparable<Soporte> {
 	 * 
 	 * @return
 	 */
-	@Named("Ensamblado/Finalizado")
+	@Named("Ensamblar nuevos Insumos")
 	@DescribedAs("El equipo es reparado con los respuestos solicitados.")
 	public Soporte llegaronRepuestos() {
-		this.getEstado().llegaronRepuestos();
+		this.getEstado().llegaronInsumos();
 		return this;
 	}
 
 	public boolean hideLlegaronRepuestos() {
-		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getEsperando().getClass().getSimpleName()))
-			return false;
-		else
-			return true;
+		return false;
 	}
 
-	public Soporte asignarEquipo(
-			final @Named("Computadora") Computadora computadora) {
-		this.getComputadora().setHabilitado(false);
-		this.setComputadora(computadora);
-		this.getEstado().asignarEquipo();
-
+	/* ************************ */
+	@DescribedAs("Ingresando una nueva Computadora al Usuario.")
+	public Soporte asignarNuevoEquipo(final @Named("Direccion Ip") String ip,
+			final @Named("Mother") String mother,
+			final @Named("Procesador") String procesador,
+			final @Named("Disco") CategoriaDisco disco,
+			final @Named("Memoria") String memoria,
+			final @Optional @Named("Impresora") Impresora impresora) {
+		this.getEstado().asignarNuevoEquipo(ip, mother, procesador, disco,
+				memoria, impresora);
 		return this;
 	}
 
-	public List<Computadora> autoComplete0AsignarEquipo(final @MinLength(2) String search) {
-		return this.computadoraRepositorio.autoComplete(search);
+	public List<Impresora> autoComplete5AsignarNuevoEquipo(
+			final @MinLength(2) String search) {
+		return this.impresoraRepositorio.autoComplete(search);
 	}
 
-	public boolean hideAsignarEquipo() {
-		if (this.getEstado().getClass().getSimpleName()
-				.contentEquals(this.getReparando().getClass().getSimpleName()))
-			return false;
-		else
-			return true;
+	public boolean hideAsignarNuevoEquipo() {
+		return false;
 	}
 
 	/* ***************************************************
-	 * FIN: Patron State.
+	 * FIN: Operaciones del State.
+	 * ***************************************************
 	 */
 
 	// ////////////////////////////////////
@@ -578,9 +553,5 @@ public class Soporte implements Comparable<Soporte> {
 	private ComputadoraRepositorio computadoraRepositorio;
 
 	@javax.inject.Inject
-	private InsumoRepositorio insumoRepositorio;
-
-	@SuppressWarnings("unused")
-	@javax.inject.Inject
-	private DomainObjectContainer container;
+	private ImpresoraRepositorio impresoraRepositorio;
 }

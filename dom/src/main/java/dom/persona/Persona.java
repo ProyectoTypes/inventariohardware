@@ -178,20 +178,7 @@ public abstract class Persona {
 		return sectorRepositorio.autoComplete(search);
 	}
 
-	// //////////////////////////////////////
-	// Eliminar Sector
-	// //////////////////////////////////////
-
-	@MemberOrder(sequence = "120")
-	@Named("Eliminar Sector")
-	public void clear() {
-		Sector currentSector = this.getSector();
-		// check for no-op
-		if (currentSector == null) {
-			return ;
-		}
-		return ;
-	}
+	
 
 	// //////////////////////////////////////
 	// Injected Services
