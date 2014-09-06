@@ -23,4 +23,11 @@ public interface IEstado {
 			final String procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora);
 
+	boolean escondeAsignarTecnico();
+	boolean escondeFinalizarSoporte();
+	boolean escondeSolicitarInsumos();
+	boolean escondeLlegaronInsumos();
+	boolean escondeNoHayInsumos();
+	boolean escondeAsignarNuevoEquipo();
+
 }
