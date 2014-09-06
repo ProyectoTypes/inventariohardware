@@ -117,6 +117,36 @@ public class Recepcionado implements IEstado {
 				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
 
+	public boolean escondeAsignarTecnico() {
+		return false;
+	}
+
+	@Override
+	public boolean escondeFinalizarSoporte() {
+		return true;
+	}
+
+	@Override
+	public boolean escondeSolicitarInsumos() {
+		return true;
+	}
+
+	@Override
+	public boolean escondeLlegaronInsumos() {
+		return true;
+	}
+
+	@Override
+	public boolean escondeNoHayInsumos() {
+		return true;
+	}
+
+	@Override
+	public boolean escondeAsignarNuevoEquipo() {
+		return true;
+	}
+
 	@javax.inject.Inject
 	private DomainObjectContainer container;
+
 }
