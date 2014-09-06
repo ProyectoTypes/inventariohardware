@@ -134,8 +134,11 @@ public class Esperando implements IEstado {
 			this.getSoporte().getComputadora().getUsuario().clearComputadora();
 			this.getSoporte().getTecnico()
 					.removeFromComputadora(this.getSoporte().getComputadora());
-			this.getSoporte().setEstado(this.getSoporte().getCancelado());
 			this.getSoporte().getComputadora().limpiarImpresora();
+			
+			this.getSoporte().getComputadora().setHabilitado(false);
+			
+			this.getSoporte().setEstado(this.getSoporte().getCancelado());
 
 			this.container
 					.informUser("EL EQUIPO NO PUEDE SER REPARADO POR FALTA DE REPUESTOS.");
@@ -168,6 +171,36 @@ public class Esperando implements IEstado {
 			final String procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora) {
 
+	}
+
+	@Override
+	public boolean escondeAsignarTecnico() {
+		return false;
+	}
+
+	@Override
+	public boolean escondeFinalizarSoporte() {
+		return true;
+	}
+
+	@Override
+	public boolean escondeSolicitarInsumos() {
+		return false;
+	}
+
+	@Override
+	public boolean escondeLlegaronInsumos() {
+		return false;
+	}
+
+	@Override
+	public boolean escondeNoHayInsumos() {
+		return false;
+	}
+
+	@Override
+	public boolean escondeAsignarNuevoEquipo() {
+		return true;
 	}
 
 	@Inject
