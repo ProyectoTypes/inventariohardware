@@ -114,6 +114,36 @@ public class Cancelado implements IEstado {
 
 	}
 
+	@Override
+	public boolean escondeAsignarTecnico() {
+		return true;
+	}
+
+	@Override
+	public boolean escondeFinalizarSoporte() {
+		return true;
+	}
+
+	@Override
+	public boolean escondeSolicitarInsumos() {
+		return true;
+	}
+
+	@Override
+	public boolean escondeLlegaronInsumos() {
+		return true;
+	}
+
+	@Override
+	public boolean escondeNoHayInsumos() {
+		return true;
+	}
+
+	@Override
+	public boolean escondeAsignarNuevoEquipo() {
+		return true;
+	}
+
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 
