@@ -24,7 +24,6 @@ package dom.usuario;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
-import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
@@ -121,10 +120,4 @@ public class Usuario extends Persona implements Comparable<Persona> {
 		return ObjectContracts.compare(this, persona, "apellido");
 	}
 
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
-	@javax.inject.Inject
-	private DomainObjectContainer container;
 }
