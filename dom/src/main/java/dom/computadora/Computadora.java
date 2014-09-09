@@ -213,13 +213,13 @@ public class Computadora implements Comparable<Computadora> {
 
 	}
 
-	public Computadora modificarImpresora(final Impresora impresora) {
+	public void modifyImpresora(final Impresora impresora) {
 		Impresora currentImpresora = getImpresora();
 		if (impresora == null || impresora.equals(currentImpresora)) {
-			return this;
+			return;
 		}
 		impresora.agregarComputadora(this);
-		return this;
+		return;
 	}
 
 	@Named("Borrar Impresora")
@@ -294,7 +294,7 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	public String validateUsuario(final Usuario usuario) {
-		if (usuario.getComputadora() == null)
+		if (usuario.getComputadora() == null || this.getUsuario()== usuario)
 			return null;
 		else
 			return "El Usuario ya tiene asignado una Computadora. Seleccione otro.";
