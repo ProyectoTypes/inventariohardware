@@ -406,14 +406,7 @@ public class Computadora implements Comparable<Computadora> {
 		return ObjectContracts.compare(this, computadora, "ip");
 	}
 	
-	// Ocultar boton Agregar Computadora.
-	public boolean HideaddComputadora(final Usuario usuario) {
-		if (usuario.getComputadora() == null)
-			return false;
-		else
-			return true;
-	}
-
+	
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
