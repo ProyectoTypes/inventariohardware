@@ -77,7 +77,17 @@ public class Esperando implements IEstado {
 	// }}
 	@Override
 	public void asignarTecnico(final Tecnico tecnico) {
-		this.container.informUser("EL TECNICO YA HA SIDO ASIGNADO.");
+		if (tecnico.estaDisponible()) {
+		this.getSoporte().setTecnico(tecnico);
+		this.getSoporte().getTecnico().sumaComputadora();
+		this.getSoporte().getTecnico()
+				.addToComputadora(this.getSoporte().getComputadora());
+		this.getSoporte().setEstado(this.getSoporte().getReparando());
+	} else {
+		this.getSoporte().setTecnico(null);
+		this.container
+				.informUser("El Tecnico seleccionado no esta disponible.");
+	}
 
 	}
 
