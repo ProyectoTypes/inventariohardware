@@ -91,11 +91,6 @@ public class ImpresoraRepositorio {
 		final List<Impresora> listaImpresora = this.container
 				.allMatches(new QueryDefault<Impresora>(Impresora.class,
 						"eliminarImpresoraTrue"));
-		if (listaImpresora.isEmpty()) {
-			this.container
-					.warnUser("No hay Impresoras cargadas en el sistema.");
-			return null;
-		}
 		return listaImpresora;
 	}
 
