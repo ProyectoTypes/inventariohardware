@@ -33,7 +33,7 @@ public class Reparando implements IEstado {
 	}
 
 	public String iconName() {
-		return "sector";
+		return "Reparando";
 	}
 
 	public Reparando(Soporte soporte) {
