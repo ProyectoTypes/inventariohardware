@@ -53,7 +53,7 @@ public class Esperando implements IEstado {
 	}
 
 	public String iconName() {
-		return "sector"; // cambiar todos los iconos!!!!!
+		return "Esperando";
 	}
 
 	public Esperando(Soporte soporte) {
