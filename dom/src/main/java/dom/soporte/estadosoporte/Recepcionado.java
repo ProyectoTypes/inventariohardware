@@ -6,6 +6,7 @@ import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
@@ -32,7 +33,7 @@ public class Recepcionado implements IEstado {
 	}
 
 	public String iconName() {
-		return "sector";
+		return "Recepcionado";
 	}
 
 	// {{ Soporte (property)
@@ -65,6 +66,7 @@ public class Recepcionado implements IEstado {
 	 * @param tecnico
 	 */
 	@Override
+	@Hidden
 	public void asignarTecnico(final Tecnico tecnico) {
 
 		if (tecnico.estaDisponible()) {
@@ -82,6 +84,7 @@ public class Recepcionado implements IEstado {
 	}
 
 	@Override
+	@Hidden
 	public void solicitarInsumos(final String codigo, final int cantidad,
 			final String producto, final String marca,
 			final String observaciones) {
@@ -90,12 +93,14 @@ public class Recepcionado implements IEstado {
 	}
 
 	@Override
+	@Hidden
 	public void finalizarSoporte() {
 		this.container
 				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
 
 	@Override
+	@Hidden
 	public void noHayInsumos(final String ip, final String mother,
 			final String procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora) {
@@ -104,12 +109,14 @@ public class Recepcionado implements IEstado {
 	}
 
 	@Override
+	@Hidden
 	public void llegaronInsumos() {
 		this.container
 				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
 
 	@Override
+	@Hidden
 	public void asignarNuevoEquipo(final String ip, final String mother,
 			final String procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora) {
@@ -117,31 +124,37 @@ public class Recepcionado implements IEstado {
 				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
 
+	@Hidden
 	public boolean escondeAsignarTecnico() {
 		return false;
 	}
 
 	@Override
+	@Hidden
 	public boolean escondeFinalizarSoporte() {
 		return true;
 	}
 
 	@Override
+	@Hidden
 	public boolean escondeSolicitarInsumos() {
 		return true;
 	}
 
 	@Override
+	@Hidden
 	public boolean escondeLlegaronInsumos() {
 		return true;
 	}
 
 	@Override
+	@Hidden
 	public boolean escondeNoHayInsumos() {
 		return true;
 	}
 
 	@Override
+	@Hidden
 	public boolean escondeAsignarNuevoEquipo() {
 		return true;
 	}
