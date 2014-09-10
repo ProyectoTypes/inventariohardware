@@ -174,10 +174,12 @@ public class Esperando implements IEstado {
 	public void llegaronInsumos() {
 		// Enviando email.
 		emailService.send(this.getSoporte().getComputadora());
+		this.container
+		.informUser("paso el envio de email.");
 		// Desvinculando tecnico/computadora.
 		this.getSoporte().getTecnico()
 				.removeFromComputadora(this.getSoporte().getComputadora());
-		this.getSoporte().setEstado(this.getSoporte().getCancelado());
+		this.getSoporte().setEstado(this.getSoporte().getEntregando());
 		this.container
 				.informUser("EL EQUIPO FUE ENSAMBLADO Y ESTA LISTO PARA SER ENTREGADO.");
 	}
@@ -211,7 +213,7 @@ public class Esperando implements IEstado {
 	@Override
 	@Hidden
 	public boolean escondeLlegaronInsumos() {
-		return false;
+		return true;
 	}
 
 	@Override
