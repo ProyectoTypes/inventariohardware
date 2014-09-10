@@ -31,7 +31,7 @@ public class Entregando implements IEstado {
 	}
 
 	public String iconName() {
-		return "sector";
+		return "Entregando";
 	}
 
 	public Entregando(Soporte soporte) {
