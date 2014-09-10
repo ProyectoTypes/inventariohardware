@@ -52,7 +52,7 @@ public class Cancelado implements IEstado {
 	}
 
 	public String iconName() {
-		return "sector";
+		return "Cancelado";
 	}
 
 	public Cancelado(Soporte soporte) {
