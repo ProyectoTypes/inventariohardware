@@ -7,6 +7,7 @@ import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
@@ -69,6 +70,7 @@ public class Reparando implements IEstado {
 	 * @param tecnico
 	 */
 	@Override
+	@Hidden
 	public void asignarTecnico(final Tecnico tecnico) {
 
 		if (this.getSoporte().getTecnico().estaDisponible()) {
@@ -100,6 +102,7 @@ public class Reparando implements IEstado {
 	 *            ,cantidad,producto,marca,observaciones
 	 */
 	@Override
+	@Hidden
 	public void solicitarInsumos(final String codigo, final int cantidad,
 			final String producto, final String marca,
 			final String observaciones) {
@@ -112,6 +115,7 @@ public class Reparando implements IEstado {
 	}
 
 	@Override
+	@Hidden
 	public void finalizarSoporte() {
 		// Enviando email.
 		emailService.send(this.getSoporte().getComputadora());
@@ -125,6 +129,7 @@ public class Reparando implements IEstado {
 	}
 
 	@Override
+	@Hidden
 	public void noHayInsumos(final String ip, final String mother,
 			final String procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora) {
@@ -133,6 +138,7 @@ public class Reparando implements IEstado {
 	}
 
 	@Override
+	@Hidden
 	public void llegaronInsumos() {
 		this.container.informUser("ES NECESARIO SOLICITAR REPUESTOS.");
 	}
@@ -157,6 +163,7 @@ public class Reparando implements IEstado {
 	 * @param impresora
 	 */
 	@Override
+	@Hidden
 	public void asignarNuevoEquipo(final String ip, final String mother,
 			final String procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora) {
@@ -179,31 +186,37 @@ public class Reparando implements IEstado {
 	}
 
 	@Override
+	@Hidden
 	public boolean escondeAsignarTecnico() {
 		return false;
 	}
 
 	@Override
+	@Hidden
 	public boolean escondeFinalizarSoporte() {
 		return false;
 	}
 
 	@Override
+	@Hidden
 	public boolean escondeSolicitarInsumos() {
 		return false;
 	}
 
 	@Override
+	@Hidden
 	public boolean escondeLlegaronInsumos() {
 		return true;
 	}
 
 	@Override
+	@Hidden
 	public boolean escondeNoHayInsumos() {
 		return true;
 	}
 
 	@Override
+	@Hidden
 	public boolean escondeAsignarNuevoEquipo() {
 		return false;
 	}
