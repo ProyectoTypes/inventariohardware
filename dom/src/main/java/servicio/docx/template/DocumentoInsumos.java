@@ -19,10 +19,8 @@ package servicio.docx.template;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Collections;
 
 import javax.annotation.PostConstruct;
-import javax.jdo.annotations.Order;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.ActionSemantics;
@@ -41,25 +39,21 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.output.DOMOutputter;
 
-import com.google.common.base.Function;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 import com.google.common.io.Resources;
 
+import dom.insumo.Insumo;
 import dom.soporte.Soporte;
 
 @DomainService
 public class DocumentoInsumos {
 	/*
-	 * Todo lo que este con este tipo de comentario hay que borrarlo.
-	 * Tareas: Cambiar todo lo que sea order u Order, por soporte o Soporte.
-	 * Cambiar el nombre del template por algo mas representativo.
-	 * Cambiar el nombre DocumentoInsumos por algo mas representativo si es necesario.
-	 * Crear el Template de insumos.
+	 * Todo lo que este con este tipo de comentario hay que borrarlo. Tareas:
+	 * Cambiar todo lo que sea order u Order, por soporte o Soporte. Cambiar el
+	 * nombre del template por algo mas representativo. Cambiar el nombre
+	 * DocumentoInsumos por algo mas representativo si es necesario. Crear
+	 * el Template de insumos (si se cambia, tmb cambiar el nombre en la linea 64).
 	 */
-	
-	
-	
+
 	// region > init
 
 	private WordprocessingMLPackage wordprocessingMLPackage;
@@ -102,42 +96,43 @@ public class DocumentoInsumos {
 		// Titulo del archivo de salida, se le puede colocar la ip de la
 		// computadora, o el nombre del tecnico que lo solicita, etc.
 		final String blobName = "customerConfirmation.docx";
-		
+
 		final String blobMimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 		final byte[] blobBytes = docxTarget.toByteArray();
 
 		return new Blob(blobName, blobMimeType, blobBytes);
 	}
 
-	/* No sirve porque no necesitamos generar un html de los datos.
-	 
-	  @NotContributed(NotContributed.As.ASSOCIATION)
-	 // ie contributed as action
-	 @Prototype
-	 @NotInServiceMenu
-	 @ActionSemantics(Of.SAFE)
-	 @MemberOrder(sequence = "11")
-	 public Clob downloadCustomerConfirmationInputHtml(final Order order)
-	 throws IOException, JDOMException, MergeException {
-	
-	 Document orderAsHtmlJdomDoc = asInputDocument(order);
-	
-	 XMLOutputter xmlOutput = new XMLOutputter();
-	 xmlOutput.setFormat(Format.getPrettyFormat());
-	
-	 final String html = xmlOutput.outputString(orderAsHtmlJdomDoc);
-	
-	 final String clobName = "customerConfirmation-" + order.getNumber()
-	 + ".html";
-	 final String clobMimeType = "text/html";
-	 final String clobBytes = html;
-	
-	 return new Clob(clobName, clobMimeType, clobBytes);
-	 }
-
+	/*
+	 * No sirve porque no necesitamos generar un html de los datos.
+	 * 
+	 * @NotContributed(NotContributed.As.ASSOCIATION) // ie contributed as
+	 * action
+	 * 
+	 * @Prototype
+	 * 
+	 * @NotInServiceMenu
+	 * 
+	 * @ActionSemantics(Of.SAFE)
+	 * 
+	 * @MemberOrder(sequence = "11") public Clob
+	 * downloadCustomerConfirmationInputHtml(final Order order) throws
+	 * IOException, JDOMException, MergeException {
+	 * 
+	 * Document orderAsHtmlJdomDoc = asInputDocument(order);
+	 * 
+	 * XMLOutputter xmlOutput = new XMLOutputter();
+	 * xmlOutput.setFormat(Format.getPrettyFormat());
+	 * 
+	 * final String html = xmlOutput.outputString(orderAsHtmlJdomDoc);
+	 * 
+	 * final String clobName = "customerConfirmation-" + order.getNumber() +
+	 * ".html"; final String clobMimeType = "text/html"; final String clobBytes
+	 * = html;
+	 * 
+	 * return new Clob(clobName, clobMimeType, clobBytes); }
 	 */
 
-	 
 	/**
 	 * Permite Crear el Archivo.
 	 * 
@@ -175,55 +170,68 @@ public class DocumentoInsumos {
 	 * @return
 	 */
 	private static Document asInputDocument(Soporte order) {
-
+		// Se crea el html como documento nuevo, y luego se le agrega el body y
+		// las tablas
 		Element html = new Element("html");
 		Document document = new Document(html);
 
 		Element body = new Element("body");
 		html.addContent(body);
 		/*
-		 * En las siguientes s 
+		 * En las siguientes lineas muestro como se puede traspasar los datos al
+		 * template. Hay que adaptarlo a nuestras necesidades y modificarlo
+		 * todo.
 		 */
+		// OrdenNum hace referencia a la etiqueta del template, lo mismo con
+		// OrderDate, etc.
 		addPara(body, "OrderNum", "plain", order.getComputadora().getIp());
 		addPara(body, "OrderDate", "date",
-				order.getDate().toString("dd-MMM-yyyy"));
-		addPara(body, "CustomerName", "plain", order.getCustomerName());
-		addPara(body, "Message", "plain", "Thank you for shopping with us!");
+				order.getFecha().toString("dd-MMM-yyyy"));
+		addPara(body, "CustomerName", "plain", order.getComputadora()
+				.getUsuario().getNombre());
+		addPara(body,
+				"Message",
+				"plain",
+				"Mensaje de prueba para mostrar que no solo se puede enviar atributos, tambien texto");
 
+		/*
+		 * En la siguientes lineas muestra como hacer una tabla con las
+		 * dependencia de insumos, de aca hay que elegir que datos vamos a
+		 * mostrar en el documento (Todos o algunos).
+		 */
 		Element table = addTable(body, "Products");
-		for (OrderLine orderLine : order.getOrderLines()) {
-			addTableRow(
-					table,
-					new String[] { orderLine.getDescription(),
-							orderLine.getCost().toString(),
-							"" + orderLine.getQuantity() });
+		for (Insumo orderLine : order.getInsumos()) {
+			addTableRow(table,
+					new String[] { orderLine.getCodigo(), orderLine.getMarca(),
+							"" + orderLine.getCantidad() });
 		}
 
-		Element ul = addList(body, "OrderPreferences");
-		for (String preference : preferencesFor(order)) {
-			addListItem(ul, preference);
-		}
+		/*
+		 * Creo que no es necesario crear una lista, en caso contratio habilitar
+		 * el siguiente codigo y su/s metodo/s.
+		 */
+		// Element ul = addList(body, "OrderPreferences");
+		// for (String preference : preferencesFor(order)) {
+		// addListItem(ul, preference);
+		// }
 		return document;
 	}
 
 	// endregion (
 
-	// region > helpers
+	// region > Metodos de Ayuda, para la fusion entre los datos y el template
 
-	private static final Function<String, String> TRIM = new Function<String, String>() {
-		@Override
-		public String apply(String input) {
-			return input.trim();
-		}
-	};
-
-	private static Iterable<String> preferencesFor(Order order) {
-		final String preferences = order.getPreferences();
-		if (preferences == null) {
-			return Collections.emptyList();
-		}
-		return Iterables.transform(Splitter.on(",").split(preferences), TRIM);
-	}
+	/*
+	 * private static final Function<String, String> TRIM = new Function<String,
+	 * String>() {
+	 * 
+	 * @Override public String apply(String input) { return input.trim(); } };
+	 * 
+	 * private static Iterable<String> preferencesFor(Soporte order) { final
+	 * String preferences = order.getPreferences(); if (preferences == null) {
+	 * return Collections.emptyList(); } return
+	 * Iterables.transform(Splitter.on(",").split(preferences), TRIM); }
+	 */
 
 	private static void addPara(Element body, String id, String clazz,
 			String text) {
@@ -234,31 +242,19 @@ public class DocumentoInsumos {
 		p.setText(text);
 	}
 
-	private static Element addList(Element body, String id) {
-		Element ul = new Element("ul");
-		body.addContent(ul);
-		ul.setAttribute("id", id);
-		return ul;
-	}
-
-	private static Element addListItem(Element ul, String... paras) {
-		Element li = new Element("li");
-		ul.addContent(li);
-		for (String para : paras) {
-			addPara(li, para);
-		}
-		return ul;
-	}
-
-	private static void addPara(Element li, String text) {
-		if (text == null) {
-			return;
-		}
-		Element p = new Element("p");
-		li.addContent(p);
-		p.setText(text);
-	}
-
+	/*
+	 * private static Element addList(Element body, String id) { Element ul =
+	 * new Element("ul"); body.addContent(ul); ul.setAttribute("id", id); return
+	 * ul; }
+	 * 
+	 * private static Element addListItem(Element ul, String... paras) { Element
+	 * li = new Element("li"); ul.addContent(li); for (String para : paras) {
+	 * addPara(li, para); } return ul; }
+	 * 
+	 * private static void addPara(Element li, String text) { if (text == null)
+	 * { return; } Element p = new Element("p"); li.addContent(p);
+	 * p.setText(text); }
+	 */
 	private static Element addTable(Element body, String id) {
 		Element table = new Element("table");
 		body.addContent(table);
