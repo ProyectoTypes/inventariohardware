@@ -73,7 +73,7 @@ public class Insumo implements Comparable<Insumo> {
 	}
 
 	public String iconName() {
-		return "Insumo";
+		return "Insumos";
 	}
 
 	// //////////////////////////////////////
