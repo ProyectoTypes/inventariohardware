@@ -65,7 +65,7 @@ public class ComputadoraRepositorio {
 	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "10")
-	@Named("Agregar")
+	@Named("Agregar Computadora")
 	public Computadora addComputadora(final @Named("Usuario") Usuario usuario,
 			final @Named("Direccion Ip") String ip,
 			final @Named("Mother") String mother,
