@@ -446,6 +446,10 @@ public class Soporte implements Comparable<Soporte> {
 		return this.tecnicoRepositorio.listar();
 	}
 
+	public boolean hideAsignarTecnico() {
+		return this.getEstado().escondeAsignarTecnico();
+	}
+
 	/* ************************ */
 
 	@Named("Solicitar Insumos")
@@ -489,51 +493,6 @@ public class Soporte implements Comparable<Soporte> {
 
 	public boolean hideFinalizarSoporte() {
 		return this.getEstado().escondeFinalizarSoporte();
-	}
-
-	/**
-	 * Esperando -> Cancelado. No es posible conseguir repuestos para la
-	 * computadora.
-	 * 
-	 * @return
-	 */
-	/* ************************ */
-
-	@Named("No hay Insumos")
-	@DescribedAs("No hay Repuestos disponibles para finalizar el Soporte.")
-	public Soporte noHayInsumos(final @Named("Direccion Ip") String ip,
-			final @Named("Mother") String mother,
-			final @Named("Procesador") String procesador,
-			final @Named("Disco") CategoriaDisco disco,
-			final @Named("Memoria") String memoria,
-			final @Optional @Named("Impresora") Impresora impresora) {
-		this.getEstado().noHayInsumos(ip, mother, procesador, disco, memoria,
-				impresora);
-		return this;
-
-	}
-
-	public boolean hideNoHayInsumos() {
-		return this.getEstado().escondeNoHayInsumos();//
-	}
-
-	/* ************************ */
-
-	/**
-	 * Esperando -> Entregado. Llegaron los repuestos, se ensamblo la maquina y
-	 * se finalizo la reparacion.
-	 * 
-	 * @return
-	 */
-	@Named("Ensamblar nuevos Insumos")
-	@DescribedAs("El equipo es reparado con los respuestos solicitados.")
-	public Soporte llegaronInsumos() {
-		this.getEstado().llegaronInsumos();
-		return this;
-	}
-
-	public boolean hideLlegaronInsumos() {
-		return this.getEstado().escondeLlegaronInsumos();
 	}
 
 	/* ************************ */
