@@ -5,8 +5,6 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
-import org.apache.isis.applib.annotation.Audited;
-import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
@@ -25,8 +23,6 @@ import dom.tecnico.Tecnico;
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "reparandoUnique", members = { "idReparando" }) })
 @ObjectType("REPARANDO")
-@Audited
-@Bookmarkable
 public class Reparando implements IEstado {
 
 	public String title() {
@@ -41,7 +37,7 @@ public class Reparando implements IEstado {
 		this.soporte = soporte;
 	}
 
-	// {{ Movimiento (property)
+	// {{ Soporte (property)
 	private Soporte soporte;
 
 	@MemberOrder(sequence = "1")
@@ -99,7 +95,10 @@ public class Reparando implements IEstado {
 	 * </p>
 	 * 
 	 * @param codigo
-	 *            ,cantidad,producto,marca,observaciones
+	 * @param cantidad
+	 * @param producto
+	 * @param marca
+	 * @param observaciones
 	 */
 	@Override
 	@Hidden
@@ -114,6 +113,13 @@ public class Reparando implements IEstado {
 		this.container.informUser("EN ESPERA DE LOS INSUMOS SOLICITADOS.");
 	}
 
+	/**
+	 * Permite enviar un correo al Usuario informandole que el Soporte Tecnico
+	 * ha finalizado.
+	 * <p>
+	 * Reparando -> Entregado
+	 * </p>
+	 */
 	@Override
 	@Hidden
 	public void finalizarSoporte() {
@@ -122,7 +128,6 @@ public class Reparando implements IEstado {
 		// Desvinculando tecnico/computadora.
 		this.getSoporte().getTecnico()
 				.removeFromComputadora(this.getSoporte().getComputadora());
-		this.getSoporte().setEstado(this.getSoporte().getCancelado());
 		this.getSoporte().setEstado(this.getSoporte().getEntregando());
 		this.container
 				.informUser("SOPORTE TECNICO FINALIZADO. EL USUARIO HA SIDO NOTIFICADO VIA EMAIL.");
