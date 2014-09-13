@@ -65,25 +65,12 @@ public class Entregando implements IEstado {
 		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
 	}
 
-	@Override
-	@Hidden
-	public void noHayInsumos(final String ip, final String mother,
-			final String procesador, final CategoriaDisco disco,
-			final String memoria, final Impresora impresora) {
-		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
-	}
 
 	@Override
 	@Hidden
 	public void finalizarSoporte() {
 		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
 
-	}
-
-	@Override
-	@Hidden
-	public void llegaronInsumos() {
-		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO");
 	}
 
 	@Override

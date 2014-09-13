@@ -97,22 +97,6 @@ public class Recepcionado implements IEstado {
 
 	@Override
 	@Hidden
-	public void noHayInsumos(final String ip, final String mother,
-			final String procesador, final CategoriaDisco disco,
-			final String memoria, final Impresora impresora) {
-		this.container
-				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
-	}
-
-	@Override
-	@Hidden
-	public void llegaronInsumos() {
-		this.container
-				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
-	}
-
-	@Override
-	@Hidden
 	public void asignarNuevoEquipo(final String ip, final String mother,
 			final String procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora) {

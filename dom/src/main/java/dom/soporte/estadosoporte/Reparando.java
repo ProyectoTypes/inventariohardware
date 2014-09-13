@@ -133,21 +133,6 @@ public class Reparando implements IEstado {
 				.informUser("SOPORTE TECNICO FINALIZADO. EL USUARIO HA SIDO NOTIFICADO VIA EMAIL.");
 	}
 
-	@Override
-	@Hidden
-	public void noHayInsumos(final String ip, final String mother,
-			final String procesador, final CategoriaDisco disco,
-			final String memoria, final Impresora impresora) {
-		this.container.informUser("EL EQUIPO CONTINUA EN REPARACION.");
-
-	}
-
-	@Override
-	@Hidden
-	public void llegaronInsumos() {
-		this.container.informUser("ES NECESARIO SOLICITAR REPUESTOS.");
-	}
-
 	/**
 	 * No es posible realizar el Soporte a causa de que los insumos no se
 	 * encuentran disponibles, se debera asignar una nueva Computadora al

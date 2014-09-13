@@ -88,24 +88,9 @@ public class Cancelado implements IEstado {
 
 	@Override
 	@Hidden
-	public void noHayInsumos(final String ip, final String mother,
-			final String procesador, final CategoriaDisco disco,
-			final String memoria, final Impresora impresora) {
-		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
-
-	}
-
-	@Override
-	@Hidden
 	public void finalizarSoporte() {
 		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
 
-	}
-
-	@Override
-	@Hidden
-	public void llegaronInsumos() {
-		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
 	}
 
 	@Override

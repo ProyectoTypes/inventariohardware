@@ -30,12 +30,8 @@ import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
-import servicio.email.EmailService;
 import dom.computadora.Computadora.CategoriaDisco;
-import dom.computadora.ComputadoraRepositorio;
 import dom.impresora.Impresora;
-import dom.insumo.Insumo;
-import dom.insumo.InsumoRepositorio;
 import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
 
@@ -106,10 +102,10 @@ public class Esperando implements IEstado {
 	public void solicitarInsumos(final String codigo, final int cantidad,
 			final String producto, final String marca,
 			final String observaciones) {
-		Insumo unInsumo = this.insumoRepositorio.addInsumo(codigo, cantidad,
-				producto, marca, observaciones);
-		this.getSoporte().agregarUnInsumo(unInsumo);
-		this.container.informUser("SOLICITANDO NUEVOS INSUMOS");
+		// Insumo unInsumo = this.insumoRepositorio.addInsumo(codigo, cantidad,
+		// producto, marca, observaciones);
+		// this.getSoporte().agregarUnInsumo(unInsumo);
+		this.container.informUser("PARA SOLICITAR INSUMOS ES NECESARIO ASIGNAR UN TECNICO");
 
 	}
 
@@ -118,66 +114,6 @@ public class Esperando implements IEstado {
 	public void finalizarSoporte() {
 		this.container.informUser("EL EQUIPO NO SE TERMINO DE REPARAR");
 
-	}
-
-	/**
-	 * Si los insumos por alguna razon no estan disponibles, el Usuario será
-	 * informado via email. Además, el Tecnico será desvinculado de la
-	 * Computadora, y estará libre para recibir una nueva.
-	 * <p>
-	 * Cambio de Estado: Esperando -> Cancelado
-	 * </p>
-	 */
-	@Override
-	@Hidden
-	public void noHayInsumos(final String ip, final String mother,
-			final String procesador, final CategoriaDisco disco,
-			final String memoria, final Impresora impresora) {
-			// Enviando email
-			emailService.send(this.getSoporte().getComputadora());
-
-			// Creando nueva Computadora.
-			this.computadoraRepositorio.addComputadora(this.getSoporte()
-					.getComputadora().getUsuario(), ip, mother, procesador,
-					disco, memoria, impresora);
-
-			// Desvinculando
-			this.getSoporte().getComputadora().getUsuario().clearComputadora();
-			this.getSoporte().getTecnico()
-					.removeFromComputadora(this.getSoporte().getComputadora());
-			this.getSoporte().getComputadora().limpiarImpresora();
-			
-			this.getSoporte().getComputadora().setHabilitado(false);
-			
-			this.getSoporte().setEstado(this.getSoporte().getCancelado());
-
-			this.container
-					.informUser("EL EQUIPO NO PUEDE SER REPARADO POR FALTA DE REPUESTOS.");
-	}
-
-	/**
-	 * El equipo ha sido reparado exitosamente con los repuestos que se habian
-	 * solicitado. Al Tecnico se le desvinculará la Computadora.
-	 * <p>
-	 * Automaticamente el Usuario sera informado via email.
-	 * </p>
-	 * <p>
-	 * Cambio de Estados: Esperando -> Entregando
-	 * </p>
-	 */
-	@Override
-	@Hidden
-	public void llegaronInsumos() {
-		// Enviando email.
-		emailService.send(this.getSoporte().getComputadora());
-		this.container
-		.informUser("paso el envio de email.");
-		// Desvinculando tecnico/computadora.
-		this.getSoporte().getTecnico()
-				.removeFromComputadora(this.getSoporte().getComputadora());
-		this.getSoporte().setEstado(this.getSoporte().getEntregando());
-		this.container
-				.informUser("EL EQUIPO FUE ENSAMBLADO Y ESTA LISTO PARA SER ENTREGADO.");
 	}
 
 	@Override
@@ -203,7 +139,7 @@ public class Esperando implements IEstado {
 	@Override
 	@Hidden
 	public boolean escondeSolicitarInsumos() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -225,12 +161,6 @@ public class Esperando implements IEstado {
 	}
 
 	@Inject
-	private EmailService emailService;
-	@Inject
 	private DomainObjectContainer container;
-	@Inject
-	private InsumoRepositorio insumoRepositorio;
-	@Inject
-	private ComputadoraRepositorio computadoraRepositorio;
 
 }

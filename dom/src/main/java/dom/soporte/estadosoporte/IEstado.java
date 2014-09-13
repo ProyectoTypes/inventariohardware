@@ -13,12 +13,6 @@ public interface IEstado {
 
 	void finalizarSoporte();
 
-	void noHayInsumos(final String ip, final String mother,
-			final String procesador, final CategoriaDisco disco,
-			final String memoria, final Impresora impresora);
-
-	void llegaronInsumos();
-
 	void asignarNuevoEquipo(final String ip, final String mother,
 			final String procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora);
