@@ -7,7 +7,7 @@ import dom.tecnico.Tecnico;
 public interface IEstado {
 	void asignarTecnico(final Tecnico tecnico);
 
-	void solicitarInsumos(final String codigo, final int cantidad,
+	void solicitarInsumos(final int cantidad,
 			final String producto, final String marca,
 			final String observaciones);
 

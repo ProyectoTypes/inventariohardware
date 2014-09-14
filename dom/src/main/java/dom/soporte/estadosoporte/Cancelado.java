@@ -40,6 +40,7 @@ import dom.tecnico.Tecnico;
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "canceladoUnique", members = { "idCancelado" }) })
 @ObjectType("CANCELADO")
 public class Cancelado implements IEstado {
+	
 	// //////////////////////////////////////
 	// Identification in the UI
 	// //////////////////////////////////////
@@ -79,7 +80,7 @@ public class Cancelado implements IEstado {
 
 	@Override
 	@Hidden
-	public void solicitarInsumos(final String codigo, final int cantidad,
+	public void solicitarInsumos(final int cantidad,
 			final String producto, final String marca,
 			final String observaciones) {
 		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");

@@ -24,6 +24,10 @@ import dom.tecnico.Tecnico;
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "reparandoUnique", members = { "idReparando" }) })
 @ObjectType("REPARANDO")
 public class Reparando implements IEstado {
+	
+	// //////////////////////////////////////
+	// Identification in the UI
+	// //////////////////////////////////////
 
 	public String title() {
 		return "REPARANDO ";
@@ -94,7 +98,6 @@ public class Reparando implements IEstado {
 	 * Cambio de Estado: Reparando -> Esperando
 	 * </p>
 	 * 
-	 * @param codigo
 	 * @param cantidad
 	 * @param producto
 	 * @param marca
@@ -102,7 +105,7 @@ public class Reparando implements IEstado {
 	 */
 	@Override
 	@Hidden
-	public void solicitarInsumos(final String codigo, final int cantidad,
+	public void solicitarInsumos(final int cantidad,
 			final String producto, final String marca,
 			final String observaciones) {
 		Insumo unInsumo = this.insumoRepositorio.addInsumo(cantidad,
@@ -134,7 +137,7 @@ public class Reparando implements IEstado {
 	}
 
 	/**
-	 * No es posible realizar el Soporte a causa de que los insumos no se
+	 * No es posible realizar el Soporte ya que los insumos no se
 	 * encuentran disponibles, se debera asignar una nueva Computadora al
 	 * Usuario.
 	 * <p>
@@ -213,10 +216,13 @@ public class Reparando implements IEstado {
 
 	@Inject
 	private EmailService emailService;
+	
 	@Inject
 	private DomainObjectContainer container;
+	
 	@Inject
 	private InsumoRepositorio insumoRepositorio;
+	
 	@Inject
 	private ComputadoraRepositorio computadoraRepositorio;
 

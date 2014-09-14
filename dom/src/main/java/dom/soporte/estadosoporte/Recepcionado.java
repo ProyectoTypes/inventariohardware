@@ -20,16 +20,20 @@ import dom.tecnico.Tecnico;
 @ObjectType("RECIBIDO")
 public class Recepcionado implements IEstado {
 
-	public Recepcionado(Soporte soporte) {
-		this.soporte = soporte;
-	}
-
+	// //////////////////////////////////////
+	// Identification in the UI
+	// //////////////////////////////////////
+	
 	public String title() {
 		return "RECIBIDO ";
 	}
 
 	public String iconName() {
 		return "Recepcionado";
+	}
+	
+	public Recepcionado(Soporte soporte) {
+		this.soporte = soporte;
 	}
 
 	// {{ Soporte (property)
@@ -73,26 +77,22 @@ public class Recepcionado implements IEstado {
 			this.getSoporte().setEstado(this.getSoporte().getReparando());
 		} else {
 			this.getSoporte().setTecnico(null);
-			this.container
-					.informUser("El Tecnico seleccionado no esta disponible.");
+			this.container.informUser("El Tecnico seleccionado no esta disponible.");
 		}
 
 	}
 
 	@Override
 	@Hidden
-	public void solicitarInsumos(final String codigo, final int cantidad,
-			final String producto, final String marca,
+	public void solicitarInsumos(final int cantidad, final String producto, final String marca,
 			final String observaciones) {
-		this.container
-				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
+		this.container.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
 
 	@Override
 	@Hidden
 	public void finalizarSoporte() {
-		this.container
-				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
+		this.container.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
 
 	@Override
@@ -100,8 +100,7 @@ public class Recepcionado implements IEstado {
 	public void asignarNuevoEquipo(final String ip, final String mother,
 			final String procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora) {
-		this.container
-				.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
+		this.container.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
 
 	@Hidden
