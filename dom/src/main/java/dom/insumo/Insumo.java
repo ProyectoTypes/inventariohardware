@@ -83,8 +83,8 @@ public class Insumo implements Comparable<Insumo> {
 	private int cantidad;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@DescribedAs("Cantidades a solicitar:")
-	@MemberOrder(sequence = "20")
+	@DescribedAs("Cantidad a solicitar:")
+	@MemberOrder(sequence = "10")
 	public int getCantidad() {
 		return cantidad;
 	}
@@ -100,8 +100,8 @@ public class Insumo implements Comparable<Insumo> {
 	private String producto;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@DescribedAs("Nombre del insumo:")
-	@MemberOrder(sequence = "30")
+	@DescribedAs("Nombre del Insumo:")
+	@MemberOrder(sequence = "20")
 	public String getProducto() {
 		return producto;
 	}
@@ -118,7 +118,7 @@ public class Insumo implements Comparable<Insumo> {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Marca del Insumo:")
-	@MemberOrder(sequence = "40")
+	@MemberOrder(sequence = "30")
 	public String getMarca() {
 		return marca;
 	}
@@ -128,20 +128,20 @@ public class Insumo implements Comparable<Insumo> {
 	}
 
 	// //////////////////////////////////////
-	// Observaciones (Atributo)
+	// Modelo (Atributo)
 	// //////////////////////////////////////
 	
-	private String observaciones;
+	private String modelo;
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	@DescribedAs("Observaciones del insumo:")
-	@MemberOrder(sequence = "50")
-	public String getObservaciones() {
-		return observaciones;
+	@DescribedAs("Modelo del Insumo:")
+	@MemberOrder(sequence = "40")
+	public String getModelo() {
+		return modelo;
 	}
 
-	public void setObservaciones(final String observaciones) {
-		this.observaciones = observaciones;
+	public void setModelo(final String modelo) {
+		this.modelo = modelo;
 	}
 
 	// //////////////////////////////////////
@@ -151,7 +151,7 @@ public class Insumo implements Comparable<Insumo> {
 	public boolean habilitado;
 
 	@Hidden
-	@MemberOrder(sequence = "60")
+	@MemberOrder(sequence = "50")
 	public boolean getEstaHabilitado() {
 		return habilitado;
 	}
