@@ -59,21 +59,21 @@ public class InsumoRepositorio {
 	public Insumo addInsumo(final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
-			final @Optional @Named("Observaciones") String observaciones) {
-		return nuevosInsumo(cantidad, producto, marca, observaciones,
+			final @Optional @Named("Modelo") String modelo) {
+		return nuevosInsumo(cantidad, producto, marca, modelo,
 				this.currentUserName());
 	}
 
 	@Programmatic
 	public Insumo nuevosInsumo(final int cantidad,
 			final String producto, final String marca,
-			final String observaciones, final String creadoPor) {
+			final String modelo, final String creadoPor) {
 		final Insumo unInsumo = container.newTransientInstance(Insumo.class);
 		unInsumo.setCantidad(cantidad);
 		unInsumo.setProducto(producto.toUpperCase().trim());
 		unInsumo.setMarca(marca.toUpperCase().trim());
-		if (observaciones != null && observaciones != "")
-			unInsumo.setObservaciones(observaciones.toUpperCase().trim());
+		if (modelo != null && modelo != "")
+			unInsumo.setModelo(modelo.toUpperCase().trim());
 		unInsumo.setFecha(LocalDate.now());
 		unInsumo.setHabilitado(true);
 		unInsumo.setCreadoPor(creadoPor);
@@ -92,7 +92,7 @@ public class InsumoRepositorio {
 				.allMatches(new QueryDefault<Insumo>(Insumo.class,
 						"listarInsumoTrue"));
 		if (listaInsumo.isEmpty()) {
-			this.container.warnUser("No hay Insumos cargadas en el sistema.");
+			this.container.warnUser("No hay Insumos cargados en el sistema.");
 		}
 		return listaInsumo;
 	}
