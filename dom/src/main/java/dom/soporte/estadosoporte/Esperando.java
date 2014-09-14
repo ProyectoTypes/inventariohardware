@@ -104,9 +104,8 @@ public class Esperando implements IEstado {
 	 */
 	@Override
 	@Hidden
-	public void solicitarInsumos(final int cantidad,
-			final String producto, final String marca,
-			final String observaciones) {
+	public void solicitarInsumos(final int cantidad, final String producto, final String marca,
+			final String modelo) {
 		// Insumo unInsumo = this.insumoRepositorio.addInsumo(codigo, cantidad,
 		// producto, marca, observaciones);
 		// this.getSoporte().agregarUnInsumo(unInsumo);

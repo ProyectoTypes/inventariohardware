@@ -80,9 +80,8 @@ public class Cancelado implements IEstado {
 
 	@Override
 	@Hidden
-	public void solicitarInsumos(final int cantidad,
-			final String producto, final String marca,
-			final String observaciones) {
+	public void solicitarInsumos(final int cantidad, final String producto, final String marca,
+			final String modelo) {
 		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
 
 	}

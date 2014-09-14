@@ -85,7 +85,7 @@ public class Recepcionado implements IEstado {
 	@Override
 	@Hidden
 	public void solicitarInsumos(final int cantidad, final String producto, final String marca,
-			final String observaciones) {
+			final String modelo) {
 		this.container.informUser("AVISO: ES NECESARIO ASIGNAR UN TECNICO PARA EL SOPORTE.");
 	}
 

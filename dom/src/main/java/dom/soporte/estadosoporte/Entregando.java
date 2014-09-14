@@ -60,9 +60,8 @@ public class Entregando implements IEstado {
 
 	@Override
 	@Hidden
-	public void solicitarInsumos(final int cantidad,
-			final String producto, final String marca,
-			final String observaciones) {
+	public void solicitarInsumos(final int cantidad, final String producto, final String marca,
+			final String modelo) {
 		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
 	}
 
@@ -76,9 +75,8 @@ public class Entregando implements IEstado {
 
 	@Override
 	@Hidden
-	public void asignarNuevoEquipo(final String ip, final String mother,
-			final String procesador, final CategoriaDisco disco,
-			final String memoria, final Impresora impresora) {
+	public void asignarNuevoEquipo(final String ip, final String mother, final String procesador, 
+			final CategoriaDisco disco, final String memoria, final Impresora impresora) {
 		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
 	}
 
