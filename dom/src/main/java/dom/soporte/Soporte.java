@@ -458,15 +458,14 @@ public class Soporte implements Comparable<Soporte> {
 			final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
-			final @Optional @Named("Observaciones") String observaciones) {
-		this.getEstado().solicitarInsumos(cantidad, producto, marca,
-				observaciones);
+			final @Optional @Named("Modelo") String modelo) {
+		this.getEstado().solicitarInsumos(cantidad, producto, marca, modelo);
 		return this;
 	}
 
 	/**
-	 * En este metodo se observa que el soporte este en estado reparando o en
-	 * esperando para ocultar o mostrar el metodo solicitar insumos.
+	 * En este metodo se observa que el soporte este en estado esperando o 
+	 * reparando para ocultar o mostrar el metodo solicitar insumos.
 	 * 
 	 * @return boolean
 	 */
@@ -496,6 +495,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/* ************************ */
+	
 	@DescribedAs("Ingresando una nueva Computadora al Usuario.")
 	public Soporte asignarNuevoEquipo(final @Named("Direccion Ip") String ip,
 			final @Named("Mother") String mother,
