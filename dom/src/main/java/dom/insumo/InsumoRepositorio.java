@@ -56,21 +56,19 @@ public class InsumoRepositorio {
 
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
-	public Insumo addInsumo(final @Named("Codigo") String codigo,
-			final @Named("Cantidad") int cantidad,
+	public Insumo addInsumo(final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
 			final @Optional @Named("Observaciones") String observaciones) {
-		return nuevosInsumo(codigo, cantidad, producto, marca, observaciones,
+		return nuevosInsumo(cantidad, producto, marca, observaciones,
 				this.currentUserName());
 	}
 
 	@Programmatic
-	public Insumo nuevosInsumo(final String codigo, final int cantidad,
+	public Insumo nuevosInsumo(final int cantidad,
 			final String producto, final String marca,
 			final String observaciones, final String creadoPor) {
 		final Insumo unInsumo = container.newTransientInstance(Insumo.class);
-		unInsumo.setCodigo(codigo.toUpperCase().trim());
 		unInsumo.setCantidad(cantidad);
 		unInsumo.setProducto(producto.toUpperCase().trim());
 		unInsumo.setMarca(marca.toUpperCase().trim());
