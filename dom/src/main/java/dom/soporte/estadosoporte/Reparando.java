@@ -105,7 +105,7 @@ public class Reparando implements IEstado {
 	public void solicitarInsumos(final String codigo, final int cantidad,
 			final String producto, final String marca,
 			final String observaciones) {
-		Insumo unInsumo = this.insumoRepositorio.addInsumo(codigo, cantidad,
+		Insumo unInsumo = this.insumoRepositorio.addInsumo(cantidad,
 				producto, marca, observaciones);
 		this.getSoporte().agregarUnInsumo(unInsumo);
 		this.getSoporte().clearTecnico();
