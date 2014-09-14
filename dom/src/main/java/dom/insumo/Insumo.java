@@ -69,7 +69,7 @@ public class Insumo implements Comparable<Insumo> {
 	// //////////////////////////////////////
 
 	public String title() {
-		return this.getCodigo() + " - " + this.getMarca();
+		return this.getMarca();
 	}
 
 	public String iconName() {
@@ -77,24 +77,9 @@ public class Insumo implements Comparable<Insumo> {
 	}
 
 	// //////////////////////////////////////
-	// codigo (Atributo)
+	// Cantidad (Atributo)
 	// //////////////////////////////////////
-	private String codigo;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@DescribedAs("Codigo numero de insumo:")
-	@MemberOrder(sequence = "10")
-	public String getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(final String codigo) {
-		this.codigo = codigo;
-	}
-
-	// //////////////////////////////////////
-	// cantidad (Atributo)
-	// //////////////////////////////////////
+	
 	private int cantidad;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -109,8 +94,9 @@ public class Insumo implements Comparable<Insumo> {
 	}
 
 	// //////////////////////////////////////
-	// producto (Atributo)
+	// Producto (Atributo)
 	// //////////////////////////////////////
+	
 	private String producto;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -125,8 +111,9 @@ public class Insumo implements Comparable<Insumo> {
 	}
 
 	// //////////////////////////////////////
-	// marca (Atributo)
+	// Marca (Atributo)
 	// //////////////////////////////////////
+	
 	private String marca;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -141,8 +128,9 @@ public class Insumo implements Comparable<Insumo> {
 	}
 
 	// //////////////////////////////////////
-	// observaciones (Atributo)
+	// Observaciones (Atributo)
 	// //////////////////////////////////////
+	
 	private String observaciones;
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
@@ -189,7 +177,7 @@ public class Insumo implements Comparable<Insumo> {
 	}
 
 	// //////////////////////////////////////
-	// fecha (propiedad)
+	// Fecha (propiedad)
 	// //////////////////////////////////////
 
 	private LocalDate fecha;
