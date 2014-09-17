@@ -26,6 +26,7 @@ import java.util.List;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
@@ -48,7 +49,7 @@ public class SoftwareRepositorio {
 	// //////////////////////////////////////
 	// Agregar Software
 	// //////////////////////////////////////
-
+	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
 	public Software addSoftware(final @Named("Codigo") String codigo,
