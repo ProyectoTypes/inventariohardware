@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package fixture.sector;
+package fixture.servicio;
 
 import java.util.List;
 
@@ -29,6 +29,9 @@ import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.apache.isis.applib.fixturescripts.FixtureScripts;
 import org.apache.isis.applib.fixturescripts.SimpleFixtureScript;
 
+import fixture.sector.SectorFixture;
+import fixture.tecnico.TecnicoFixture;
+
 
 /**
  * Enables fixtures to be installed from the application.
@@ -38,7 +41,7 @@ import org.apache.isis.applib.fixturescripts.SimpleFixtureScript;
 public class FixturesService extends FixtureScripts {
 
     public FixturesService() {
-        super("fixture.sector");
+        super("fixture");
     }
 
     //@Override // compatibility with core 1.5.0
@@ -65,6 +68,11 @@ public class FixturesService extends FixtureScripts {
         return run.get(0).getObject();
     }
     
- 
+    @Prototype
+    @MemberOrder(sequence="30")
+    public Object instalarFixturesTecnicos() {
+        final List<FixtureResult> run = findFixtureScriptFor(TecnicoFixture.class).run(null);
+        return run.get(0).getObject();
+    }
     
 }
