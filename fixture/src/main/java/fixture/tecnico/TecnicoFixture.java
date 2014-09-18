@@ -5,7 +5,6 @@ import org.apache.isis.applib.fixturescripts.FixtureScript;
 import dom.sector.Sector;
 import dom.tecnico.Tecnico;
 import dom.tecnico.TecnicoRepositorio;
-import fixture.sector.SectorFixtureBaja;
 
 public class TecnicoFixture extends FixtureScript  {
 
@@ -25,11 +24,13 @@ public class TecnicoFixture extends FixtureScript  {
 
 		// prereqs
 		execute(new TecnicoFixtureBaja(), executionContext);
-//		Sector sector = new Sector();
-//		sector.setNombreSector("Informatica");
 		// create
 		create(null,"Munoz","Daniel","cipoleto@gmail.com", executionContext);
-	
+		create(null,"Sanchez","Lucas","cipoleto@gmail.com", executionContext);
+		create(null,"Rodriguez","Antonio","cipoleto@gmail.com", executionContext);
+		create(null,"Massaro","Diego","cipoleto@gmail.com", executionContext);
+		create(null,"Cassanova","Carla","cipoleto@gmail.com", executionContext);
+
 
 	}
 

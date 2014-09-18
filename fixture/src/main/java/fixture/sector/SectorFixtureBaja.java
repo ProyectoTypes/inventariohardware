@@ -22,6 +22,7 @@ package fixture.sector;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.apache.isis.objectstore.jdo.applib.service.support.IsisJdoSupport;
 
+@SuppressWarnings("deprecation")
 public class SectorFixtureBaja extends FixtureScript {
 
     @Override
