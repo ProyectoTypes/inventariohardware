@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Prototype;
 import org.apache.isis.applib.fixturescripts.FixtureResult;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
@@ -31,6 +32,7 @@ import org.apache.isis.applib.fixturescripts.SimpleFixtureScript;
 
 import fixture.sector.SectorFixture;
 import fixture.tecnico.TecnicoFixture;
+import fixture.usuario.UsuariosFixture;
 
 
 /**
@@ -61,7 +63,8 @@ public class FixturesService extends FixtureScripts {
 
     // //////////////////////////////////////
 
-    @Prototype
+	// @Prototype
+    @Programmatic
     @MemberOrder(sequence="20")
     public Object instalarFixturesSectores() {
         final List<FixtureResult> run = findFixtureScriptFor(SectorFixture.class).run(null);
@@ -74,5 +77,14 @@ public class FixturesService extends FixtureScripts {
         final List<FixtureResult> run = findFixtureScriptFor(TecnicoFixture.class).run(null);
         return run.get(0).getObject();
     }
+    @Prototype
+    @MemberOrder(sequence="30")
+    public Object instalarFixturesUsuariosConSector() {
+//        findFixtureScriptFor(SectorFixture.class).run(null);
+    	this.instalarFixturesSectores();
+        final List<FixtureResult> run = findFixtureScriptFor(UsuariosFixture.class).run(null);
+        return run.get(0).getObject();
+    }
+    
     
 }
