@@ -454,8 +454,7 @@ public class Soporte implements Comparable<Soporte> {
 
 	@Named("Solicitar Insumos")
 	@DescribedAs("Realizar nuevo pedido de Insumos.")
-	public Soporte solicitarInsumos(final @Named("Codigo") String codigo,
-			final @Named("Cantidad") int cantidad,
+	public Soporte solicitarInsumos(final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
 			final @Optional @Named("Modelo") String modelo) {
