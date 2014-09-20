@@ -39,7 +39,7 @@ import fixture.usuario.UsuariosFixture;
  * Enables fixtures to be installed from the application.
  */
 @Named("Prototyping")
-@DomainService(menuOrder = "20")
+@DomainService(menuOrder = "200")
 public class FixturesService extends FixtureScripts {
 
     public FixturesService() {
