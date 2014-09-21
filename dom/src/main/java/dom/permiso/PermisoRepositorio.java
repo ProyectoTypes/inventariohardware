@@ -22,37 +22,23 @@ public class PermisoRepositorio {
 	}
 
 
-	@ActionSemantics(Of.SAFE)
-	@MemberOrder(sequence = "1")
-	@Named("Todos los Permisos")
-	public List<Permiso> listAll() {
-		return container.allInstances(Permiso.class);
-	}
-
 
 	@MemberOrder(sequence = "2")
 	@Named("Nuevo Permiso")
-	public Permiso create(
-			final @Named("Detalles") String detalles,
-			final @Named("Text") String text) {
+	public Permiso add(
+			final @Named("Nombre") String nombre,
+			final @Named("Path") String path) {
 		final Permiso permiso = container.newTransientInstance(Permiso.class);
 
-		permiso.setNombre(detalles);
-		permiso.setPath(text);
+		permiso.setNombre(nombre);
+		permiso.setPath(path);
 
 		container.persistIfNotAlready(permiso);
 		return permiso;
 	}
 
 
-	@ActionSemantics(Of.NON_IDEMPOTENT)
-	@MemberOrder(sequence = "4")
-	@Named("Eliminar Permiso")
-	public String removePermission(@Named("Permiso") Permiso permiso) {
-		String permissionDescription = permiso.getNombre();
-		container.remove(permiso);
-		return "El Permiso: " + permissionDescription + " ha sido eliminado";
-	}
+	
 
 	@javax.inject.Inject
 	DomainObjectContainer container;
