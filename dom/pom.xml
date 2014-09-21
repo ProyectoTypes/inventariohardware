@@ -159,6 +159,24 @@
     		<artifactId>danhaywood-isis-domainservice-excel-applib</artifactId>
 		</dependency>	
 		
+		<!-- DEPENDENCIAS PARA EL SERVICIO DE MONITOREO -->
+		
+		<dependency>
+			<groupId>org.jboss.as</groupId>
+			<artifactId>jboss-as-cli</artifactId>
+			<version>7.2.0.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>
