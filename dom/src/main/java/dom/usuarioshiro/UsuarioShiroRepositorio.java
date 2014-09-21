@@ -1,0 +1,74 @@
+package dom.usuarioshiro;
+
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import javax.annotation.PostConstruct;
+
+import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.ActionSemantics;
+import org.apache.isis.applib.annotation.ActionSemantics.Of;
+import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.DomainService;
+import org.apache.isis.applib.annotation.Hidden;
+import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.annotation.Where;
+
+import dom.permiso.Permiso;
+import dom.rol.Rol;
+
+@DomainService(menuOrder = "25", repositoryFor = UsuarioShiro.class)
+@Named("Usuario Shiro")
+public class UsuarioShiroRepositorio {
+
+	public String getId() {
+		return "usuarioshiro";
+	}
+
+	public String iconName() {
+		return "Tecnico";
+	}
+
+
+
+	@ActionSemantics(Of.SAFE)
+	@MemberOrder(sequence = "1")
+	@Named("Ver todos")
+	public List<UsuarioShiro> listAll() {
+		return container.allInstances(UsuarioShiro.class);
+	}
+
+	@MemberOrder(sequence = "2")
+	@Named("Crear Usuario")
+	@Hidden(where = Where.OBJECT_FORMS)
+	public UsuarioShiro addUsuarioShiro(final @Named("Nick") String nick,
+			final @Named("Password") String password,
+			final @Named("Rol") Rol rol) {
+		final UsuarioShiro obj = container
+				.newTransientInstance(UsuarioShiro.class);
+
+		final SortedSet<Rol> rolesList = new TreeSet<Rol>();
+		rolesList.add(rol);
+		obj.setNick(nick);
+		obj.setPassword(password);
+		obj.setRolesList(rolesList);
+		container.persistIfNotAlready(obj);
+		return obj;
+	}
+
+	@ActionSemantics(Of.NON_IDEMPOTENT)
+	@MemberOrder(sequence = "4")
+	@Named("Eliminar Usuario")
+	public String removeUsuarioShiro(@Named("Usuario") UsuarioShiro usuarioShiro) {
+		String userName = usuarioShiro.getNick();
+		container.remove(usuarioShiro);
+		return "The user " + userName + " has been removed";
+	}
+
+	@javax.inject.Inject
+	DomainObjectContainer container;
+
+}
