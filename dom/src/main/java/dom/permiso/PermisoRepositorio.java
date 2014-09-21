@@ -48,7 +48,13 @@ public class PermisoRepositorio {
 	}
 
 
-	
+	@ActionSemantics(Of.SAFE)
+	@MemberOrder(sequence = "1")
+	@Named("Todos los Permisos")
+	public List<Permiso> listAll() {
+		return container.allInstances(Permiso.class);
+	}
+
 	@javax.inject.Inject
 	DomainObjectContainer container;
 
