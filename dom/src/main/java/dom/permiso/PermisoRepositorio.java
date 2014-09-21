@@ -38,8 +38,17 @@ public class PermisoRepositorio {
 	}
 
 
-	
+	@ActionSemantics(Of.NON_IDEMPOTENT)
+	@MemberOrder(sequence = "4")
+	@Named("Eliminar Permiso")
+	public String eliminar(@Named("Permiso") Permiso permiso) {
+		String permissionDescription = permiso.getNombre();
+		container.remove(permiso);
+		return "El Permiso: " + permissionDescription + " ha sido eliminado";
+	}
 
+
+	
 	@javax.inject.Inject
 	DomainObjectContainer container;
 
