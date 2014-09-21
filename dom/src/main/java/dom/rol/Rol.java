@@ -56,7 +56,25 @@ public class Rol implements Comparable<Rol> {
 		this.listaPermisos = listaPermisos;
 	}
 
-	
+	@MemberOrder(sequence = "4")
+	@Named("Agregar Permiso")
+	@DescribedAs("Agregar un Permiso a este Rol.")
+	public Rol addPermiso(final @Named("Permission") Permiso permiso) {
+		listaPermisos.add(permiso);
+		return this;
+	}
+
+	@MemberOrder(sequence = "5")
+	@Named("Eliminar Permiso")
+	@DescribedAs("Remover permiso para este Rol.")
+	public Rol removePermiso(final @Named("Permission") Permiso permiso) {
+		getListaPermisos().remove(permiso);
+		return this;
+	}
+
+	public SortedSet<Permiso> choices0RemovePermiso() {
+		return getListaPermisos();
+	}
 
 	@Override
 	public int compareTo(Rol other) {
