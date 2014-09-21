@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
-import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
@@ -32,7 +31,24 @@ public class UsuarioShiroRepositorio {
 		return "Tecnico";
 	}
 
+	@Programmatic
+	@PostConstruct
+	public void init() {
+		List<UsuarioShiro> usuarios = listAll();
+		if (usuarios.isEmpty()) {
+			Permiso permiso = new Permiso();
+			Rol rol = new Rol();
+			SortedSet<Permiso> permisos = new TreeSet<Permiso>();
 
+			permiso.setNombre("ADMIN");
+			permiso.setPath("*");
+			permisos.add(permiso);
+			rol.setNombre("ADMINISTRADOR");
+			rol.setListaPermisos(permisos);
+
+			addUsuarioShiro("sven", "pass", rol);
+		}
+	}
 
 	@ActionSemantics(Of.SAFE)
 	@MemberOrder(sequence = "1")
