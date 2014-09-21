@@ -9,7 +9,7 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 
-@DomainService(menuOrder = "45", repositoryFor = Permiso.class)
+@DomainService(menuOrder = "82", repositoryFor = Permiso.class)
 @Named("Permisos")
 public class PermisoRepositorio {
 

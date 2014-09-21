@@ -40,7 +40,7 @@ import dom.impresora.ImpresoraRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 
-@DomainService
+@DomainService(menuOrder="10")
 @Named("COMPUTADORA")
 public class ComputadoraRepositorio {
 

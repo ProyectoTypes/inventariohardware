@@ -19,7 +19,7 @@ import org.apache.isis.applib.annotation.Where;
 import dom.permiso.Permiso;
 import dom.rol.Rol;
 
-@DomainService(menuOrder = "25", repositoryFor = UsuarioShiro.class)
+@DomainService(menuOrder = "80", repositoryFor = UsuarioShiro.class)
 @Named("Usuario Shiro")
 public class UsuarioShiroRepositorio {
 

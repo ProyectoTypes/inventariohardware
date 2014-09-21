@@ -16,7 +16,7 @@ import org.apache.isis.applib.annotation.Where;
 import dom.permiso.Permiso;
 
 
-@DomainService(menuOrder = "35", repositoryFor = Rol.class)
+@DomainService(menuOrder = "81", repositoryFor = Rol.class)
 @Named("Rol")
 public class RolRepositorio {
 
