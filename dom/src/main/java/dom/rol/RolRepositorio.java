@@ -29,6 +29,7 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Where;
 
 import dom.permiso.Permiso;
@@ -47,7 +48,7 @@ public class RolRepositorio {
 
 	@ActionSemantics(Of.SAFE)
 	@MemberOrder(sequence = "1")
-	@Named("Lista de Roles.")
+	@Named("Lista de Roles")
 	public List<Rol> listAll() {
 		return container.allInstances(Rol.class);
 	}
@@ -62,6 +63,18 @@ public class RolRepositorio {
 		if (permiso != null) {
 			permissionsList.add(permiso);
 			rol.setListaPermisos(permissionsList);
+		}
+		rol.setNombre(nombre);
+		container.persistIfNotAlready(rol);
+		return rol;
+	}
+	@Programmatic
+	public Rol addRol(final @Named("Nombre") String nombre,
+			final @Named("Permiso") List<Permiso> permisos) {
+		final Rol rol = container.newTransientInstance(Rol.class);
+		if (permisos != null) {
+			SortedSet<Permiso> listaPermisos = new TreeSet<Permiso>(permisos);
+			rol.setListaPermisos(listaPermisos);
 		}
 		rol.setNombre(nombre);
 		container.persistIfNotAlready(rol);
