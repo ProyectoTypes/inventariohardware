@@ -38,7 +38,7 @@ import dom.permiso.Permiso;
 import dom.rol.Rol;
 
 @DomainService(menuOrder = "80", repositoryFor = UsuarioShiro.class)
-@Named("Usuario Shiro")
+@Named("Configuracion")
 public class UsuarioShiroRepositorio {
 
 	public String getId() {
@@ -74,7 +74,6 @@ public class UsuarioShiroRepositorio {
 	public List<UsuarioShiro> listAll() {
 		return container.allInstances(UsuarioShiro.class);
 	}
-
 	@MemberOrder(sequence = "2")
 	@Named("Crear Usuario")
 	@Hidden(where = Where.OBJECT_FORMS)
@@ -94,7 +93,22 @@ public class UsuarioShiroRepositorio {
 		container.persistIfNotAlready(obj);
 		return obj;
 	}
+	@Programmatic
+	public UsuarioShiro addUsuarioShiro(final @Named("Nick") String nick,
+			final @Named("Password") String password,
+			final @Named("Rol") List<Rol> rol) {
+		final UsuarioShiro obj = container
+				.newTransientInstance(UsuarioShiro.class);
 
+		if (!rol.isEmpty()) {
+			SortedSet<Rol> listaDeRoles = new TreeSet<Rol>(rol);
+			obj.setRolesList(listaDeRoles);
+		}
+		obj.setNick(nick);
+		obj.setPassword(password);
+		container.persistIfNotAlready(obj);
+		return obj;
+	}
 	@ActionSemantics(Of.NON_IDEMPOTENT)
 	@MemberOrder(sequence = "4")
 	@Named("Eliminar Usuario")
