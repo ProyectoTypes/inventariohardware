@@ -90,7 +90,7 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 	// IP (propiedad)
 	// //////////////////////////////////////
-	
+
 	@PrimaryKey
 	private String ip;
 
@@ -222,6 +222,13 @@ public class Computadora implements Comparable<Computadora> {
 		return;
 	}
 
+	public boolean hideQuitarImpresora() {
+		if (this.getImpresora() == null) {
+			return true;
+		}
+		return false;
+	}
+
 	@Named("Borrar Impresora")
 	public Computadora quitarImpresora() {
 		Impresora currentImpresora = getImpresora();
@@ -294,16 +301,16 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	public String validateUsuario(final Usuario usuario) {
-		if (usuario.getComputadora() == null || this.getUsuario()== usuario)
+		if (usuario.getComputadora() == null || this.getUsuario() == usuario)
 			return null;
 		else
 			return "El Usuario ya tiene asignado una Computadora. Seleccione otro.";
 	}
-	
+
 	// ///////////////////////////////////////////////////
 	// Operaciones de USUARIO: Agregar/Borrar
 	// ///////////////////////////////////////////////////
-	
+
 	@Named("Modificar Usuario")
 	public void modifyUsuario(final Usuario user) {
 		Usuario usuario = getUsuario();
@@ -347,7 +354,7 @@ public class Computadora implements Comparable<Computadora> {
 	// ///////////////////////////////////////////////////
 	// Operaciones de Tecnico: Agregar/Borrar
 	// ///////////////////////////////////////////////////
-	
+
 	public void modifyTecnico(final Tecnico unTecnico) {
 		Tecnico currentTecnico = getTecnico();
 		if (unTecnico == null || unTecnico.equals(currentTecnico)) {
@@ -405,15 +412,14 @@ public class Computadora implements Comparable<Computadora> {
 	public int compareTo(Computadora computadora) {
 		return ObjectContracts.compare(this, computadora, "ip");
 	}
-	
-	
+
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
-	
+
 	@Inject
 	private ImpresoraRepositorio impresoraRepositorio;
-	
+
 	@Inject
 	private DomainObjectContainer container;
 }
