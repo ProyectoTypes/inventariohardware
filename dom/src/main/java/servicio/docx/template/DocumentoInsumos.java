@@ -27,6 +27,7 @@ import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.NotInServiceMenu;
 import org.apache.isis.applib.value.Blob;
@@ -61,7 +62,7 @@ public class DocumentoInsumos {
 	@PostConstruct
 	public void init() throws IOException, LoadTemplateException {
 		final byte[] bytes = Resources.toByteArray(Resources.getResource(
-				this.getClass(), "Template.docx"));
+				this.getClass(), "Insumos.docx"));
 		wordprocessingMLPackage = docxService
 				.loadPackage(new ByteArrayInputStream(bytes));
 	}
@@ -83,6 +84,7 @@ public class DocumentoInsumos {
 	// ie contributed as action
 	@NotInServiceMenu
 	@ActionSemantics(Of.SAFE)
+	@Named("Descargar")
 	@MemberOrder(sequence = "10")
 	public Blob downloadCustomerConfirmation(final Soporte soporte)
 			throws IOException, JDOMException, MergeException {
@@ -103,36 +105,6 @@ public class DocumentoInsumos {
 		return new Blob(blobName, blobMimeType, blobBytes);
 	}
 
-	/*
-	 * No sirve porque no necesitamos generar un html de los datos.
-	 * 
-	 * @NotContributed(NotContributed.As.ASSOCIATION) // ie contributed as
-	 * action
-	 * 
-	 * @Prototype
-	 * 
-	 * @NotInServiceMenu
-	 * 
-	 * @ActionSemantics(Of.SAFE)
-	 * 
-	 * @MemberOrder(sequence = "11") public Clob
-	 * downloadCustomerConfirmationInputHtml(final Order order) throws
-	 * IOException, JDOMException, MergeException {
-	 * 
-	 * Document orderAsHtmlJdomDoc = asInputDocument(order);
-	 * 
-	 * XMLOutputter xmlOutput = new XMLOutputter();
-	 * xmlOutput.setFormat(Format.getPrettyFormat());
-	 * 
-	 * final String html = xmlOutput.outputString(orderAsHtmlJdomDoc);
-	 * 
-	 * final String clobName = "customerConfirmation-" + order.getNumber() +
-	 * ".html"; final String clobMimeType = "text/html"; final String clobBytes
-	 * = html;
-	 * 
-	 * return new Clob(clobName, clobMimeType, clobBytes); }
-	 */
-
 	/**
 	 * Permite Crear el Archivo.
 	 * 
@@ -151,49 +123,42 @@ public class DocumentoInsumos {
 	/**
 	 * Se encarga de fusionar los datos de la entidad con el template.
 	 * <p>
-	 * <b>body</b> para los atributos de la entidad
+	 * <b>body</b> para los atributos de la entidad.
 	 * </p>
 	 * <p>
-	 * <b>date</b> para las fechas
+	 * <b>date</b> para las fechas.
 	 * </p>
 	 * <p>
-	 * <b>rich</b> para los textos con estilos
+	 * <b>rich</b> para los textos con estilos.
 	 * </p>
 	 * <p>
-	 * <b>li</b> para generar una lista
+	 * <b>li</b> para generar una lista.
 	 * </p>
 	 * <p>
-	 * <b>table</b> para las dependencias
+	 * <b>table</b> para las dependencias.
 	 * </p>
 	 * 
 	 * @param soporte
 	 * @return
 	 */
 	private static Document asInputDocument(Soporte soporte) {
-		// Se crea el html como documento nuevo, y luego se le agrega el body y
-		// las tablas
+		// Se crea el html como documento nuevo, luego se le agrega el body y las tablas.
 		Element html = new Element("html");
 		Document document = new Document(html);
 
 		Element body = new Element("body");
 		html.addContent(body);
 		/*
-		 * En las siguientes lineas muestro como se puede traspasar los datos al
+		 * En las siguientes lineas muestro como se pueden pasar los datos al
 		 * template. Hay que adaptarlo a nuestras necesidades y modificarlo
 		 * todo.
 		 */
 		// OrdenNum hace referencia a la etiqueta del template, lo mismo con
 		// OrderDate, etc.
 		addPara(body, "OrderNum", "plain", soporte.getComputadora().getIp());
-		addPara(body, "OrderDate", "date",
-				soporte.getFecha().toString("dd-MMM-yyyy"));
-		addPara(body, "CustomerName", "plain", soporte.getComputadora()
-				.getUsuario().getNombre());
-		addPara(body,
-				"Message",
-				"plain",
-				"Mensaje de prueba para mostrar que no solo se puede enviar atributos, tambien texto");
-
+		addPara(body, "OrderDate", "date", soporte.getFecha().toString("dd-MMM-yyyy"));
+		addPara(body, "CustomerName", "plain", soporte.getComputadora().getUsuario().getNombre());
+		addPara(body, "Message", "plain", "Mensaje de prueba para mostrar que no solo se puede enviar atributos, tambien texto");
 		/*
 		 * En la siguientes lineas muestra como hacer una tabla con las
 		 * dependencia de insumos, de aca hay que elegir que datos vamos a
@@ -201,9 +166,7 @@ public class DocumentoInsumos {
 		 */
 		Element table = addTable(body, "Products");
 		for (Insumo orderLine : soporte.getInsumos()) {
-			addTableRow(table,
-					new String[] { orderLine.getCodigo(), orderLine.getMarca(),
-							"" + orderLine.getCantidad() });
+			addTableRow(table, new String[] { orderLine.getCodigo(), orderLine.getMarca(), "" + orderLine.getCantidad() });
 		}
 
 		/*
