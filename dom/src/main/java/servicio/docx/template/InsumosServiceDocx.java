@@ -47,13 +47,6 @@ import dom.soporte.Soporte;
 
 @DomainService
 public class InsumosServiceDocx {
-	/*
-	 * Todo lo que este con este tipo de comentario hay que borrarlo. Tareas:
-	 * Cambiar todo lo que sea order u Order, por soporte o Soporte. Cambiar el
-	 * nombre del template por algo mas representativo. Cambiar el nombre
-	 * DocumentoInsumos por algo mas representativo si es necesario. Crear
-	 * el Template de insumos (si se cambia, tmb cambiar el nombre en la linea 64).
-	 */
 
 	// region > init
 
@@ -72,7 +65,7 @@ public class InsumosServiceDocx {
 	// region > downloadCustomerConfirmation (action)
 
 	/**
-	 * Permite descargar el archivo.
+	 * Metodo que permite descargar el archivo.
 	 * 
 	 * @param soporte
 	 * @return
@@ -92,13 +85,9 @@ public class InsumosServiceDocx {
 		final org.w3c.dom.Document w3cDocument = asInputW3cDocument(soporte);
 
 		final ByteArrayOutputStream docxTarget = new ByteArrayOutputStream();
-		docxService.merge(w3cDocument, wordprocessingMLPackage, docxTarget,
-				DocxService.MatchingPolicy.LAX);
+		docxService.merge(w3cDocument, wordprocessingMLPackage, docxTarget,	DocxService.MatchingPolicy.LAX);
 
-		// Titulo del archivo de salida, se le puede colocar la ip de la
-		// computadora, o el nombre del tecnico que lo solicita, etc.
-		final String blobName = "customerConfirmation.docx";
-
+		final String blobName = "Insumo-" + soporte.getComputadora().getTecnico().getNombre() + ".docx";
 		final String blobMimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 		final byte[] blobBytes = docxTarget.toByteArray();
 
@@ -106,7 +95,7 @@ public class InsumosServiceDocx {
 	}
 
 	/**
-	 * Permite Crear el Archivo.
+	 * Metodo que permite crear el archivo.
 	 * 
 	 * @param soporte
 	 * @return
