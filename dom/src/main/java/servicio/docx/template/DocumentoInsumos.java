@@ -73,7 +73,7 @@ public class DocumentoInsumos {
 	/**
 	 * Permite descargar el archivo.
 	 * 
-	 * @param order
+	 * @param soporte
 	 * @return
 	 * @throws IOException
 	 * @throws JDOMException
@@ -84,10 +84,10 @@ public class DocumentoInsumos {
 	@NotInServiceMenu
 	@ActionSemantics(Of.SAFE)
 	@MemberOrder(sequence = "10")
-	public Blob downloadCustomerConfirmation(final Soporte order)
+	public Blob downloadCustomerConfirmation(final Soporte soporte)
 			throws IOException, JDOMException, MergeException {
 
-		final org.w3c.dom.Document w3cDocument = asInputW3cDocument(order);
+		final org.w3c.dom.Document w3cDocument = asInputW3cDocument(soporte);
 
 		final ByteArrayOutputStream docxTarget = new ByteArrayOutputStream();
 		docxService.merge(w3cDocument, wordprocessingMLPackage, docxTarget,
@@ -136,13 +136,13 @@ public class DocumentoInsumos {
 	/**
 	 * Permite Crear el Archivo.
 	 * 
-	 * @param order
+	 * @param soporte
 	 * @return
 	 * @throws JDOMException
 	 */
-	private static org.w3c.dom.Document asInputW3cDocument(Soporte order)
+	private static org.w3c.dom.Document asInputW3cDocument(Soporte soporte)
 			throws JDOMException {
-		Document orderAsHtmlJdomDoc = asInputDocument(order);
+		Document orderAsHtmlJdomDoc = asInputDocument(soporte);
 
 		DOMOutputter domOutputter = new DOMOutputter();
 		return domOutputter.output(orderAsHtmlJdomDoc);
@@ -166,10 +166,10 @@ public class DocumentoInsumos {
 	 * <b>table</b> para las dependencias
 	 * </p>
 	 * 
-	 * @param order
+	 * @param soporte
 	 * @return
 	 */
-	private static Document asInputDocument(Soporte order) {
+	private static Document asInputDocument(Soporte soporte) {
 		// Se crea el html como documento nuevo, y luego se le agrega el body y
 		// las tablas
 		Element html = new Element("html");
@@ -184,10 +184,10 @@ public class DocumentoInsumos {
 		 */
 		// OrdenNum hace referencia a la etiqueta del template, lo mismo con
 		// OrderDate, etc.
-		addPara(body, "OrderNum", "plain", order.getComputadora().getIp());
+		addPara(body, "OrderNum", "plain", soporte.getComputadora().getIp());
 		addPara(body, "OrderDate", "date",
-				order.getFecha().toString("dd-MMM-yyyy"));
-		addPara(body, "CustomerName", "plain", order.getComputadora()
+				soporte.getFecha().toString("dd-MMM-yyyy"));
+		addPara(body, "CustomerName", "plain", soporte.getComputadora()
 				.getUsuario().getNombre());
 		addPara(body,
 				"Message",
@@ -200,7 +200,7 @@ public class DocumentoInsumos {
 		 * mostrar en el documento (Todos o algunos).
 		 */
 		Element table = addTable(body, "Products");
-		for (Insumo orderLine : order.getInsumos()) {
+		for (Insumo orderLine : soporte.getInsumos()) {
 			addTableRow(table,
 					new String[] { orderLine.getCodigo(), orderLine.getMarca(),
 							"" + orderLine.getCantidad() });
@@ -233,8 +233,7 @@ public class DocumentoInsumos {
 	 * Iterables.transform(Splitter.on(",").split(preferences), TRIM); }
 	 */
 
-	private static void addPara(Element body, String id, String clazz,
-			String text) {
+	private static void addPara(Element body, String id, String clazz, String text) {
 		Element p = new Element("p");
 		body.addContent(p);
 		p.setAttribute("id", id);
@@ -283,5 +282,4 @@ public class DocumentoInsumos {
 	private DocxService docxService;
 
 	// endregion
-
 }
