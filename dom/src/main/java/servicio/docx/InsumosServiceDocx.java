@@ -43,6 +43,7 @@ import org.jdom2.output.DOMOutputter;
 import com.google.common.io.Resources;
 
 import dom.insumo.Insumo;
+import dom.soporte.Soporte;
 
 @DomainService
 public class InsumosServiceDocx {
@@ -66,7 +67,7 @@ public class InsumosServiceDocx {
 	/**
 	 * Metodo que permite descargar el archivo.
 	 * 
-	 * @param insumo
+	 * @param soporte
 	 * @return
 	 * @throws IOException
 	 * @throws JDOMException
@@ -77,15 +78,16 @@ public class InsumosServiceDocx {
 	@ActionSemantics(Of.SAFE)
 	@Named("Descargar Pedido")
 	@MemberOrder(sequence = "10")
-	public Blob downloadCustomerConfirmation(final Insumo insumo)
+	public Blob downloadCustomerConfirmation(final Soporte soporte)
 			throws IOException, JDOMException, MergeException {
 
-		final org.w3c.dom.Document w3cDocument = asInputW3cDocument(insumo);
+		final org.w3c.dom.Document w3cDocument = asInputW3cDocument(soporte);
 
 		final ByteArrayOutputStream docxTarget = new ByteArrayOutputStream();
-		docxService.merge(w3cDocument, wordprocessingMLPackage, docxTarget,	DocxService.MatchingPolicy.LAX);
+		docxService.merge(w3cDocument, wordprocessingMLPackage, docxTarget,
+				DocxService.MatchingPolicy.LAX);
 
-		final String blobName = "Insumo-" + insumo.getCodigo() + ".docx";
+		final String blobName = "Insumo-.docx";
 		final String blobMimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 		final byte[] blobBytes = docxTarget.toByteArray();
 
@@ -95,13 +97,13 @@ public class InsumosServiceDocx {
 	/**
 	 * Metodo que permite crear el archivo.
 	 * 
-	 * @param insumo
+	 * @param soporte
 	 * @return
 	 * @throws JDOMException
 	 */
-	private static org.w3c.dom.Document asInputW3cDocument(Insumo insumo)
+	private static org.w3c.dom.Document asInputW3cDocument(Soporte soporte)
 			throws JDOMException {
-		Document orderAsHtmlJdomDoc = asInputDocument(insumo);
+		Document orderAsHtmlJdomDoc = asInputDocument(soporte);
 
 		DOMOutputter domOutputter = new DOMOutputter();
 		return domOutputter.output(orderAsHtmlJdomDoc);
@@ -110,37 +112,62 @@ public class InsumosServiceDocx {
 	/**
 	 * Se encarga de fusionar los datos de la entidad con el template.
 	 * 
-	 * @param insumo
+	 * @param soporte
 	 * @return
 	 */
-	private static Document asInputDocument(Insumo insumo) {
+	private static Document asInputDocument(Soporte soporte) {
 		Element html = new Element("html");
 		Document document = new Document(html);
 
 		Element body = new Element("body");
 		html.addContent(body);
 
-		addPara(body, "Codigo", "plain", insumo.getCodigo());
-		addPara(body, "Cantidad", "plain", insumo.getCantidad() + "");
-		addPara(body, "Producto", "date", insumo.getProducto());
-		addPara(body, "Marca", "plain", insumo.getMarca());
-		addPara(body, "Observaciones", "plain", insumo.getObservaciones());
-		addPara(body, "Fecha", "date", insumo.getFecha().toString("dd-MMM-yyyy"));
-		addPara(body, "Message", "plain", "MENSAJE DE PRUEBA");
+		//List<Insumo> insumos = new ArrayList<Insumo>();
+		//insumos = soporte.getInsumos();
+		//addPara(body, "Codigo", "plain", soporte.getCodigo());
+		//addPara(body, "Cantidad", "plain", soporte.getCantidad() + "");
+		//addPara(body, "Producto", "date", soporte.getProducto());
+//		addPara(body, "Marca", "plain", soporte.getMarca());
+//		addPara(body, "Observaciones", "plain", soporte.getObservaciones());
+//		addPara(body, "Message", "plain", "MENSAJE DE PRUEBA");
+		
+		addPara(body, "Fecha", "date", soporte.getFecha().toString("dd-MMM-yyyy"));
+		
+        Element table = addTable(body, "Products");
+        for(Insumo insumos: soporte.getInsumos()) {
+            addTableRow(table, new String[]{insumos.getCodigo(), insumos.getCantidad() + ""});
+        }
 
 		return document;
 	}
 
 	// endregion
-	
-	// region > helpers
 
-	private static void addPara(Element body, String id, String clazz, String text) {
-		Element p = new Element("p");
-		body.addContent(p);
-		p.setAttribute("id", id);
-		p.setAttribute("class", clazz);
-		p.setText(text);
+	// region > helpers
+	
+    private static void addPara(Element body, String id, String clazz, String text) {
+        Element p = new Element("p");
+        body.addContent(p);
+        p.setAttribute("id", id);
+        p.setAttribute("class", clazz);
+        p.setText(text);
+    }
+	
+	private static Element addTable(Element body, String id) {
+		Element table = new Element("table");
+		body.addContent(table);
+		table.setAttribute("id", id);
+		return table;
+	}
+
+	private static void addTableRow(Element table, String[] cells) {
+		Element tr = new Element("tr");
+		table.addContent(tr);
+		for (String columnName : cells) {
+			Element td = new Element("td");
+			tr.addContent(td);
+			td.setText(columnName);
+		}
 	}
 
 	// endregion
