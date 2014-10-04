@@ -41,47 +41,12 @@ import dom.computadora.ComputadoraRepositorio;
 public class EmailService extends AbstractFactoryAndRepository {
 	private static final String PROPERTY_ROOT = "mail.smtp.";
 
-	/*
-	 * protected void send(String smtpHost, int smtpPort, String from, String
-	 * to, String subject, String content) { try { SimpleEmail email = new
-	 * SimpleEmail(); email.setHostName(smtpHost);
-	 * email.addTo("rmatthews@isis.apache.org", "John Doe");
-	 * email.setFrom("me@apache.org", "Me"); email.setSubject(subject);
-	 * email.setMsg(content); email.send(); } catch (EmailException e) { throw
-	 * new org.apache.isis.service.email.EmailException(e.getMessage(), e); } }
-	 */
 	
-	// public Email createAnEmailMessage() {
-	// return newTransientInstance(Email.class);
-	// }
-	//
-	// public Address createAnEmailAddress() {
-	// return newTransientInstance(Address.class);
-	// }
-
-	/**
-	 * send() Envio de mensajes, lo ideal seria crear una clase Email.
-	 * Condiciones para enviar un correo: La computadora debera ser creada con
-	 * un usuario, y debera tener asignado un tecnico cuando pase por Soporte
-	 * (Movimiento).
-	 * Se debe chequear que los email tanto de Tecnico como de Usuario no deben ser nulos.
-	 * Se debe cambiar de estado (Terminado).
-	 */
 	@NotContributed(As.ASSOCIATION)
 	@NotInServiceMenu
 	@Named("Enviar Correo")
 	public String send(final Computadora unaComputadora) {
-		// Address dir = new Address();
-		// dir.setEmailAddress("cipoleto@gmail.com");
-		// dir.setName("Daniel");
-		// Email email = new Email();
-		// email.setMessage("Hola mundo");
-		// email.setFrom(dir);
-		// email.setSubject("None");
-		// Address dir2 = new Address();
-		// dir2.setEmailAddress("munozda87@hotmail.com");
-		// dir2.setName("Munoz");
-		// email.addToTo(dir2);
+		String asunto = "Servicio Tecnico le informa que ....";
 		// Direccion:
 		String correoReceptor = unaComputadora.getUsuario().getEmail();
 		String nombreReceptor = unaComputadora.getUsuario().getApellido()
@@ -100,7 +65,6 @@ public class EmailService extends AbstractFactoryAndRepository {
 		String correoEmisor = unaComputadora.getTecnico().getEmail();
 		String nombreEmisor = unaComputadora.getTecnico().getApellido() + ", "
 				+ unaComputadora.getTecnico().getNombre();
-		String asunto = "Servicio Tecnico le informa que ....";
 		/*
 		 * Configuracion para enviar email.
 		 */
@@ -138,24 +102,6 @@ public class EmailService extends AbstractFactoryAndRepository {
 			simpleEmail.setSubject(asunto);
 			simpleEmail.setMsg(mensaje);
 			return simpleEmail.send();
-			
-			// for (Address address : email.getTo()) {
-			// String name = address.getName();
-			// if (name == null) {
-			// simpleEmail.addTo(address.getEmailAddress());
-			// } else {
-			// simpleEmail.addTo(address.getEmailAddress(), name);
-			// }
-			// }
-			// Address from = email.getFrom();
-			// if (from == null) {
-			// simpleEmail.setFrom(fromEmailAddress, fromName);
-			// } else {
-			// simpleEmail.setFrom(from.getEmailAddress(), from.getName());
-			// }
-			// simpleEmail.setSubject(email.getSubject());
-			// simpleEmail.setMsg(email.getMessage());
-			// simpleEmail.send();
 		} catch (EmailException e) {
 			throw new servicio.email.EmailException(e.getMessage(), e);
 		}
