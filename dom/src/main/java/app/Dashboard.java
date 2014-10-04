@@ -14,7 +14,7 @@ import org.apache.isis.applib.annotation.Render.Type;
 import dom.soporte.Soporte;
 import dom.soporte.SoporteRepositorio;
 
-@MemberGroupLayout(columnSpans = {0,0,0,12})
+@MemberGroupLayout(columnSpans = { 0, 0, 0, 12 })
 public class Dashboard extends AbstractViewModel {
 
 	public String title() {
@@ -42,15 +42,27 @@ public class Dashboard extends AbstractViewModel {
 	}
 
 	// //////////////////////////////////////
-	// listar soportes sin finalizar.
+	// listar soportes Esperando.
 	// //////////////////////////////////////
 	@Named("En espera")
 	@Render(Type.EAGERLY)
 	@Disabled
 	@MemberOrder(sequence = "10")
-	@MultiLine(numberOfLines = 10)
+	@MultiLine(numberOfLines = 6)
 	public List<Soporte> getAllSoportesEsperando() {
-		return  SoporteRepositorio.queryBuscarSoportesEnEspera();
+		return SoporteRepositorio.queryBuscarSoportesEnEspera();
+	}
+
+	// //////////////////////////////////////
+	// listar soportes Reparando.
+	// //////////////////////////////////////
+	@Named("En Reparacion")
+	@Render(Type.EAGERLY)
+	@Disabled
+	@MemberOrder(sequence = "9")
+	@MultiLine(numberOfLines = 6)
+	public List<Soporte> getAllSoportesReparando() {
+		return SoporteRepositorio.queryBuscarSoportesEnReparacion();
 	}
 
 }
