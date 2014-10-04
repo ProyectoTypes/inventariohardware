@@ -25,13 +25,10 @@ public class TecnicoFixture extends FixtureScript  {
 		// prereqs
 		execute(new TecnicoFixtureBaja(), executionContext);
 		// create
-		create(null,"Munoz","Daniel","cipoleto@gmail.com", executionContext);
-		create(null,"Sanchez","Lucas","cipoleto@gmail.com", executionContext);
-		create(null,"Rodriguez","Antonio","cipoleto@gmail.com", executionContext);
-		create(null,"Massaro","Diego","cipoleto@gmail.com", executionContext);
-		create(null,"Cassanova","Carla","cipoleto@gmail.com", executionContext);
-
-
+		create(null,"Vergara","Nicolas","nicolas.vergara@proyectotypes.com.ar", executionContext);
+		create(null,"Sepulveda","Oscar","oscar.sepulveda@proyectotypes.com.ar", executionContext);
+		create(null,"Munoz","Daniel","daniel.munoz@proyectotypes.com.ar", executionContext);
+		create(null,"Wiedermann","Exequiel","exequie.wiedermann@proyectotypes.com.ar", executionContext);
 	}
 
 	@javax.inject.Inject

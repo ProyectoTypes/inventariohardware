@@ -135,9 +135,11 @@
             <scope>test</scope>
         </dependency>
 
+		<!-- AGREGANDO PARA HACER LAS ESTADICTICAS -->
 		<dependency>
-			<groupId>com.danhaywood.isis.wicket</groupId>
-			<artifactId>danhaywood-isis-wicket-wickedcharts-applib</artifactId>
+    		<groupId>org.isisaddons.wicket.wickedcharts</groupId>
+    		<artifactId>isis-wicket-wickedcharts-cpt</artifactId>
+    		<version>1.6.0</version>
 		</dependency>
 
 		<!-- AGREGADO PARA ENVIAR EMAIL -->

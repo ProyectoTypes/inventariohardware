@@ -24,15 +24,15 @@ public class UsuariosFixture extends FixtureScript {
 		List<Sector> listasectores = sectores.listar();
 		create(listasectores.get(0), "Perez", "Juan", "cipoleto@gmail.com",
 				executionContext);
-		create(listasectores.get(1), "Garcia", "Pedro", "cipoleto@gmail.com",
+		create(listasectores.get(1), "Garcia", "Pedro", "oscarsepulveda16@yahoo.com.ar",
 				executionContext);
-		create(listasectores.get(2), "Vergara", "Fabian", "cipoleto@gmail.com",
+		create(listasectores.get(2), "Wiedermann", "Fernando", "ewiedermann@neuquen.gov.ar",
 				executionContext);
-		create(listasectores.get(3), "Wider", "Exequiel", "cipoleto@gmail.com",
+		create(listasectores.get(3), "Buffolo", "Laura", "lawiedermann@yahoo.com.ar",
 				executionContext);
-		create(listasectores.get(4), "Arancibia", "Juan", "cipoleto@gmail.com",
+		create(listasectores.get(4), "Addati", "Soledad", "soledad_addati@yahoo.com.ar",
 				executionContext);
-		create(listasectores.get(5), "Villegas", "Diego", "cipoleto@gmail.com",
+		create(listasectores.get(5), "Wiedermann", "Rodrigo", "exequie.wiedermann@gmail.com",
 				executionContext);
 
 	}
