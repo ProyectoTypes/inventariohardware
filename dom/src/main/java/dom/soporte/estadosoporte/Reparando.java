@@ -164,8 +164,6 @@ public class Reparando implements IEstado {
 				memoria, impresora);
 
 		// Desvinculando Usuario/Tecnico/Impresora de Computadora -
-		this.getSoporte().getComputadora().getUsuario().clearComputadora();
-
 		this.getSoporte().getTecnico()
 				.removeFromComputadora(this.getSoporte().getComputadora());
 
