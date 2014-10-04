@@ -36,7 +36,7 @@ import org.apache.isis.applib.query.QueryDefault;
 import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
 
-@DomainService
+@DomainService(menuOrder="40")
 @Named("USUARIO")
 public class UsuarioRepositorio {
 

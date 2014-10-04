@@ -34,7 +34,7 @@ import org.apache.isis.applib.annotation.Prototype;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
-@DomainService
+@DomainService(menuOrder="50")
 @Named("SECTOR")
 public class SectorRepositorio {
 
