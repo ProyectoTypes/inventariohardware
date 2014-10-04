@@ -82,9 +82,11 @@ import dom.tecnico.TecnicoRepositorio;
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && computadora.getIp().indexOf(:ip) >= 0"),
 
-				@javax.jdo.annotations.Query(name = "buscarSoportesEnEspera", language = "JDOQL", value = "SELECT "
-						+ "FROM dom.soporte.Soporte "
-						+ "WHERE estado == esperando ") })
+		@javax.jdo.annotations.Query(name = "buscarSoportesEnEspera", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.soporte.Soporte " + "WHERE estado == esperando "),
+
+		@javax.jdo.annotations.Query(name = "buscarSoportesEnReparacion", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.soporte.Soporte " + "WHERE estado == reparando ") })
 @ObjectType("SOPORTE")
 @Audited
 @AutoComplete(repository = SoporteRepositorio.class, action = "autoComplete")
@@ -467,7 +469,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/**
-	 * En este metodo se observa que el soporte este en estado esperando o 
+	 * En este metodo se observa que el soporte este en estado esperando o
 	 * reparando para ocultar o mostrar el metodo solicitar insumos.
 	 * 
 	 * @return boolean
@@ -498,7 +500,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/* ************************ */
-	
+
 	@DescribedAs("Ingresando una nueva Computadora al Usuario.")
 	public Soporte asignarNuevoEquipo(final @Named("Direccion Ip") String ip,
 			final @Named("Mother") String mother,

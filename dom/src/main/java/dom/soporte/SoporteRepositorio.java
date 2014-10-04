@@ -38,7 +38,7 @@ import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 import dom.tecnico.TecnicoRepositorio;
 
-@DomainService
+@DomainService(menuOrder="20")
 @Named("Soporte")
 public class SoporteRepositorio {
 
@@ -137,6 +137,20 @@ public class SoporteRepositorio {
 			container.warnUser("No hay computadoras en espera de soporte.");
 		return lista;
 	}
+	/**
+	 * Devuelve una lista de aquellos soportes que se encuentran en reparacion.
+	 * 
+	 * @return
+	 */
+	@Programmatic
+	public static List<Soporte> queryBuscarSoportesEnReparacion() {
+		final List<Soporte> lista = container
+				.allMatches(new QueryDefault<Soporte>(Soporte.class,
+						"buscarSoportesEnReparacion"));
+		if(lista.isEmpty())
+			container.warnUser("No hay computadoras en Reparacion.");
+		return lista;
+	}
 
 	// //////////////////////////////////////
 	// CurrentUserName
@@ -159,4 +173,6 @@ public class SoporteRepositorio {
 
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
+
+	
 }
