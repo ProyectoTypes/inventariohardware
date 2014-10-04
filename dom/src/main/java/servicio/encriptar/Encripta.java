@@ -1,4 +1,4 @@
-package servicio.encriptacion;
+package servicio.encriptar;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
