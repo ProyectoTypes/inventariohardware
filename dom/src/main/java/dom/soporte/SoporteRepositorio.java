@@ -67,15 +67,14 @@ public class SoporteRepositorio {
 	@PublishedAction
 	public Soporte add(final @Named("Computadora") Computadora computadora,
 			final @Named("Observaciones") String observaciones) {
-		return nuevoSoporte(computadora, observaciones,
-				this.currentUserName());
+		return nuevoSoporte(computadora, observaciones, this.currentUserName());
 	}
 
 	@Programmatic
 	public Soporte nuevoSoporte(final Computadora computadora,
 			final String observaciones, final String creadoPor) {
 
-		final Soporte unSoporte = this.container
+		final Soporte unSoporte = container
 				.newTransientInstance(Soporte.class);
 		unSoporte.setHabilitado(true);
 		unSoporte.setCreadoPor(creadoPor);
@@ -83,8 +82,8 @@ public class SoporteRepositorio {
 		unSoporte.setFecha(LocalDate.now());
 		unSoporte.setTime_system(LocalDateTime.now().withMillisOfSecond(2));
 		computadora.addToSoporte(unSoporte);
-		this.container.persistIfNotAlready(unSoporte);
-		this.container.flush();
+		container.persistIfNotAlready(unSoporte);
+		container.flush();
 		return unSoporte;
 
 	}
@@ -105,10 +104,9 @@ public class SoporteRepositorio {
 	 */
 	@Programmatic
 	public List<Soporte> autoComplete(final String buscarTecnico) {
-		return container.allMatches(new QueryDefault<Soporte>(
-				Soporte.class, "autoCompleteSoporte", "creadoPor", this
-						.currentUserName(), "buscarTecnico", buscarTecnico
-						.toUpperCase().trim()));
+		return container.allMatches(new QueryDefault<Soporte>(Soporte.class,
+				"autoCompleteSoporte", "creadoPor", this.currentUserName(),
+				"buscarTecnico", buscarTecnico.toUpperCase().trim()));
 	}
 
 	// //////////////////////////////////////
@@ -117,13 +115,26 @@ public class SoporteRepositorio {
 
 	@MemberOrder(sequence = "20")
 	public List<Soporte> listar() {
-		final List<Soporte> lista = this.container
-				.allMatches(new QueryDefault<Soporte>(Soporte.class,
-						"listar"));
+		final List<Soporte> lista = container
+				.allMatches(new QueryDefault<Soporte>(Soporte.class, "listar"));
 		if (lista.isEmpty()) {
-			this.container
-					.warnUser("No hay Soportes cargados en el sistema.");
+			container.warnUser("No hay Soportes cargados en el sistema.");
 		}
+		return lista;
+	}
+
+	/**
+	 * Devuelve una lista de aquellos soportes que se encuentran en espera.
+	 * 
+	 * @return
+	 */
+	@Programmatic
+	public static List<Soporte> queryBuscarSoportesEnEspera() {
+		final List<Soporte> lista = container
+				.allMatches(new QueryDefault<Soporte>(Soporte.class,
+						"buscarSoportesEnEspera"));
+		if(lista.isEmpty())
+			container.warnUser("No hay computadoras en espera de soporte.");
 		return lista;
 	}
 
@@ -140,7 +151,7 @@ public class SoporteRepositorio {
 	// //////////////////////////////////////
 
 	@javax.inject.Inject
-	private DomainObjectContainer container;
+	private static DomainObjectContainer container;
 
 	@SuppressWarnings("unused")
 	@javax.inject.Inject
