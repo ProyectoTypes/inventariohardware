@@ -22,6 +22,7 @@
 package dom.usuario;
 
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.Audited;
@@ -79,6 +80,7 @@ public class Usuario extends Persona implements Comparable<Persona> {
 
 	@MemberOrder(sequence = "70")
 	@javax.jdo.annotations.Column(allowsNull = "true")
+    @Persistent(mappedBy="usuario")
 	public Computadora getComputadora() {
 		return computadora;
 	}
