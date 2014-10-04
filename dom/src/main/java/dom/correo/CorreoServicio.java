@@ -16,8 +16,8 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.filter.Filter;
 import com.google.common.base.Objects;
-import servicio.encriptacion.Encripta;
-import servicio.encriptacion.EncriptaException;
+import servicio.encriptar.Encripta;
+import servicio.encriptar.EncriptaException;
 
 @Named("Correo Electronico")
 public class CorreoServicio extends AbstractFactoryAndRepository {

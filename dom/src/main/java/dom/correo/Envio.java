@@ -11,8 +11,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import servicio.encriptacion.Encripta;
-import servicio.encriptacion.EncriptaException;
+import servicio.encriptar.Encripta;
+import servicio.encriptar.EncriptaException;
 
 public class Envio {
 

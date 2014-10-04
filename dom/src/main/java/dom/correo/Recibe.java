@@ -12,8 +12,8 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
 import org.apache.isis.applib.DomainObjectContainer;
-import servicio.encriptacion.Encripta;
-import servicio.encriptacion.EncriptaException;
+import servicio.encriptar.Encripta;
+import servicio.encriptar.EncriptaException;
 
 public class Recibe {
 	

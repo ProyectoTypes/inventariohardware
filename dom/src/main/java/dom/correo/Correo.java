@@ -14,7 +14,7 @@ import org.apache.isis.applib.annotation.Where;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 import com.google.common.base.Objects;
-import servicio.encriptacion.EncriptaException;
+import servicio.encriptar.EncriptaException;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY)
