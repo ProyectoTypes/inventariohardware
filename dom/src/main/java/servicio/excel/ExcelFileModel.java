@@ -27,6 +27,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.isis.applib.annotation.Where;
+import org.apache.isis.applib.filter.Filter;
+import org.apache.isis.applib.filter.Filters;
+import org.apache.isis.core.metamodel.adapter.ObjectAdapter;
+import org.apache.isis.core.metamodel.spec.ObjectSpecification;
+import org.apache.isis.core.metamodel.spec.feature.ObjectAssociation;
+import org.apache.isis.core.metamodel.spec.feature.ObjectAssociationFilters;
+import org.apache.isis.viewer.wicket.model.models.EntityCollectionModel;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -40,15 +48,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
-import org.apache.isis.applib.annotation.Where;
-import org.apache.isis.applib.filter.Filter;
-import org.apache.isis.applib.filter.Filters;
-import org.apache.isis.core.metamodel.adapter.ObjectAdapter;
-import org.apache.isis.core.metamodel.spec.ObjectSpecification;
-import org.apache.isis.core.metamodel.spec.feature.ObjectAssociation;
-import org.apache.isis.core.metamodel.spec.feature.ObjectAssociationFilters;
-import org.apache.isis.viewer.wicket.model.models.EntityCollectionModel;
-
+@SuppressWarnings("deprecation")
 public class ExcelFileModel extends LoadableDetachableModel<File> {
 
     private static final long serialVersionUID = 1L;
@@ -91,7 +91,7 @@ public class ExcelFileModel extends LoadableDetachableModel<File> {
         final Sheet sheet = wb.createSheet(sheetName);
         
         final ObjectSpecification typeOfSpec = model.getTypeOfSpecification();
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({ "unchecked" })
         final Filter<ObjectAssociation> filter = Filters.and(
                 ObjectAssociationFilters.PROPERTIES, 
                 ObjectAssociationFilters.staticallyVisible(model.isParented()? Where.PARENTED_TABLES: Where.STANDALONE_TABLES));
