@@ -56,26 +56,24 @@ public class InsumoRepositorio {
 
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
-	public Insumo addInsumo(final @Named("Codigo") String codigo,
+	public Insumo addInsumo(
 			final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
-			final @Optional @Named("Observaciones") String observaciones) {
-		return nuevosInsumo(codigo, cantidad, producto, marca, observaciones,
+			final @Named("Modelo") String modelo) {
+		return nuevosInsumo(cantidad, producto, marca, modelo,
 				this.currentUserName());
 	}
 
 	@Programmatic
-	public Insumo nuevosInsumo(final String codigo, final int cantidad,
+	public Insumo nuevosInsumo(final int cantidad,
 			final String producto, final String marca,
-			final String observaciones, final String creadoPor) {
+			final String modelo, final String creadoPor) {
 		final Insumo unInsumo = container.newTransientInstance(Insumo.class);
-		unInsumo.setCodigo(codigo.toUpperCase().trim());
 		unInsumo.setCantidad(cantidad);
 		unInsumo.setProducto(producto.toUpperCase().trim());
 		unInsumo.setMarca(marca.toUpperCase().trim());
-		if (observaciones != null && observaciones != "")
-			unInsumo.setObservaciones(observaciones.toUpperCase().trim());
+		unInsumo.setModelo(modelo.toUpperCase().trim());
 		unInsumo.setFecha(LocalDate.now());
 		unInsumo.setHabilitado(true);
 		unInsumo.setCreadoPor(creadoPor);
