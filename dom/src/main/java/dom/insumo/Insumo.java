@@ -69,27 +69,11 @@ public class Insumo implements Comparable<Insumo> {
 	// //////////////////////////////////////
 
 	public String title() {
-		return this.getCodigo() + " - " + this.getMarca();
+		return this.getMarca() + " - " + this.getProducto();
 	}
 
 	public String iconName() {
 		return "Insumo";
-	}
-
-	// //////////////////////////////////////
-	// codigo (Atributo)
-	// //////////////////////////////////////
-	private String codigo;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@DescribedAs("Codigo numero de insumo:")
-	@MemberOrder(sequence = "10")
-	public String getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(final String codigo) {
-		this.codigo = codigo;
 	}
 
 	// //////////////////////////////////////
@@ -141,19 +125,19 @@ public class Insumo implements Comparable<Insumo> {
 	}
 
 	// //////////////////////////////////////
-	// observaciones (Atributo)
+	// Modelo (Atributo)
 	// //////////////////////////////////////
-	private String observaciones;
+	private String modelo;
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	@DescribedAs("Observaciones del insumo:")
+	@DescribedAs("Modleo del insumo:")
 	@MemberOrder(sequence = "50")
-	public String getObservaciones() {
-		return observaciones;
+	public String getModelo() {
+		return modelo;
 	}
 
-	public void setObservaciones(final String observaciones) {
-		this.observaciones = observaciones;
+	public void setModelo(final String modelo) {
+		this.modelo = modelo;
 	}
 
 	// //////////////////////////////////////
