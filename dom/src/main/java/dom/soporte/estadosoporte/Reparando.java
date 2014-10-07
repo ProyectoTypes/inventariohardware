@@ -103,11 +103,11 @@ public class Reparando implements IEstado {
 	 */
 	@Override
 	@Hidden
-	public void solicitarInsumos(final String codigo, final int cantidad,
+	public void solicitarInsumos(final int cantidad,
 			final String producto, final String marca,
-			final String observaciones) {
-		Insumo unInsumo = this.insumoRepositorio.addInsumo(codigo, cantidad,
-				producto, marca, observaciones);
+			final String modelo) {
+		Insumo unInsumo = this.insumoRepositorio.addInsumo(cantidad,
+				producto, marca, modelo);
 		this.getSoporte().agregarUnInsumo(unInsumo);
 		this.getSoporte().clearTecnico();
 		this.getSoporte().setEstado(this.getSoporte().getEsperando());
