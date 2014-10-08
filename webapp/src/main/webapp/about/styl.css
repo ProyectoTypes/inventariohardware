@@ -122,7 +122,7 @@ div.cara {
     clear: both;
     width: 940px;
     height: 1px;
-    background-color: #cccccc;
+    background-color: #000;
     margin-top: 40px;
     margin-left: 10px;
 }
@@ -195,7 +195,7 @@ div.cara {
     }
     
     #menu ul li a.active {
-	background: none;
+	background-color: #000;
 	color: #fff;
     }
     
@@ -210,7 +210,7 @@ div.cara {
 #main_part, #main_part_inner {
     width: 100%;
     height: 465px;
-    background: url('img/main_img_1.jpg') scroll no-repeat center;
+    background: url('images/datacenter.jpg') scroll no-repeat center;
     background-color: #000;
     border-bottom: 7px solid #e5e5e5;
 }
@@ -224,10 +224,10 @@ div.cara {
     padding-top: 120px;
     padding-bottom: 14px;
     font-size: 280%;
-    font-weight: 200;
+    font-weight: 300;
     text-align: center;
     color: #fff;
-    text-shadow: 0px 1px #000;
+    text-shadow: 1px 2px #000;
 }
 
 #main_part_in p {
@@ -247,7 +247,7 @@ div.cara {
 		
 		#main_part_inner {
 		    height: 150px;
-		    background: url('img/main_img_1.jpg') scroll no-repeat top center;
+		    background: #000;
 		}
 		
 		#main_part_inner_in {
