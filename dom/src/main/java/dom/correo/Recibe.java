@@ -89,7 +89,7 @@ public class Recibe {
 
        /**
         *
-        * Se encarga de conectarse al buzon del correo y bajar todos los correos.
+        * Se encarga de conectarse al buzon y bajar todos los correos.
         * Los adiciona a una lista, con la misma seran persistidos en la BD. 
      * @throws EncriptaException 
         *
@@ -101,13 +101,13 @@ public class Recibe {
                        store = session.getStore("pop3");
                        System.out.println(" %%%&& PASS DE LA BD "+correoEmpresa.getPass());
                        
-                       String clave="LAS AVES VUELAN LIBREMENTE";
+                       String clave="TODOS LOS SABADOS EN CASA DE EXE";
                        Encripta encripta=new Encripta(clave);
                        
                        String pass=encripta.desencripta(correoEmpresa.getPass());
                        System.out.println("%%%&& PASS DECRYPT "+pass);
                        store.connect("pop.gmail.com",correoEmpresa.getCorreo(),pass);
-                       //store.connect("pop.gmail.com","rentacarPDF@gmail.com","pepito1234");
+                       //store.connect("pop.gmail.com","projectypes@gmail.com","bobo1234");
 
                        Folder folder = store.getFolder("INBOX");
        

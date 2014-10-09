@@ -62,7 +62,7 @@ public class Envio {
 
 		// Nombre del usuario
 //		propiedades.setProperty("mail.smtp.user",
-//				"rentacarPDF@gmail.com");
+//				"projectypes@gmail.com");
 		propiedades.setProperty("mail.smtp.user",
 				correoEmp.getCorreo());
 

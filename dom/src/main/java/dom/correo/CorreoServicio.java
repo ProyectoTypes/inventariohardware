@@ -8,18 +8,25 @@ import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.crypto.SecretKey;
+
 import org.apache.isis.applib.AbstractFactoryAndRepository;
+import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.filter.Filter;
+
 import com.google.common.base.Objects;
+
 import servicio.encriptar.Encripta;
 import servicio.encriptar.EncriptaException;
 
-@Named("Correo Electronico")
+@SuppressWarnings("deprecation")
+@DomainService(menuOrder="20")
+@Named("CORREO ELECTRONICO")
 public class CorreoServicio extends AbstractFactoryAndRepository {
 	
 	static SecretKey key;
@@ -121,7 +128,7 @@ public class CorreoServicio extends AbstractFactoryAndRepository {
 		
 		//key = KeyGenerator.getInstance("DES").generateKey();
 		//EncriptarToString enString=new EncriptarToString();
-		String clave="LAS AVES VUELAN LIBREMENTE";
+		String clave="TODOS LOS SABADOS EN CASA DE EXE";
 		Encripta encripta=new Encripta(clave);
 		
 		ce.setCorreo(correo);

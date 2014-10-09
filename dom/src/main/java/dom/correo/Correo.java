@@ -13,7 +13,6 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Where;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
-import com.google.common.base.Objects;
 import servicio.encriptar.EncriptaException;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
@@ -24,6 +23,7 @@ import servicio.encriptar.EncriptaException;
 public class Correo implements Comparable<Correo> {
 
 	private CorreoEmpresa correoEmpresa;
+	
 	@Hidden
 	public CorreoEmpresa getCorreoEmpresa(){
 		return correoEmpresa;
@@ -33,6 +33,7 @@ public class Correo implements Comparable<Correo> {
 	}
 	
 	private boolean respondido;
+	
 	@Hidden(where=Where.ALL_TABLES)
 	public boolean isRespondido(){
 		return respondido;
