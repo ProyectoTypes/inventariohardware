@@ -21,9 +21,109 @@ import servicio.encriptar.EncriptaException;
 @ObjectType("CORREO")
 @Immutable
 public class Correo implements Comparable<Correo> {
-
-	private CorreoEmpresa correoEmpresa;
 	
+	// //////////////////////////////////////
+	// Icono
+	// //////////////////////////////////////
+	
+	public String iconName() {
+		return (isRespondido()==false)? "mail": "respondido";
+	}
+
+	public String title(){
+		return "Correo";
+	}
+ 
+	// //////////////////////////////////////
+	// Asunto (propiedad)
+	// //////////////////////////////////////
+	
+	private String asunto;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@Named("Asunto")
+	@MemberOrder(sequence = "1")
+	public String getAsunto() {
+		return asunto;
+	}
+
+	public void setAsunto(final String asunto) {
+		this.asunto = asunto;
+	}
+	
+	// //////////////////////////////////////
+	// Email (propiedad)
+	// //////////////////////////////////////
+	
+	private String email;
+	
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@Named("Email")
+	@MemberOrder(sequence = "2")
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(final String email) {
+		this.email = email;
+	}
+	
+	// //////////////////////////////////////
+	// Fecha (propiedad)
+	// //////////////////////////////////////
+	
+	private Date fechaActual;
+	
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@Named("Fecha del Correo")
+	@MemberOrder(sequence = "3")
+	public Date getFechaActual() {
+		return fechaActual;
+	}
+
+	public void setFechaActual(final Date fechaActual) {
+		this.fechaActual = fechaActual;
+	}
+	
+	// //////////////////////////////////////
+	// Respondido (propiedad)
+	// //////////////////////////////////////
+	
+	private boolean respondido;
+	
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@Hidden(where=Where.ALL_TABLES)
+	public boolean isRespondido(){
+		return respondido;
+	}
+	public void setRespondido(boolean respondido){
+		this.respondido=respondido;
+	}
+
+	// //////////////////////////////////////
+	// Mensaje (propiedad)
+	// //////////////////////////////////////
+	
+	private String mensaje;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@Hidden(where=Where.ALL_TABLES)
+	@MultiLine(numberOfLines = 6)
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(final String mensaje) {
+		this.mensaje = mensaje;
+	}
+	
+	// //////////////////////////////////////
+	// Correo Empresa (propiedad)
+	// //////////////////////////////////////
+	
+	private CorreoEmpresa correoEmpresa;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
 	@Hidden
 	public CorreoEmpresa getCorreoEmpresa(){
 		return correoEmpresa;
@@ -32,95 +132,24 @@ public class Correo implements Comparable<Correo> {
 		this.correoEmpresa=correoEmpresa;
 	}
 	
-	private boolean respondido;
+	// //////////////////////////////////////
+	// Tecnico (propiedad)
+	// //////////////////////////////////////
 	
-	@Hidden(where=Where.ALL_TABLES)
-	public boolean isRespondido(){
-		return respondido;
+	private String usuario;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@Hidden
+	public String getUsuario() {
+		return usuario;
 	}
-	public void setRespondido(boolean respondido){
-		this.respondido=respondido;
-	}
-	
-	private String email;
-	/**
-	 *  Identificacion del nombre del icono que aparecera en la UI
-	 *  @return String
-	 */
-	public String iconName() {
-		return (isRespondido()==false)? "mail": "respondido";
-	}
-	/**
-	 * Titulo que aparecera en la UI
-	 * @return
-	 */
-	public String title(){
-		return "Correo";
+
+	public void setUsuario(final String usuario) {
+		this.usuario = usuario;
 	}
 
 	/**
-	 * Retorna el email
-	 * 
-	 * @return String
-	 */
- 
-	@MemberOrder(sequence = "2")
-	public String getEmail() {
-		return email;
-	}
-
-	/**
-	 * Setea el email
-	 * 
-	 * @param email
-	 */
-	public void setEmail(final String email) {
-		this.email = email;
-	}
- 
-	private String asunto;
-
-	/**
-	 * Retorna el asunto del email
-	 * @return String
-	 */
-	@MemberOrder(sequence = "1")
-	public String getAsunto() {
-		return asunto;
-	}
-
-	/**
-	 * Setea el asunto del email
-	 * 
-	 * @param asunto
-	 */
-	public void setAsunto(final String asunto) {
-		this.asunto = asunto;
-	}
-
-	private String mensaje;
-
-	/**
-	 
-	 * 
-	 * @return String
-	 */
-	@Hidden(where=Where.ALL_TABLES)
-	@MultiLine(numberOfLines = 6)
-	public String getMensaje() {
-		return mensaje;
-	}
-
-	/**
-	 * Setea el mensaje del email.
-	 * @param mensaje
-	 */
-	public void setMensaje(final String mensaje) {
-		this.mensaje = mensaje;
-	}
-
-	/**
-	 * Se puede responder el correo directamente desde el viewer
+	 * Se puede responder el correo directamente desde el viewer.
 	 * 
 	 * @param mensaje
 	 *            
@@ -151,39 +180,6 @@ public class Correo implements Comparable<Correo> {
 		// Vuelvo a la bandeja de entrada
 		return bde.listaMensajesPersistidos2();
 	}
-
-	/**
-	 * Retorna la fecha en que llego el correo
-	 * @return Date
-	 */
-	private Date fechaActual;
-	@Named("Fecha del Correo")
-	@MemberOrder(sequence = "3")
-	public Date getFechaActual() {
-		return fechaActual;
-	}
-
-	/**
-	 * Setea la fecha en que llego el correo
-	 * 
-	 * @param fechaActual
-	 */
-	public void setFechaActual(final Date fechaActual) {
-		this.fechaActual = fechaActual;
-	}
-
-	private DomainObjectContainer container;
-
-	public void injectDomainObjectContainer(
-			final DomainObjectContainer container) {
-		this.container = container;
-	}
-	
-	private CorreoServicio bde; 
-	public void injectServicioBandejaDeEntrada(final CorreoServicio bde) {
-		this.bde = bde;
-	} 
-	
 	
 	/**
 	 * Se ordenan los correos por fecha de ingreso.
@@ -192,16 +188,19 @@ public class Correo implements Comparable<Correo> {
 	public int compareTo(Correo mensaje) { 
 		return this.fechaActual.compareTo(mensaje.getFechaActual());
 	}
-
 	
-	private String usuario;
+	// //////////////////////////////////////
+	// Container
+	// //////////////////////////////////////
+	
+	private DomainObjectContainer container;
 
-	@Hidden
-	public String getUsuario() {
-		return usuario;
+	public void injectDomainObjectContainer(final DomainObjectContainer container) {
+		this.container = container;
 	}
-
-	public void setUsuario(final String usuario) {
-		this.usuario = usuario;
+	
+	private CorreoServicio bde; 
+	public void injectServicioBandejaDeEntrada(final CorreoServicio bde) {
+		this.bde = bde;
 	}
 }

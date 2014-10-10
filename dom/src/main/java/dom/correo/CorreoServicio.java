@@ -26,7 +26,7 @@ import servicio.encriptar.EncriptaException;
 
 @SuppressWarnings("deprecation")
 @DomainService(menuOrder="20")
-@Named("CORREO ELECTRONICO")
+@Named("CORREO")
 public class CorreoServicio extends AbstractFactoryAndRepository {
 	
 	static SecretKey key;

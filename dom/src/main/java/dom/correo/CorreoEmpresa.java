@@ -15,6 +15,10 @@ import org.apache.isis.applib.annotation.ObjectType;
 @Immutable
 public class CorreoEmpresa {
 	
+	// //////////////////////////////////////
+	// Titulo
+	// //////////////////////////////////////
+	
 	public String title(){
 			return getCorreo();
 	}
@@ -23,7 +27,13 @@ public class CorreoEmpresa {
 		return "config";
 	}
 	
+	// //////////////////////////////////////
+	// Correo (propiedad)
+	// //////////////////////////////////////
+	
 	private String correo;
+	
+	@javax.jdo.annotations.Column(allowsNull = "false")
 	@MemberOrder(sequence="1")
 	public String getCorreo(){
 		return correo;
@@ -32,7 +42,13 @@ public class CorreoEmpresa {
 		this.correo=correo;
 	}
 	
+	// //////////////////////////////////////
+	// Pass (propiedad)
+	// //////////////////////////////////////
+	
 	private String pass;
+	
+	@javax.jdo.annotations.Column(allowsNull = "false")
 	@MemberOrder(sequence="2")
 	public String getPass(){
 		return pass;
