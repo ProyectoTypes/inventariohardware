@@ -29,7 +29,6 @@ import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.NotContributed;
-import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 import org.joda.time.LocalDate;
@@ -60,21 +59,19 @@ public class InsumoRepositorio {
 	public Insumo addInsumo(final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
-			final @Optional @Named("Modelo") String modelo) {
+			final @Named("Modelo") String modelo) {
 		return nuevosInsumo(cantidad, producto, marca, modelo,
 				this.currentUserName());
 	}
 
 	@Programmatic
-	public Insumo nuevosInsumo(final int cantidad,
-			final String producto, final String marca,
-			final String modelo, final String creadoPor) {
+	public Insumo nuevosInsumo(final int cantidad, final String producto,
+			final String marca, final String modelo, final String creadoPor) {
 		final Insumo unInsumo = container.newTransientInstance(Insumo.class);
 		unInsumo.setCantidad(cantidad);
 		unInsumo.setProducto(producto.toUpperCase().trim());
 		unInsumo.setMarca(marca.toUpperCase().trim());
-		if (modelo != null && modelo != "")
-			unInsumo.setModelo(modelo.toUpperCase().trim());
+		unInsumo.setModelo(modelo.toUpperCase().trim());
 		unInsumo.setFecha(LocalDate.now());
 		unInsumo.setHabilitado(true);
 		unInsumo.setCreadoPor(creadoPor);

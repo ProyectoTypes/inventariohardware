@@ -52,8 +52,7 @@ import dom.soporte.Soporte;
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && habilitado == false"),
 		@javax.jdo.annotations.Query(name = "listarInsumoTrue", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.insumo.Insumo "
-				+ "WHERE habilitado == true"),
+				+ "FROM dom.insumo.Insumo " + "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorCodigo", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.insumo.Insumo "
 				+ "WHERE creadoPor == :creadoPor "
@@ -69,7 +68,9 @@ public class Insumo implements Comparable<Insumo> {
 	// //////////////////////////////////////
 
 	public String title() {
-		return this.getMarca();
+
+		return this.getMarca() + " - " + this.getProducto();
+
 	}
 
 	public String iconName() {
@@ -79,7 +80,7 @@ public class Insumo implements Comparable<Insumo> {
 	// //////////////////////////////////////
 	// Cantidad (Atributo)
 	// //////////////////////////////////////
-	
+
 	private int cantidad;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -96,7 +97,7 @@ public class Insumo implements Comparable<Insumo> {
 	// //////////////////////////////////////
 	// Producto (Atributo)
 	// //////////////////////////////////////
-	
+
 	private String producto;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -113,7 +114,7 @@ public class Insumo implements Comparable<Insumo> {
 	// //////////////////////////////////////
 	// Marca (Atributo)
 	// //////////////////////////////////////
-	
+
 	private String marca;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -130,7 +131,7 @@ public class Insumo implements Comparable<Insumo> {
 	// //////////////////////////////////////
 	// Modelo (Atributo)
 	// //////////////////////////////////////
-	
+
 	private String modelo;
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
@@ -198,8 +199,8 @@ public class Insumo implements Comparable<Insumo> {
 	// //////////////////////////////////////
 
 	private Soporte soporte;
-	
-	@Hidden(where=Where.ALL_TABLES)
+
+	@Hidden(where = Where.ALL_TABLES)
 	@MemberOrder(sequence = "80")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Soporte getSoporte() {
@@ -225,11 +226,11 @@ public class Insumo implements Comparable<Insumo> {
 		}
 		currentSoporte.eliminarInsumos(this);
 	}
-	
+
 	/**
 	 * TERMINAR DE IMPLEMENTAR CORRECTAMENTE LOS SIGUIENTES METODOS.
 	 */
-	
+
 	@Programmatic
 	public void limpiarSoporte() {
 		// TODO Auto-generated method stub

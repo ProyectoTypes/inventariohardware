@@ -32,6 +32,8 @@ import org.apache.isis.applib.annotation.ObjectType;
 
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.impresora.Impresora;
+import dom.insumo.Insumo;
+import dom.insumo.InsumoRepositorio;
 import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
 
@@ -41,11 +43,11 @@ import dom.tecnico.Tecnico;
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "esperandoUnique", members = { "idEsperando" }) })
 @ObjectType("ESPERANDO")
 public class Esperando implements IEstado {
-	
+
 	// //////////////////////////////////////
 	// Identification in the UI
 	// //////////////////////////////////////
-	
+
 	public String title() {
 		return "ESPERANDO";
 	}
@@ -77,16 +79,16 @@ public class Esperando implements IEstado {
 	@Hidden
 	public void asignarTecnico(final Tecnico tecnico) {
 		if (tecnico.estaDisponible()) {
-		this.getSoporte().setTecnico(tecnico);
-		this.getSoporte().getTecnico().sumaComputadora();
-		this.getSoporte().getTecnico()
-				.addToComputadora(this.getSoporte().getComputadora());
-		this.getSoporte().setEstado(this.getSoporte().getReparando());
-	} else {
-		this.getSoporte().setTecnico(null);
-		this.container
-				.informUser("El Tecnico seleccionado no esta disponible.");
-	}
+			this.getSoporte().setTecnico(tecnico);
+			this.getSoporte().getTecnico().sumaComputadora();
+			this.getSoporte().getTecnico()
+					.addToComputadora(this.getSoporte().getComputadora());
+			this.getSoporte().setEstado(this.getSoporte().getReparando());
+		} else {
+			this.getSoporte().setTecnico(null);
+			this.container
+					.informUser("El Tecnico seleccionado no esta disponible.");
+		}
 
 	}
 
@@ -104,12 +106,12 @@ public class Esperando implements IEstado {
 	 */
 	@Override
 	@Hidden
-	public void solicitarInsumos(final int cantidad, final String producto, final String marca,
-			final String modelo) {
-		// Insumo unInsumo = this.insumoRepositorio.addInsumo(codigo, cantidad,
-		// producto, marca, observaciones);
-		// this.getSoporte().agregarUnInsumo(unInsumo);
-		this.container.informUser("PARA SOLICITAR INSUMOS ES NECESARIO ASIGNAR UN TECNICO");
+	public void solicitarInsumos(final int cantidad, final String producto,
+			final String marca, final String modelo) {
+		Insumo unInsumo = this.insumoRepositorio.addInsumo(cantidad, producto,
+				marca, modelo);
+		this.getSoporte().agregarUnInsumo(unInsumo);
+		this.container.informUser("SOLICITANDO NUEVOS INSUMOS");
 
 	}
 
@@ -166,5 +168,8 @@ public class Esperando implements IEstado {
 
 	@Inject
 	private DomainObjectContainer container;
+
+	@Inject
+	private InsumoRepositorio insumoRepositorio;
 
 }

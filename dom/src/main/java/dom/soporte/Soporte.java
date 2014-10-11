@@ -463,7 +463,7 @@ public class Soporte implements Comparable<Soporte> {
 	public Soporte solicitarInsumos(final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
-			final @Optional @Named("Modelo") String modelo) {
+			final @Named("Modelo") String modelo) {
 		this.getEstado().solicitarInsumos(cantidad, producto, marca, modelo);
 		return this;
 	}

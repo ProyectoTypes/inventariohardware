@@ -24,7 +24,7 @@ import dom.tecnico.Tecnico;
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "reparandoUnique", members = { "idReparando" }) })
 @ObjectType("REPARANDO")
 public class Reparando implements IEstado {
-	
+
 	// //////////////////////////////////////
 	// Identification in the UI
 	// //////////////////////////////////////
@@ -105,9 +105,10 @@ public class Reparando implements IEstado {
 	 */
 	@Override
 	@Hidden
-	public void solicitarInsumos(final int cantidad, final String producto, final String marca,
-			final String modelo) {
-		Insumo unInsumo = this.insumoRepositorio.addInsumo(cantidad, producto, marca, modelo);
+	public void solicitarInsumos(final int cantidad, final String producto,
+			final String marca, final String modelo) {
+		Insumo unInsumo = this.insumoRepositorio.addInsumo(cantidad, producto,
+				marca, modelo);
 		this.getSoporte().agregarUnInsumo(unInsumo);
 		this.getSoporte().clearTecnico();
 		this.getSoporte().setEstado(this.getSoporte().getEsperando());
@@ -135,9 +136,8 @@ public class Reparando implements IEstado {
 	}
 
 	/**
-	 * No es posible realizar el Soporte ya que los insumos no se
-	 * encuentran disponibles, se debera asignar una nueva Computadora al
-	 * Usuario.
+	 * No es posible realizar el Soporte ya que los insumos no se encuentran
+	 * disponibles, se debera asignar una nueva Computadora al Usuario.
 	 * <p>
 	 * El Usuario será desvinculado de la Computadora anterior, al igual que el
 	 * Tecnico. Impresora deberá ser desvinculada de la Computadora.
@@ -212,13 +212,13 @@ public class Reparando implements IEstado {
 
 	@Inject
 	private EmailService emailService;
-	
+
 	@Inject
 	private DomainObjectContainer container;
-	
+
 	@Inject
 	private InsumoRepositorio insumoRepositorio;
-	
+
 	@Inject
 	private ComputadoraRepositorio computadoraRepositorio;
 
