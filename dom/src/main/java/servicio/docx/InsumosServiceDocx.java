@@ -48,8 +48,6 @@ import dom.soporte.Soporte;
 @DomainService
 public class InsumosServiceDocx {
 
-	// region > init
-
 	private WordprocessingMLPackage wordprocessingMLPackage;
 
 	@PostConstruct
@@ -59,11 +57,6 @@ public class InsumosServiceDocx {
 		wordprocessingMLPackage = docxService
 				.loadPackage(new ByteArrayInputStream(bytes));
 	}
-
-	// endregion
-
-	// region > downloadCustomerConfirmation (action)
-
 	/**
 	 * Metodo que permite descargar el archivo.
 	 * 
@@ -87,7 +80,7 @@ public class InsumosServiceDocx {
 		docxService.merge(w3cDocument, wordprocessingMLPackage, docxTarget,
 				DocxService.MatchingPolicy.LAX);
 
-		final String blobName = "Insumo-.docx";
+		final String blobName = "Solicitud de Insumo.docx";
 		final String blobMimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 		final byte[] blobBytes = docxTarget.toByteArray();
 
@@ -121,29 +114,19 @@ public class InsumosServiceDocx {
 
 		Element body = new Element("body");
 		html.addContent(body);
-
-		//List<Insumo> insumos = new ArrayList<Insumo>();
-		//insumos = soporte.getInsumos();
-		//addPara(body, "Codigo", "plain", soporte.getCodigo());
-		//addPara(body, "Cantidad", "plain", soporte.getCantidad() + "");
-		//addPara(body, "Producto", "date", soporte.getProducto());
-//		addPara(body, "Marca", "plain", soporte.getMarca());
-//		addPara(body, "Observaciones", "plain", soporte.getObservaciones());
-//		addPara(body, "Message", "plain", "MENSAJE DE PRUEBA");
 		
-		addPara(body, "Fecha", "date", soporte.getFecha().toString("dd-MMM-yyyy"));
 		
-        Element table = addTable(body, "Products");
+		
+		addPara(body, "Fecha", "plain", soporte.getFecha().toString("dd/MM/yy"));
+		//addPara(body, "Tecnico", "plain", soporte.getTecnico()+"");
+		
+        Element table = addTable(body, "Insumos");
         for(Insumo insumos: soporte.getInsumos()) {
-            addTableRow(table, new String[]{insumos.getCodigo(), insumos.getCantidad() + ""});
+            addTableRow(table, new String[]{insumos.getCantidad()+"", insumos.getProducto(),insumos.getMarca(),insumos.getModelo()});
         }
 
 		return document;
 	}
-
-	// endregion
-
-	// region > helpers
 	
     private static void addPara(Element body, String id, String clazz, String text) {
         Element p = new Element("p");
@@ -169,16 +152,10 @@ public class InsumosServiceDocx {
 			td.setText(columnName);
 		}
 	}
-
-	// endregion
-
-	// region > injected services
-
+	
 	@javax.inject.Inject
 	DomainObjectContainer container;
 
 	@javax.inject.Inject
 	private DocxService docxService;
-
-	// endregion
 }
