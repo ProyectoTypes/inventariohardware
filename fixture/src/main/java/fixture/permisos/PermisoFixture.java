@@ -16,7 +16,7 @@ public class PermisoFixture extends FixtureScript {
 		// prereqs
 		execute(new PermisoFixtureBaja(), executionContext);
 		// create
-		create("Admin","*",executionContext);
+		create("Admin", "*", executionContext);
 		create("Computadora", "dom.computadora", executionContext);
 		create("Impresora", "dom.impresora", executionContext);
 		create("Insumo", "dom.insumo", executionContext);
@@ -43,7 +43,8 @@ public class PermisoFixture extends FixtureScript {
 
 	private Permiso create(final String nombre, final String path,
 			ExecutionContext executionContext) {
-		return executionContext.add(this, permisoRepositorio.addPermiso(nombre, path));
+		return executionContext.add(this,
+				permisoRepositorio.addPermiso(nombre, path, "", "", true));
 	}
 
 	// //////////////////////////////////////
