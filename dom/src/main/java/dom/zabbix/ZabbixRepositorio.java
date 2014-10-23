@@ -1,6 +1,5 @@
 package dom.zabbix;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.util.List;
 
@@ -21,14 +20,12 @@ public class ZabbixRepositorio {
 	@Named("Configurar IP")
 	public Zabbix configurarIpServidor(final @Named("IP") String ip) {
 		if (this.ping(ip)) {
-			container.warnUser("Conexion con el SERVIDOR exitosa.");
 			return updateZabbix(ip);
 		}
-		container
-				.warnUser("IP: "
-						+ ip
-						+ " Incorrecta, el SERVIDOR no responde.\n No se han aplicado los cambios.");
-		return null;
+		container.warnUser("IP: " + ip
+				+ " Incorrecta, el SERVIDOR no responde."
+				+ " No se han aplicado los cambios.");
+		return obtenerCuentaZabbix();
 	}
 
 	@Programmatic
@@ -45,9 +42,10 @@ public class ZabbixRepositorio {
 	public Zabbix obtenerCuentaZabbix() {
 		List<Zabbix> retorno = container.allMatches(new QueryDefault<Zabbix>(
 				Zabbix.class, "obtenerCuenta"));
-		if (retorno.isEmpty())
-			container.informUser("No se encontraron registros de Zabbix");
-		return retorno.get(0);
+		if (!retorno.isEmpty())
+			return retorno.get(0);
+		container.informUser("No se encontraron registros de Zabbix");
+		return null;
 	}
 
 	@Programmatic
@@ -67,14 +65,16 @@ public class ZabbixRepositorio {
 	}
 
 	private boolean ping(final String ip) {
-		InetAddress ping;
+		InetAddress ping = null;
 		try {
 			ping = InetAddress.getByName(ip);
 			if (ping.isReachable(5000))
 				return true;
-			
-		} catch (IOException ex) {
-			System.out.println("ERROR: "+ex);
+			else
+				return false;
+
+		} catch (Exception ex) {
+			System.out.println("ERROR: " + ex);
 		}
 		return false;
 	}
