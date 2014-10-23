@@ -18,6 +18,10 @@ import servicio.encriptar.EncriptaException;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY)
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "VERSION")
+@javax.jdo.annotations.Queries({
+	@javax.jdo.annotations.Query(name = "buscarCorreo", language = "JDOQL", value = "SELECT "
+			+ "FROM dom.correo.Correo "
+			+ "WHERE habilitado == true")})
 @ObjectType("CORREO")
 @Immutable
 public class Correo implements Comparable<Correo> {
@@ -136,16 +140,32 @@ public class Correo implements Comparable<Correo> {
 	// Tecnico (propiedad)
 	// //////////////////////////////////////
 	
-	private String usuario;
+	private String tecnico;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@Hidden
-	public String getUsuario() {
-		return usuario;
+	public String getTecnico() {
+		return tecnico;
 	}
 
-	public void setUsuario(final String usuario) {
-		this.usuario = usuario;
+	public void setTecnico(final String tecnico) {
+		this.tecnico = tecnico;
+	}
+	
+	// //////////////////////////////////////
+	// Habilitado
+	// //////////////////////////////////////
+
+	public boolean habilitado;
+
+	@Hidden
+	@MemberOrder(name = "Detalles", sequence = "9")
+	public boolean getEstaHabilitado() {
+		return habilitado;
+	}
+
+	public void setHabilitado(final boolean habilitado) {
+		this.habilitado = habilitado;
 	}
 
 	/**
