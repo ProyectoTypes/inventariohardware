@@ -52,10 +52,10 @@ public class ZabbixRepositorio {
 	@Programmatic
 	@PostConstruct
 	public void init() {
-		vaciarZabbixTable();
-		addZabbix("127.0.0.1");
+		if(obtenerCuentaZabbix()==null)
+			addZabbix("127.0.0.1");
 	}
-
+	@SuppressWarnings("unused")
 	private void vaciarZabbixTable() {
 		isisJdoSupport.executeUpdate("truncate table \"Zabbix\";");
 	}
