@@ -23,9 +23,11 @@ import java.util.List;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
+import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.Optional;
 
 @DomainService(menuOrder = "82", repositoryFor = Permiso.class)
 @Named("Permisos")
@@ -41,17 +43,35 @@ public class PermisoRepositorio {
 
 	@MemberOrder(sequence = "2")
 	@Named("Nuevo Permiso")
-	public Permiso addPermiso(final @Named("Nombre") String nombre,
-			final @Named("Path") String path) {
+	public Permiso addPermiso(
+			final @Named("Nombre") String nombre,
+			final @Named("Directorio") String path,
+			@Optional @DescribedAs("Por defecto: '*' ") @Named("Clase") String clase,
+			@Optional @DescribedAs("Por defecto: '*' ") @Named("Metodo/Atributo") String campo,
+			final @Optional @DescribedAs("Por defecto: lectura/escritura ") @Named("Permiso de Escritura") boolean escritura) {
 		final Permiso permiso = container.newTransientInstance(Permiso.class);
 
 		permiso.setNombre(nombre);
-		permiso.setPath(path);
+		if (clase == "" || clase ==null)
+			clase = "*";
+		if (campo == ""|| campo ==null)
+			campo = "*";
+		String acceso = "*";
+		if (!escritura)
+			acceso = "r";
+		String directorio = path + ":" + clase + ":" + campo + ":" + acceso;
+
+		permiso.setPath(directorio);
 
 		container.persistIfNotAlready(permiso);
 		return permiso;
 	}
-
+	public String default2AddPermiso() {
+		return "*"; // TODO: return default for property when first created
+	}
+	public boolean default4AddPermiso() {
+		return true; // TODO: return default for property when first created
+	}
 	@ActionSemantics(Of.NON_IDEMPOTENT)
 	@MemberOrder(sequence = "4")
 	@Named("Eliminar Permiso")
