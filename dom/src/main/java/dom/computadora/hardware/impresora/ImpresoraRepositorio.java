@@ -19,7 +19,7 @@
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package dom.impresora;
+package dom.computadora.hardware.impresora;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 
-import dom.impresora.Impresora.TipoImpresora;
+import dom.computadora.hardware.impresora.Impresora.TipoImpresora;
 @DomainService
 @Named("IMPRESORA")
 @Hidden

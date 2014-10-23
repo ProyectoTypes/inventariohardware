@@ -61,8 +61,7 @@ public class Envio {
 		propiedades.setProperty("mail.smtp.port", "587");
 
 		// Nombre del usuario
-//		propiedades.setProperty("mail.smtp.user",
-//				"projectypes@gmail.com");
+//		propiedades.setProperty("mail.smtp.user", "projecttypes@gmail.com");
 		propiedades.setProperty("mail.smtp.user",
 				correoEmp.getCorreo());
 
