@@ -32,102 +32,53 @@ import com.google.common.base.Objects;
 public class CorreoServicio extends AbstractFactoryAndRepository {
 	
 	static SecretKey key;
-	static CorreoEmpresa ce;
+	@Hidden
+	public static SecretKey getKey(){
+		return key;
+	}
 	
+	static CorreoEmpresa ce;
+	@Hidden
+	public static CorreoEmpresa getCorreoEmpresa(){
+		return ce;
+	}
+	
+	// //////////////////////////////////////
+	// Tecnico Actual
+	// //////////////////////////////////////
+	
+	protected boolean creadoPorActualTecnico(final Correo m) {
+		return Objects.equal(m.getTecnico(), tecnicoActual());
+	}
+
+	protected String tecnicoActual() {
+		return getContainer().getUser().getName();
+	}
+	
+	// //////////////////////////////////////
+	// Icono
+	// //////////////////////////////////////
 	/**
-	 * 
 	 *  Identificacion del nombre del icono que aparecera en la UI
 	 *  @return String
 	 */
 	public String iconName() {
 		return "config";
 	}
-
-	/**
-	 * 
-	 * @return Retorna la lista de correos persistidos
-	 * @throws EncriptaException 
-	 */
-	@Named("Bandeja de Entrada")
-	@MemberOrder(sequence = "2")
-	public List<Correo> bde(@Named("Correo") CorreoEmpresa correoEmpresa) throws EncriptaException {
-		System.out.println("ANTES DE LA BUSQUEDA "+correoEmpresa.getCorreo());
-		System.out.println("ANTES DE LA BUSQUEDA "+correoEmpresa.getPass());
- 
-		Recibe recepcion = new Recibe();
-		recepcion.setProperties(correoEmpresa);	
-		recepcion.accion();
-
-		final List<Correo> listaJavaMail = recepcion.getListaMensajes();
-
-		String mensajeNuevos = listaJavaMail.size() == 1 ? "TIENES UN NUEVO CORREO!"
-				: "TIENES " + listaJavaMail.size() + " CORREOS NUEVOS";
-
-		if (listaJavaMail.size() > 0) {
-
-			getContainer().informUser(mensajeNuevos);
-
-			for (Correo mensaje : listaJavaMail) {
-
-				final Correo mensajeTransient = newTransientInstance(Correo.class);
-				if(existeMensaje(mensaje.getAsunto())==null){
-					mensajeTransient.setEmail(mensaje.getEmail());
-					mensajeTransient.setAsunto(mensaje.getAsunto());
-					mensajeTransient.setMensaje(mensaje.getMensaje());
-					mensajeTransient.setUsuario(usuarioActual());
-					mensajeTransient.setCorreoEmpresa(correoEmpresa);
-					mensajeTransient.setFechaActual(mensaje.getFechaActual());
-					persistIfNotAlready(mensajeTransient);
-				}
-			}
-
-		}
-			return listarMensajesPersistidos(correoEmpresa);
-		 
-	 
-	}
-
-	/**
-	 * Retorna los emails guardados por el usuario registrado
-	 * @return List<Correo>
-	 */
-	public List<Correo> listarMensajesPersistidos(final CorreoEmpresa correoEmpresa) {
-		final List<Correo> listaCorreosPersistidos = this.container.allMatches(
-				new QueryDefault<Correo>(Correo.class,"buscarCorreo"));
-		if (listaCorreosPersistidos.isEmpty()) {
-			this.container.warnUser("No hay Correos Electronicos guardados en el sistema.");
-		}
-		return listaCorreosPersistidos;
-	}
 	
-	/**
-	@Programmatic
-	public List<Correo> listaMensajesPersistidos(final CorreoEmpresa correoEmpresa) {
-
-		return allMatches(Correo.class, new Filter<Correo>() {
-			@Override
-			public boolean accept(final Correo mensaje) {
-				return Objects.equal(mensaje.getCorreoEmpresa(), correoEmpresa);
-			}
-		});
-	}
-	/*
 	
+	// //////////////////////////////////////
+	// Configuracion
+	// //////////////////////////////////////
 	/**
-	 * Retorna los emails guardados por el usuario registrado
-	 * @return List<Correo>
+	 * Permite configurar una nueva cuenta de correo electronico.
+	 * @param correo
+	 * @param password
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws IOException
+	 * @throws EncriptaException
 	 */
-	@Programmatic
-	public List<Correo> listaMensajesPersistidos2() {
-
-		return allMatches(Correo.class, new Filter<Correo>() {
-			@Override
-			public boolean accept(final Correo mensaje) {
-				return Objects.equal(mensaje.getCorreoEmpresa(), usuarioActual() );
-			}
-		});
-	}
-	
 	@Named("Configuracion")
 	@MemberOrder(sequence = "1")
 	public CorreoEmpresa configuracion(
@@ -162,7 +113,96 @@ public class CorreoServicio extends AbstractFactoryAndRepository {
 				
 		return ce;
 	}
+
+	// //////////////////////////////////////
+	// Bandeja de Entrada
+	// //////////////////////////////////////
+	/**
+	 * @return Retorna la lista de correos persistidos
+	 * @throws EncriptaException 
+	 */
+	@Named("Bandeja de Entrada")
+	@MemberOrder(sequence = "2")
+	public List<Correo> bde(@Named("Correo") CorreoEmpresa correoEmpresa) throws EncriptaException {
+		System.out.println("ANTES DE LA BUSQUEDA "+correoEmpresa.getCorreo());
+		System.out.println("ANTES DE LA BUSQUEDA "+correoEmpresa.getPass());
+ 
+		Recibe recepcion = new Recibe();
+		recepcion.setProperties(correoEmpresa);	
+		recepcion.accion();
+
+		final List<Correo> listaJavaMail = recepcion.getListaMensajes();
+
+		String mensajeNuevos = listaJavaMail.size() == 1 ? "TIENES UN NUEVO CORREO!"
+				: "TIENES " + listaJavaMail.size() + " CORREOS NUEVOS";
+
+		if (listaJavaMail.size() > 0) {
+
+			getContainer().informUser(mensajeNuevos);
+
+			for (Correo mensaje : listaJavaMail) {
+
+				final Correo mensajeTransient = newTransientInstance(Correo.class);
+				if(existeMensaje(mensaje.getAsunto())==null){
+					mensajeTransient.setEmail(mensaje.getEmail());
+					mensajeTransient.setAsunto(mensaje.getAsunto());
+					mensajeTransient.setMensaje(mensaje.getMensaje());
+					mensajeTransient.setTecnico(tecnicoActual());
+					mensajeTransient.setCorreoEmpresa(correoEmpresa);
+					mensajeTransient.setFechaActual(mensaje.getFechaActual());
+					persistIfNotAlready(mensajeTransient);
+				}
+			}
+
+		}
+			return listarMensajesPersistidos(correoEmpresa);
+	}
+
+	// //////////////////////////////////////
+	// Mensajes Persistidos
+	// //////////////////////////////////////
+	/**
+	 * Retorna los emails guardados por el usuario registrado.
+	 * @return List<Correo>
+	 */
+	@Named("Mensajes Persistidos")
+	@MemberOrder(sequence = "3")
+	public List<Correo> listarMensajesPersistidos(final CorreoEmpresa correoEmpresa) {
+		final List<Correo> listaCorreosPersistidos = this.container.allMatches(
+				new QueryDefault<Correo>(Correo.class,"buscarCorreo"));
+		if (listaCorreosPersistidos.isEmpty()) {
+			this.container.warnUser("No hay Correos Electronicos guardados en el sistema.");
+		}
+		return listaCorreosPersistidos;
+	}
 	
+	//BORRAR ESTE LISTAR
+	/**
+	@Programmatic
+	public List<Correo> listaMensajesPersistidos(final CorreoEmpresa correoEmpresa) {
+
+		return allMatches(Correo.class, new Filter<Correo>() {
+			@Override
+			public boolean accept(final Correo mensaje) {
+				return Objects.equal(mensaje.getCorreoEmpresa(), correoEmpresa);
+			}
+		});
+	}
+	/*
+	
+	/**
+	 * Retorna los emails guardados por el usuario registrado
+	 * @return List<Correo>
+	 */
+	@Programmatic
+	public List<Correo> listaMensajesPersistidos2() {
+		return allMatches(Correo.class, new Filter<Correo>() {
+			@Override
+			public boolean accept(final Correo mensaje) {
+				return Objects.equal(mensaje.getCorreoEmpresa(), tecnicoActual() );
+			}
+		});
+	}	
 	
 	/**
 	 * Corrobora si ya esta persistido el correo en nuestra BD
@@ -178,16 +218,7 @@ public class CorreoServicio extends AbstractFactoryAndRepository {
 				return correo.getAsunto().equals(mail);
 			}
 		});
-	}
-
-	protected boolean creadoPorActualUsuario(final Correo m) {
-		return Objects.equal(m.getUsuario(), usuarioActual());
-	}
-
-	protected String usuarioActual() {
-		return getContainer().getUser().getName();
-	}
-	
+	}	
 	
 	@Hidden
 	public List<String> listaConfiguracion(CorreoEmpresa correoEmpresa){
@@ -253,6 +284,13 @@ public class CorreoServicio extends AbstractFactoryAndRepository {
      * 
      * @return List<CorreoEmpresa>
      */
+	@Programmatic
+	public List<Correo> autoComplete(final String correo) {
+		return container.allMatches(new QueryDefault<Correo>(Correo.class, "buscarCorreo"));
+	}
+	
+	//BORRAR ESTE AUTOCOMPLETE
+	/**
 	@Hidden    
 	public List<CorreoEmpresa> autoComplete(final String correo) {
 		return allMatches(CorreoEmpresa.class, new Filter<CorreoEmpresa>() {
@@ -262,16 +300,7 @@ public class CorreoServicio extends AbstractFactoryAndRepository {
 		}
 	  });				
 	}
-	 
-	@Hidden
-	public static SecretKey getKey(){
-		return key;
-	}
-	
-	@Hidden
-	public static CorreoEmpresa getCorreoEmpresa(){
-		return ce;
-	}
+	*/
 	
 	// //////////////////////////////////////
 	// Injected Services
