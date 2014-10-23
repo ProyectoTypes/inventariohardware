@@ -49,13 +49,13 @@ public abstract class ZabbixManager {
 	protected String obtenerToken(final String ip) {
 		return ZabbixAutenticacion.obtenerTokenPorIp(ip);
 	}
-
-	protected JSONObject ejecutarJson() {
-		Webb webb = Webb.create();
-		// FIXME: Verificar la direccion, hace referencia a la dir del Servidor.
-		// El superUser deberia setearla ?
-		
-		return webb.post("http://127.0.0.1/zabbix/api_jsonrpc.php")
+	/**
+	 * La ip que ingresa por parametro hace referencia a la ip del host.
+	 * @return
+	 */
+	protected JSONObject ejecutarJson(final String ip ) {
+		Webb webb = Webb.create();		
+		return webb.post("http://"+ip+"/zabbix/api_jsonrpc.php")
 				.header("Content-Type", "application/json").useCaches(false)
 				.body(getObjetoJson()).ensureSuccess().asJsonObject().getBody();
 
