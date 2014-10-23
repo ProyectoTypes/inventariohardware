@@ -1,5 +1,7 @@
 package dom.zabbix;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -18,7 +20,15 @@ public class ZabbixRepositorio {
 
 	@Named("Configurar IP")
 	public Zabbix configurarIpServidor(final @Named("IP") String ip) {
-		return updateZabbix(ip);
+		if (this.ping(ip)) {
+			container.warnUser("Conexion con el SERVIDOR exitosa.");
+			return updateZabbix(ip);
+		}
+		container
+				.warnUser("IP: "
+						+ ip
+						+ " Incorrecta, el SERVIDOR no responde.\n No se han aplicado los cambios.");
+		return null;
 	}
 
 	@Programmatic
@@ -52,9 +62,23 @@ public class ZabbixRepositorio {
 	@Programmatic
 	@PostConstruct
 	public void init() {
-		if(obtenerCuentaZabbix()==null)
+		if (obtenerCuentaZabbix() == null)
 			addZabbix("127.0.0.1");
 	}
+
+	private boolean ping(final String ip) {
+		InetAddress ping;
+		try {
+			ping = InetAddress.getByName(ip);
+			if (ping.isReachable(5000))
+				return true;
+			
+		} catch (IOException ex) {
+			System.out.println("ERROR: "+ex);
+		}
+		return false;
+	}
+
 	@SuppressWarnings("unused")
 	private void vaciarZabbixTable() {
 		isisJdoSupport.executeUpdate("truncate table \"Zabbix\";");
