@@ -1,7 +1,7 @@
 package dom.soporte.estadosoporte;
 
 import dom.computadora.Computadora.CategoriaDisco;
-import dom.impresora.Impresora;
+import dom.computadora.hardware.impresora.Impresora;
 import dom.tecnico.Tecnico;
 
 public interface IEstado {

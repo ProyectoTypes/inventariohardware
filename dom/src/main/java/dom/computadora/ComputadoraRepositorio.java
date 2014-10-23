@@ -36,8 +36,8 @@ import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.Computadora.CategoriaDisco;
-import dom.impresora.Impresora;
-import dom.impresora.ImpresoraRepositorio;
+import dom.computadora.hardware.impresora.Impresora;
+import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 

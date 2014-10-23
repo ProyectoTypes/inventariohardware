@@ -43,9 +43,9 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.util.ObjectContracts;
 
-import dom.impresora.Impresora;
-import dom.impresora.Impresora.TipoImpresora;
-import dom.impresora.ImpresoraRepositorio;
+import dom.computadora.hardware.impresora.Impresora;
+import dom.computadora.hardware.impresora.Impresora.TipoImpresora;
+import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
 import dom.usuario.Usuario;

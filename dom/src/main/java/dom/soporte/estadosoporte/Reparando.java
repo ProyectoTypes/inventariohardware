@@ -12,7 +12,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 import servicio.email.EmailService;
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.ComputadoraRepositorio;
-import dom.impresora.Impresora;
+import dom.computadora.hardware.impresora.Impresora;
 import dom.insumo.Insumo;
 import dom.insumo.InsumoRepositorio;
 import dom.soporte.Soporte;
