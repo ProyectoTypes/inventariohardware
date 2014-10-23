@@ -147,8 +147,7 @@ public class ComputadoraRepositorio {
 				.allMatches(new QueryDefault<Computadora>(Computadora.class,
 						"eliminarComputadoraTrue"));
 		if (listaComputadoras.isEmpty()) {
-			this.container
-					.warnUser("No hay Computadoras cargados en el sistema.");
+			this.container.warnUser("No hay Computadoras cargados en el sistema.");
 		}
 		return listaComputadoras;
 	}

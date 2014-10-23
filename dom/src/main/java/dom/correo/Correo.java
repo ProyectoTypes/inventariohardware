@@ -18,6 +18,10 @@ import servicio.encriptar.EncriptaException;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY)
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "VERSION")
+@javax.jdo.annotations.Queries({
+	@javax.jdo.annotations.Query(name = "buscarCorreo", language = "JDOQL", value = "SELECT "
+			+ "FROM dom.correo.Correo "
+			+ "WHERE habilitado == true")})
 @ObjectType("CORREO")
 @Immutable
 public class Correo implements Comparable<Correo> {
