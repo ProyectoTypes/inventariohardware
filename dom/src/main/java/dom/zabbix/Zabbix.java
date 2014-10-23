@@ -14,7 +14,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "ZabbixToken", members = {
 		"ip", "token" }) })
 @javax.jdo.annotations.Queries({
-	@javax.jdo.annotations.Query(name = "obtenerCuentaZabbix", language = "JDOQL", value = "SELECT "
+	@javax.jdo.annotations.Query(name = "obtenerCuenta", language = "JDOQL", value = "SELECT "
 			+ "FROM dom.zabbix.Zabbix ") })
 @ObjectType("Servidor Zabbix")
 @Audited
