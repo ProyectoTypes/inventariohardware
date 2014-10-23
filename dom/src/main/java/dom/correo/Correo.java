@@ -140,16 +140,32 @@ public class Correo implements Comparable<Correo> {
 	// Tecnico (propiedad)
 	// //////////////////////////////////////
 	
-	private String usuario;
+	private String tecnico;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@Hidden
-	public String getUsuario() {
-		return usuario;
+	public String getTecnico() {
+		return tecnico;
 	}
 
-	public void setUsuario(final String usuario) {
-		this.usuario = usuario;
+	public void setTecnico(final String tecnico) {
+		this.tecnico = tecnico;
+	}
+	
+	// //////////////////////////////////////
+	// Habilitado
+	// //////////////////////////////////////
+
+	public boolean habilitado;
+
+	@Hidden
+	@MemberOrder(name = "Detalles", sequence = "9")
+	public boolean getEstaHabilitado() {
+		return habilitado;
+	}
+
+	public void setHabilitado(final boolean habilitado) {
+		this.habilitado = habilitado;
 	}
 
 	/**
