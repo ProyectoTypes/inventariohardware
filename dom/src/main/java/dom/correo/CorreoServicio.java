@@ -12,17 +12,19 @@ import java.util.List;
 import javax.crypto.SecretKey;
 
 import org.apache.isis.applib.AbstractFactoryAndRepository;
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.filter.Filter;
-
-import com.google.common.base.Objects;
+import org.apache.isis.applib.query.QueryDefault;
 
 import servicio.encriptar.Encripta;
 import servicio.encriptar.EncriptaException;
+
+import com.google.common.base.Objects;
 
 @SuppressWarnings("deprecation")
 @DomainService(menuOrder="20")
@@ -31,6 +33,7 @@ public class CorreoServicio extends AbstractFactoryAndRepository {
 	
 	static SecretKey key;
 	static CorreoEmpresa ce;
+	
 	/**
 	 * 
 	 *  Identificacion del nombre del icono que aparecera en la UI
@@ -79,7 +82,7 @@ public class CorreoServicio extends AbstractFactoryAndRepository {
 			}
 
 		}
-			return listaMensajesPersistidos(correoEmpresa);
+			return listarMensajesPersistidos(correoEmpresa);
 		 
 	 
 	}
@@ -88,6 +91,16 @@ public class CorreoServicio extends AbstractFactoryAndRepository {
 	 * Retorna los emails guardados por el usuario registrado
 	 * @return List<Correo>
 	 */
+	public List<Correo> listarMensajesPersistidos(final CorreoEmpresa correoEmpresa) {
+		final List<Correo> listaCorreosPersistidos = this.container.allMatches(
+				new QueryDefault<Correo>(Correo.class,"buscarCorreo"));
+		if (listaCorreosPersistidos.isEmpty()) {
+			this.container.warnUser("No hay Correos Electronicos guardados en el sistema.");
+		}
+		return listaCorreosPersistidos;
+	}
+	
+	/**
 	@Programmatic
 	public List<Correo> listaMensajesPersistidos(final CorreoEmpresa correoEmpresa) {
 
@@ -98,6 +111,7 @@ public class CorreoServicio extends AbstractFactoryAndRepository {
 			}
 		});
 	}
+	/*
 	
 	/**
 	 * Retorna los emails guardados por el usuario registrado
@@ -258,4 +272,11 @@ public class CorreoServicio extends AbstractFactoryAndRepository {
 	public static CorreoEmpresa getCorreoEmpresa(){
 		return ce;
 	}
+	
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 }
