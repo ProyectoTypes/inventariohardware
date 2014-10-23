@@ -1,5 +1,7 @@
 package dom.zabbix;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -7,7 +9,9 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
+import org.apache.isis.objectstore.jdo.applib.service.support.IsisJdoSupport;
 
+@SuppressWarnings("deprecation")
 @DomainService(menuOrder = "100")
 @Named("Servidor")
 public class ZabbixRepositorio {
@@ -29,11 +33,11 @@ public class ZabbixRepositorio {
 	}
 
 	public Zabbix obtenerCuentaZabbix() {
-		Zabbix retorno = container.firstMatch(new QueryDefault<Zabbix>(
+		List<Zabbix> retorno = container.allMatches(new QueryDefault<Zabbix>(
 				Zabbix.class, "obtenerCuenta"));
-		if (retorno == null)
+		if (retorno.isEmpty())
 			container.informUser("No se encontraron registros de Zabbix");
-		return retorno;
+		return retorno.get(0);
 	}
 
 	@Programmatic
@@ -48,9 +52,16 @@ public class ZabbixRepositorio {
 	@Programmatic
 	@PostConstruct
 	public void init() {
+		vaciarZabbixTable();
 		addZabbix("127.0.0.1");
 	}
 
+	private void vaciarZabbixTable() {
+		isisJdoSupport.executeUpdate("truncate table \"Zabbix\";");
+	}
+
+	@javax.inject.Inject
+	private IsisJdoSupport isisJdoSupport;
 	@javax.inject.Inject
 	DomainObjectContainer container;
 }
