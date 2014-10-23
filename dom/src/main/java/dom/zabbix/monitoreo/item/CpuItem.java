@@ -21,7 +21,7 @@ public class CpuItem extends ItemManager {
 	}
 
 	@Override
-	protected String obtenerValor() throws JSONException {
+	protected String obtenerValor(final String ip) throws JSONException {
 		// TODO Auto-generated method stub
 		return null;
 	}

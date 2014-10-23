@@ -22,7 +22,7 @@ public abstract class ItemManager extends ZabbixManager {
 		this.getObjetoJson().put("auth", token);
 		this.getObjetoJson().put("id", "1");
 
-		return this.obtenerValor();
+		return this.obtenerValor(ip);
 		
 	}
 
@@ -31,7 +31,7 @@ public abstract class ItemManager extends ZabbixManager {
 	 * metodo a su criterio.
 	 */
 	protected abstract void cargarParametros();
-	protected abstract String obtenerValor() throws JSONException;
+	protected abstract String obtenerValor(String ip) throws JSONException;
 
 
 }

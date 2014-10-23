@@ -22,9 +22,9 @@ public class RamItem extends ItemManager {
 	}
 
 	@Override
-	protected String obtenerValor() throws JSONException {
+	protected String obtenerValor(final String ip) throws JSONException {
 		String resultado ="Sin Especificar";
-		String[] cadena = this.ejecutarJson().getString("result").split(",");
+		String[] cadena = this.ejecutarJson(ip).getString("result").split(",");
 		boolean encontro =false;
 		for(int i =0 ; i<cadena.length && !encontro;i++)
 			if(cadena[i].startsWith("\"lastvalue")){
