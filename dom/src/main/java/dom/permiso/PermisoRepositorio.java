@@ -67,10 +67,12 @@ public class PermisoRepositorio {
 		return permiso;
 	}
 	public String default2AddPermiso() {
-		return "*"; // TODO: return default for property when first created
+		return "*";
+	}public String default3AddPermiso() {
+		return "*";
 	}
 	public boolean default4AddPermiso() {
-		return true; // TODO: return default for property when first created
+		return true; 
 	}
 	@ActionSemantics(Of.NON_IDEMPOTENT)
 	@MemberOrder(sequence = "4")
