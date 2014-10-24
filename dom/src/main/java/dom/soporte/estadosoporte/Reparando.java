@@ -8,6 +8,7 @@ import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.json.JSONException;
 
 import servicio.email.EmailService;
 import dom.computadora.Computadora.CategoriaDisco;
@@ -152,16 +153,16 @@ public class Reparando implements IEstado {
 	 * @param disco
 	 * @param memoria
 	 * @param impresora
+	 * @throws JSONException 
 	 */
 	@Override
 	@Hidden
 	public void asignarNuevoEquipo(final String ip, final String mother,
 			final String procesador, final CategoriaDisco disco,
-			final String memoria, final Impresora impresora) {
+			final Impresora impresora) throws JSONException {
 		// Creando nueva computadora.
 		this.computadoraRepositorio.addComputadora(this.getSoporte()
-				.getComputadora().getUsuario(), ip, mother, procesador, disco,
-				memoria, impresora);
+				.getComputadora().getUsuario(), ip, mother, procesador, disco, impresora);
 
 		// Desvinculando Usuario/Tecnico/Impresora de Computadora -
 		this.getSoporte().getTecnico()

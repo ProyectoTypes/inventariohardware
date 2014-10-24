@@ -1,5 +1,7 @@
 package dom.soporte.estadosoporte;
 
+import org.json.JSONException;
+
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.impresora.Impresora;
 import dom.tecnico.Tecnico;
@@ -14,7 +16,7 @@ public interface IEstado {
 
 	void asignarNuevoEquipo(final String ip, final String mother,
 			final String procesador, final CategoriaDisco disco,
-			final String memoria, final Impresora impresora);
+			 final Impresora impresora) throws JSONException;
 
 	boolean escondeAsignarTecnico();
 

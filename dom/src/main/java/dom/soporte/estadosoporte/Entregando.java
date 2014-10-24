@@ -76,7 +76,7 @@ public class Entregando implements IEstado {
 	@Hidden
 	public void asignarNuevoEquipo(final String ip, final String mother,
 			final String procesador, final CategoriaDisco disco,
-			final String memoria, final Impresora impresora) {
+			 final Impresora impresora) {
 		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
 	}
 

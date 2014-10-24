@@ -50,6 +50,7 @@ import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.json.JSONException;
 
 import dom.computadora.Computadora;
 import dom.computadora.Computadora.CategoriaDisco;
@@ -507,9 +508,10 @@ public class Soporte implements Comparable<Soporte> {
 			final @Named("Procesador") String procesador,
 			final @Named("Disco") CategoriaDisco disco,
 			final @Named("Memoria") String memoria,
-			final @Optional @Named("Impresora") Impresora impresora) {
+			final @Optional @Named("Impresora") Impresora impresora)
+			throws JSONException {
 		this.getEstado().asignarNuevoEquipo(ip, mother, procesador, disco,
-				memoria, impresora);
+				impresora);
 		return this;
 	}
 
