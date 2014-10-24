@@ -34,12 +34,14 @@ import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
+import org.json.JSONException;
 
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.impresora.Impresora;
 import dom.impresora.ImpresoraRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
+import dom.zabbix.monitoreo.item.RamItem;
 
 @DomainService(menuOrder="10")
 @Named("COMPUTADORA")
@@ -72,17 +74,16 @@ public class ComputadoraRepositorio {
 			final @Named("Mother") String mother,
 			final @Named("Procesador") String procesador,
 			final @Named("Disco") CategoriaDisco disco,
-			final @Named("Memoria") String memoria,
-			final @Optional @Named("Impresora") Impresora impresora) {
+			final @Optional @Named("Impresora") Impresora impresora) throws JSONException {
 		return nuevaComputadora(usuario, ip, mother, procesador, disco,
-				memoria, impresora, this.currentUserName());
+				 impresora, this.currentUserName());
 	}
 
 	@Programmatic
 	public Computadora nuevaComputadora(final Usuario usuario, final String ip,
 			final String mother, final String procesador,
-			final CategoriaDisco disco, final String memoria,
-			final Impresora impresora, final String creadoPor) {
+			final CategoriaDisco disco, 
+			final Impresora impresora, final String creadoPor) throws JSONException {
 		final Computadora unaComputadora = container
 				.newTransientInstance(Computadora.class);
 		
@@ -91,7 +92,8 @@ public class ComputadoraRepositorio {
 		unaComputadora.setMother(mother);
 		unaComputadora.setProcesador(procesador);
 		unaComputadora.setDisco(disco);
-		unaComputadora.setMemoria(memoria);
+		RamItem ram = new RamItem();
+		unaComputadora.setMemoria(ram.requestItemGet(ip));
 		unaComputadora.setImpresora(impresora);
 		unaComputadora.setHabilitado(true);
 		unaComputadora.setCreadoPor(creadoPor);
@@ -108,7 +110,6 @@ public class ComputadoraRepositorio {
 			final @Named("Mother") String mother,
 			final @Named("Procesador") String procesador,
 			final @Named("Disco") CategoriaDisco disco,
-			final @Named("Memoria") String memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
 		if (usuario.getComputadora()==null)
 			return null;
@@ -120,7 +121,7 @@ public class ComputadoraRepositorio {
 	// //////////////////////////////////////
 
 	// @Named("Impresora")
-	public List<Impresora> choices6AddComputadora() {
+	public List<Impresora> choices5AddComputadora() {
 		return this.impresoraRepositorio.listar();
 
 	}

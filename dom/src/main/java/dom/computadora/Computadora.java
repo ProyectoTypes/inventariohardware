@@ -109,7 +109,7 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 	// Mother (propiedad)
 	// //////////////////////////////////////
-
+	// FIXME: ELIMINAR
 	private String mother;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -126,7 +126,7 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 	// Procesador (propiedad)
 	// //////////////////////////////////////
-
+	// FIXME:ELIMINAR
 	private String procesador;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -143,7 +143,7 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 	// Disco (propiedad)
 	// //////////////////////////////////////
-
+	// FIXME: ELIMINAR
 	public static enum CategoriaDisco {
 		Seagate, Western, Otro;
 	}
@@ -162,6 +162,7 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 	// Memoria (propiedad)
 	// //////////////////////////////////////
+	// FIXME:ELIMINAR
 
 	private String memoria;
 
@@ -195,7 +196,6 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 	// Impresora (propiedad)
 	// //////////////////////////////////////
-
 	private Impresora impresora;
 
 	@MemberOrder(sequence = "50")
