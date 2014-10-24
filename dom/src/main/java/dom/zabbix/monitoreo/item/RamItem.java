@@ -1,5 +1,6 @@
 package dom.zabbix.monitoreo.item;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,9 +29,12 @@ public class RamItem extends ItemManager {
 		boolean encontro =false;
 		for(int i =0 ; i<cadena.length && !encontro;i++)
 			if(cadena[i].startsWith("\"lastvalue")){
-				resultado = cadena[i].split(":")[1];
+				resultado = cadena[i].split("\"")[3];//7471730688
 				encontro =true;
 			}
-		return resultado;
+		Double numero = (((Double.parseDouble(resultado) / (1024))/1024)/1024);
+		DecimalFormat df= new DecimalFormat("#0.00");
+		String numeroConFormato= df.format(numero);
+		return numeroConFormato+"GB";
 	}
 }
