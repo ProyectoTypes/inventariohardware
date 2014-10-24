@@ -21,17 +21,23 @@
 */
 package dom.sector;
 
+import java.util.List;
+
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberGroupLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
@@ -129,6 +135,31 @@ public class Sector implements Comparable<Sector> {
 	public void setHabilitado(final boolean habilitado) {
 		this.habilitado = habilitado;
 	}
+	
+	/**
+	 * Método que utilizo para deshabilitar un Insumo.
+	 * 
+	 * @return la propiedad habilitado en false.
+	 */
+	@Named("Eliminar")
+	@PublishedAction
+	@Bulk
+	@MemberOrder(name = "accionEliminar", sequence = "1")
+	public List<Sector> eliminar() {
+		if (getEstaHabilitado() == true) {
+			setHabilitado(false);
+			container.isPersistent(this);
+			container.warnUser("Eliminado " + container.titleOf(this));
+		}
+		return null;
+	}
+	
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 
 	/**
 	 * Implementacion de la interface comparable, necesaria para toda entidad.
