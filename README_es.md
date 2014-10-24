@@ -30,7 +30,7 @@ El proyecto está basado en el modelo Domain-Driven Design (DDD) y su implementa
     Framework isis apache.
       versión 1.6.
     Postgresql 9.1.
-    SNMP4J.
+    Api de Zabbix.
 
 
 ## Instalación
