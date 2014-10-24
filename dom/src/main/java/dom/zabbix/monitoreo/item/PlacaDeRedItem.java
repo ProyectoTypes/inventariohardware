@@ -1,5 +1,19 @@
 package dom.zabbix.monitoreo.item;
 
-public class PlacaDeRedItem {
+import org.json.JSONException;
+
+public class PlacaDeRedItem extends ItemManager {
+
+	@Override
+	protected void cargarParametros() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected String obtenerValor(String ip) throws JSONException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
