@@ -21,6 +21,24 @@
 */
 package dom.computadora.hardware.gabinete.motherboard;
 
-public class Motherboard {
+import org.apache.isis.applib.annotation.DescribedAs;
+import org.apache.isis.applib.annotation.MemberOrder;
 
+public class Motherboard {
+	// //////////////////////////////////////
+	// Modelo (propiedad)
+	// //////////////////////////////////////
+
+	private String modelo;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@DescribedAs("Modelo de la Computadora:")
+	@MemberOrder(sequence = "20")
+	public String getModelo() {
+		return modelo;
+	}
+
+	public void setModelo(final String modelo) {
+		this.modelo = modelo;
+	}
 }
