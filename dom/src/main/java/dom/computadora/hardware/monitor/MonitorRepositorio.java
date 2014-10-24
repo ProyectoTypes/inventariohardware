@@ -19,11 +19,12 @@
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-package dom.software;
+package dom.computadora.hardware.monitor;
 
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.NotContributed;
@@ -31,62 +32,62 @@ import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 
-@Named("SOFTWARE")
-public class SoftwareRepositorio {
-	
+@DomainService
+@Named("Monitor")
+public class MonitorRepositorio {
 	// //////////////////////////////////////
 	// Icono
 	// //////////////////////////////////////
 
 	public String title() {
-		return "Software";
+		return "Monitor";
 	}
 
 	public String iconName() {
-		return "Software";
+		return "Monitor";
 	}
 	
 	// //////////////////////////////////////
-	// Agregar Software
+	// Agregar Monitor
 	// //////////////////////////////////////
 	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
-	public Software addSoftware(final @Named("Codigo") String codigo,
+	public Monitor addMonitor(final @Named("Codigo") String codigo,
 			final @Named("Tipo") int tipo,
 			final @Named("Nombre") String nombre,
 			final @Named("Marca") String marca,
 			final @Optional @Named("Observaciones") String observaciones) {
-		return nuevosSoftware(codigo, tipo, nombre, marca, observaciones,
+		return nuevosMonitor(codigo, tipo, nombre, marca, observaciones,
 				this.currentUserName());
 	}
 	
 	@Programmatic
-	public Software nuevosSoftware(final String codigo, final int cantidad,
+	public Monitor nuevosMonitor(final String codigo, final int cantidad,
 			final String producto, final String marca,
 			final String observaciones, final String creadoPor) {
-		final Software unSoftware = container.newTransientInstance(Software.class);
-		unSoftware.setCodigo(codigo.toUpperCase().trim());
-		unSoftware.setTipo(codigo.toUpperCase().trim());
-		unSoftware.setNombre(codigo.toUpperCase().trim());
-		unSoftware.setMarca(marca.toUpperCase().trim());
-		unSoftware.setObservaciones(observaciones.toUpperCase().trim());
-		unSoftware.setHabilitado(true);
-		unSoftware.setCreadoPor(creadoPor);
-		container.persistIfNotAlready(unSoftware);
+		final Monitor unMonitor = container.newTransientInstance(Monitor.class);
+		unMonitor.setCodigo(codigo.toUpperCase().trim());
+		unMonitor.setTipo(codigo.toUpperCase().trim());
+		unMonitor.setPulgadas(codigo.toUpperCase().trim());
+		unMonitor.setMarca(marca.toUpperCase().trim());
+		unMonitor.setObservaciones(observaciones.toUpperCase().trim());
+		unMonitor.setHabilitado(true);
+		unMonitor.setCreadoPor(creadoPor);
+		container.persistIfNotAlready(unMonitor);
 		container.flush();
-		return unSoftware;
+		return unMonitor;
 	}
 
 	// //////////////////////////////////////
-	// Listar Software
+	// Listar Insumos
 	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "100")
-	public List<Software> listar() {
-		final List<Software> listaSoftware = this.container
-				.allMatches(new QueryDefault<Software>(Software.class,
-						"listarSoftwareTrue"));
+	public List<Monitor> listar() {
+		final List<Monitor> listaSoftware = this.container
+				.allMatches(new QueryDefault<Monitor>(Monitor.class,
+						"listarMonitorTrue"));
 		if (listaSoftware.isEmpty()) {
 			this.container.warnUser("No hay Software cargadas en el sistema.");
 		}
@@ -96,15 +97,14 @@ public class SoftwareRepositorio {
 	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////
-
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
+	
 
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
-
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 }

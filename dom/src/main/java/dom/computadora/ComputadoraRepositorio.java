@@ -37,8 +37,8 @@ import org.apache.isis.applib.query.QueryDefault;
 import org.json.JSONException;
 
 import dom.computadora.Computadora.CategoriaDisco;
-import dom.impresora.Impresora;
-import dom.impresora.ImpresoraRepositorio;
+import dom.computadora.hardware.impresora.Impresora;
+import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 import dom.zabbix.monitoreo.item.RamItem;
@@ -148,8 +148,7 @@ public class ComputadoraRepositorio {
 				.allMatches(new QueryDefault<Computadora>(Computadora.class,
 						"eliminarComputadoraTrue"));
 		if (listaComputadoras.isEmpty()) {
-			this.container
-					.warnUser("No hay Computadoras cargados en el sistema.");
+			this.container.warnUser("No hay Computadoras cargados en el sistema.");
 		}
 		return listaComputadoras;
 	}

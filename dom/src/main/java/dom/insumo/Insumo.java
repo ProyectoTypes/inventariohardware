@@ -21,18 +21,24 @@
  */
 package dom.insumo;
 
+import java.util.List;
+
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Where;
 import org.joda.time.LocalDate;
 
@@ -228,18 +234,40 @@ public class Insumo implements Comparable<Insumo> {
 	}
 
 	/**
+	 * Método que utilizo para deshabilitar un Insumo.
+	 * 
+	 * @return la propiedad habilitado en false.
+	 */
+	@Named("Eliminar")
+	@PublishedAction
+	@Bulk
+	@MemberOrder(name = "accionEliminar", sequence = "1")
+	public List<Insumo> eliminar() {
+		if (getEstaHabilitado() == true) {
+			setHabilitado(false);
+			container.isPersistent(this);
+			container.warnUser("Eliminado " + container.titleOf(this));
+		}
+		return null;
+	}
+	
+	/**
 	 * TERMINAR DE IMPLEMENTAR CORRECTAMENTE LOS SIGUIENTES METODOS.
 	 */
 
 	@Programmatic
 	public void limpiarSoporte() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public int compareTo(Insumo o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 }

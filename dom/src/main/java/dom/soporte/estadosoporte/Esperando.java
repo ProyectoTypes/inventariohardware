@@ -31,7 +31,7 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
 import dom.computadora.Computadora.CategoriaDisco;
-import dom.impresora.Impresora;
+import dom.computadora.hardware.impresora.Impresora;
 import dom.insumo.Insumo;
 import dom.insumo.InsumoRepositorio;
 import dom.soporte.Soporte;

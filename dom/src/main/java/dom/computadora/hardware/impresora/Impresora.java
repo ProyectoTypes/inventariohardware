@@ -19,7 +19,7 @@
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package dom.impresora;
+package dom.computadora.hardware.impresora;
 
 import java.util.SortedSet;
 import java.util.TreeSet;

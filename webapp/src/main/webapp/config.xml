@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="org.apache.isis.viewer.js" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>IsisJSViewer</name>
+    <description>
+        A JS Viewer for Apache ISIS
+    </description>
+    <author email="bhargav@apache.org" href="http://isis.apache.org">
+        Apache ISIS
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <preference name="fullscreen" value="true" />
+    <preference name="webviewbounce" value="true" />
+    <preference name="load-url-timeout" value="60000" />
+    <icon src="icon.png" />
+    <!--<icon gap:density="mdpi" gap:platform="android" src="res/drawable-mdpi/ic_launcher.png" />
+    <icon gap:density="hdpi" gap:platform="android" src="res/drawable-hdpi/ic_launcher.png" />
+    <icon gap:density="xhdpi" gap:platform="android" src="res/drawable-xhdpi/ic_launcher.png" />-->
+	
+</widget>
