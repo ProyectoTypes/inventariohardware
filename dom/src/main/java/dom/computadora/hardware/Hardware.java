@@ -12,7 +12,7 @@ public class Hardware {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Fabricante del Hardware:")
-	@MemberOrder(sequence = "20")
+	@MemberOrder(sequence = "10")
 	public String getFabricante() {
 		return fabricante;
 	}
