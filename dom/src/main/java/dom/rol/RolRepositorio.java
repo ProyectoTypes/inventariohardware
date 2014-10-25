@@ -67,7 +67,7 @@ public class RolRepositorio {
 			permissionsList.add(permiso);
 			rol.setListaPermisos(permissionsList);
 		}
-		rol.setNombre(nombre);
+		rol.setNombre(nombre.toUpperCase().trim());
 		container.persistIfNotAlready(rol);
 		return rol;
 	}
