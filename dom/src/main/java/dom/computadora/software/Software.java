@@ -65,7 +65,6 @@ import org.apache.isis.applib.util.ObjectContracts;
 @ObjectType("SOFTWARE")
 @Audited
 @AutoComplete(repository = SoftwareRepositorio.class, action = "autoComplete")
-@Bookmarkable
 public class Software implements Comparable<Software> {
 	
 	// //////////////////////////////////////
