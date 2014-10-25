@@ -19,7 +19,7 @@
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package dom.computadora.hardware.placadered;
+package dom.computadora.hardware.gabinete.placadered;
 
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.DescribedAs;
