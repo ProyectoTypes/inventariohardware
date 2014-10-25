@@ -32,7 +32,6 @@ import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
-import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.CssClass;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
@@ -90,7 +89,6 @@ import dom.tecnico.TecnicoRepositorio;
 @ObjectType("SOPORTE")
 @Audited
 @AutoComplete(repository = SoporteRepositorio.class, action = "autoComplete")
-@Bookmarkable
 public class Soporte implements Comparable<Soporte> {
 
 	/**********************************************

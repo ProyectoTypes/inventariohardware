@@ -27,7 +27,6 @@ import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
-import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.util.ObjectContracts;
@@ -58,7 +57,6 @@ import dom.persona.Persona;
 @ObjectType("USUARIO")
 @Audited
 @AutoComplete(repository = UsuarioRepositorio.class, action = "autoComplete")
-@Bookmarkable
 public class Usuario extends Persona implements Comparable<Persona> {
 
 	// //////////////////////////////////////

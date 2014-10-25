@@ -29,7 +29,6 @@ import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
-import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Hidden;
@@ -69,7 +68,6 @@ import org.apache.isis.applib.util.ObjectContracts;
 @ObjectType("SECTOR")
 @Audited
 @AutoComplete(repository = SectorRepositorio.class, action = "autoComplete")
-@Bookmarkable
 @MemberGroupLayout(columnSpans = { 3, 0, 0, 9 })
 public class Sector implements Comparable<Sector> {
 
