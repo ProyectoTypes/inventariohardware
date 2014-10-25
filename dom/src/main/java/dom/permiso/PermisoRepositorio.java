@@ -54,7 +54,7 @@ public class PermisoRepositorio {
 			final @Optional @DescribedAs("Por defecto: lectura/escritura ") @Named("Permiso de Escritura") boolean escritura) {
 		final Permiso permiso = container.newTransientInstance(Permiso.class);
 
-		permiso.setNombre(nombre);
+		permiso.setNombre(nombre.toUpperCase().trim());
 		if (clase == "" || clase == null)
 			clase = "*";
 		if (campo == "" || campo == null)
