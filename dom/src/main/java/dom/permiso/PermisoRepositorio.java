@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.permiso;
 
 import java.util.List;
@@ -55,9 +55,9 @@ public class PermisoRepositorio {
 		final Permiso permiso = container.newTransientInstance(Permiso.class);
 
 		permiso.setNombre(nombre);
-		if (clase == "" || clase ==null)
+		if (clase == "" || clase == null)
 			clase = "*";
-		if (campo == ""|| campo ==null)
+		if (campo == "" || campo == null)
 			campo = "*";
 		String acceso = "*";
 		if (!escritura)
@@ -69,21 +69,27 @@ public class PermisoRepositorio {
 		container.persistIfNotAlready(permiso);
 		return permiso;
 	}
+
 	public String default2AddPermiso() {
 		return "*";
-	}public String default3AddPermiso() {
+	}
+
+	public String default3AddPermiso() {
 		return "*";
 	}
+
 	public boolean default4AddPermiso() {
-		return true; 
+		return true;
 	}
+
 	@ActionSemantics(Of.NON_IDEMPOTENT)
 	@MemberOrder(sequence = "4")
 	@Named("Eliminar Permiso")
 	public String eliminar(@Named("Permiso") Permiso permiso) {
 		String permissionDescription = permiso.getNombre();
 		container.remove(permiso);
-		return "El Permiso: " + permissionDescription + " ha sido eliminado";
+		return "El Permiso: " + permissionDescription
+				+ " ha sido eliminado correctamente.";
 	}
 
 	@ActionSemantics(Of.SAFE)
