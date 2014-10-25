@@ -72,7 +72,7 @@ import org.apache.isis.applib.util.ObjectContracts;
 public class Sector implements Comparable<Sector> {
 
 	// //////////////////////////////////////
-	// Identificacion en la UI. Aparece como item del menu
+	// Identificacion en la UI
 	// //////////////////////////////////////
 
 	public String title() {
@@ -84,7 +84,7 @@ public class Sector implements Comparable<Sector> {
 	}
 
 	// //////////////////////////////////////
-	// Descripcion de las propiedades.
+	// Nombre
 	// //////////////////////////////////////
 	
 	private String nombreSector;
@@ -134,6 +134,9 @@ public class Sector implements Comparable<Sector> {
 		this.habilitado = habilitado;
 	}
 	
+	// //////////////////////////////////////
+	// Eliminar
+	// //////////////////////////////////////
 	/**
 	 * Método que utilizo para deshabilitar un Insumo.
 	 * 
@@ -153,12 +156,8 @@ public class Sector implements Comparable<Sector> {
 	}
 	
 	// //////////////////////////////////////
-	// Injected Services
+	// Comparable
 	// //////////////////////////////////////
-
-	@javax.inject.Inject
-	private DomainObjectContainer container;
-
 	/**
 	 * Implementacion de la interface comparable, necesaria para toda entidad.
 	 *  
@@ -167,4 +166,11 @@ public class Sector implements Comparable<Sector> {
 	public int compareTo(final Sector sector) {
 		return ObjectContracts.compare(this, sector, "nombreSector");
 	}
+	
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 }
