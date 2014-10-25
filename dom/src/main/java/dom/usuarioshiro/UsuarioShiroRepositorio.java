@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.usuarioshiro;
 
 import java.util.List;
@@ -77,6 +77,7 @@ public class UsuarioShiroRepositorio {
 	public List<UsuarioShiro> listAll() {
 		return container.allInstances(UsuarioShiro.class);
 	}
+
 	@MemberOrder(sequence = "2")
 	@Named("Crear Usuario")
 	@Hidden(where = Where.OBJECT_FORMS)
@@ -96,6 +97,7 @@ public class UsuarioShiroRepositorio {
 		container.persistIfNotAlready(obj);
 		return obj;
 	}
+
 	@Programmatic
 	public UsuarioShiro addUsuarioShiro(final @Named("Nick") String nick,
 			final @Named("Password") String password,
@@ -112,13 +114,15 @@ public class UsuarioShiroRepositorio {
 		container.persistIfNotAlready(obj);
 		return obj;
 	}
+
 	@ActionSemantics(Of.NON_IDEMPOTENT)
 	@MemberOrder(sequence = "4")
 	@Named("Eliminar Usuario")
 	public String removeUsuarioShiro(@Named("Usuario") UsuarioShiro usuarioShiro) {
 		String userName = usuarioShiro.getNick();
 		container.remove(usuarioShiro);
-		return "The user " + userName + " has been removed";
+		return "El usuario de sistema " + userName
+				+ " se ha eliminado correctamente.";
 	}
 
 	@javax.inject.Inject
