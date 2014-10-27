@@ -53,7 +53,7 @@ $(document).ready(function(){ //For Normal usage
 				},
 				error: function (request,error) {
 					console.log(request.responseText);
-					toastr.error('Username and Password donot match!');
+					toastr.error('Usuario y contraseña incorrecto');
 				}
 			});
 		} else {
@@ -278,7 +278,7 @@ $(document).ready(function(){ //For Normal usage
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("Action couldn't be completed");
+				toastr.error("Se requiere que esten completas las variables.");
 			}
 		});
 	});
