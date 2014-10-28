@@ -32,7 +32,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY)
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "VERSION")
 @ObjectType("CORREOEMPRESA")
-@AutoComplete(repository = CorreoServicio.class, action = "autoComplete")
+@AutoComplete(repository = CorreoRepositorio.class, action = "autoComplete")
 @Immutable
 public class CorreoEmpresa {
 	
