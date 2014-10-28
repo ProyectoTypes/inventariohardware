@@ -204,7 +204,7 @@ public class CorreoRepositorio extends AbstractFactoryAndRepository {
 	public Correo existeMensaje(final String mail) {
 		Correo correo = this.container.firstMatch(new QueryDefault<Correo>(Correo.class, "buscarCorreo", "mail", mail));
 		if(correo == null){
-			this.container.warnUser("El mensaje no se encuentra guardado.");
+			this.container.warnUser("El correo electronico no se encuentra guardado.");
 		}
 		return correo;
 	}

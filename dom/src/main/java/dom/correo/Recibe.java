@@ -47,7 +47,7 @@ public class Recibe {
 	private CorreoEmpresa correoEmpresa = new CorreoEmpresa();
 
 	/**
-	 * Retorna la lista con los correos electrónicos nuevos
+	 * Retorna la lista con los correos electrónicos nuevos.
 	 * 
 	 * @return List<Correo>
 	 */
@@ -56,7 +56,7 @@ public class Recibe {
 	}
 
 	/**
-	 * Setea la lista de correos electrónicos nuevos
+	 * Setea la lista de correos electrónicos nuevos.
 	 * 
 	 * @param listaMensajes
 	 */
@@ -65,7 +65,7 @@ public class Recibe {
 	}
 
 	/**
-	 * A la sesión actual le aplica las propiedades de conexión
+	 * A la sesión actual le aplica las propiedades de conexión.
 	 * 
 	 * @param propiedades
 	 */
@@ -83,7 +83,7 @@ public class Recibe {
 	}
 
 	/**
-	 * Setea las propiedades para crear la sesión de usuario
+	 * Setea las propiedades para crear la sesión de usuario.
 	 */
 	public void setProperties(CorreoEmpresa ce) {
 		correoEmpresa = ce;
@@ -104,7 +104,7 @@ public class Recibe {
 	}
 
 	/**
-	 * Retorna las propiedades para crear la sesión de usuario
+	 * Retorna las propiedades para crear la sesión de usuario.
 	 * 
 	 * @return Properties
 	 */

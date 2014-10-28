@@ -70,7 +70,7 @@ public class Envio {
 	 */
 	public void setProperties(CorreoEmpresa correoEmpresa) {
 		
-		correoEmp=correoEmpresa;
+		correoEmp = correoEmpresa;
 		
 		// Nombre del host de correo, es smtp.gmail.com
 		propiedades.setProperty("mail.smtp.host", "smtp.gmail.com");
@@ -82,9 +82,8 @@ public class Envio {
 		propiedades.setProperty("mail.smtp.port", "587");
 
 		// Nombre del usuario
-//		propiedades.setProperty("mail.smtp.user", "projecttypes@gmail.com");
-		propiedades.setProperty("mail.smtp.user",
-				correoEmp.getCorreo());
+//		propiedades.setProperty("mail.smtp.user", "nicolasvergara89@gmail.com");
+		propiedades.setProperty("mail.smtp.user", correoEmp.getCorreo());
 
 		// Si requiere o no usuario y password para conectarse.
 		propiedades.setProperty("mail.smtp.auth", "true");
@@ -103,7 +102,7 @@ public class Envio {
 	}
 
 	/**
-	 * Env&iacute;a el mail al cliente, para responder su solicitud.
+	 * Envia el mail al cliente, para responder su solicitud.
 	 * 
 	 * @param mensaje
 	 * @param direccion
@@ -113,17 +112,15 @@ public class Envio {
 		MimeMessage message = new MimeMessage(getSession());
 		Multipart multiPart = new MimeMultipart("alternative");
 		try {
-//			message.setFrom(new InternetAddress(
-//					"rentacarPDF@gmail.com"));
+			//message.setFrom(new InternetAddress("nicolasvergara89@gmail.com"));
 			
-			message.setFrom(new InternetAddress(
-					correoEmp.getCorreo()));
+			message.setFrom(new InternetAddress(correoEmp.getCorreo()));
 			// A quien va dirigido
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
 					direccion));
-			message.setSubject("RentacarPDF - Consulta");
+			message.setSubject("Proyecto Types - Consulta");
 
-			String firma="Seguimos viajando a su lado....<b>rentacarPDF.</b>";
+			String firma="Inventariando el Hardware....<b>PROYECTOTYPES.</b>";
 			
 			MimeBodyPart htmlPart = new MimeBodyPart();
 			 			
@@ -140,7 +137,7 @@ public class Envio {
 			System.out.println("### CORREO  ENVIO::: "+correoEmp.getCorreo());
 			System.out.println("### PASS ENCRIPT ENVIO::: "+correoEmp.getPass());
 			
-			String clave="LAS AVES VUELAN LIBREMENTE";
+			String clave="TODOS LOS SABADOS EN CASA DE EXE.";
             Encripta encripta=new Encripta(clave);
             
 			String pass=encripta.desencripta(correoEmp.getPass());
