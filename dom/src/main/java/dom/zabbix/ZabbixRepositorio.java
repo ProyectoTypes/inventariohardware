@@ -18,23 +18,24 @@ import org.apache.isis.objectstore.jdo.applib.service.support.IsisJdoSupport;
 public class ZabbixRepositorio {
 
 	@Named("Configurar IP")
-	public Zabbix configurarIpServidor(final @Named("IP") String ip) {
+	public Zabbix configurarIpServidor(final @Named("IP") String ip, final @Named("Nombre del HOST")String host) {
 		if (this.ping(ip)) {
-			return updateZabbix(ip);
+			return updateZabbix(ip,host);
 		}
 		container.warnUser("IP: " + ip
 				+ " Incorrecta, el SERVIDOR no responde."
 				+ " No se han aplicado los cambios.");
 		return obtenerCuentaZabbix();
 	}
-
+	
 	@Programmatic
-	public Zabbix updateZabbix(final String ip) {
+	public Zabbix updateZabbix(final String ip,final String host) {
 		Zabbix obj = obtenerCuentaZabbix();
 		if (obj == null)
 			return null;
 		obj.setIp(ip);
-		obj.setToken(ZabbixAutenticacion.obtenerTokenPorIp(ip));
+		obj.setHost(host);
+		obj.setToken(ZabbixAutenticacion.obtenerTokenServer());
 		container.flush();
 		return obj;
 	}
@@ -49,10 +50,11 @@ public class ZabbixRepositorio {
 	}
 
 	@Programmatic
-	public Zabbix addZabbix(final String ip) {
+	public Zabbix addZabbix(final String ip,final String host) {
 		Zabbix obj = container.newTransientInstance(Zabbix.class);
 		obj.setIp(ip);
-		obj.setToken(ZabbixAutenticacion.obtenerTokenPorIp(ip));
+		obj.setHost(host);
+		obj.setToken(ZabbixAutenticacion.obtenerTokenServer());
 		container.persistIfNotAlready(obj);
 		return obj;
 	}
@@ -61,7 +63,7 @@ public class ZabbixRepositorio {
 	@PostConstruct
 	public void init() {
 		if (obtenerCuentaZabbix() == null)
-			addZabbix("127.0.0.1");
+			addZabbix("127.0.0.1","inventariohardware");
 	}
 
 	private boolean ping(final String ip) {
