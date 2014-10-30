@@ -1,22 +1,34 @@
 package dom.zabbix;
 
+import javax.inject.Inject;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.goebl.david.Webb;
 
 public abstract class ZabbixManager {
-	protected static final String HOST = "inventario";
+
 	/**
 	 * Constructor
 	 */
 	public ZabbixManager() {
 		this.objetoJson = new JSONObject();
 		this.parametrosJson = new JSONObject();
+		ZabbixManager.zabbix = zabbixRepositorio.obtenerCuentaZabbix();
+
 	}
-	
+
 	/*
 	 * Atributos
 	 */
+	private static Zabbix zabbix;
+
+	protected static Zabbix getZabbix() {
+		return zabbix;
+	}
+
+
 	private JSONObject objetoJson;
 
 	public JSONObject getObjetoJson() {
@@ -36,29 +48,69 @@ public abstract class ZabbixManager {
 	public void setParametrosJson(JSONObject parametrosJson) {
 		this.parametrosJson = parametrosJson;
 	}
-	/* FIN: Atributos
-	*/
+	
+
+	/*
+	 * FIN: Atributos
+	 */
 	/*
 	 * OPERACIONES
 	 */
-	/**
-	 * Permite obtener el token a partir de la autenticacion en Zabbix.
-	 * @param ip
-	 * @return
-	 */
-	protected String obtenerToken(final String ip) {
-		return ZabbixAutenticacion.obtenerTokenPorIp(ip);
-	}
+
 	/**
 	 * La ip que ingresa por parametro hace referencia a la ip del host.
+	 * 
 	 * @return
 	 */
-	protected JSONObject ejecutarJson(final String ip ) {
-		Webb webb = Webb.create();		
-		return webb.post("http://"+ip+"/zabbix/api_jsonrpc.php")
+	protected JSONObject ejecutarJson(final String ip) {
+		Webb webb = Webb.create();
+		return webb.post("http://" + ip + "/zabbix/api_jsonrpc.php")
 				.header("Content-Type", "application/json").useCaches(false)
 				.body(getObjetoJson()).ensureSuccess().asJsonObject().getBody();
 
 	}
+
+	/**
+	 * Permite obtener el token a partir de la autenticacion en Zabbix.
+	 * 
+	 * @param ip
+	 * @return
+	 */
+	protected static String obtenerTokenServer() {
+		try {
+
+			JSONObject mainJObj = new JSONObject();
+			JSONObject paramJObj = new JSONObject();
+
+			mainJObj.put("jsonrpc", "2.0");
+			mainJObj.put("method", "user.login");
+
+			paramJObj.put("user", "Admin");
+			paramJObj.put("password", "zabbix");
+
+			mainJObj.put("params", paramJObj);
+			mainJObj.put("id", "1");
+
+			Webb webb = Webb.create();
+			
+			JSONObject result = webb
+					.post("http://" +  getZabbix().getIp() + "/zabbix/api_jsonrpc.php")
+					.header("Content-Type", "application/json")
+					.useCaches(false).body(mainJObj).ensureSuccess()
+					.asJsonObject().getBody();
+
+			return result.getString("result");
+
+		} catch (JSONException je) {
+
+			System.out.println("Error creating JSON request to Zabbix API..."
+					+ je.getMessage());
+
+		}
+		return null;
+	}
+
+	@Inject
+	private ZabbixRepositorio zabbixRepositorio;
 
 }
