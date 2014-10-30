@@ -5,6 +5,7 @@ import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.Immutable;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
@@ -13,12 +14,12 @@ import org.apache.isis.applib.annotation.ObjectType;
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "ZabbixToken", members = {
 		"ip", "token" }) })
-@javax.jdo.annotations.Queries({
-	@javax.jdo.annotations.Query(name = "obtenerCuenta", language = "JDOQL", value = "SELECT "
-			+ "FROM dom.zabbix.Zabbix ") })
+@javax.jdo.annotations.Queries({ @javax.jdo.annotations.Query(name = "obtenerCuenta", language = "JDOQL", value = "SELECT "
+		+ "FROM dom.zabbix.Zabbix ") })
 @ObjectType("Servidor Zabbix")
 @Audited
 @Bookmarkable
+@Immutable
 public class Zabbix {
 
 	public String title() {
@@ -32,7 +33,7 @@ public class Zabbix {
 	private String token;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "10")
+	@MemberOrder(sequence = "1")
 	public String getToken() {
 		return token;
 	}
@@ -53,4 +54,14 @@ public class Zabbix {
 		this.ip = ip;
 	}
 
+	private String host;
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@MemberOrder(sequence = "20")
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
 }
