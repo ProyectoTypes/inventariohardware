@@ -35,7 +35,7 @@ public class ZabbixRepositorio {
 			return null;
 		obj.setIp(ip);
 		obj.setHost(host);
-		obj.setToken(ZabbixAutenticacion.obtenerTokenServer());
+		obj.setToken(ZabbixManager.obtenerTokenServer());
 		container.flush();
 		return obj;
 	}
@@ -54,7 +54,7 @@ public class ZabbixRepositorio {
 		Zabbix obj = container.newTransientInstance(Zabbix.class);
 		obj.setIp(ip);
 		obj.setHost(host);
-		obj.setToken(ZabbixAutenticacion.obtenerTokenServer());
+		obj.setToken(ZabbixManager.obtenerTokenServer());
 		container.persistIfNotAlready(obj);
 		return obj;
 	}

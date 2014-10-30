@@ -8,10 +8,10 @@ public abstract class ItemManager extends ZabbixManager {
 
 	public String requestItemGet(final String ip) throws JSONException {
 
-		String token = this.obtenerToken(ip);
+		String token = getZabbix().getToken();
 
 		this.getParametrosJson().put("output", "extend");
-		this.getParametrosJson().put("host", HOST);
+		this.getParametrosJson().put("host", getZabbix().getHost());
 
 		this.cargarParametros();
 
@@ -27,7 +27,7 @@ public abstract class ItemManager extends ZabbixManager {
 	}
 
 	/**
-	 * Metodo abtrascto del template method. Cada subclase implementara este
+	 * Metodo abstracto del template method. Cada subclase implementara este
 	 * metodo a su criterio.
 	 */
 	protected abstract void cargarParametros();

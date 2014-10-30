@@ -16,6 +16,8 @@ public class ZabbixTest {
 //			System.out.println("ALERTAS: "+ alerta.requestAlertGet("127.0.0.1"));
 			RamItem ram = new RamItem();
 			System.out.println("RAM: "+ ram.requestItemGet("127.0.0.1"));
+			
+			
 //			InetAddress ping; 
 //			String ip = "13"; // Ip de la máquina remota 
 //			try { 
