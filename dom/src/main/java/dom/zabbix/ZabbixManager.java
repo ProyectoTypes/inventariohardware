@@ -1,11 +1,12 @@
 package dom.zabbix;
 
-import javax.inject.Inject;
+import javax.annotation.PostConstruct;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.goebl.david.Webb;
+
 
 public abstract class ZabbixManager {
 
@@ -15,19 +16,13 @@ public abstract class ZabbixManager {
 	public ZabbixManager() {
 		this.objetoJson = new JSONObject();
 		this.parametrosJson = new JSONObject();
-		ZabbixManager.zabbix = zabbixRepositorio.obtenerCuentaZabbix();
-
 	}
 
 	/*
 	 * Atributos
 	 */
-	private static Zabbix zabbix;
-
-	protected static Zabbix getZabbix() {
-		return zabbix;
-	}
-
+	
+	
 
 	private JSONObject objetoJson;
 
@@ -48,7 +43,6 @@ public abstract class ZabbixManager {
 	public void setParametrosJson(JSONObject parametrosJson) {
 		this.parametrosJson = parametrosJson;
 	}
-	
 
 	/*
 	 * FIN: Atributos
@@ -76,7 +70,7 @@ public abstract class ZabbixManager {
 	 * @param ip
 	 * @return
 	 */
-	protected static String obtenerTokenServer() {
+	protected static String obtenerTokenServer(final String ip) {
 		try {
 
 			JSONObject mainJObj = new JSONObject();
@@ -85,16 +79,16 @@ public abstract class ZabbixManager {
 			mainJObj.put("jsonrpc", "2.0");
 			mainJObj.put("method", "user.login");
 
-			paramJObj.put("user", "Admin");
-			paramJObj.put("password", "zabbix");
+			paramJObj.put("user", "Admin");// Por Parametro
+			paramJObj.put("password", "zabbix");// POr parametro
 
 			mainJObj.put("params", paramJObj);
 			mainJObj.put("id", "1");
 
 			Webb webb = Webb.create();
-			
+			System.out.println("ip"+ip);
 			JSONObject result = webb
-					.post("http://" +  getZabbix().getIp() + "/zabbix/api_jsonrpc.php")
+					.post("http://" + ip + "/zabbix/api_jsonrpc.php")
 					.header("Content-Type", "application/json")
 					.useCaches(false).body(mainJObj).ensureSuccess()
 					.asJsonObject().getBody();
@@ -109,8 +103,6 @@ public abstract class ZabbixManager {
 		}
 		return null;
 	}
-
-	@Inject
-	private ZabbixRepositorio zabbixRepositorio;
+	
 
 }
