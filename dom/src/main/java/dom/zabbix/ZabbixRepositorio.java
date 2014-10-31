@@ -11,12 +11,19 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.objectstore.jdo.applib.service.support.IsisJdoSupport;
+import org.json.JSONException;
+
+import dom.zabbix.monitoreo.item.ItemManager;
 
 @SuppressWarnings("deprecation")
 @DomainService(menuOrder = "100")
 @Named("Servidor")
 public class ZabbixRepositorio {
 
+	public ZabbixRepositorio()
+	{
+		
+	}
 	@Named("Configurar IP")
 	public Zabbix configurarIpServidor(final @Named("IP") String ip, final @Named("Nombre del HOST")String host) {
 		if (this.ping(ip)) {
@@ -35,12 +42,12 @@ public class ZabbixRepositorio {
 			return null;
 		obj.setIp(ip);
 		obj.setHost(host);
-		obj.setToken(ZabbixManager.obtenerTokenServer());
+		obj.setToken(ZabbixManager.obtenerTokenServer(ip));
 		container.flush();
 		return obj;
 	}
-
 	public Zabbix obtenerCuentaZabbix() {
+		System.out.println("ENTRA");
 		List<Zabbix> retorno = container.allMatches(new QueryDefault<Zabbix>(
 				Zabbix.class, "obtenerCuenta"));
 		if (!retorno.isEmpty())
@@ -54,7 +61,7 @@ public class ZabbixRepositorio {
 		Zabbix obj = container.newTransientInstance(Zabbix.class);
 		obj.setIp(ip);
 		obj.setHost(host);
-		obj.setToken(ZabbixManager.obtenerTokenServer());
+		obj.setToken(ZabbixManager.obtenerTokenServer(ip));
 		container.persistIfNotAlready(obj);
 		return obj;
 	}
@@ -62,8 +69,9 @@ public class ZabbixRepositorio {
 	@Programmatic
 	@PostConstruct
 	public void init() {
-		if (obtenerCuentaZabbix() == null)
+		if (obtenerCuentaZabbix() == null){
 			addZabbix("127.0.0.1","inventariohardware");
+		}
 	}
 
 	private boolean ping(final String ip) {
