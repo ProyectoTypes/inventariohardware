@@ -15,7 +15,7 @@ public class ZabbixTest {
 //			Alertas alerta = new Alertas();
 //			System.out.println("ALERTAS: "+ alerta.requestAlertGet("127.0.0.1"));
 			RamItem ram = new RamItem();
-			System.out.println("RAM: "+ ram.requestItemGet("127.0.0.1"));
+			System.out.println("RAM: "+ ram.requestItemGet("127.0.0.1",new Zabbix()));
 			
 			
 //			InetAddress ping; 
