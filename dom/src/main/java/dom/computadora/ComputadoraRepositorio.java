@@ -41,6 +41,7 @@ import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
+import dom.zabbix.ZabbixRepositorio;
 import dom.zabbix.monitoreo.item.RamItem;
 
 @DomainService(menuOrder="10")
@@ -91,12 +92,17 @@ public class ComputadoraRepositorio {
 		unaComputadora.setIp(ip);
 		unaComputadora.setMother(mother);
 		unaComputadora.setProcesador(procesador);
-		unaComputadora.setDisco(disco);
-		RamItem ram = new RamItem();
-		unaComputadora.setMemoria(ram.requestItemGet(ip));
-		unaComputadora.setImpresora(impresora);
-		unaComputadora.setHabilitado(true);
 		unaComputadora.setCreadoPor(creadoPor);
+		unaComputadora.setHabilitado(true);
+		unaComputadora.setImpresora(impresora);
+		unaComputadora.setDisco(disco);
+		
+		RamItem ram = new RamItem();
+		if(this.zabbixRepositorio!=null)
+		{System.out.println("NNO NULL");
+			unaComputadora.setMemoria(ram.requestItemGet(ip,zabbixRepositorio.obtenerCuentaZabbix()));
+		}else
+			System.out.println("NULL");
 		if (impresora != null) {
 			impresora.agregarComputadora(unaComputadora);
 		}
@@ -105,6 +111,8 @@ public class ComputadoraRepositorio {
 		container.flush();
 		return unaComputadora;
 	}
+	@javax.inject.Inject
+	public ZabbixRepositorio zabbixRepositorio;
 	public String validateAddComputadora(final @Named("Usuario") Usuario usuario,
 			final @Named("Direccion Ip") String ip,
 			final @Named("Mother") String mother,
