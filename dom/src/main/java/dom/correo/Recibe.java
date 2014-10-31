@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import javax.inject.Inject;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -32,18 +34,29 @@ import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
+
 import org.apache.isis.applib.DomainObjectContainer;
+
 import servicio.encriptar.Encripta;
 import servicio.encriptar.EncriptaException;
 
 public class Recibe {
 
-	private Session session;
 	private Properties propiedades = new Properties();
 	private Store store;
-	private Message[] mensajes;
 	private List<Correo> listaMensajes = new ArrayList<Correo>();
+
 	private static String contenidoMail;
+	private Message[] mensajes;
+
+	public Message[] getMensajes() {
+		return mensajes;
+	}
+
+	public void setMensajes(Message[] mensajes) {
+		this.mensajes = mensajes;
+	}
+
 	private CorreoEmpresa correoEmpresa = new CorreoEmpresa();
 
 	/**
@@ -64,6 +77,16 @@ public class Recibe {
 		this.listaMensajes = listaMensajes;
 	}
 
+	private Session session;
+
+	/**
+	 * 
+	 * @return Retorna la sesión actual
+	 */
+	public Session getSession() {
+		return session;
+	}
+
 	/**
 	 * A la sesión actual le aplica las propiedades de conexión.
 	 * 
@@ -72,14 +95,6 @@ public class Recibe {
 	public void setSession(Properties propiedades) {
 		session = Session.getInstance(propiedades);
 		session.setDebug(true);
-	}
-
-	/**
-	 *
-	 * @return Retorna la sesión actual
-	 */
-	public Session getSession() {
-		return session;
 	}
 
 	/**
@@ -93,14 +108,17 @@ public class Recibe {
 		propiedades.setProperty("mail.pop3.starttls.enable", "false");
 
 		// Hay que usar SSL
-		propiedades.setProperty("mail.pop3.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		propiedades.setProperty("mail.pop3.socketFactory.class",
+				"javax.net.ssl.SSLSocketFactory");
 		propiedades.setProperty("mail.pop3.socketFactory.fallback", "false");
 
 		// Puerto 995 para conectarse.
 		propiedades.setProperty("mail.pop3.port", "995");
 		propiedades.setProperty("mail.pop3.socketFactory.port", "995");
 
-		setSession(propiedades);
+		this.setSession(propiedades);
+		// Temporal: para obtener info adicional.
+		this.getSession().setDebug(true);
 	}
 
 	/**
@@ -113,52 +131,56 @@ public class Recibe {
 	}
 
 	/**
-	 *
+	 * 
 	 * Se encarga de conectarse al buzon y bajar todos los correos. Los adiciona
 	 * a una lista, con la misma seran persistidos en la BD.
 	 * 
 	 * @throws EncriptaException
-	 *
+	 * 
 	 */
 	public void accion() throws EncriptaException {
 
 		try {
 
 			store = session.getStore("pop3");
-			System.out.println(" %%%&& PASS DE LA BD " + correoEmpresa.getPass());
+			// System.out.println(" %%%&& PASS DE LA BD "
+			// + correoEmpresa.getPass());
 
 			String clave = "TODOS LOS SABADOS EN CASA DE EXE";
 			Encripta encripta = new Encripta(clave);
 
-			String pass = encripta.desencripta(correoEmpresa.getPass());
-			System.out.println("%%%&& PASS DECRYPT " + pass);
-			store.connect("pop.gmail.com", correoEmpresa.getCorreo(), pass);
-			//store.connect("pop.gmail.com","nicolasvergara89@gmail.com","ilovetrance");
+			// String pass = encripta.desencripta(correoEmpresa.getPass());
+			// System.out.println("%%%&& PASS DECRYPT " + pass);
+			// store.connect("pop.gmail.com", correoEmpresa.getCorreo(), pass);
 
+			store.connect("pop.gmail.com", "inventariohardware@gmail.com",
+					"inventario123");
 			Folder folder = store.getFolder("INBOX");
-
 			folder.open(Folder.READ_ONLY);
 
 			mensajes = folder.getMessages();
-			
+
 			for (Message mensaje : mensajes) {
 
 				System.out.println("MENSAJES");
 				System.out.println(mensaje.getContent());
+				//FIXME: EL CONTAINER ES NULL!!! ... por eso nunca se persiste....
+				if (this.container != null) {
+					final Correo actual = this.container
+							.newTransientInstance(Correo.class);
 
-				final Correo actual = this.container.newTransientInstance(Correo.class);
-
-				actual.setEmail(mensaje.getFrom()[0].toString());
-				actual.setAsunto(mensaje.getSubject());
-				actual.setFechaActual(mensaje.getSentDate());
-				actual.setCorreoEmpresa(correoEmpresa);
-				analizaParteDeMensaje(mensaje);
-				if (contenidoMail.length() < 255) {
-					actual.setMensaje(contenidoMail);
-				}
-				this.container.persistIfNotAlready(actual);
-				getListaMensajes().add(actual);
-				
+					actual.setEmail(mensaje.getFrom()[0].toString());
+					actual.setAsunto(mensaje.getSubject());
+					actual.setFechaActual(mensaje.getSentDate());
+					actual.setCorreoEmpresa(correoEmpresa);
+					analizaParteDeMensaje(mensaje);
+					if (contenidoMail.length() < 255) {
+						actual.setMensaje(contenidoMail);
+					}
+					this.container.persistIfNotAlready(actual);
+					this.getListaMensajes().add(actual);
+				} else
+					System.out.println("EL CONTAINER ES NULlllllllll");
 			}
 			// Cierre de la sesión
 			store.close();
@@ -206,10 +228,70 @@ public class Recibe {
 			e.printStackTrace();
 		}
 	}
-
+	@Inject
 	private DomainObjectContainer container;
+	public void setProperties() {
+		// Deshabilitamos TLS
+		propiedades.setProperty("mail.pop3.starttls.enable", "false");
 
-	public void injectDomainObjectContainer(DomainObjectContainer container) {
-		this.container = container;
+		// Hay que usar SSL
+		propiedades.setProperty("mail.pop3.socketFactory.class",
+				"javax.net.ssl.SSLSocketFactory");
+		propiedades.setProperty("mail.pop3.socketFactory.fallback", "false");
+
+		// Puerto 995 para conectarse.
+		propiedades.setProperty("mail.pop3.port", "995");
+		propiedades.setProperty("mail.pop3.socketFactory.port", "995");
+
+		this.setSession(propiedades);
+		// Temporal: para obtener info adicional.
+		this.getSession().setDebug(true);
 	}
+
+	public void accion(final String nada) throws EncriptaException, IOException {
+		try {
+			store = session.getStore("pop3");
+			store.connect("pop.gmail.com", "inventariohardware@gmail.com",
+					"inventario123");
+			Folder folder = store.getFolder("INBOX");
+			folder.open(Folder.READ_WRITE);
+			Message[] listamensajes = null;
+			if (folder.exists()) {
+				System.out.println("Cantidad de mensajes: "
+						+ folder.getMessageCount());
+				listamensajes = folder.getMessages();
+				System.out.println(listamensajes.length);
+			}
+
+			for (int i = 0; i < listamensajes.length; i++) {
+
+				System.out.println("Desde:"
+						+ listamensajes[i].getFrom()[0].toString());
+				System.out.println("Asunto:" + listamensajes[i].getSubject());
+				// listamensajes[i].
+			}
+			// Cierre de la sesión
+			for (Message mensaje : listamensajes) {
+				System.out.println("*****************");
+				analizaParteDeMensaje(mensaje);
+			}
+			store.close();
+			//
+			// for (int i=0;i<listamensajes.length;i++)
+			// {
+			// if (listamensajes[i].isMimeType("text/*"))
+			// System.out.println("¬ N°"+i+listamensajes[i].getContent());
+			// // mensaje de texto simple
+			// if (listamensajes[i].isMimeType("multipart/*"))
+			// System.out.println(listamensajes[i].getContent());
+			//
+			//
+			// // mensaje compuesto
+			// }
+
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

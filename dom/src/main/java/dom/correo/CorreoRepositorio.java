@@ -39,8 +39,6 @@ import org.apache.isis.applib.query.QueryDefault;
 import servicio.encriptar.Encripta;
 import servicio.encriptar.EncriptaException;
 
-import com.google.common.base.Objects;
-
 @DomainService(menuOrder = "20")
 @Named("CORREO")
 public class CorreoRepositorio extends AbstractFactoryAndRepository {
@@ -60,18 +58,6 @@ public class CorreoRepositorio extends AbstractFactoryAndRepository {
 	}
 
 	// //////////////////////////////////////
-	// Tecnico Actual
-	// //////////////////////////////////////
-
-	protected boolean creadoPorActualTecnico(final Correo m) {
-		return Objects.equal(m.getTecnico(), tecnicoActual());
-	}
-
-	protected String tecnicoActual() {
-		return getContainer().getUser().getName();
-	}
-
-	// //////////////////////////////////////
 	// Icono
 	// //////////////////////////////////////
 	/**
@@ -87,7 +73,8 @@ public class CorreoRepositorio extends AbstractFactoryAndRepository {
 	// Configuracion
 	// //////////////////////////////////////
 	/**
-	 * Permite configurar una nueva cuenta de correo electronico.
+	 * CORREO EMPRESA
+	 * Permite configurar una nueva cuenta de correo electronico (de la empresa).
 	 * 
 	 * @param correo
 	 * @param password
@@ -111,22 +98,18 @@ public class CorreoRepositorio extends AbstractFactoryAndRepository {
 
 		CorreoEmpresa ce = newTransientInstance(CorreoEmpresa.class);
 		
-		// key = KeyGenerator.getInstance("DES").generateKey();
-		// EncriptarToString enString=new EncriptarToString();
 		String clave = "TODOS LOS SABADOS EN CASA DE EXE";
 		Encripta encripta = new Encripta(clave);
 
 		ce.setCorreo(correo);
 		ce.setPass(encripta.encriptaCadena(pass));
-		persistIfNotAlready(ce);
+		this.container.persistIfNotAlready(ce);
 
 		return ce;
 	}
 
-	// //////////////////////////////////////
-	// Bandeja de Entrada
-	// //////////////////////////////////////
-	/**
+	 /**
+	  * 
 	 * @return Retorna la lista de correos persistidos
 	 * @throws EncriptaException
 	 */
@@ -148,20 +131,20 @@ public class CorreoRepositorio extends AbstractFactoryAndRepository {
 
 		if (listaJavaMail.size() > 0) {
 
-			getContainer().informUser(mensajeNuevos);
+			this.container.warnUser(mensajeNuevos);
 
 			for (Correo mensaje : listaJavaMail) {
 
-				final Correo mensajeTransient = newTransientInstance(Correo.class);
-				if (existeMensaje(mensaje.getAsunto()) == null) {
-					mensajeTransient.setEmail(mensaje.getEmail());
-					mensajeTransient.setAsunto(mensaje.getAsunto());
-					mensajeTransient.setMensaje(mensaje.getMensaje());
-					mensajeTransient.setTecnico(tecnicoActual());
-					mensajeTransient.setCorreoEmpresa(correoEmpresa);
-					mensajeTransient.setFechaActual(mensaje.getFechaActual());
-					persistIfNotAlready(mensajeTransient);
-				}
+				final Correo correoMensaje = newTransientInstance(Correo.class);
+//				if (existeMensaje(mensaje.getAsunto()) == null) {
+					correoMensaje.setEmail(mensaje.getEmail());
+					correoMensaje.setAsunto(mensaje.getAsunto());
+					correoMensaje.setMensaje(mensaje.getMensaje());
+					correoMensaje.setTecnico(currentUserName());
+					correoMensaje.setCorreoEmpresa(correoEmpresa);
+					correoMensaje.setFechaActual(mensaje.getFechaActual());
+					this.container.persistIfNotAlready(correoMensaje);
+//				}
 			}
 
 		}
