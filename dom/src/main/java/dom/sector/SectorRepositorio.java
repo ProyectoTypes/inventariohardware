@@ -51,7 +51,7 @@ public class SectorRepositorio {
 	}
 
 	public String iconName() {
-		return "Tecnico";
+		return "Sector";
 	}
 
 	// //////////////////////////////////////
