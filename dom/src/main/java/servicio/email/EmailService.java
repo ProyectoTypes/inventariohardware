@@ -383,7 +383,41 @@ public class EmailService extends AbstractFactoryAndRepository {
 	// }
 	// }
 
-	
+	/**
+	 * Crea un nuevo correo de la empresa.
+	 * 
+	 * @param correo
+	 * @param password
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws IOException
+	 * @throws EncriptaException
+	 */
+	@Named("Configurar Correo")
+	public CorreoEmpresa crearCorreoEmpresa(
+			@Named("Correo") final String correo,
+			@Named("Password") final String password)
+			throws NoSuchAlgorithmException, IOException, EncriptaException {
+
+		return configuracionCorreo(correo, password);
+	}
+
+	private CorreoEmpresa configuracionCorreo(final String correo,
+			final String pass) throws NoSuchAlgorithmException, IOException,
+			EncriptaException {
+
+		CorreoEmpresa correoempresa = newTransientInstance(CorreoEmpresa.class);
+
+		String clave = "TODOS LOS SABADOS EN CASA DE EXE";
+		Encripta encripta = new Encripta(clave);
+
+		correoempresa.setCorreo(correo);
+		correoempresa.setPass(encripta.encriptaCadena(pass));
+		this.container.persistIfNotAlready(correoempresa);
+
+		return correoempresa;
+	}
+
 
 	// //////////////////////////////////////
 	// CurrentUserName
