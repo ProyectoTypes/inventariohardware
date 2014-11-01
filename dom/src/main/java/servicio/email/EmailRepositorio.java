@@ -56,7 +56,6 @@ import servicio.encriptar.Encripta;
 import servicio.encriptar.EncriptaException;
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
-import dom.soporte.Soporte;
 
 @DomainService
 @Named("Casilla de Correo")
@@ -249,28 +248,10 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		String mensajeNuevos = listaJavaMail.size() == 1 ? "TIENES UN NUEVO CORREO!"
 				: "TIENES " + listaJavaMail.size() + " CORREOS NUEVOS";
 
-		if (listaJavaMail != null && listaJavaMail.size() > 0) {
-
+		if (listaJavaMail != null && listaJavaMail.size() > 0)
 			this.container.warnUser(mensajeNuevos);
-			//
-			// for (Correo mensaje : listaJavaMail) {
-			//
-			// final Correo correoMensaje = newTransientInstance(Correo.class);
-			// // FIXME: HACER LA EXISTEMENSAJE
-			// if (existeMensaje(mensaje.getAsunto()) == null) {
-			// correoMensaje.setEmail(mensaje.getEmail());
-			// correoMensaje.setAsunto(mensaje.getAsunto());
-			// String mje = this.html2text(mensaje.getMensaje());
-			// //this.container.warnUser("MENSAJE:: " + mje);
-			// correoMensaje.setMensaje(mje);
-			// correoMensaje.setTecnico(mensaje.getTecnico());
-			// correoMensaje.setCorreoEmpresa(correoEmpresa);
-			// correoMensaje.setFechaActual(mensaje.getFechaActual());
-			// this.container.persistIfNotAlready(correoMensaje);
-			// }
-			// }
-
-		}
+		else
+			this.container.warnUser("NO HAY NUEVO CORREO");
 		return listarMensajesPersistidos(correoEmpresa);
 	}
 
@@ -307,7 +288,6 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	private List<Correo> accion(final CorreoEmpresa correoEmpresa)
 			throws EncriptaException {
 		try {
-			this.container.warnUser("ACCION");
 			List<Correo> retorno = new ArrayList<Correo>();
 			store = session.getStore("pop3");
 			String clave = "TODOS LOS SABADOS EN CASA DE EXE";
@@ -325,7 +305,8 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				final Correo actual = this.container
 						.newTransientInstance(Correo.class);
 
-				actual.setEmail(this.limpiarDireccionCorreo(mensaje.getFrom()[0].toString()));
+				actual.setEmail(this.limpiarDireccionCorreo(mensaje.getFrom()[0]
+						.toString()));
 				actual.setAsunto(mensaje.getSubject());
 				actual.setFechaActual(mensaje.getSentDate());
 				actual.setCorreoEmpresa(correoEmpresa);
