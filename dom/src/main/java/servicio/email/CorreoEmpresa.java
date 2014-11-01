@@ -31,7 +31,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY)
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "VERSION")
 @javax.jdo.annotations.Queries({ @javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
-		+ "FROM dom.correo.CorreoEmpresa ") })
+		+ "FROM servicio.email.CorreoEmpresa ") })
 @ObjectType("CORREOEMPRESA")
 public class CorreoEmpresa {
 

@@ -171,16 +171,15 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		String contrasenia =PASS;
 		if(correo!=null){
 			email = correo.getCorreo();
-			contrasenia = correo.getPass();
+			contrasenia = this.desencriptar(correo.getPass());
 		}
 		String authenticationName = getContainer().getProperty(
 				PROPERTY_ROOT + "user", email);
-		// FIXME: HAY QUE DECODIFICAR LA CONTRASEÑA? ???
 		String authenticationPassword = getContainer().getProperty(
 				PROPERTY_ROOT + "password", contrasenia);
 		
 		String fromName = getContainer().getProperty(
-				PROPERTY_ROOT + "from.name", "No reply");
+				PROPERTY_ROOT + "from.name", "No responder");
 		String fromEmailAddress = getContainer().getProperty(
 				PROPERTY_ROOT + "from.address", "noreply@domain.com");
 		try {
@@ -197,7 +196,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 			if (correo != null)
 				simpleEmail.setFrom(correo.getCorreo(), "Soporte Tecnico");
 			else 
-				simpleEmail.setFrom(fromName, fromEmailAddress);
+				simpleEmail.setFrom(fromEmailAddress,fromName );
 			simpleEmail.setSubject(asunto);
 			simpleEmail.setMsg(mensaje);
 			return simpleEmail.send();
@@ -206,13 +205,24 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 			throw new servicio.email.EmailException(e.getMessage(), e);
 		}
 	}
-
+	private String desencriptar(final String contrasenia)
+	{
+		String clave = "TODOS LOS SABADOS EN CASA DE EXE";
+		Encripta encripta = new Encripta(clave);
+		 String pass = "";
+		try {
+			pass = encripta.desencripta(contrasenia);
+		} catch (EncriptaException e) {
+			e.printStackTrace();
+		}
+		return pass;
+	}
 	/**
 	 * 
 	 * @return Retorna la lista de correos persistidos
 	 * @throws EncriptaException
 	 */
-	@Named("Bandeja de Entrada")
+	@Named("Actualizar Bandeja")
 	@MemberOrder(sequence = "2")
 	public List<Correo> bandeja(
 			final @Named("Correo") CorreoEmpresa correoEmpresa)
@@ -221,8 +231,8 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		System.out.println("ANTES DE LA BUSQUEDA " + correoEmpresa.getPass());
 
 		this.setProperties();
-		this.container.warnUser("BANDEJA");
-
+		this.container.warnUser("ACTUALIZAR BANDEJA - Tecnico: "+this.currentUserName());
+		
 		final List<Correo> listaJavaMail = this.accion(correoEmpresa);
 
 		String mensajeNuevos = listaJavaMail.size() == 1 ? "TIENES UN NUEVO CORREO!"
@@ -239,7 +249,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				correoMensaje.setEmail(mensaje.getEmail());
 				correoMensaje.setAsunto(mensaje.getAsunto());
 				correoMensaje.setMensaje(mensaje.getMensaje());
-				correoMensaje.setTecnico(currentUserName());
+				correoMensaje.setTecnico(mensaje.getTecnico());
 				correoMensaje.setCorreoEmpresa(correoEmpresa);
 				correoMensaje.setFechaActual(mensaje.getFechaActual());
 				this.container.persistIfNotAlready(correoMensaje);
@@ -279,7 +289,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	public List<CorreoEmpresa> choices0ListarMensajesPersistidos() {
 		return this.listarCorreoEmpresa();
 	}
-
+	
 	private List<Correo> accion(final CorreoEmpresa correoEmpresa)
 			throws EncriptaException {
 		try {
@@ -310,7 +320,8 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				actual.setAsunto(mensaje.getSubject());
 				actual.setFechaActual(mensaje.getSentDate());
 				actual.setCorreoEmpresa(correoEmpresa);
-				analizaParteDeMensaje(contenidoMail,mensaje);
+				actual.setTecnico(this.currentUserName());
+				this.analizaParteDeMensaje(contenidoMail,mensaje);
 				if (contenidoMail.length() < 255) {
 					actual.setMensaje(contenidoMail);
 				}
@@ -326,7 +337,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		}
 		return null;
 	}
-	private static void analizaParteDeMensaje(String contenidoMail,Part unaParte) {
+	private  void analizaParteDeMensaje(String contenidoMail,Part unaParte) {
 		try {
 			// Si es multipart, se analiza cada una de sus partes
 			// recursivamente.
@@ -426,6 +437,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	 * @throws EncriptaException
 	 */
 	@Named("Configurar Correo")
+	@MemberOrder(sequence="1")
 	public CorreoEmpresa crearCorreoEmpresa(
 			@Named("Correo") final String correo,
 			@Named("Password") final String password)
@@ -450,7 +462,8 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		return correoempresa;
 	}
 
-	@Named("Listar Correos")
+	@Named("Listar Correo Electronico")
+	@MemberOrder(sequence="100")
 	public List<CorreoEmpresa> listarCorreoEmpresa() {
 		return this.container.allMatches(new QueryDefault<CorreoEmpresa>(
 				CorreoEmpresa.class, "listar"));
