@@ -78,4 +78,21 @@ public class CorreoEmpresa {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
+	
+	
+	// //////////////////////////////////////
+	// ServidorEntrante (propiedad)
+	// //////////////////////////////////////
+
+	private String servidorEntrante;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@MemberOrder(sequence = "2")
+	public String getServidorEntrante() {
+		return servidorEntrante;
+	}
+
+	public void setServidorEntrante(String servidorEntrante) {
+		this.servidorEntrante = servidorEntrante;
+	}
 }
