@@ -72,7 +72,7 @@ public class Dashboard extends AbstractViewModel {
 	@Named("Bandeja de Entrada")
 	@Render(Type.EAGERLY)
 	@Disabled
-	@MemberOrder(sequence = "10")
+	@MemberOrder(sequence = "1")
 	@MultiLine(numberOfLines = 6)
 	public List<Correo> getAllBandejaEntrada() {
 		return emailRepositorio.queryBuscarCorreoPorUsuario();
