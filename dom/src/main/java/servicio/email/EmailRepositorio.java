@@ -447,7 +447,11 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 
 	/* ******************* FIN: CORREO EMPRESA ************************ */
 
-	
+	/* ******************* DASHBOARD ************************ */
+	public List<Correo> queryBuscarCorreoPorUsuario() {
+		return this.container.allMatches(new QueryDefault<Correo>(Correo.class,
+				"buscarCorreoPorUsuario", "usuario", this.currentUserName()));
+	}
 
 	private String currentUserName() {
 		return container.getUser().getName();
