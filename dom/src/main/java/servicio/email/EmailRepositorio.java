@@ -260,7 +260,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	 * 
 	 * @return List<Correo>
 	 */
-	@Named("Mensajes Persistidos")
+	@Named("Bandeja de Entrada")
 	@MemberOrder(sequence = "3")
 	public List<Correo> listarMensajesPersistidos(
 			final CorreoEmpresa correoEmpresa) {
@@ -301,16 +301,8 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 			folder.open(Folder.READ_ONLY);
 
 			mensajes = folder.getMessages();
-			this.container.warnUser("LLEGA HASTA LA LINEA 270");
 
 			for (Message mensaje : mensajes) {
-				try {
-					System.out.println("PERROOOO :  : : "
-							+ mensaje.getContent().toString());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
 				final Correo actual = this.container
 						.newTransientInstance(Correo.class);
 
@@ -318,37 +310,11 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				actual.setAsunto(mensaje.getSubject());
 				actual.setFechaActual(mensaje.getSentDate());
 				actual.setCorreoEmpresa(correoEmpresa);
-
-				// if (mensaje.isMimeType("multipart/*")) {
-				Multipart multi;
-				try {
-					multi = (Multipart) mensaje.getContent();
-					// Extraemos cada una de las partes.
-					for (int j = 0; j < multi.getCount(); j++) {
-						Part unaParte = multi.getBodyPart(j);
-
-						// Volvemos a analizar cada parte de la MultiParte
-						// if (unaParte.isMimeType("text/plain")) {
-						contenidoMail = unaParte.getContent().toString();
-						System.out.println("&&&&&&&&  &&  Mensaje "
-								+ contenidoMail);
-						// }
-						if (contenidoMail != null)
-							actual.setMensaje(contenidoMail);
-
-					}
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				analizaParteDeMensaje(contenidoMail,mensaje);
+				if (contenidoMail.length() < 255) {
+					actual.setMensaje(contenidoMail);
 				}
-				// }
-				this.container.warnUser("LLEGA HASTA LA LINEA 304");
-
-				// analizaParteDeMensaje(mensaje);
-				// if (contenidoMail.length() < 255) {
-				// }
-				this.container.persistIfNotAlready("Mensaje: "
-						+ actual.getMensaje());
+				this.container.persistIfNotAlready(actual);
 				retorno.add(actual);
 			}
 			// Cierre de la sesión
@@ -360,7 +326,42 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		}
 		return null;
 	}
+	private static void analizaParteDeMensaje(String contenidoMail,Part unaParte) {
+		try {
+			// Si es multipart, se analiza cada una de sus partes
+			// recursivamente.
+			if (unaParte.isMimeType("multipart/*")) {
+				Multipart multi;
+				multi = (Multipart) unaParte.getContent();
 
+				for (int j = 0; j < multi.getCount(); j++) {
+					analizaParteDeMensaje(contenidoMail,multi.getBodyPart(j));
+				}
+			} else {
+				// Si es texto, se escribe el texto.
+				if (unaParte.isMimeType("text/plain")) {
+					contenidoMail = unaParte.getContent().toString();
+					System.out.println("Texto " + unaParte.getContentType());
+					System.out.println(unaParte.getContent());
+					System.out.println("---------------------------------");
+				} else {
+					// Si es imagen, se guarda en fichero y se visualiza en
+					// JFrame
+					if (unaParte.isMimeType("image/*")) {
+						System.out.println("Imagen "
+								+ unaParte.getContentType());
+						System.out.println("Fichero=" + unaParte.getFileName());
+						System.out.println("---------------------------------");
+
+						// salvaImagenEnFichero(unaParte);
+						// visualizaImagenEnJFrame(unaParte);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	// private void analizaParteDeMensaje(Part unaParte) {
 	// try {
 	//
