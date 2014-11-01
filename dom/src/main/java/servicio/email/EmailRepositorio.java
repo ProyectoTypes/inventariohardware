@@ -79,9 +79,8 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		this.mensajes = mensajes;
 	}
 
-	/**
-	 * SETEO DE LA SESSION.
-	 */
+	/* ******************** CONFIGURACION SESSION ************************ */
+
 	private Session session;
 
 	@Programmatic
@@ -93,6 +92,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 
 	@Programmatic
 	public void setSession(Properties propiedades) {
+
 		session = Session.getInstance(propiedades);
 		session.setDebug(true);
 	}
@@ -111,6 +111,14 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		this.setSession(propiedades);
 	}
 
+	/* ******************** ENVIAR EMAIL *********************** */
+
+	/**
+	 * Envia un correo despues de haber terminado el soporte tecnico.
+	 * 
+	 * @param unaComputadora
+	 * @return
+	 */
 	@NotContributed(As.ASSOCIATION)
 	@NotInServiceMenu
 	@Named("Enviar Correo")
@@ -168,8 +176,8 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		int port = Integer.valueOf(portValue).intValue();
 		// Emisor
 		String email = EMAIL;
-		String contrasenia =PASS;
-		if(correo!=null){
+		String contrasenia = PASS;
+		if (correo != null) {
 			email = correo.getCorreo();
 			contrasenia = this.desencriptar(correo.getPass());
 		}
@@ -177,7 +185,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				PROPERTY_ROOT + "user", email);
 		String authenticationPassword = getContainer().getProperty(
 				PROPERTY_ROOT + "password", contrasenia);
-		
+
 		String fromName = getContainer().getProperty(
 				PROPERTY_ROOT + "from.name", "No responder");
 		String fromEmailAddress = getContainer().getProperty(
@@ -195,8 +203,8 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 			simpleEmail.addTo(destino);
 			if (correo != null)
 				simpleEmail.setFrom(correo.getCorreo(), "Soporte Tecnico");
-			else 
-				simpleEmail.setFrom(fromEmailAddress,fromName );
+			else
+				simpleEmail.setFrom(fromEmailAddress, fromName);
 			simpleEmail.setSubject(asunto);
 			simpleEmail.setMsg(mensaje);
 			return simpleEmail.send();
@@ -205,11 +213,11 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 			throw new servicio.email.EmailException(e.getMessage(), e);
 		}
 	}
-	private String desencriptar(final String contrasenia)
-	{
+
+	private String desencriptar(final String contrasenia) {
 		String clave = "TODOS LOS SABADOS EN CASA DE EXE";
 		Encripta encripta = new Encripta(clave);
-		 String pass = "";
+		String pass = "";
 		try {
 			pass = encripta.desencripta(contrasenia);
 		} catch (EncriptaException e) {
@@ -217,6 +225,10 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		}
 		return pass;
 	}
+
+
+	/* ******************** BANDEJA DE ENTRADA ************************ */
+
 	/**
 	 * 
 	 * @return Retorna la lista de correos persistidos
@@ -231,8 +243,9 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		System.out.println("ANTES DE LA BUSQUEDA " + correoEmpresa.getPass());
 
 		this.setProperties();
-		this.container.warnUser("ACTUALIZAR BANDEJA - Tecnico: "+this.currentUserName());
-		
+		this.container.warnUser("ACTUALIZAR BANDEJA - Tecnico: "
+				+ this.currentUserName());
+
 		final List<Correo> listaJavaMail = this.accion(correoEmpresa);
 
 		String mensajeNuevos = listaJavaMail.size() == 1 ? "TIENES UN NUEVO CORREO!"
@@ -289,7 +302,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	public List<CorreoEmpresa> choices0ListarMensajesPersistidos() {
 		return this.listarCorreoEmpresa();
 	}
-	
+
 	private List<Correo> accion(final CorreoEmpresa correoEmpresa)
 			throws EncriptaException {
 		try {
@@ -297,16 +310,12 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 			this.container.warnUser("ACCION");
 			List<Correo> retorno = new ArrayList<Correo>();
 			store = session.getStore("pop3");
-			// System.out.println(" %%%&& PASS DE LA BD "
-			// + correoEmpresa.getPass());
-			// String clave = "TODOS LOS SABADOS EN CASA DE EXE";
-			// Encripta encripta = new Encripta(clave);
-			// String pass = encripta.desencripta(correoEmpresa.getPass());
-			// System.out.println("%%%&& PASS DECRYPT " + pass);
-			// store.connect("pop.gmail.com", correoEmpresa.getCorreo(), pass);
+			String clave = "TODOS LOS SABADOS EN CASA DE EXE";
+			Encripta encripta = new Encripta(clave);
+			String pass = encripta.desencripta(correoEmpresa.getPass());
 
-			store.connect("pop.gmail.com", "inventariohardware@gmail.com",
-					"inventario123");
+			store.connect("pop.gmail.com", correoEmpresa.getCorreo(), pass);
+
 			Folder folder = store.getFolder("INBOX");
 			folder.open(Folder.READ_ONLY);
 
@@ -321,14 +330,13 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				actual.setFechaActual(mensaje.getSentDate());
 				actual.setCorreoEmpresa(correoEmpresa);
 				actual.setTecnico(this.currentUserName());
-				this.analizaParteDeMensaje(contenidoMail,mensaje);
+				this.analizaParteDeMensaje(contenidoMail, mensaje);
 				if (contenidoMail.length() < 255) {
 					actual.setMensaje(contenidoMail);
 				}
 				this.container.persistIfNotAlready(actual);
 				retorno.add(actual);
 			}
-			// Cierre de la sesión
 			store.close();
 			return retorno;
 
@@ -337,7 +345,8 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		}
 		return null;
 	}
-	private  void analizaParteDeMensaje(String contenidoMail,Part unaParte) {
+
+	private void analizaParteDeMensaje(String contenidoMail, Part unaParte) {
 		try {
 			// Si es multipart, se analiza cada una de sus partes
 			// recursivamente.
@@ -346,7 +355,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				multi = (Multipart) unaParte.getContent();
 
 				for (int j = 0; j < multi.getCount(); j++) {
-					analizaParteDeMensaje(contenidoMail,multi.getBodyPart(j));
+					analizaParteDeMensaje(contenidoMail, multi.getBodyPart(j));
 				}
 			} else {
 				// Si es texto, se escribe el texto.
@@ -373,58 +382,9 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 			e.printStackTrace();
 		}
 	}
-	// private void analizaParteDeMensaje(Part unaParte) {
-	// try {
-	//
-	// if (mensajes[i].isMimeType("multipart/*")) {
-	// // Obtenemos el contenido, que es de tipo MultiPart.
-	// Multipart multi;
-	// multi = (Multipart) mensajes[i].getContent();
-	//
-	// // Extraemos cada una de las partes.
-	// for (int j = 0; j < multi.getCount(); j++) {
-	// Part unaParte = multi.getBodyPart(j);
-	//
-	// // Volvemos a analizar cada parte de la MultiParte
-	// if (unaParte.isMimeType("text/plain")) {
-	// contenidoMail = unaParte.getContent().toString();
-	// }
-	// }
-	//
-	// // // Si es multipart, se analiza cada una de sus partes
-	// // // recursivamente.
-	// // if (unaParte.isMimeType("multipart/*")) {
-	// // Multipart multi;
-	// // multi = (Multipart) unaParte.getContent();
-	// //
-	// // for (int j = 0; j < multi.getCount(); j++) {
-	// // analizaParteDeMensaje(multi.getBodyPart(j));
-	// // }
-	// // } else {
-	// // // Si es texto, se escribe el texto.
-	// // if (unaParte.isMimeType("text/plain")) {
-	// // contenidoMail = unaParte.getContent().toString();
-	// // System.out.println("Texto " + unaParte.getContentType());
-	// // System.out.println(unaParte.getContent());
-	// // System.out.println("---------------------------------");
-	// // } else {
-	// // // Si es imagen, se guarda en fichero y se visualiza en
-	// // // JFrame
-	// // if (unaParte.isMimeType("image/*")) {
-	// // System.out.println("Imagen "
-	// // + unaParte.getContentType());
-	// // System.out.println("Fichero=" + unaParte.getFileName());
-	// // System.out.println("---------------------------------");
-	// //
-	// // // salvaImagenEnFichero(unaParte);
-	// // // visualizaImagenEnJFrame(unaParte);
-	// // }
-	// // }
-	// }
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
+
+
+	/* ******************* CORREO EMPRESA ************************ */
 
 	/**
 	 * Crea un nuevo correo de la empresa.
@@ -437,7 +397,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	 * @throws EncriptaException
 	 */
 	@Named("Configurar Correo")
-	@MemberOrder(sequence="1")
+	@MemberOrder(sequence = "1")
 	public CorreoEmpresa crearCorreoEmpresa(
 			@Named("Correo") final String correo,
 			@Named("Password") final String password)
@@ -463,15 +423,13 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	}
 
 	@Named("Listar Correo Electronico")
-	@MemberOrder(sequence="100")
+	@MemberOrder(sequence = "100")
 	public List<CorreoEmpresa> listarCorreoEmpresa() {
 		return this.container.allMatches(new QueryDefault<CorreoEmpresa>(
 				CorreoEmpresa.class, "listar"));
 	}
 
-	// //////////////////////////////////////
-	// CurrentUserName
-	// //////////////////////////////////////
+	/* ******************* FIN: CORREO EMPRESA ************************ */
 
 	private String currentUserName() {
 		return container.getUser().getName();
