@@ -50,6 +50,7 @@ import org.apache.isis.applib.annotation.NotInServiceMenu;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
+import org.jsoup.Jsoup;
 
 import servicio.encriptar.Encripta;
 import servicio.encriptar.EncriptaException;
@@ -62,6 +63,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	private static final String PROPERTY_ROOT = "mail.smtp.";
 	private static final String EMAIL = "inventariohardware@gmail.com";
 	private static final String PASS = "inventario123";
+	private static String contenidoMail;
 
 	/**
 	 * Obtener el Store y el Folder de Inbox
@@ -226,7 +228,6 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		return pass;
 	}
 
-
 	/* ******************** BANDEJA DE ENTRADA ************************ */
 
 	/**
@@ -258,10 +259,13 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 			for (Correo mensaje : listaJavaMail) {
 
 				final Correo correoMensaje = newTransientInstance(Correo.class);
+				// FIXME: HACER LA EXISTEMENSAJE
 				// if (existeMensaje(mensaje.getAsunto()) == null) {
 				correoMensaje.setEmail(mensaje.getEmail());
 				correoMensaje.setAsunto(mensaje.getAsunto());
-				correoMensaje.setMensaje(mensaje.getMensaje());
+				String mje = this.html2text(mensaje.getMensaje());
+				this.container.warnUser("MENSAJE:: " + mje);
+				correoMensaje.setMensaje(mje);
 				correoMensaje.setTecnico(mensaje.getTecnico());
 				correoMensaje.setCorreoEmpresa(correoEmpresa);
 				correoMensaje.setFechaActual(mensaje.getFechaActual());
@@ -283,6 +287,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	 * 
 	 * @return List<Correo>
 	 */
+	@Programmatic
 	@Named("Bandeja de Entrada")
 	@MemberOrder(sequence = "3")
 	public List<Correo> listarMensajesPersistidos(
@@ -306,7 +311,6 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	private List<Correo> accion(final CorreoEmpresa correoEmpresa)
 			throws EncriptaException {
 		try {
-			String contenidoMail = "";
 			this.container.warnUser("ACCION");
 			List<Correo> retorno = new ArrayList<Correo>();
 			store = session.getStore("pop3");
@@ -325,12 +329,13 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				final Correo actual = this.container
 						.newTransientInstance(Correo.class);
 
-				actual.setEmail(mensaje.getFrom()[0].toString());
+				actual.setEmail(this.limpiarDireccionCorreo(mensaje.getFrom()[0]
+						.toString()));
 				actual.setAsunto(mensaje.getSubject());
 				actual.setFechaActual(mensaje.getSentDate());
 				actual.setCorreoEmpresa(correoEmpresa);
 				actual.setTecnico(this.currentUserName());
-				this.analizaParteDeMensaje(contenidoMail, mensaje);
+				analizaParteDeMensaje(mensaje);
 				if (contenidoMail.length() < 255) {
 					actual.setMensaje(contenidoMail);
 				}
@@ -346,7 +351,18 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		return null;
 	}
 
-	private void analizaParteDeMensaje(String contenidoMail, Part unaParte) {
+	/**
+	 * Metodo recursivo. Si la parte que se pasa es compuesta, se extrae cada
+	 * una de las subpartes y el metodo se llama a si mismo con cada una de
+	 * ellas. Si la parte es un text, se escribe en pantalla. Si la parte es una
+	 * image, se guarda en un fichero y se visualiza en un JFrame. En cualquier
+	 * otro caso, simplemente se escribe el tipo recibido, pero se ignora el
+	 * mensaje.
+	 * 
+	 * @param unaParte
+	 *            Parte del mensaje a analizar.
+	 */
+	private static void analizaParteDeMensaje(Part unaParte) {
 		try {
 			// Si es multipart, se analiza cada una de sus partes
 			// recursivamente.
@@ -355,11 +371,11 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				multi = (Multipart) unaParte.getContent();
 
 				for (int j = 0; j < multi.getCount(); j++) {
-					analizaParteDeMensaje(contenidoMail, multi.getBodyPart(j));
+					analizaParteDeMensaje(multi.getBodyPart(j));
 				}
 			} else {
 				// Si es texto, se escribe el texto.
-				if (unaParte.isMimeType("text/plain")) {
+				if (unaParte.isMimeType("text/*")) {
 					contenidoMail = unaParte.getContent().toString();
 					System.out.println("Texto " + unaParte.getContentType());
 					System.out.println(unaParte.getContent());
@@ -368,13 +384,21 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 					// Si es imagen, se guarda en fichero y se visualiza en
 					// JFrame
 					if (unaParte.isMimeType("image/*")) {
+
+						contenidoMail += unaParte.getContentType().toString();
 						System.out.println("Imagen "
 								+ unaParte.getContentType());
 						System.out.println("Fichero=" + unaParte.getFileName());
 						System.out.println("---------------------------------");
 
-						// salvaImagenEnFichero(unaParte);
-						// visualizaImagenEnJFrame(unaParte);
+						// this.salvaImagenEnFichero(unaParte);
+					} else {
+						// Si no es ninguna de las anteriores, se escribe en
+						// pantalla
+						// el tipo.
+						System.out.println("Recibido "
+								+ unaParte.getContentType());
+						System.out.println("---------------------------------");
 					}
 				}
 			}
@@ -383,6 +407,16 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		}
 	}
 
+	@Programmatic
+	public String html2text(String html) {
+		return Jsoup.parse(html).text();
+	}
+
+	private String limpiarDireccionCorreo(final String direccion) {
+		// =?UTF-8?Q?daniel_mu=C3=B1oz?= <cipoleto@gmail.com>
+		String[] arreglo = direccion.split("<");
+		return arreglo[1].replace(">", "");
+	}
 
 	/* ******************* CORREO EMPRESA ************************ */
 
