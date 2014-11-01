@@ -397,14 +397,18 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	@MemberOrder(sequence = "1")
 	public CorreoEmpresa crearCorreoEmpresa(
 			@Named("Correo") final String correo,
-			@Named("Password") final String password)
+			@Named("Password") final String password,
+			@Named("Servidor Entrante") final String servidorEntrante,
+			@Named("Puerto Entrante") final String puertoEntrante,
+			@Named("Servidor Saliente") final String servidorSaliente,
+			@Named("Puerto Saliente") final String puertoSaliente)
 			throws NoSuchAlgorithmException, IOException, EncriptaException {
 
-		return configuracionCorreo(correo, password);
+		return configuracionCorreo(correo, password, servidorEntrante, puertoEntrante, servidorSaliente, puertoSaliente);
 	}
 
 	private CorreoEmpresa configuracionCorreo(final String correo,
-			final String pass) throws NoSuchAlgorithmException, IOException,
+			final String pass, final String servidorEntrante, final String puertoEntrante, final String servidorSaliente, final String puertoSaliente) throws NoSuchAlgorithmException, IOException,
 			EncriptaException {
 
 		CorreoEmpresa correoempresa = newTransientInstance(CorreoEmpresa.class);
