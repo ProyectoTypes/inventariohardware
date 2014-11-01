@@ -113,6 +113,21 @@ public class CorreoEmpresa {
 		this.servidorSaliente = servidorSaliente;
 	}
 	
+	// //////////////////////////////////////
+	// PuertoEntrante (propiedad)
+	// //////////////////////////////////////
+
+	private String puertoEntrante;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@MemberOrder(sequence = "2")
+	public String getPruertoEntrante() {
+		return puertoEntrante;
+	}
+
+	public void setPuertoEntrante(String puertoEntrante) {
+		this.puertoEntrante = puertoEntrante;
+	}
 	
 	// //////////////////////////////////////
 	// PuertoSaliente (propiedad)
