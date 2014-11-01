@@ -220,8 +220,12 @@ public class EmailService extends AbstractFactoryAndRepository {
 		}
 		return listarMensajesPersistidos(correoEmpresa);
 	}
-
+	@Programmatic
+	public List<CorreoEmpresa> choices0Bandeja() {
+		return this.listar();
+	}
 	
+
 	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////
