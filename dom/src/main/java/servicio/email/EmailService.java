@@ -18,22 +18,40 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package servicio.email;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Part;
+import javax.mail.Session;
+import javax.mail.Store;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 import org.apache.isis.applib.AbstractFactoryAndRepository;
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.NotContributed.As;
 import org.apache.isis.applib.annotation.NotInServiceMenu;
+import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.query.QueryDefault;
 
+import servicio.encriptar.Encripta;
+import servicio.encriptar.EncriptaException;
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 
@@ -41,7 +59,6 @@ import dom.computadora.ComputadoraRepositorio;
 public class EmailService extends AbstractFactoryAndRepository {
 	private static final String PROPERTY_ROOT = "mail.smtp.";
 
-	
 	@NotContributed(As.ASSOCIATION)
 	@NotInServiceMenu
 	@Named("Enviar Correo")
@@ -73,13 +90,13 @@ public class EmailService extends AbstractFactoryAndRepository {
 
 		String portValue = getContainer().getProperty(PROPERTY_ROOT + "port",
 				"587");
-		
+
 		int port = Integer.valueOf(portValue).intValue();
 		// Emisor
 		String authenticationName = getContainer().getProperty(
-				PROPERTY_ROOT + "user", "cipoleto@gmail.com");
+				PROPERTY_ROOT + "user", "inventariohardware@gmail.com");
 		String authenticationPassword = getContainer().getProperty(
-				PROPERTY_ROOT + "password", "33239335");
+				PROPERTY_ROOT + "password", "inventario123");
 
 		// EN CASO QUE SEA NULL EL CAMPO; SE PONEN LOS SIGUIENTES POR DEFECTO.
 		// String fromName = getContainer().getProperty(
@@ -114,6 +131,46 @@ public class EmailService extends AbstractFactoryAndRepository {
 
 	}
 
+	/**
+	 * SETEO DE LA SESSION.
+	 */
+	private Session session;
+
+	@Programmatic
+	public Session getSession() {
+		return session;
+	}
+
+	private Properties propiedades = new Properties();
+
+	@Programmatic
+	public void setSession(Properties propiedades) {
+		session = Session.getInstance(propiedades);
+		session.setDebug(true);
+	}
+
+	@Programmatic
+	public void setProperties() {
+		// Deshabilitamos TLS
+		propiedades.setProperty("mail.pop3.starttls.enable", "false");
+		// Hay que usar SSL
+		propiedades.setProperty("mail.pop3.socketFactory.class",
+				"javax.net.ssl.SSLSocketFactory");
+		propiedades.setProperty("mail.pop3.socketFactory.fallback", "false");
+		// Puerto 995 para conectarse.
+		propiedades.setProperty("mail.pop3.port", "995");
+		propiedades.setProperty("mail.pop3.socketFactory.port", "995");
+		this.setSession(propiedades);
+	}
+
+
+	/*
+	 * INJECT
+	 */
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
+
+	@javax.inject.Inject
+	private DomainObjectContainer container;
+
 }
