@@ -249,7 +249,142 @@ public class EmailService extends AbstractFactoryAndRepository {
 		return this.listar();
 	}
 
+	private List<Correo> accion(final CorreoEmpresa correoEmpresa)
+			throws EncriptaException {
+		try {
+			String contenidoMail = "";
+			this.container.warnUser("ACCION");
+			List<Correo> retorno = new ArrayList<Correo>();
+			store = session.getStore("pop3");
+			// System.out.println(" %%%&& PASS DE LA BD "
+			// + correoEmpresa.getPass());
+			// String clave = "TODOS LOS SABADOS EN CASA DE EXE";
+			// Encripta encripta = new Encripta(clave);
+			// String pass = encripta.desencripta(correoEmpresa.getPass());
+			// System.out.println("%%%&& PASS DECRYPT " + pass);
+			// store.connect("pop.gmail.com", correoEmpresa.getCorreo(), pass);
+
+			store.connect("pop.gmail.com", "inventariohardware@gmail.com",
+					"inventario123");
+			Folder folder = store.getFolder("INBOX");
+			folder.open(Folder.READ_ONLY);
+
+			mensajes = folder.getMessages();
+			this.container.warnUser("LLEGA HASTA LA LINEA 270");
+
+			for (Message mensaje : mensajes) {
+				try {
+					System.out.println("PERROOOO :  : : "
+							+ mensaje.getContent().toString());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				final Correo actual = this.container
+						.newTransientInstance(Correo.class);
+
+				actual.setEmail(mensaje.getFrom()[0].toString());
+				actual.setAsunto(mensaje.getSubject());
+				actual.setFechaActual(mensaje.getSentDate());
+				actual.setCorreoEmpresa(correoEmpresa);
+
+				// if (mensaje.isMimeType("multipart/*")) {
+				Multipart multi;
+				try {
+					multi = (Multipart) mensaje.getContent();
+					// Extraemos cada una de las partes.
+					for (int j = 0; j < multi.getCount(); j++) {
+						Part unaParte = multi.getBodyPart(j);
+
+						// Volvemos a analizar cada parte de la MultiParte
+						// if (unaParte.isMimeType("text/plain")) {
+						contenidoMail = unaParte.getContent().toString();
+						System.out.println("&&&&&&&&  &&  Mensaje "
+								+ contenidoMail);
+						// }
+						if (contenidoMail != null)
+							actual.setMensaje(contenidoMail);
+
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				// }
+				this.container.warnUser("LLEGA HASTA LA LINEA 304");
+
+				// analizaParteDeMensaje(mensaje);
+				// if (contenidoMail.length() < 255) {
+				// }
+				this.container.persistIfNotAlready("Mensaje: "
+						+ actual.getMensaje());
+				retorno.add(actual);
+			}
+			// Cierre de la sesión
+			store.close();
+			return retorno;
+
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	// private void analizaParteDeMensaje(Part unaParte) {
+	// try {
+	//
+	// if (mensajes[i].isMimeType("multipart/*")) {
+	// // Obtenemos el contenido, que es de tipo MultiPart.
+	// Multipart multi;
+	// multi = (Multipart) mensajes[i].getContent();
+	//
+	// // Extraemos cada una de las partes.
+	// for (int j = 0; j < multi.getCount(); j++) {
+	// Part unaParte = multi.getBodyPart(j);
+	//
+	// // Volvemos a analizar cada parte de la MultiParte
+	// if (unaParte.isMimeType("text/plain")) {
+	// contenidoMail = unaParte.getContent().toString();
+	// }
+	// }
+	//
+	// // // Si es multipart, se analiza cada una de sus partes
+	// // // recursivamente.
+	// // if (unaParte.isMimeType("multipart/*")) {
+	// // Multipart multi;
+	// // multi = (Multipart) unaParte.getContent();
+	// //
+	// // for (int j = 0; j < multi.getCount(); j++) {
+	// // analizaParteDeMensaje(multi.getBodyPart(j));
+	// // }
+	// // } else {
+	// // // Si es texto, se escribe el texto.
+	// // if (unaParte.isMimeType("text/plain")) {
+	// // contenidoMail = unaParte.getContent().toString();
+	// // System.out.println("Texto " + unaParte.getContentType());
+	// // System.out.println(unaParte.getContent());
+	// // System.out.println("---------------------------------");
+	// // } else {
+	// // // Si es imagen, se guarda en fichero y se visualiza en
+	// // // JFrame
+	// // if (unaParte.isMimeType("image/*")) {
+	// // System.out.println("Imagen "
+	// // + unaParte.getContentType());
+	// // System.out.println("Fichero=" + unaParte.getFileName());
+	// // System.out.println("---------------------------------");
+	// //
+	// // // salvaImagenEnFichero(unaParte);
+	// // // visualizaImagenEnJFrame(unaParte);
+	// // }
+	// // }
+	// }
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+
 	
+
 	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////
