@@ -339,7 +339,6 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				if (contenidoMail.length() < 255) {
 					actual.setMensaje(contenidoMail);
 				}
-				this.container.persistIfNotAlready(actual);
 				retorno.add(actual);
 			}
 			store.close();
@@ -377,29 +376,14 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				// Si es texto, se escribe el texto.
 				if (unaParte.isMimeType("text/*")) {
 					contenidoMail = unaParte.getContent().toString();
-					System.out.println("Texto " + unaParte.getContentType());
-					System.out.println(unaParte.getContent());
-					System.out.println("---------------------------------");
 				} else {
 					// Si es imagen, se guarda en fichero y se visualiza en
 					// JFrame
 					if (unaParte.isMimeType("image/*")) {
 
 						contenidoMail += unaParte.getContentType().toString();
-						System.out.println("Imagen "
-								+ unaParte.getContentType());
-						System.out.println("Fichero=" + unaParte.getFileName());
-						System.out.println("---------------------------------");
-
 						// this.salvaImagenEnFichero(unaParte);
-					} else {
-						// Si no es ninguna de las anteriores, se escribe en
-						// pantalla
-						// el tipo.
-						System.out.println("Recibido "
-								+ unaParte.getContentType());
-						System.out.println("---------------------------------");
-					}
+					} 
 				}
 			}
 		} catch (Exception e) {
