@@ -95,4 +95,21 @@ public class CorreoEmpresa {
 	public void setServidorEntrante(String servidorEntrante) {
 		this.servidorEntrante = servidorEntrante;
 	}
+	
+	
+	// //////////////////////////////////////
+	// ServidorSaliente (propiedad)
+	// //////////////////////////////////////
+
+	private String servidorSaliente;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@MemberOrder(sequence = "2")
+	public String getServidorSaliente() {
+		return servidorSaliente;
+	}
+
+	public void setServidorSaliente(String servidorSaliente) {
+		this.servidorSaliente = servidorSaliente;
+	}
 }
