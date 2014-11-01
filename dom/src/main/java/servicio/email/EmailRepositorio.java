@@ -47,6 +47,7 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.NotContributed.As;
 import org.apache.isis.applib.annotation.NotInServiceMenu;
+import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 
@@ -73,6 +74,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	public void setMensajes(Message[] mensajes) {
 		this.mensajes = mensajes;
 	}
+
 	/**
 	 * SETEO DE LA SESSION.
 	 */
@@ -108,8 +110,9 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	@NotContributed(As.ASSOCIATION)
 	@NotInServiceMenu
 	@Named("Enviar Correo")
+	@DescribedAs("Finalizado la reparacion del equipo se envia un correo al usuario.")
 	public String send(final Computadora unaComputadora) {
-		String asunto = "Servicio Tecnico le informa que ....";
+		String asunto = "Servicio Tecnico Finalizado.";
 		// Direccion:
 		String correoReceptor = unaComputadora.getUsuario().getEmail();
 		String nombreReceptor = unaComputadora.getUsuario().getApellido()
@@ -145,10 +148,10 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				PROPERTY_ROOT + "password", "inventario123");
 
 		// EN CASO QUE SEA NULL EL CAMPO; SE PONEN LOS SIGUIENTES POR DEFECTO.
-		// String fromName = getContainer().getProperty(
-		// PROPERTY_ROOT + "from.name", "No reply");
-		// String fromEmailAddress = getContainer().getProperty(
-		// PROPERTY_ROOT + "from.address", "noreply@domain.com");
+//		 String fromName = getContainer().getProperty(
+//		 PROPERTY_ROOT + "from.name", "No reply");
+//		 String fromEmailAddress = getContainer().getProperty(
+//		 PROPERTY_ROOT + "from.address", "noreply@domain.com");
 
 		try {
 
@@ -177,7 +180,64 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 
 	}
 
-	
+	@Named("Enviar Correo")
+	@DescribedAs("El correo de la empresa es el emisor del mensaje.")
+	public String send(
+			final @Named("De: ") CorreoEmpresa correo,
+			final @Named("Para:") String destino,
+			final @Optional @Named("Nombre Destinatario:") String nombreDestinatario,
+			final @Named("Asunto") String asunto,
+			final @Named("Mensaje") String mensaje) {
+
+		return this.configurarEnvio(correo, destino, nombreDestinatario, asunto, mensaje);
+
+	}
+
+	public List<CorreoEmpresa> choices0Send() {
+		return this.listarCorreoEmpresa();
+	}
+
+	private String configurarEnvio(final CorreoEmpresa correo,
+			final String destino, final @Optional String nombreDestinatario,
+			final String asunto, final String mensaje) {
+
+		/*
+		 * Configuracion para enviar email.
+		 */
+		String smtpHost = getContainer().getProperty(PROPERTY_ROOT + "host",
+				"smtp.gmail.com");
+
+		String portValue = getContainer().getProperty(PROPERTY_ROOT + "port",
+				"587");
+
+		int port = Integer.valueOf(portValue).intValue();
+		// Emisor
+		String authenticationName = getContainer().getProperty(
+				PROPERTY_ROOT + "user", correo.getCorreo());
+		//FIXME: HAY QUE DECODIFICAR LA CONTRASEÑA? ??? 
+		String authenticationPassword = getContainer().getProperty(
+				PROPERTY_ROOT + "password", correo.getPass());
+		try {
+
+			SimpleEmail simpleEmail = new SimpleEmail();
+			simpleEmail.setHostName(smtpHost);
+			simpleEmail.setSmtpPort(port);
+			simpleEmail.setSSL(true);
+			if (authenticationName != null) {
+				simpleEmail.setAuthentication(authenticationName,
+						authenticationPassword);
+			}
+			simpleEmail.addTo(destino, nombreDestinatario);
+			simpleEmail.setFrom(correo.getCorreo(), "Soporte Tecnico");
+			simpleEmail.setSubject(asunto);
+			simpleEmail.setMsg(mensaje);
+			return simpleEmail.send();
+
+		} catch (EmailException e) {
+			throw new servicio.email.EmailException(e.getMessage(), e);
+		}
+	}
+
 	/**
 	 * 
 	 * @return Retorna la lista de correos persistidos
@@ -220,10 +280,12 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		}
 		return listarMensajesPersistidos(correoEmpresa);
 	}
+
 	@Programmatic
 	public List<CorreoEmpresa> choices0Bandeja() {
-		return this.listar();
+		return this.listarCorreoEmpresa();
 	}
+
 	/**
 	 * Retorna los emails guardados por el usuario registrado.
 	 * 
@@ -246,7 +308,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 
 	@Programmatic
 	public List<CorreoEmpresa> choices0ListarMensajesPersistidos() {
-		return this.listar();
+		return this.listarCorreoEmpresa();
 	}
 
 	private List<Correo> accion(final CorreoEmpresa correoEmpresa)
@@ -419,7 +481,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	}
 
 	@Named("Listar Correos")
-	public List<CorreoEmpresa> listar() {
+	public List<CorreoEmpresa> listarCorreoEmpresa() {
 		return this.container.allMatches(new QueryDefault<CorreoEmpresa>(
 				CorreoEmpresa.class, "listar"));
 	}
