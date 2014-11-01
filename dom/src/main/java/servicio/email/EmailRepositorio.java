@@ -57,6 +57,7 @@ import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 
 @DomainService
+@Named("Casilla de Correo")
 public class EmailRepositorio extends AbstractFactoryAndRepository {
 	private static final String PROPERTY_ROOT = "mail.smtp.";
 	/**
@@ -128,9 +129,9 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				+ unaComputadora.getTecnico().getApellido() + ", "
 				+ unaComputadora.getTecnico().getNombre() + ". \n Email: "
 				+ unaComputadora.getTecnico().getEmail();
-		String correoEmisor = unaComputadora.getTecnico().getEmail();
-		String nombreEmisor = unaComputadora.getTecnico().getApellido() + ", "
-				+ unaComputadora.getTecnico().getNombre();
+//		String correoEmisor = unaComputadora.getTecnico().getEmail();
+//		String nombreEmisor = unaComputadora.getTecnico().getApellido() + ", "
+//				+ unaComputadora.getTecnico().getNombre();
 		/*
 		 * Configuracion para enviar email.
 		 */
@@ -148,10 +149,10 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				PROPERTY_ROOT + "password", "inventario123");
 
 		// EN CASO QUE SEA NULL EL CAMPO; SE PONEN LOS SIGUIENTES POR DEFECTO.
-//		 String fromName = getContainer().getProperty(
-//		 PROPERTY_ROOT + "from.name", "No reply");
-//		 String fromEmailAddress = getContainer().getProperty(
-//		 PROPERTY_ROOT + "from.address", "noreply@domain.com");
+		 String fromName = getContainer().getProperty(
+		 PROPERTY_ROOT + "from.name", "No reply");
+		 String fromEmailAddress = getContainer().getProperty(
+		 PROPERTY_ROOT + "from.address", "noreply@domain.com");
 
 		try {
 
@@ -164,7 +165,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 						authenticationPassword);
 			}
 			simpleEmail.addTo(correoReceptor, nombreReceptor);
-			simpleEmail.setFrom(correoEmisor, nombreEmisor);
+			simpleEmail.setFrom(fromName, fromEmailAddress);
 			simpleEmail.setSubject(asunto);
 			simpleEmail.setMsg(mensaje);
 			return simpleEmail.send();
@@ -185,11 +186,10 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	public String send(
 			final @Named("De: ") CorreoEmpresa correo,
 			final @Named("Para:") String destino,
-			final @Optional @Named("Nombre Destinatario:") String nombreDestinatario,
 			final @Named("Asunto") String asunto,
 			final @Named("Mensaje") String mensaje) {
 
-		return this.configurarEnvio(correo, destino, nombreDestinatario, asunto, mensaje);
+		return this.configurarEnvio(correo, destino, asunto, mensaje);
 
 	}
 
@@ -198,7 +198,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	}
 
 	private String configurarEnvio(final CorreoEmpresa correo,
-			final String destino, final @Optional String nombreDestinatario,
+			final String destino,
 			final String asunto, final String mensaje) {
 
 		/*
@@ -227,7 +227,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				simpleEmail.setAuthentication(authenticationName,
 						authenticationPassword);
 			}
-			simpleEmail.addTo(destino, nombreDestinatario);
+			simpleEmail.addTo(destino);
 			simpleEmail.setFrom(correo.getCorreo(), "Soporte Tecnico");
 			simpleEmail.setSubject(asunto);
 			simpleEmail.setMsg(mensaje);
