@@ -38,7 +38,9 @@ import org.apache.isis.applib.annotation.Where;
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY)
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "VERSION")
 @javax.jdo.annotations.Queries({ @javax.jdo.annotations.Query(name = "buscarCorreo", language = "JDOQL", value = "SELECT "
-		+ "FROM servicio.email.Correo ")})
+		+ "FROM servicio.email.Correo "),@javax.jdo.annotations.Query(name = "buscarCorreoPorUsuario", language = "JDOQL", value = "SELECT "
+				+ "FROM servicio.email.Correo "+"WHERE tecnico == :usuario")})
+
 @ObjectType("CORREO")
 @Immutable
 public class Correo implements Comparable<Correo> {
