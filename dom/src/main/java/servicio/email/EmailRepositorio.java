@@ -56,7 +56,7 @@ import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 
 @DomainService
-public class EmailService extends AbstractFactoryAndRepository {
+public class EmailRepositorio extends AbstractFactoryAndRepository {
 	private static final String PROPERTY_ROOT = "mail.smtp.";
 	/**
 	 * Obtener el Store y el Folder de Inbox

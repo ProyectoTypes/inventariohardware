@@ -30,7 +30,7 @@ import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
-import servicio.email.EmailService;
+import servicio.email.EmailRepositorio;
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.ComputadoraRepositorio;
 import dom.computadora.hardware.impresora.Impresora;
@@ -232,7 +232,7 @@ public class Reparando implements IEstado {
 	}
 
 	@Inject
-	private EmailService emailService;
+	private EmailRepositorio emailService;
 
 	@Inject
 	private DomainObjectContainer container;
