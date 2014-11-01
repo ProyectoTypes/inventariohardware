@@ -58,6 +58,52 @@ import dom.computadora.ComputadoraRepositorio;
 @DomainService
 public class EmailService extends AbstractFactoryAndRepository {
 	private static final String PROPERTY_ROOT = "mail.smtp.";
+	/**
+	 * Obtener el Store y el Folder de Inbox
+	 */
+	private Store store;
+	private Message[] mensajes;
+
+	@Programmatic
+	public Message[] getMensajes() {
+		return mensajes;
+	}
+
+	@Programmatic
+	public void setMensajes(Message[] mensajes) {
+		this.mensajes = mensajes;
+	}
+	/**
+	 * SETEO DE LA SESSION.
+	 */
+	private Session session;
+
+	@Programmatic
+	public Session getSession() {
+		return session;
+	}
+
+	private Properties propiedades = new Properties();
+
+	@Programmatic
+	public void setSession(Properties propiedades) {
+		session = Session.getInstance(propiedades);
+		session.setDebug(true);
+	}
+
+	@Programmatic
+	public void setProperties() {
+		// Deshabilitamos TLS
+		propiedades.setProperty("mail.pop3.starttls.enable", "false");
+		// Hay que usar SSL
+		propiedades.setProperty("mail.pop3.socketFactory.class",
+				"javax.net.ssl.SSLSocketFactory");
+		propiedades.setProperty("mail.pop3.socketFactory.fallback", "false");
+		// Puerto 995 para conectarse.
+		propiedades.setProperty("mail.pop3.port", "995");
+		propiedades.setProperty("mail.pop3.socketFactory.port", "995");
+		this.setSession(propiedades);
+	}
 
 	@NotContributed(As.ASSOCIATION)
 	@NotInServiceMenu
@@ -131,39 +177,7 @@ public class EmailService extends AbstractFactoryAndRepository {
 
 	}
 
-	/**
-	 * SETEO DE LA SESSION.
-	 */
-	private Session session;
-
-	@Programmatic
-	public Session getSession() {
-		return session;
-	}
-
-	private Properties propiedades = new Properties();
-
-	@Programmatic
-	public void setSession(Properties propiedades) {
-		session = Session.getInstance(propiedades);
-		session.setDebug(true);
-	}
-
-	@Programmatic
-	public void setProperties() {
-		// Deshabilitamos TLS
-		propiedades.setProperty("mail.pop3.starttls.enable", "false");
-		// Hay que usar SSL
-		propiedades.setProperty("mail.pop3.socketFactory.class",
-				"javax.net.ssl.SSLSocketFactory");
-		propiedades.setProperty("mail.pop3.socketFactory.fallback", "false");
-		// Puerto 995 para conectarse.
-		propiedades.setProperty("mail.pop3.port", "995");
-		propiedades.setProperty("mail.pop3.socketFactory.port", "995");
-		this.setSession(propiedades);
-	}
-
-
+	
 	/*
 	 * INJECT
 	 */
