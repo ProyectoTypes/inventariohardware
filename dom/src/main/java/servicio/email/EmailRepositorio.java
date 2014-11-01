@@ -60,6 +60,9 @@ import dom.computadora.ComputadoraRepositorio;
 @Named("Casilla de Correo")
 public class EmailRepositorio extends AbstractFactoryAndRepository {
 	private static final String PROPERTY_ROOT = "mail.smtp.";
+	private static final String EMAIL = "inventariohardware@gmail.com";
+	private static final String PASS = "inventario123";
+
 	/**
 	 * Obtener el Store y el Folder de Inbox
 	 */
@@ -114,11 +117,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	@DescribedAs("Finalizado la reparacion del equipo se envia un correo al usuario.")
 	public String send(final Computadora unaComputadora) {
 		String asunto = "Servicio Tecnico Finalizado.";
-		// Direccion:
-		String correoReceptor = unaComputadora.getUsuario().getEmail();
-		String nombreReceptor = unaComputadora.getUsuario().getApellido()
-				+ ", " + unaComputadora.getUsuario().getNombre();
-		// Email:
+		String destino = unaComputadora.getUsuario().getEmail();
 		String mensaje = "La Computadora (IP: "
 				+ unaComputadora.getIp()
 				+ ") correspondiente al usuario "
@@ -129,49 +128,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				+ unaComputadora.getTecnico().getApellido() + ", "
 				+ unaComputadora.getTecnico().getNombre() + ". \n Email: "
 				+ unaComputadora.getTecnico().getEmail();
-//		String correoEmisor = unaComputadora.getTecnico().getEmail();
-//		String nombreEmisor = unaComputadora.getTecnico().getApellido() + ", "
-//				+ unaComputadora.getTecnico().getNombre();
-		/*
-		 * Configuracion para enviar email.
-		 */
-		String smtpHost = getContainer().getProperty(PROPERTY_ROOT + "host",
-				"smtp.gmail.com");
-
-		String portValue = getContainer().getProperty(PROPERTY_ROOT + "port",
-				"587");
-
-		int port = Integer.valueOf(portValue).intValue();
-		// Emisor
-		String authenticationName = getContainer().getProperty(
-				PROPERTY_ROOT + "user", "inventariohardware@gmail.com");
-		String authenticationPassword = getContainer().getProperty(
-				PROPERTY_ROOT + "password", "inventario123");
-
-		// EN CASO QUE SEA NULL EL CAMPO; SE PONEN LOS SIGUIENTES POR DEFECTO.
-		 String fromName = getContainer().getProperty(
-		 PROPERTY_ROOT + "from.name", "No reply");
-		 String fromEmailAddress = getContainer().getProperty(
-		 PROPERTY_ROOT + "from.address", "noreply@domain.com");
-
-		try {
-
-			SimpleEmail simpleEmail = new SimpleEmail();
-			simpleEmail.setHostName(smtpHost);
-			simpleEmail.setSmtpPort(port);
-			simpleEmail.setSSL(true);
-			if (authenticationName != null) {
-				simpleEmail.setAuthentication(authenticationName,
-						authenticationPassword);
-			}
-			simpleEmail.addTo(correoReceptor, nombreReceptor);
-			simpleEmail.setFrom(fromName, fromEmailAddress);
-			simpleEmail.setSubject(asunto);
-			simpleEmail.setMsg(mensaje);
-			return simpleEmail.send();
-		} catch (EmailException e) {
-			throw new servicio.email.EmailException(e.getMessage(), e);
-		}
+		return this.configurarEnvio(null, destino, asunto, mensaje);
 	}
 
 	@Named("Computadora")
@@ -182,9 +139,8 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	}
 
 	@Named("Enviar Correo")
-	@DescribedAs("El correo de la empresa es el emisor del mensaje.")
-	public String send(
-			final @Named("De: ") CorreoEmpresa correo,
+	@DescribedAs("Envia mensajes personalizados.")
+	public String send(final @Optional @Named("De: ") CorreoEmpresa correo,
 			final @Named("Para:") String destino,
 			final @Named("Asunto") String asunto,
 			final @Named("Mensaje") String mensaje) {
@@ -198,8 +154,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	}
 
 	private String configurarEnvio(final CorreoEmpresa correo,
-			final String destino,
-			final String asunto, final String mensaje) {
+			final String destino, final String asunto, final String mensaje) {
 
 		/*
 		 * Configuracion para enviar email.
@@ -212,11 +167,22 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 
 		int port = Integer.valueOf(portValue).intValue();
 		// Emisor
+		String email = EMAIL;
+		String contrasenia =PASS;
+		if(correo!=null){
+			email = correo.getCorreo();
+			contrasenia = correo.getPass();
+		}
 		String authenticationName = getContainer().getProperty(
-				PROPERTY_ROOT + "user", correo.getCorreo());
-		//FIXME: HAY QUE DECODIFICAR LA CONTRASEÑA? ??? 
+				PROPERTY_ROOT + "user", email);
+		// FIXME: HAY QUE DECODIFICAR LA CONTRASEÑA? ???
 		String authenticationPassword = getContainer().getProperty(
-				PROPERTY_ROOT + "password", correo.getPass());
+				PROPERTY_ROOT + "password", contrasenia);
+		
+		String fromName = getContainer().getProperty(
+				PROPERTY_ROOT + "from.name", "No reply");
+		String fromEmailAddress = getContainer().getProperty(
+				PROPERTY_ROOT + "from.address", "noreply@domain.com");
 		try {
 
 			SimpleEmail simpleEmail = new SimpleEmail();
@@ -228,7 +194,10 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 						authenticationPassword);
 			}
 			simpleEmail.addTo(destino);
-			simpleEmail.setFrom(correo.getCorreo(), "Soporte Tecnico");
+			if (correo != null)
+				simpleEmail.setFrom(correo.getCorreo(), "Soporte Tecnico");
+			else 
+				simpleEmail.setFrom(fromName, fromEmailAddress);
 			simpleEmail.setSubject(asunto);
 			simpleEmail.setMsg(mensaje);
 			return simpleEmail.send();
