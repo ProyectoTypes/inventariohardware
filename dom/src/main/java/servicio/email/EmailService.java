@@ -178,6 +178,58 @@ public class EmailService extends AbstractFactoryAndRepository {
 	}
 
 	
+	/**
+	 * 
+	 * @return Retorna la lista de correos persistidos
+	 * @throws EncriptaException
+	 */
+	@Named("Bandeja de Entrada")
+	@MemberOrder(sequence = "2")
+	public List<Correo> bandeja(
+			final @Named("Correo") CorreoEmpresa correoEmpresa)
+			throws EncriptaException {
+		System.out.println("ANTES DE LA BUSQUEDA " + correoEmpresa.getCorreo());
+		System.out.println("ANTES DE LA BUSQUEDA " + correoEmpresa.getPass());
+
+		this.setProperties();
+		this.container.warnUser("BANDEJA");
+
+		final List<Correo> listaJavaMail = this.accion(correoEmpresa);
+
+		String mensajeNuevos = listaJavaMail.size() == 1 ? "TIENES UN NUEVO CORREO!"
+				: "TIENES " + listaJavaMail.size() + " CORREOS NUEVOS";
+
+		if (listaJavaMail != null && listaJavaMail.size() > 0) {
+
+			this.container.warnUser(mensajeNuevos);
+
+			for (Correo mensaje : listaJavaMail) {
+
+				final Correo correoMensaje = newTransientInstance(Correo.class);
+				// if (existeMensaje(mensaje.getAsunto()) == null) {
+				correoMensaje.setEmail(mensaje.getEmail());
+				correoMensaje.setAsunto(mensaje.getAsunto());
+				correoMensaje.setMensaje(mensaje.getMensaje());
+				correoMensaje.setTecnico(currentUserName());
+				correoMensaje.setCorreoEmpresa(correoEmpresa);
+				correoMensaje.setFechaActual(mensaje.getFechaActual());
+				this.container.persistIfNotAlready(correoMensaje);
+				// }
+			}
+
+		}
+		return listarMensajesPersistidos(correoEmpresa);
+	}
+
+	
+	// //////////////////////////////////////
+	// CurrentUserName
+	// //////////////////////////////////////
+
+	private String currentUserName() {
+		return container.getUser().getName();
+	}
+
 	/*
 	 * INJECT
 	 */
