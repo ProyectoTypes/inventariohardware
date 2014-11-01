@@ -224,8 +224,32 @@ public class EmailService extends AbstractFactoryAndRepository {
 	public List<CorreoEmpresa> choices0Bandeja() {
 		return this.listar();
 	}
-	
+	/**
+	 * Retorna los emails guardados por el usuario registrado.
+	 * 
+	 * @return List<Correo>
+	 */
+	@Named("Mensajes Persistidos")
+	@MemberOrder(sequence = "3")
+	public List<Correo> listarMensajesPersistidos(
+			final CorreoEmpresa correoEmpresa) {
 
+		final List<Correo> listaCorreosPersistidos = this.container
+				.allMatches(new QueryDefault<Correo>(Correo.class,
+						"buscarCorreo"));
+		if (listaCorreosPersistidos.isEmpty()) {
+			this.container
+					.warnUser("No hay Correos Electronicos guardados en el sistema.");
+		}
+		return listaCorreosPersistidos;
+	}
+
+	@Programmatic
+	public List<CorreoEmpresa> choices0ListarMensajesPersistidos() {
+		return this.listar();
+	}
+
+	
 	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////
