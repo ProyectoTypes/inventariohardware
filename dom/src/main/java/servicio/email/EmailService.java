@@ -418,6 +418,11 @@ public class EmailService extends AbstractFactoryAndRepository {
 		return correoempresa;
 	}
 
+	@Named("Listar Correos")
+	public List<CorreoEmpresa> listar() {
+		return this.container.allMatches(new QueryDefault<CorreoEmpresa>(
+				CorreoEmpresa.class, "listar"));
+	}
 
 	// //////////////////////////////////////
 	// CurrentUserName
