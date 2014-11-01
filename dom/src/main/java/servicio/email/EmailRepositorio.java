@@ -56,6 +56,7 @@ import servicio.encriptar.Encripta;
 import servicio.encriptar.EncriptaException;
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
+import dom.soporte.Soporte;
 
 @DomainService
 @Named("Casilla de Correo")
@@ -235,17 +236,13 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	 * @return Retorna la lista de correos persistidos
 	 * @throws EncriptaException
 	 */
-	@Named("Actualizar Bandeja")
+	@Named("Bandeja de Correo")
 	@MemberOrder(sequence = "2")
 	public List<Correo> bandeja(
 			final @Named("Correo") CorreoEmpresa correoEmpresa)
 			throws EncriptaException {
-		System.out.println("ANTES DE LA BUSQUEDA " + correoEmpresa.getCorreo());
-		System.out.println("ANTES DE LA BUSQUEDA " + correoEmpresa.getPass());
 
 		this.setProperties();
-		this.container.warnUser("ACTUALIZAR BANDEJA - Tecnico: "
-				+ this.currentUserName());
 
 		final List<Correo> listaJavaMail = this.accion(correoEmpresa);
 
@@ -255,23 +252,23 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		if (listaJavaMail != null && listaJavaMail.size() > 0) {
 
 			this.container.warnUser(mensajeNuevos);
-
-			for (Correo mensaje : listaJavaMail) {
-
-				final Correo correoMensaje = newTransientInstance(Correo.class);
-				// FIXME: HACER LA EXISTEMENSAJE
-				// if (existeMensaje(mensaje.getAsunto()) == null) {
-				correoMensaje.setEmail(mensaje.getEmail());
-				correoMensaje.setAsunto(mensaje.getAsunto());
-				String mje = this.html2text(mensaje.getMensaje());
-				this.container.warnUser("MENSAJE:: " + mje);
-				correoMensaje.setMensaje(mje);
-				correoMensaje.setTecnico(mensaje.getTecnico());
-				correoMensaje.setCorreoEmpresa(correoEmpresa);
-				correoMensaje.setFechaActual(mensaje.getFechaActual());
-				this.container.persistIfNotAlready(correoMensaje);
-				// }
-			}
+			//
+			// for (Correo mensaje : listaJavaMail) {
+			//
+			// final Correo correoMensaje = newTransientInstance(Correo.class);
+			// // FIXME: HACER LA EXISTEMENSAJE
+			// if (existeMensaje(mensaje.getAsunto()) == null) {
+			// correoMensaje.setEmail(mensaje.getEmail());
+			// correoMensaje.setAsunto(mensaje.getAsunto());
+			// String mje = this.html2text(mensaje.getMensaje());
+			// //this.container.warnUser("MENSAJE:: " + mje);
+			// correoMensaje.setMensaje(mje);
+			// correoMensaje.setTecnico(mensaje.getTecnico());
+			// correoMensaje.setCorreoEmpresa(correoEmpresa);
+			// correoMensaje.setFechaActual(mensaje.getFechaActual());
+			// this.container.persistIfNotAlready(correoMensaje);
+			// }
+			// }
 
 		}
 		return listarMensajesPersistidos(correoEmpresa);
@@ -288,7 +285,6 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	 * @return List<Correo>
 	 */
 	@Programmatic
-	@Named("Bandeja de Entrada")
 	@MemberOrder(sequence = "3")
 	public List<Correo> listarMensajesPersistidos(
 			final CorreoEmpresa correoEmpresa) {
@@ -329,16 +325,18 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				final Correo actual = this.container
 						.newTransientInstance(Correo.class);
 
-				actual.setEmail(this.limpiarDireccionCorreo(mensaje.getFrom()[0]
-						.toString()));
+				actual.setEmail(this.limpiarDireccionCorreo(mensaje.getFrom()[0].toString()));
 				actual.setAsunto(mensaje.getSubject());
 				actual.setFechaActual(mensaje.getSentDate());
 				actual.setCorreoEmpresa(correoEmpresa);
 				actual.setTecnico(this.currentUserName());
 				analizaParteDeMensaje(mensaje);
+
 				if (contenidoMail.length() < 255) {
-					actual.setMensaje(contenidoMail);
+					String mje = this.html2text(contenidoMail);
+					actual.setMensaje(mje);
 				}
+				this.container.persistIfNotAlready(actual);
 				retorno.add(actual);
 			}
 			store.close();
@@ -383,7 +381,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 
 						contenidoMail += unaParte.getContentType().toString();
 						// this.salvaImagenEnFichero(unaParte);
-					} 
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -448,6 +446,8 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	}
 
 	/* ******************* FIN: CORREO EMPRESA ************************ */
+
+	
 
 	private String currentUserName() {
 		return container.getUser().getName();
