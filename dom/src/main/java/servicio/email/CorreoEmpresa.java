@@ -121,7 +121,7 @@ public class CorreoEmpresa {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@MemberOrder(sequence = "2")
-	public String getPruertoEntrante() {
+	public String getPuertoEntrante() {
 		return puertoEntrante;
 	}
 
@@ -137,7 +137,7 @@ public class CorreoEmpresa {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@MemberOrder(sequence = "2")
-	public String getPruertoSaliente() {
+	public String getPuertoSaliente() {
 		return puertoSaliente;
 	}
 
