@@ -7,30 +7,29 @@ Es un proyecto académico que se realiza para la asignatura "Proyecto Final" dic
 
 El proyecto está basado en el modelo Domain-Driven Design (DDD) y su implementación es realizada bajo el lenguaje Java utilizando el framework Apache ISIS. 
 
-## Es para la gestión del Departamento de Sistemas del Ministerio de Gobierno, en el cual se pueden administrar:
-
-  * Técnicos.  
+## El Departamento de Sistemas del Ministerio de Gobierno, podra administrar:
+  * Técnicos.
   * Usuarios.
-  * Computadoras (Estados).
+  * Computadoras.
   * Sectores.
   * Estadísticas.
 
-## El proyecto cuenta con los siguientes servicios mejorados.
+
+## Servicios del Sistema:
+  * Notificar al Usuario sobre el estado de reparación de la computadora via Email.
+  * Realizar una estadistica de la cantidad de computadoras en reparacion que un Técnico posea.
+
+
+## Se contará con los siguientes servicios mejorados:
   * Poder ver la bandeja de entrada del correo de la oficina.
-  * Exportar a excel los equipos que esten en reparación.
-  * Exportar a word los equipos que se haga un pedido de insumos.
-
-## Además va a contar con los siguientes servicios:
-
-  * Notificar al Usuario sobre el estado de la computadora via Email.
-  * Realiza una estadistica a partir de la cantidad de computadoras que posee un Técnico en reparacion.
+  * Exportar a Excel un informe de los equipos que esten en reparación.
+  * Exportar a Word un informe de los equipos que posean un pedido de insumos.
 
 
-## El proyecto esta funcionando con.
-    Framework isis apache.
-      versión 1.6.
+## El proyecto esta funcionando con:
+    Framework isis apache. Versión 1.6.
     Postgresql 9.1.
-    SNMP4J.
+    Api de Zabbix.
 
 
 ## Instalación
@@ -44,10 +43,10 @@ $ cd inventariohardware
 
 Con $ mvn clean install
 
-3. Compilar el proyecto inventariohardware
+3. Compilar el proyecto inventariohardware.
 
 Con $ mvn -P self-host antrun:run
 
-Licencia
 
+##Licencia
 InventarioHardware está regulado por la licencia GNU GPLv2

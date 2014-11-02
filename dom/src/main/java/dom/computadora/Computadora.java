@@ -34,7 +34,6 @@ import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
-import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
@@ -72,7 +71,6 @@ import dom.usuario.Usuario;
 @ObjectType("COMPUTADORA")
 @Audited
 @AutoComplete(repository = ComputadoraRepositorio.class, action = "autoComplete")
-@Bookmarkable
 public class Computadora implements Comparable<Computadora> {
 
 	// //////////////////////////////////////
@@ -262,7 +260,6 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////
-
 	private String currentUserName() {
 		return container.getUser().getName();
 	}

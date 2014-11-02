@@ -29,7 +29,6 @@ import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
-import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
@@ -66,7 +65,6 @@ import dom.soporte.Soporte;
 @ObjectType("INSUMO")
 @Audited
 @AutoComplete(repository = InsumoRepositorio.class, action = "autoComplete")
-@Bookmarkable
 public class Insumo implements Comparable<Insumo> {
 
 	// //////////////////////////////////////

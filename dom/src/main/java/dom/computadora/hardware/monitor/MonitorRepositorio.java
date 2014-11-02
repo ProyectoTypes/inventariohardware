@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.computadora.hardware.monitor;
 
 import java.util.List;
@@ -28,9 +28,10 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.NotContributed;
-import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
+
+import dom.computadora.hardware.monitor.Monitor.TipoMonitor;
 
 @DomainService
 @Named("Monitor")
@@ -46,32 +47,26 @@ public class MonitorRepositorio {
 	public String iconName() {
 		return "Monitor";
 	}
-	
+
 	// //////////////////////////////////////
 	// Agregar Monitor
 	// //////////////////////////////////////
 	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
-	public Monitor addMonitor(final @Named("Codigo") String codigo,
-			final @Named("Tipo") int tipo,
-			final @Named("Nombre") String nombre,
-			final @Named("Marca") String marca,
-			final @Optional @Named("Observaciones") String observaciones) {
-		return nuevosMonitor(codigo, tipo, nombre, marca, observaciones,
-				this.currentUserName());
+	public Monitor addMonitor(final @Named("Tamaño en plg.") int tamaño,
+			final @Named("Tipo") TipoMonitor tipo,
+			final @Named("Marca") String marca) {
+		return nuevosMonitor(tamaño, tipo, marca, this.currentUserName());
 	}
-	
+
 	@Programmatic
-	public Monitor nuevosMonitor(final String codigo, final int cantidad,
-			final String producto, final String marca,
-			final String observaciones, final String creadoPor) {
+	public Monitor nuevosMonitor(final int tamaño, final TipoMonitor tipo,
+			final String marca, final String creadoPor) {
 		final Monitor unMonitor = container.newTransientInstance(Monitor.class);
-		unMonitor.setCodigo(codigo.toUpperCase().trim());
-		unMonitor.setTipo(codigo.toUpperCase().trim());
-		unMonitor.setPulgadas(codigo.toUpperCase().trim());
+		unMonitor.setTamaño(tamaño);
+		unMonitor.setTipo(tipo);
 		unMonitor.setMarca(marca.toUpperCase().trim());
-		unMonitor.setObservaciones(observaciones.toUpperCase().trim());
 		unMonitor.setHabilitado(true);
 		unMonitor.setCreadoPor(creadoPor);
 		container.persistIfNotAlready(unMonitor);
@@ -80,7 +75,7 @@ public class MonitorRepositorio {
 	}
 
 	// //////////////////////////////////////
-	// Listar Insumos
+	// Listar Monitor
 	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "100")
@@ -89,7 +84,7 @@ public class MonitorRepositorio {
 				.allMatches(new QueryDefault<Monitor>(Monitor.class,
 						"listarMonitorTrue"));
 		if (listaSoftware.isEmpty()) {
-			this.container.warnUser("No hay Software cargadas en el sistema.");
+			this.container.warnUser("No hay Monitores cargados en el sistema.");
 		}
 		return listaSoftware;
 	}
@@ -100,7 +95,6 @@ public class MonitorRepositorio {
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
-	
 
 	// //////////////////////////////////////
 	// Injected Services

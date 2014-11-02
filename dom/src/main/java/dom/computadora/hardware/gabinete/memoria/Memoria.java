@@ -18,63 +18,76 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
-package dom.correo;
+ */
+package dom.computadora.hardware.gabinete.memoria;
 
-import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.VersionStrategy;
-import org.apache.isis.applib.annotation.AutoComplete;
-import org.apache.isis.applib.annotation.Immutable;
+import org.apache.isis.applib.annotation.Audited;
+import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
-@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
-@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY)
-@javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "VERSION")
-@ObjectType("CORREOEMPRESA")
-@AutoComplete(repository = CorreoServicio.class, action = "autoComplete")
-@Immutable
-public class CorreoEmpresa {
+@ObjectType("MEMORIA")
+@Audited
+
+public class Memoria {
 	
 	// //////////////////////////////////////
-	// Titulo
+	// Identificacion en la UI
 	// //////////////////////////////////////
-	
-	public String title(){
-			return getCorreo();
+
+	public String title() {
+		return this.getMarca();
 	}
-	
-	public String iconName(){
-		return "config";
+
+	public String iconName() {
+		return "Disco";
 	}
 	
 	// //////////////////////////////////////
-	// Correo (propiedad)
+	// Modelo (Atributo)
 	// //////////////////////////////////////
-	
-	private String correo;
-	
+	private String modelo;
+
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence="1")
-	public String getCorreo(){
-		return correo;
+	@DescribedAs("Modelo de la memoria:")
+	@MemberOrder(sequence = "10")
+	public String getModelo() {
+		return modelo;
 	}
-	public void setCorreo(String correo){
-		this.correo=correo;
+
+	public void setModelo(final String modelo) {
+		this.modelo = modelo;
 	}
-	
+
 	// //////////////////////////////////////
-	// Pass (propiedad)
+	// Tamaño (Atributo)
 	// //////////////////////////////////////
-	
-	private String pass;
-	
+	private int tamaño;
+
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence="2")
-	public String getPass(){
-		return pass;
+	@DescribedAs("Tamano de la memoria:")
+	@MemberOrder(sequence = "20")
+	public int getTamaño() {
+		return tamaño;
 	}
-	public void setPass(String pass){
-		this.pass=pass;
+
+	public void setTamaño(final int tamaño) {
+		this.tamaño = tamaño;
+	}
+
+	// //////////////////////////////////////
+	// Marca (Atributo)
+	// //////////////////////////////////////
+	private String marca;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@DescribedAs("Marca de la memoria:")
+	@MemberOrder(sequence = "30")
+	public String getMarca() {
+		return marca;
+	}
+
+	public void setMarca(final String marca) {
+		this.marca = marca;
 	}
 }

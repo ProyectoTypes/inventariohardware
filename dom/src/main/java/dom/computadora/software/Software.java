@@ -21,17 +21,24 @@
 */
 package dom.computadora.software;
 
+import java.util.List;
+
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
-import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Where;
+import org.apache.isis.applib.util.ObjectContracts;
+
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
@@ -57,8 +64,7 @@ import org.apache.isis.applib.annotation.Where;
 @ObjectType("SOFTWARE")
 @Audited
 @AutoComplete(repository = SoftwareRepositorio.class, action = "autoComplete")
-@Bookmarkable
-public class Software {
+public class Software implements Comparable<Software> {
 	
 	// //////////////////////////////////////
 	// Identificacion en la UI
@@ -189,4 +195,44 @@ public class Software {
 	public void setCreadoPor(final String creadoPor) {
 		this.creadoPor = creadoPor;
 	}
+	
+	// //////////////////////////////////////
+	// Eliminar
+	// //////////////////////////////////////
+	/**
+	* Método que utilizo para deshabilitar un Insumo.
+	* 
+	* @return la propiedad habilitado en false.
+	*/
+	@Named("Eliminar")
+	@PublishedAction
+	@Bulk
+	@MemberOrder(name = "accionEliminar", sequence = "1")
+	public List<Software> eliminar() {
+		if (getEstaHabilitado() == true) {
+			setHabilitado(false);
+			container.isPersistent(this);
+			container.warnUser("Eliminado " + container.titleOf(this));
+		}
+		return null;
+	}
+	
+	// //////////////////////////////////////
+	// Comparable
+	// //////////////////////////////////////
+	/**
+	 * Implementacion de la interface comparable, necesaria para toda entidad.
+	 *  
+	 */
+	@Override
+	public int compareTo(final Software software) {
+		return ObjectContracts.compare(this, software, "nombreSoftware");
+	}
+	
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+
+	@javax.inject.Inject
+	private DomainObjectContainer container;
 }

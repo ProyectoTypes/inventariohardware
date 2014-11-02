@@ -18,10 +18,12 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package app;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import org.apache.isis.applib.AbstractViewModel;
 import org.apache.isis.applib.annotation.Disabled;
@@ -32,6 +34,8 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Render;
 import org.apache.isis.applib.annotation.Render.Type;
 
+import servicio.email.Correo;
+import servicio.email.EmailRepositorio;
 import dom.soporte.Soporte;
 import dom.soporte.SoporteRepositorio;
 
@@ -63,6 +67,18 @@ public class Dashboard extends AbstractViewModel {
 	}
 
 	// //////////////////////////////////////
+	// Bandeja de Entrada.
+	// //////////////////////////////////////
+	@Named("Bandeja de Entrada")
+	@Render(Type.EAGERLY)
+	@Disabled
+	@MemberOrder(sequence = "1")
+	@MultiLine(numberOfLines = 6)
+	public List<Correo> getAllBandejaEntrada() {
+		return emailRepositorio.queryBuscarCorreoPorUsuario();
+	}
+
+	// //////////////////////////////////////
 	// listar soportes Esperando.
 	// //////////////////////////////////////
 	@Named("En espera")
@@ -74,6 +90,8 @@ public class Dashboard extends AbstractViewModel {
 		return SoporteRepositorio.queryBuscarSoportesEnEspera();
 	}
 
+	@Inject
+	private EmailRepositorio emailRepositorio;
 	// //////////////////////////////////////
 	// listar soportes Reparando.
 	// //////////////////////////////////////

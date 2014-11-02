@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.rol;
 
 import java.util.List;
@@ -67,10 +67,11 @@ public class RolRepositorio {
 			permissionsList.add(permiso);
 			rol.setListaPermisos(permissionsList);
 		}
-		rol.setNombre(nombre);
+		rol.setNombre(nombre.toUpperCase().trim());
 		container.persistIfNotAlready(rol);
 		return rol;
 	}
+
 	@Programmatic
 	public Rol addRol(final @Named("Nombre") String nombre,
 			final @Named("Permiso") List<Permiso> permisos) {
@@ -90,7 +91,7 @@ public class RolRepositorio {
 	public String removeRol(@Named("Rol") Rol rol) {
 		String roleName = rol.getNombre();
 		container.remove(rol);
-		return "The role " + roleName + " has been removed";
+		return "El Rol " + roleName + " se ha eliminado correctamente.";
 	}
 
 	@javax.inject.Inject

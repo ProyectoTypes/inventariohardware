@@ -36,7 +36,6 @@ import javax.validation.constraints.Size;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
-import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
@@ -73,7 +72,6 @@ import dom.soporte.Soporte;
 @ObjectType("TECNICO")
 @Audited
 @AutoComplete(repository = TecnicoRepositorio.class, action = "autoComplete")
-@Bookmarkable
 public class Tecnico extends Persona implements Comparable<Persona> {
 
 	// //////////////////////////////////////
