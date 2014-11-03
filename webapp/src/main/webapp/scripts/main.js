@@ -57,7 +57,7 @@ $(document).ready(function(){ //For Normal usage
 				}
 			});
 		} else {
-			toastr.error('All fields are required.');
+			toastr.error('Todos los campos son obligatorios.');
 		}
     });
 	
@@ -120,7 +120,7 @@ $(document).ready(function(){ //For Normal usage
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("Couldn't fetch details");
+				toastr.error("Todos los campos son obligatorios.");
 			}
 		});
     });
@@ -152,7 +152,7 @@ $(document).ready(function(){ //For Normal usage
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("Couldn't fetch collections");
+				toastr.error("No se pudo obtener colecciones.");
 			}
 		});
     });
@@ -209,7 +209,7 @@ $(document).ready(function(){ //For Normal usage
 							},
 							error: function (request,error) {
 								console.log(request.responseText);
-								toastr.error("Couldn't invoke action");
+								toastr.error("No se puede invocar la acción.");
 							}
 						});
 					}
@@ -232,7 +232,7 @@ $(document).ready(function(){ //For Normal usage
 							},
 							error: function (request,error) {
 								console.log(request.responseText);
-								toastr.error("Couldn't invoke action");
+								toastr.error("No se puede invocar la acción.");
 							}
 						});
 					} else {
@@ -249,7 +249,7 @@ $(document).ready(function(){ //For Normal usage
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("Couldn't invoke action");
+				toastr.error("No se puede invocar la acción.");
 			}
 		});
     });
@@ -306,7 +306,7 @@ $(document).ready(function(){ //For Normal usage
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("Couldn't fetch object's properties");
+				toastr.error("No se pudo obtener las propiedades del objeto.");
 			}
 		});
     });
@@ -341,7 +341,7 @@ $(document).ready(function(){ //For Normal usage
 				},
 				error: function (request,error) {
 					console.log(request.responseText);
-					toastr.error("Couldn't fetch collections");
+					toastr.error("No se pudo obtener colecciones.");
 				}
 			});
 		}
@@ -400,7 +400,7 @@ $(document).ready(function(){ //For Normal usage
 							},
 							error: function (request,error) {
 								console.log(request.responseText);
-								toastr.error("Couldn't invoke action");
+								toastr.error("No se puede invocar la acción.");
 							}
 						});
 					} else if(invoke_method == "POST"){
@@ -436,7 +436,7 @@ $(document).ready(function(){ //For Normal usage
 								},
 								error: function (request,error) {
 									console.log(request.responseText);
-									toastr.error("Couldn't invoke action");
+									toastr.error("No se puede invocar la acción");
 								}
 							});
 						} else if(params.length == 4){
@@ -478,7 +478,7 @@ $(document).ready(function(){ //For Normal usage
 										},
 										error: function (request,error) {
 											console.log(request.responseText);
-											toastr.error("Couldn't invoke action");
+											toastr.error("No se puede invocar la acción");
 										}
 									});
 									$(this).trigger("pagecreate");
@@ -512,7 +512,7 @@ $(document).ready(function(){ //For Normal usage
 				},
 				error: function (request,error) {
 					console.log(request.responseText);
-					toastr.error("Couldn't invoke action");
+					toastr.error("No se puede invocar la acción");
 				}
 			});
 		}
@@ -543,7 +543,7 @@ $(document).ready(function(){ //For Normal usage
 			error: function (request,error) {
 				var response = eval('(' + request.responseText + ')');
 				console.log(response["x-ro-invalidReason"]);
-				toastr.error("Dependency couldn't be added. "+response["x-ro-invalidReason"]);
+				toastr.error("No se pudo agregar la dependencia. "+response["x-ro-invalidReason"]);
 			}
 		});
 	});
@@ -575,7 +575,7 @@ $(document).ready(function(){ //For Normal usage
 				toastr.error('Username and Password donot match!'); */
 				var response = eval('(' + request.responseText + ')');
 				console.log(response["x-ro-invalidReason"]);
-				toastr.error("Dependency couldn't be removed. "+response["x-ro-invalidReason"]);
+				toastr.error("Dependencia no puede ser eliminado. "+response["x-ro-invalidReason"]);
 			}
 		});
 	});
@@ -606,7 +606,7 @@ $(document).ready(function(){ //For Normal usage
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("Object couldn't be updated");
+				toastr.error("El objeto no se pudo actualizar.");
 			}
 		});
 	});
@@ -633,7 +633,7 @@ $(document).ready(function(){ //For Normal usage
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("Object couldn't be updated");
+				toastr.error("El objeto no se pudo actualizar.");
 			}
 		});
 	});
@@ -661,7 +661,7 @@ $(document).ready(function(){ //For Normal usage
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("Object couldn't be created");
+				toastr.error("Objeto no se pudo crear.");
 			}
 		});
 	});
