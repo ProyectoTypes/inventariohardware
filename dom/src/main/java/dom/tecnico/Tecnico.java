@@ -45,7 +45,6 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Render;
-import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.computadora.Computadora;
@@ -130,7 +129,27 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		this.listaDeRoles = listaDeRoles;
 	}
 
+	@MemberOrder(sequence = "3")
+	@Named("Agregar Rol")
+	@DescribedAs("Agrega un Rol al Usuario.")
+	public Tecnico addRole(final @Named("Role") Rol rol) {
 
+		listaDeRoles.add(rol);
+
+		return this;
+	}
+
+	@MemberOrder(sequence = "5")
+	@Named("Eliminar")
+	public Tecnico removeRole(final @Named("Rol") Rol rol) {
+
+		getListaDeRoles().remove(rol);
+		return this;
+	}
+
+	public SortedSet<Rol> choices0RemoveRole() {
+		return getListaDeRoles();
+	}
 
 	/**
 	 * Método que utilizo para deshabilitar un Tecnico.
