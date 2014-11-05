@@ -656,12 +656,12 @@ $(document).ready(function(){ //For Normal usage
 				$.mobile.hidePageLoadingMsg();
 			},
 			success: function (data) {
-				toastr.success('Object created successfully');
+				toastr.success('Objeto creado con éxito. Linea 659 main.js');
 				$.mobile.changePage("#service");
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("Objeto no se pudo crear.");
+				toastr.error("Objeto no se pudo crear. Linea 664 main.js");
 			}
 		});
 	});
