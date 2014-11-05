@@ -41,7 +41,7 @@ import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 
-@DomainService(menuOrder="10")
+@DomainService(menuOrder = "10")
 @Named("COMPUTADORA")
 public class ComputadoraRepositorio {
 
@@ -85,7 +85,7 @@ public class ComputadoraRepositorio {
 			final Impresora impresora, final String creadoPor) {
 		final Computadora unaComputadora = container
 				.newTransientInstance(Computadora.class);
-		
+
 		unaComputadora.modifyUsuario(usuario);
 		unaComputadora.setIp(ip);
 		unaComputadora.setMother(mother);
@@ -103,16 +103,28 @@ public class ComputadoraRepositorio {
 		container.flush();
 		return unaComputadora;
 	}
-	public String validateAddComputadora(final @Named("Usuario") Usuario usuario,
+
+	public String validateAddComputadora(
+			final @Named("Usuario") Usuario usuario,
 			final @Named("Direccion Ip") String ip,
 			final @Named("Mother") String mother,
 			final @Named("Procesador") String procesador,
 			final @Named("Disco") CategoriaDisco disco,
 			final @Named("Memoria") String memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
-		if (usuario.getComputadora()==null)
+		if (usuario.getComputadora() == null)
 			return null;
-		return "El Usuario ya posee una Computadora. Seleccione otro. "; // TODO: return reason why proposed value is invalid, null if valid
+		return "El Usuario ya posee una Computadora. Seleccione otro. "; // TODO:
+																			// return
+																			// reason
+																			// why
+																			// proposed
+																			// value
+																			// is
+																			// invalid,
+																			// null
+																			// if
+																			// valid
 	}
 
 	// //////////////////////////////////////
@@ -147,7 +159,8 @@ public class ComputadoraRepositorio {
 				.allMatches(new QueryDefault<Computadora>(Computadora.class,
 						"eliminarComputadoraTrue"));
 		if (listaComputadoras.isEmpty()) {
-			this.container.warnUser("No hay Computadoras cargados en el sistema.");
+			this.container
+					.warnUser("No hay Computadoras cargados en el sistema.");
 		}
 		return listaComputadoras;
 	}
@@ -158,11 +171,13 @@ public class ComputadoraRepositorio {
 
 	@MemberOrder(sequence = "30")
 	public List<Computadora> buscar(
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Ip") @MinLength(2) String apellido) {
+			final @RegEx(validation = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])$") @Named("Ip") @MinLength(2) String ip) {
 		final List<Computadora> listaComputadoras = this.container
 				.allMatches(new QueryDefault<Computadora>(Computadora.class,
-						"buscarPorIp", "creadoPor", this.currentUserName(),
-						"ip", apellido.toUpperCase().trim()));
+						"buscarPorIp", "ip", ip.toUpperCase().trim()));
 		if (listaComputadoras.isEmpty())
 			this.container
 					.warnUser("No se encontraron Computadoras cargados en el sistema.");
