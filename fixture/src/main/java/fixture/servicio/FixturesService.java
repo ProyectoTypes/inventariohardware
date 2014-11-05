@@ -37,7 +37,6 @@ import fixture.permisos.PermisoFixture;
 import fixture.roles.RolesFixture;
 import fixture.sector.SectorFixture;
 import fixture.tecnico.TecnicoFixture;
-import fixture.usershiro.UsuarioShiroFixture;
 import fixture.usuario.UsuariosFixture;
 
 
@@ -97,7 +96,7 @@ public class FixturesService extends FixtureScripts {
     public Object instalarRolesYPermisosFixture() {
     	final List<FixtureResult> run = findFixtureScriptFor(PermisoFixture.class).run(null);
     	this.instalarRoles();
-    	this.instalarUsuariosShiro();
+    	//this.instalarUsuariosShiro();
         return run.get(0).getObject();
     }
     @Programmatic
@@ -106,12 +105,7 @@ public class FixturesService extends FixtureScripts {
         final List<FixtureResult> run = findFixtureScriptFor(RolesFixture.class).run(null);
         return run.get(0).getObject();
     }
-    @Programmatic
-    @MemberOrder(sequence="30")
-    public Object instalarUsuariosShiro() {
-        final List<FixtureResult> run = findFixtureScriptFor(UsuarioShiroFixture.class).run(null);
-        return run.get(0).getObject();
-    }
+  
     
     
 }
