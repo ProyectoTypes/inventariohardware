@@ -67,7 +67,32 @@ public class TecnicoRepositorio {
 		return "Tecnico";
 	}
 
+	@Programmatic
+	@PostConstruct
+	public void init() {
+		List<Tecnico> usuarios = listAll();
+		if (usuarios.isEmpty()) {
+
+			Permiso permiso = new Permiso();
+			Rol rol = new Rol();
+			SortedSet<Permiso> permisos = new TreeSet<Permiso>();
+			// UsuarioShiro uShiro= new UsuarioShiro();
+			permiso.setNombre("ADMIN");
+			permiso.setPath("*");
+			permisos.add(permiso);
+			rol.setNombre("ADMINISTRADOR");
+			rol.setListaPermisos(permisos);			
+
+			addTecnico("apeAdmin", "nomAdmin", "emaiAdminl@email.com",	null, "sven", "pass", rol);
+		}
+	}
 	
+	@ActionSemantics(Of.SAFE)
+	@MemberOrder(sequence = "1")
+	@Named("Ver todos")
+	public List<Tecnico> listAll() {
+		return container.allInstances(Tecnico.class);
+	}
 	
 	// //////////////////////////////////////
 	// Agregar Tecnico
