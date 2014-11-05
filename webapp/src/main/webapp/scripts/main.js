@@ -42,7 +42,6 @@ $(document).ready(function(){ //For Normal usage
 									var homePageObjectName = result.links[i].rel.split("/");
 									console.log(homePageObjectName);
 									homePageObjectName = homePageObjectName[1];
-									console.log(homePageObjectName);
 									$(homePageList).append('<li data-theme="c"><a class="homePageObject" data-href="'+homePageObjectHref+'" data-transition="slide">'+homePageObjectName+'</a></li>');
 								}
 							}
