@@ -44,14 +44,12 @@ import dom.persona.Persona;
 				+ "WHERE apellido.indexOf(:apellido) >= 0"),
 		@javax.jdo.annotations.Query(name = "eliminarUsuarioFalse", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario "
-				+ "WHERE creadoPor == :creadoPor "
-				+ "   && habilitado == false"),
+				+ "WHERE habilitado == false"),
 		@javax.jdo.annotations.Query(name = "eliminarUsuarioTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario " + "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario "
-				+ "WHERE creadoPor == :creadoPor "
-				+ "   && apellido.indexOf(:apellido) >= 0"),
+				+ "WHERE apellido.indexOf(:apellido) >= 0"),
 		@javax.jdo.annotations.Query(name = "getUsuario", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario " + "WHERE creadoPor == :creadoPor") })
 @ObjectType("USUARIO")
