@@ -108,7 +108,7 @@ var htmlForParameters = function (parameters, invoke_url, invoke_method){
 			htmlContent += '<div data-role="fieldcontain"><label for="'+parameters[i].id+'">'+parameters[i].name+'</label><input name="'+parameters[i].id+'" id="'+parameters[i].id+'" placeholder="" value="'+getString(parameters[i]["default"])+'" type="text"></div>';
 		}
 	}
-	htmlContent += '</form><a data-role="button" data-href="'+invoke_url+'" data-method="'+invoke_method+'" class="parameterSubmit">Submit</a>';
+	htmlContent += '</form><a data-role="button" data-href="'+invoke_url+'" data-method="'+invoke_method+'" class="parameterSubmit">Aceptar</a>';
 	return htmlContent;
 }
 
@@ -117,7 +117,7 @@ var handleResult = function(data){
 	var objects = data.result.value;
 	if(resultType == "list"){
 		window.history.back();
-		toastr.success("Action performed successfully");
+		toastr.success("Acción realizada con éxito, Linea 120 de utils.js");
 		/* $.mobile.changePage("#objects");
 		$('#objects #objectsList').empty();
 		console.log(objects);
@@ -127,7 +127,7 @@ var handleResult = function(data){
 		$('#objects #objectsList').listview('refresh'); */
 	} else if(resultType == "domainobject"){
 		window.history.back();
-		toastr.success("Action performed successfully");
+		toastr.success("Acción realizada con éxito, 130 de utils.js");
 	}  else if(resultType == "scalarvalue"){
 		toastr.success(objects);
 		window.history.back();

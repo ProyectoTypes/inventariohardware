@@ -53,11 +53,11 @@ $(document).ready(function(){ //For Normal usage
 				},
 				error: function (request,error) {
 					console.log(request.responseText);
-					toastr.error('Usuario y contraseña incorrecto');
+					toastr.error('Usuario y contraseña incorrecto. Linea 56 de main.js');
 				}
 			});
 		} else {
-			toastr.error('Todos los campos son obligatorios.');
+			toastr.error('Todos los campos son obligatorios. Linea 60 de main.js');
 		}
     });
 	
@@ -120,7 +120,7 @@ $(document).ready(function(){ //For Normal usage
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("Todos los campos son obligatorios.");
+				toastr.error("Todos los campos son obligatorios. Linea 123 de main.js");
 			}
 		});
     });
@@ -152,7 +152,7 @@ $(document).ready(function(){ //For Normal usage
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("No se pudo obtener colecciones.");
+				toastr.error("No se pudo obtener colecciones. Linea 155 de main.js");
 			}
 		});
     });
@@ -209,7 +209,7 @@ $(document).ready(function(){ //For Normal usage
 							},
 							error: function (request,error) {
 								console.log(request.responseText);
-								toastr.error("No se puede invocar la acción.");
+								toastr.error("No se puede invocar la acción. Linea 211 de main.js");
 							}
 						});
 					}
@@ -232,7 +232,7 @@ $(document).ready(function(){ //For Normal usage
 							},
 							error: function (request,error) {
 								console.log(request.responseText);
-								toastr.error("No se puede invocar la acción.");
+								toastr.error("No se puede invocar la acción. Linea 235 de main.js");
 							}
 						});
 					} else {
@@ -249,7 +249,7 @@ $(document).ready(function(){ //For Normal usage
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("No se puede invocar la acción.");
+				toastr.error("No se puede invocar la acción. Linea 252 de main.js");
 			}
 		});
     });
@@ -259,7 +259,7 @@ $(document).ready(function(){ //For Normal usage
 		console.log(newDetails);
 		var updateUrl = $(this).attr('data-href');
 		var invokeMethod = $(this).attr('data-method');
-		var toastMsg = "Action completed successfully";
+		var toastMsg = "Acción completado con éxito";
 		$.ajax({
 			type: invokeMethod,
 			url: updateUrl,
@@ -278,7 +278,7 @@ $(document).ready(function(){ //For Normal usage
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("Se requiere que esten completas las variables.");
+				toastr.error("Se requiere que esten completas las variables. Linea 281 de main.js");
 			}
 		});
 	});
@@ -306,7 +306,7 @@ $(document).ready(function(){ //For Normal usage
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("No se pudo obtener las propiedades del objeto.");
+				toastr.error("No se pudo obtener las propiedades del objeto. Linea 309 de main.js");
 			}
 		});
     });
@@ -341,7 +341,7 @@ $(document).ready(function(){ //For Normal usage
 				},
 				error: function (request,error) {
 					console.log(request.responseText);
-					toastr.error("No se pudo obtener colecciones.");
+					toastr.error("No se pudo obtener colecciones. Linea 344 de main.js");
 				}
 			});
 		}
@@ -400,7 +400,7 @@ $(document).ready(function(){ //For Normal usage
 							},
 							error: function (request,error) {
 								console.log(request.responseText);
-								toastr.error("No se puede invocar la acción.");
+								toastr.error("No se puede invocar la acción. Linea 403 de main.js");
 							}
 						});
 					} else if(invoke_method == "POST"){
@@ -436,7 +436,7 @@ $(document).ready(function(){ //For Normal usage
 								},
 								error: function (request,error) {
 									console.log(request.responseText);
-									toastr.error("No se puede invocar la acción");
+									toastr.error("No se puede invocar la acción. Linea 439 de main.js");
 								}
 							});
 						} else if(params.length == 4){
@@ -478,7 +478,7 @@ $(document).ready(function(){ //For Normal usage
 										},
 										error: function (request,error) {
 											console.log(request.responseText);
-											toastr.error("No se puede invocar la acción");
+											toastr.error("No se puede invocar la acción. Linea 481 de main.js");
 										}
 									});
 									$(this).trigger("pagecreate");
@@ -512,7 +512,7 @@ $(document).ready(function(){ //For Normal usage
 				},
 				error: function (request,error) {
 					console.log(request.responseText);
-					toastr.error("No se puede invocar la acción");
+					toastr.error("No se puede invocar la acción. Linea 515 de main.js");
 				}
 			});
 		}
@@ -538,12 +538,12 @@ $(document).ready(function(){ //For Normal usage
 			success: function (data) {
 				window.history.back();
 				updateObjectPage(data.result.members, data.result.links[2].href);
-				toastr.success('Object dependency added successfully');
+				toastr.success('Dependencia del objeto agregado con éxito. Linea 541 de main.js');
 			},
 			error: function (request,error) {
 				var response = eval('(' + request.responseText + ')');
 				console.log(response["x-ro-invalidReason"]);
-				toastr.error("No se pudo agregar la dependencia. "+response["x-ro-invalidReason"]);
+				toastr.error("No se pudo agregar la dependencia. Linea 546 de main.js "+response["x-ro-invalidReason"]);
 			}
 		});
 	});
@@ -568,14 +568,14 @@ $(document).ready(function(){ //For Normal usage
 			success: function (data) {
 				window.history.back();
 				updateObjectPage(data.result.members, data.result.links[2].href);
-				toastr.success('Object dependency removed successfully');
+				toastr.success('Dependencia del objeto agregado con éxito. Linea 571 main.js');
 			},
 			error: function (request,error) {
 				/* console.log(error);
 				toastr.error('Username and Password donot match!'); */
 				var response = eval('(' + request.responseText + ')');
 				console.log(response["x-ro-invalidReason"]);
-				toastr.error("Dependencia no puede ser eliminado. "+response["x-ro-invalidReason"]);
+				toastr.error("Dependencia no puede ser eliminado. Linea 578 main.js "+response["x-ro-invalidReason"]);
 			}
 		});
 	});
@@ -584,9 +584,9 @@ $(document).ready(function(){ //For Normal usage
 		var newDetails = JSON.stringify($(this).parent().children('form').serializeObject());
 		console.log(newDetails);
 		var updateUrl = $(this).attr('data-href');
-		var toastMsg = "Object updated sucessfully";
+		var toastMsg = "Objeto actualizado con éxito. Linea 587 main.js";
 		if(updateUrl.indexOf("duplicate") != -1){
-			toastMsg = "Object duplicated sucessfully";
+			toastMsg = "Objeto duplicado con éxito. Linea 589 main.js";
 		}
 		$.ajax({
 			type: "POST",
@@ -606,7 +606,7 @@ $(document).ready(function(){ //For Normal usage
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("El objeto no se pudo actualizar.");
+				toastr.error("El objeto no se pudo actualizar. Lina 609 de main.js");
 			}
 		});
 	});
@@ -629,11 +629,11 @@ $(document).ready(function(){ //For Normal usage
 			},
 			success: function (data) {
 				updateObjectPage(data.members, put_url);
-				toastr.success('Object updated successfully');
+				toastr.success('Objeto actualizado correctamente. Linea 632 de main.js');
 			},
 			error: function (request,error) {
 				console.log(request.responseText);
-				toastr.error("El objeto no se pudo actualizar.");
+				toastr.error("El objeto no se pudo actualizar. Linea 636 de main.js");
 			}
 		});
 	});
