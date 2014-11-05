@@ -117,8 +117,7 @@ public class SectorRepositorio {
 	@Programmatic
 	public List<Sector> autoComplete(final String buscarNombreSector) {
 		return container.allMatches(new QueryDefault<Sector>(Sector.class,
-				"autoCompletePorNombreSector", "creadoPor", this
-						.currentUserName(), "nombreSector", buscarNombreSector
+				"autoCompletePorNombreSector","nombreSector", buscarNombreSector
 						.toUpperCase().trim()));
 	}
 
