@@ -1,7 +1,7 @@
 package dom.zabbix;
 
+
 import java.net.InetAddress;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -11,9 +11,7 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.objectstore.jdo.applib.service.support.IsisJdoSupport;
-import org.json.JSONException;
 
-import dom.zabbix.monitoreo.item.ItemManager;
 
 @SuppressWarnings("deprecation")
 @DomainService(menuOrder = "100")
@@ -42,16 +40,17 @@ public class ZabbixRepositorio {
 			return null;
 		obj.setIp(ip);
 		obj.setHost(host);
-		obj.setToken(ZabbixManager.obtenerTokenServer(ip));
+		obj.setToken(ItemManager.obtenerTokenServer(ip));
+//		obj.setToken("inventario");
 		container.flush();
 		return obj;
 	}
 	public Zabbix obtenerCuentaZabbix() {
 		System.out.println("ENTRA");
-		List<Zabbix> retorno = container.allMatches(new QueryDefault<Zabbix>(
+		Zabbix retorno = container.uniqueMatch(new QueryDefault<Zabbix>(
 				Zabbix.class, "obtenerCuenta"));
-		if (!retorno.isEmpty())
-			return retorno.get(0);
+		if (retorno!=null)
+			return retorno;
 		container.informUser("No se encontraron registros de Zabbix");
 		return null;
 	}
@@ -61,7 +60,8 @@ public class ZabbixRepositorio {
 		Zabbix obj = container.newTransientInstance(Zabbix.class);
 		obj.setIp(ip);
 		obj.setHost(host);
-		obj.setToken(ZabbixManager.obtenerTokenServer(ip));
+		obj.setToken(ItemManager.obtenerTokenServer(ip));
+//		obj.setToken("inventariohardware");
 		container.persistIfNotAlready(obj);
 		return obj;
 	}
@@ -70,7 +70,7 @@ public class ZabbixRepositorio {
 	@PostConstruct
 	public void init() {
 		if (obtenerCuentaZabbix() == null){
-			addZabbix("127.0.0.1","inventariohardware");
+			addZabbix("127.0.0.1","inventario");
 		}
 	}
 
@@ -94,8 +94,13 @@ public class ZabbixRepositorio {
 		isisJdoSupport.executeUpdate("truncate table \"Zabbix\";");
 	}
 
+	
 	@javax.inject.Inject
 	private IsisJdoSupport isisJdoSupport;
 	@javax.inject.Inject
-	DomainObjectContainer container;
+	public DomainObjectContainer container;
+	public String mostrarRepo() {
+		// TODO Auto-generated method stub
+		return "El repo esta mostrando datos.";
+	}
 }
