@@ -54,6 +54,7 @@ import dom.computadora.Computadora;
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.ComputadoraRepositorio;
 import dom.computadora.hardware.gabinete.memoria.Memoria;
+import dom.computadora.hardware.gabinete.motherboard.Motherboard;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
@@ -504,12 +505,12 @@ public class Soporte implements Comparable<Soporte> {
 
 	@DescribedAs("Ingresando una nueva Computadora al Usuario.")
 	public Soporte asignarNuevoEquipo(final @Named("Direccion Ip") PlacaDeRed placaDeRed,
-			final @Named("Mother") String mother,
+			final @Named("Mother") Motherboard motherboard,
 			final @Named("Procesador") Procesador procesador,
 			final @Named("Disco") CategoriaDisco disco,
 			final @Named("Memoria") Memoria memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
-		this.getEstado().asignarNuevoEquipo(placaDeRed, mother, procesador, disco,
+		this.getEstado().asignarNuevoEquipo(placaDeRed, motherboard, procesador, disco,
 				memoria, impresora);
 		return this;
 	}

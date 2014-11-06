@@ -43,6 +43,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.computadora.hardware.gabinete.memoria.Memoria;
+import dom.computadora.hardware.gabinete.motherboard.Motherboard;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
@@ -108,17 +109,17 @@ public class Computadora implements Comparable<Computadora> {
 	// Mother (propiedad)
 	// //////////////////////////////////////
 
-	private String mother;
+	private Motherboard motherboard;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Mother de la Computadora:")
 	@MemberOrder(sequence = "20")
-	public String getMother() {
-		return mother;
+	public Motherboard getMother() {
+		return motherboard;
 	}
 
-	public void setMother(final String mother) {
-		this.mother = mother;
+	public void setMotherboard(final Motherboard motherboard) {
+		this.motherboard = motherboard;
 	}
 
 	// //////////////////////////////////////

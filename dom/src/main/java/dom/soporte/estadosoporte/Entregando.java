@@ -31,6 +31,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.hardware.gabinete.memoria.Memoria;
+import dom.computadora.hardware.gabinete.motherboard.Motherboard;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
@@ -98,7 +99,7 @@ public class Entregando implements IEstado {
 
 	@Override
 	@Hidden
-	public void asignarNuevoEquipo(final PlacaDeRed placaDeRed, final String mother,
+	public void asignarNuevoEquipo(final PlacaDeRed placaDeRed, final Motherboard motherboard,
 			final Procesador procesador, final CategoriaDisco disco,
 			final Memoria memoria, final Impresora impresora) {
 		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");
