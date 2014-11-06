@@ -37,7 +37,7 @@ public class RamItem extends ItemManager {
 	protected String obtenerValor(final String ip) throws JSONException {
 //		System.out.println("////////// obtner valor: "+ip);
 		String resultado =this.ejecutarJson(ip).getString("result");
-		if(resultado=="" && resultado.length()==0)
+		if(resultado=="" || resultado.length()==0 || resultado.contentEquals("[]"))
 			return "SIN DEFINIR";
 		String[] cadena = resultado.split(",");
 		boolean encontro =false;
@@ -50,5 +50,12 @@ public class RamItem extends ItemManager {
 		DecimalFormat df= new DecimalFormat("#0.00");
 		String numeroConFormato= df.format(numero);
 		return numeroConFormato+"GB";
+	}
+	public Zabbix obtenerZabbix() {
+		// TODO Auto-generated method stub
+		return this.zabbixRepositorio.obtenerCuentaZabbix();
+	}
+	public Zabbix mostrarCuentaZabbix() {
+		return this.zabbixRepositorio.obtenerCuentaZabbix();
 	}
 }

@@ -38,7 +38,7 @@ public abstract class ItemManager {
 	@Programmatic
 	protected JSONObject ejecutarJson(final String ip) throws JSONException {
 		Webb webb = Webb.create();
-		// System.out.println("OBJETOJSON : "+objetoJson.toString()+"<--------");
+		 System.out.println("&&&&&&&&&&&&&&&&&&&&&&&OBJETOJSON : "+objetoJson.toString()+"<--------");
 		return webb
 				.post("http://" + ip + "/zabbix/api_jsonrpc.php")
 				.header("Content-Type", "application/json").useCaches(false)
@@ -93,9 +93,10 @@ public abstract class ItemManager {
 	 * @throws JSONException
 	 */
 	public String requestItemGet(final String ip) throws JSONException {
-//		System.out.println("RequestItem");
+		// System.out.println("RequestItem");
 		zabbix = this.zabbixRepositorio.obtenerCuentaZabbix();
-
+		System.out.println("perrrrrrrrrrooooOoo ..... .. .. . "
+				+ zabbix.getToken());
 		String token = zabbix.getToken();// Seteado anteriormente.
 
 		parametrosJson.put("output", "extend");
@@ -133,5 +134,5 @@ public abstract class ItemManager {
 	}
 
 	@Inject
-	private ZabbixRepositorio zabbixRepositorio;
+	public ZabbixRepositorio zabbixRepositorio;
 }
