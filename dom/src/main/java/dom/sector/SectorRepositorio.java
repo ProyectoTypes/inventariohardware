@@ -34,7 +34,7 @@ import org.apache.isis.applib.annotation.Prototype;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
-@DomainService(menuOrder="50")
+@DomainService(menuOrder = "50")
 @Named("SECTOR")
 public class SectorRepositorio {
 
@@ -103,8 +103,8 @@ public class SectorRepositorio {
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") @MinLength(2) String nombreSector) {
 		final List<Sector> listarSectores = this.container
 				.allMatches(new QueryDefault<Sector>(Sector.class,
-						"buscarPorNombre", "creadoPor", this.currentUserName(),
-						"nombre", nombreSector.toUpperCase().trim()));
+						"buscarPorNombre", "nombreSector", nombreSector.toUpperCase()
+								.trim()));
 		if (listarSectores.isEmpty())
 			this.container
 					.warnUser("No se encontraron sectores cargados en el sistema.");
@@ -117,9 +117,8 @@ public class SectorRepositorio {
 	@Programmatic
 	public List<Sector> autoComplete(final String buscarNombreSector) {
 		return container.allMatches(new QueryDefault<Sector>(Sector.class,
-				"autoCompletePorNombreSector", "creadoPor", this
-						.currentUserName(), "nombreSector", buscarNombreSector
-						.toUpperCase().trim()));
+				"autoCompletePorNombreSector", "nombreSector",
+				buscarNombreSector.toUpperCase().trim()));
 	}
 
 	@Prototype
