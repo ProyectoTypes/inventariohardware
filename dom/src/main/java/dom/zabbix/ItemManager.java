@@ -125,14 +125,6 @@ public abstract class ItemManager {
 
 	/* ************* Metodos de Prueba ************ */
 
-	public String mostrar() {
-		return zabbixRepositorio.mostrarRepo();
-	}
-
-	public Zabbix mostrarZabbix() {
-		return zabbixRepositorio.obtenerCuentaZabbix();
-	}
-
 	@Inject
 	public ZabbixRepositorio zabbixRepositorio;
 }

@@ -5,11 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.isis.applib.annotation.DomainService;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.json.JSONException;
 
 @DomainService(menuOrder = "100")
-@Named("Ram Z")
+@Named("Ram Item")
+@Hidden
 public class RamItem extends ItemManager {
 
 	public RamItem() {
@@ -35,26 +38,25 @@ public class RamItem extends ItemManager {
 
 	@Override
 	protected String obtenerValor(final String ip) throws JSONException {
-//		System.out.println("////////// obtner valor: "+ip);
-		String resultado =this.ejecutarJson(ip).getString("result");
-		if(resultado=="" || resultado.length()==0 || resultado.contentEquals("[]"))
+		// System.out.println("////////// obtner valor: "+ip);
+		String resultado = this.ejecutarJson(ip).getString("result");
+		if (resultado == "" || resultado.length() == 0
+				|| resultado.contentEquals("[]"))
 			return "SIN DEFINIR";
 		String[] cadena = resultado.split(",");
-		boolean encontro =false;
-		for(int i =0 ; i<cadena.length && !encontro;i++)
-			if(cadena[i].startsWith("\"lastvalue")){
-				resultado = cadena[i].split("\"")[3];//7471730688
-				encontro =true;
+		boolean encontro = false;
+		for (int i = 0; i < cadena.length && !encontro; i++)
+			if (cadena[i].startsWith("\"lastvalue")) {
+				resultado = cadena[i].split("\"")[3];// 7471730688
+				encontro = true;
 			}
-		Double numero = (((Double.parseDouble(resultado) / (1024))/1024)/1024);
-		DecimalFormat df= new DecimalFormat("#0.00");
-		String numeroConFormato= df.format(numero);
-		return numeroConFormato+"GB";
+		Double numero = (((Double.parseDouble(resultado) / (1024)) / 1024) / 1024);
+		DecimalFormat df = new DecimalFormat("#0.00");
+		String numeroConFormato = df.format(numero);
+		return numeroConFormato + "GB";
 	}
-	public Zabbix obtenerZabbix() {
-		// TODO Auto-generated method stub
-		return this.zabbixRepositorio.obtenerCuentaZabbix();
-	}
+
+	@Programmatic
 	public Zabbix mostrarCuentaZabbix() {
 		return this.zabbixRepositorio.obtenerCuentaZabbix();
 	}

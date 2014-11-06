@@ -100,9 +100,8 @@ public class ComputadoraRepositorio {
 		unaComputadora.setHabilitado(true);
 		unaComputadora.setImpresora(impresora);
 		unaComputadora.setDisco(disco);
+		unaComputadora.setMemoria("este valor se va a pisar");//Si no pongo esto, tira error 
 		String ram = ramitem.requestItemGet(ip);
-		System.out.println("4444444444444444444444444444444444444444444");
-		System.out.println(ram);
 		unaComputadora.setMemoria(ram);
 		if (impresora != null) {
 			impresora.agregarComputadora(unaComputadora);
