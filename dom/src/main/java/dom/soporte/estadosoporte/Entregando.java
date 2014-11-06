@@ -30,6 +30,7 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
 import dom.computadora.Computadora.CategoriaDisco;
+import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
@@ -95,7 +96,7 @@ public class Entregando implements IEstado {
 
 	@Override
 	@Hidden
-	public void asignarNuevoEquipo(final String ip, final String mother,
+	public void asignarNuevoEquipo(final PlacaDeRed placaDeRed, final String mother,
 			final String procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora) {
 		this.container.informUser("EL SOPORTE HA SIDO FINALIZADO.");

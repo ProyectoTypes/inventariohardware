@@ -42,6 +42,7 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.Impresora.TipoImpresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
@@ -74,8 +75,8 @@ public class Computadora implements Comparable<Computadora> {
 	// Identificacion en la UI
 	// //////////////////////////////////////
 
-	public String title() {
-		return this.getIp();
+	public PlacaDeRed title() {
+		return this.getPlacaDeRed();
 	}
 
 	public String iconName() {
@@ -87,18 +88,18 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 
 	@PrimaryKey
-	private String ip;
+	private PlacaDeRed placaDeRed;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@javax.jdo.annotations.PrimaryKey(column = "id")
 	@DescribedAs("Direccion IP de la Computadora:")
 	@MemberOrder(sequence = "10")
-	public String getIp() {
-		return ip;
+	public PlacaDeRed getPlacaDeRed() {
+		return placaDeRed;
 	}
 
-	public void setIp(final String ip) {
-		this.ip = ip;
+	public void setPlacaDeRed(PlacaDeRed placaDeRed) {
+		this.placaDeRed = placaDeRed;
 	}
 
 	// //////////////////////////////////////

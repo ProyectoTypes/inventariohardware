@@ -32,7 +32,7 @@ import org.apache.isis.applib.annotation.RegEx;
 public class PlacaDeRed {
 
 	// //////////////////////////////////////
-	// Identificacion en la UI. Aparece como item del menu
+	// Identificacion en la UI.
 	// //////////////////////////////////////
 
 	public String title() {

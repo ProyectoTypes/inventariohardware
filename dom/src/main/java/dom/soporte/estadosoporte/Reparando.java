@@ -33,6 +33,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 import servicio.email.EmailRepositorio;
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.ComputadoraRepositorio;
+import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.insumo.Insumo;
 import dom.insumo.InsumoRepositorio;
@@ -176,12 +177,12 @@ public class Reparando implements IEstado {
 	 */
 	@Override
 	@Hidden
-	public void asignarNuevoEquipo(final String ip, final String mother,
+	public void asignarNuevoEquipo(final PlacaDeRed placaDeRed, final String mother,
 			final String procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora) {
 		// Creando nueva computadora.
 		this.computadoraRepositorio.addComputadora(this.getSoporte()
-				.getComputadora().getUsuario(), ip, mother, procesador, disco,
+				.getComputadora().getUsuario(), placaDeRed, mother, procesador, disco,
 				memoria, impresora);
 
 		// Desvinculando Usuario/Tecnico/Impresora de Computadora -

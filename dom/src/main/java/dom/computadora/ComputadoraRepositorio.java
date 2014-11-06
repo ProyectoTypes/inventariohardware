@@ -36,6 +36,7 @@ import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.Computadora.CategoriaDisco;
+import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.usuario.Usuario;
@@ -68,18 +69,18 @@ public class ComputadoraRepositorio {
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Computadora")
 	public Computadora addComputadora(final @Named("Usuario") Usuario usuario,
-			final @Named("Direccion Ip") String ip,
+			final @Named("Direccion Ip") PlacaDeRed placaDeRed,
 			final @Named("Mother") String mother,
 			final @Named("Procesador") String procesador,
 			final @Named("Disco") CategoriaDisco disco,
 			final @Named("Memoria") String memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
-		return nuevaComputadora(usuario, ip, mother, procesador, disco,
+		return nuevaComputadora(usuario, placaDeRed, mother, procesador, disco,
 				memoria, impresora, this.currentUserName());
 	}
 
 	@Programmatic
-	public Computadora nuevaComputadora(final Usuario usuario, final String ip,
+	public Computadora nuevaComputadora(final Usuario usuario, final PlacaDeRed placaDeRed,
 			final String mother, final String procesador,
 			final CategoriaDisco disco, final String memoria,
 			final Impresora impresora, final String creadoPor) {
@@ -87,7 +88,7 @@ public class ComputadoraRepositorio {
 				.newTransientInstance(Computadora.class);
 
 		unaComputadora.modifyUsuario(usuario);
-		unaComputadora.setIp(ip);
+		unaComputadora.setPlacaDeRed(placaDeRed);
 		unaComputadora.setMother(mother);
 		unaComputadora.setProcesador(procesador);
 		unaComputadora.setDisco(disco);

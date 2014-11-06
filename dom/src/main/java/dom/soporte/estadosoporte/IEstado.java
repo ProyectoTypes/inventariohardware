@@ -22,6 +22,7 @@
 package dom.soporte.estadosoporte;
 
 import dom.computadora.Computadora.CategoriaDisco;
+import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.tecnico.Tecnico;
 
@@ -33,7 +34,7 @@ public interface IEstado {
 
 	void finalizarSoporte();
 
-	void asignarNuevoEquipo(final String ip, final String mother,
+	void asignarNuevoEquipo(final PlacaDeRed placaDeRed, final String mother,
 			final String procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora);
 
