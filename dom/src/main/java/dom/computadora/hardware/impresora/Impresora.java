@@ -48,17 +48,17 @@ import dom.computadora.Computadora;
 		"creadoPor", "modeloImpresora" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorModeloImpresora", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.impresora.Impresora "
+				+ "FROM dom.computadora.hardware.impresora.Impresora "
 				+ "modeloImpresora.indexOf(:modeloImpresora) >= 0"),
 		@javax.jdo.annotations.Query(name = "todasLasImpresoras", language = "JDOQL", value = "SELECT FROM dom.impresora.Impresora "
 				+ " WHERE creadoPor == :creadoPor && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarImpresoraFalse", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.impresora.Impresora "
+				+ "FROM dom.computadora.hardware.impresora.Impresora "
 				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarImpresoraTrue", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.impresora.Impresora " + "WHERE habilitado == true"),
+				+ "FROM dom.computadora.hardware.impresora.Impresora " + "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPormodeloImpresora", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.impresora.Impresora "
+				+ "FROM dom.computadora.hardware.impresora.Impresora "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && modeloImpresora.indexOf(:modeloImpresora) >= 0") })
 @ObjectType("IMPRESORA")
