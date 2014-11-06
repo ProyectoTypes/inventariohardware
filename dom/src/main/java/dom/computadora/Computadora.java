@@ -211,7 +211,11 @@ public class Computadora implements Comparable<Computadora> {
 		return this.impresoraRepositorio.listar();
 
 	}
-
+	
+	/**
+	 * Metodo que me permite modificar una Impresora precargada a una Computadora.
+	 * @param impresora
+	 */
 	public void modifyImpresora(final Impresora impresora) {
 		Impresora currentImpresora = getImpresora();
 		if (impresora == null || impresora.equals(currentImpresora)) {
@@ -239,6 +243,9 @@ public class Computadora implements Comparable<Computadora> {
 		return this;
 	}
 
+	/**
+	 * Metodo para quitar una Impresora a una Computadora.
+	 */
 	@Hidden
 	public void limpiarImpresora() {
 		Impresora impresora = getImpresora();
