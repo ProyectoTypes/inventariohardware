@@ -23,6 +23,10 @@ package dom.tecnico;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import javax.annotation.PostConstruct;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DescribedAs;
@@ -36,10 +40,12 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
+import dom.permiso.Permiso;
+import dom.rol.Rol;
 import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
 
-@DomainService(menuOrder="30")
+@DomainService(menuOrder = "30")
 @Named("TECNICO")
 public class TecnicoRepositorio {
 
@@ -59,35 +65,70 @@ public class TecnicoRepositorio {
 		return "Tecnico";
 	}
 
+	@Programmatic
+	@PostConstruct
+	public void init() {
+		List<Tecnico> usuarios = listar();
+		if (usuarios.isEmpty()) {
+
+			Permiso permiso = new Permiso();
+			Rol rol = new Rol();
+			SortedSet<Permiso> permisos = new TreeSet<Permiso>();
+			// UsuarioShiro uShiro= new UsuarioShiro();
+			permiso.setNombre("ADMIN");
+			permiso.setPath("*");
+			permisos.add(permiso);
+			rol.setNombre("ADMINISTRADOR");
+			rol.setListaPermisos(permisos);
+
+			addTecnico("apeAdmin", "nomAdmin", "emaiAdminl@email.com", null,
+					"sven", "pass", rol);
+		}
+	}
+
 	// //////////////////////////////////////
 	// Agregar Tecnico
 	// //////////////////////////////////////
 	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
-	public Tecnico addTecnico(
-			final @Optional Sector sector,
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombre,
-			final @RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") @Named("E-mail") String email) {
-
+	public Tecnico addTecnico(final @Named("Apellido") String apellido,
+			final @Named("Nombre") String nombre,
+			final @Named("email") String email, final @Optional Sector sector,
+			final @Named("Nick") String nick,
+			final @Named("Password") String password,
+			final @Named("Rol") Rol rol) {
+		final SortedSet<Rol> rolesList = new TreeSet<Rol>();
+		if (rol != null) {
+			rolesList.add(rol);
+		}
 		return nuevoTecnico(apellido, nombre, email, sector,
-				this.currentUserName());
+				this.currentUserName(), nick, password, rolesList);
 	}
 
 	@Programmatic
 	public Tecnico nuevoTecnico(final String apellido, final String nombre,
-			final String email, final Sector sector, final String creadoPor) {
+			final String email, final Sector sector, final String creadoPor,
+			final String nick, final String password,
+			final SortedSet<Rol> rolList) {
 		final Tecnico unTecnico = container.newTransientInstance(Tecnico.class);
+
 		unTecnico.setApellido(apellido.toUpperCase().trim());
 		unTecnico.setNombre(nombre.toUpperCase().trim());
 		unTecnico.setEmail(email);
-		unTecnico.setHabilitado(true);
+		unTecnico.setSector(sector);
 		unTecnico.setCreadoPor(creadoPor);
+		unTecnico.setNick(nick);
+		unTecnico.setPassword(password);
+		unTecnico.setHabilitado(true);
 		unTecnico.setSoporte(null);
+		if (!rolList.isEmpty()) {
+			SortedSet<Rol> listaDeRoles = new TreeSet<Rol>(rolList);
+			unTecnico.setRolesList(listaDeRoles);
+		}
 
 		unTecnico.setCantidadComputadora(new BigDecimal(0));
-		unTecnico.setSector(sector);
+
 		container.persistIfNotAlready(unTecnico);
 		container.flush();
 		return unTecnico;
@@ -95,14 +136,13 @@ public class TecnicoRepositorio {
 	}
 
 	// //////////////////////////////////////
-	// Buscar Tecnico
+	// Buscar Sector
 	// //////////////////////////////////////
 
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector en mayuscula")
-	public List<Sector> autoComplete0AddTecnico(
-			final @MinLength(2) String search) {
-		return sectorRepositorio.autoComplete(search);
+	public List<Sector> choices3AddTecnico() {
+		return sectorRepositorio.listar();
 	}
 
 	// //////////////////////////////////////
