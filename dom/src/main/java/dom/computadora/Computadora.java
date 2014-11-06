@@ -43,6 +43,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
+import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.Impresora.TipoImpresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
@@ -123,16 +124,16 @@ public class Computadora implements Comparable<Computadora> {
 	// Procesador (propiedad)
 	// //////////////////////////////////////
 
-	private String procesador;
+	private Procesador procesador;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Procesador de la Computadora:")
 	@MemberOrder(sequence = "30")
-	public String getProcesador() {
+	public Procesador getProcesador() {
 		return procesador;
 	}
 
-	public void setProcesador(final String procesador) {
+	public void setProcesador(final Procesador procesador) {
 		this.procesador = procesador;
 	}
 

@@ -37,6 +37,7 @@ import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
+import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.usuario.Usuario;
@@ -71,7 +72,7 @@ public class ComputadoraRepositorio {
 	public Computadora addComputadora(final @Named("Usuario") Usuario usuario,
 			final @Named("Direccion Ip") PlacaDeRed placaDeRed,
 			final @Named("Mother") String mother,
-			final @Named("Procesador") String procesador,
+			final @Named("Procesador") Procesador procesador,
 			final @Named("Disco") CategoriaDisco disco,
 			final @Named("Memoria") String memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
@@ -81,7 +82,7 @@ public class ComputadoraRepositorio {
 
 	@Programmatic
 	public Computadora nuevaComputadora(final Usuario usuario, final PlacaDeRed placaDeRed,
-			final String mother, final String procesador,
+			final String mother, final Procesador procesador,
 			final CategoriaDisco disco, final String memoria,
 			final Impresora impresora, final String creadoPor) {
 		final Computadora unaComputadora = container

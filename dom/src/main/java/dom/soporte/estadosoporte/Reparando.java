@@ -34,6 +34,7 @@ import servicio.email.EmailRepositorio;
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.ComputadoraRepositorio;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
+import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.insumo.Insumo;
 import dom.insumo.InsumoRepositorio;
@@ -178,7 +179,7 @@ public class Reparando implements IEstado {
 	@Override
 	@Hidden
 	public void asignarNuevoEquipo(final PlacaDeRed placaDeRed, final String mother,
-			final String procesador, final CategoriaDisco disco,
+			final Procesador procesador, final CategoriaDisco disco,
 			final String memoria, final Impresora impresora) {
 		// Creando nueva computadora.
 		this.computadoraRepositorio.addComputadora(this.getSoporte()
