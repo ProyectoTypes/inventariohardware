@@ -23,6 +23,8 @@ package dom.computadora;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
@@ -41,10 +43,11 @@ import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
+import dom.zabbix.RamItem;
+import dom.zabbix.Zabbix;
 import dom.zabbix.ZabbixRepositorio;
-import dom.zabbix.monitoreo.item.RamItem;
 
-@DomainService(menuOrder="10")
+@DomainService(menuOrder = "10")
 @Named("COMPUTADORA")
 public class ComputadoraRepositorio {
 
@@ -75,19 +78,20 @@ public class ComputadoraRepositorio {
 			final @Named("Mother") String mother,
 			final @Named("Procesador") String procesador,
 			final @Named("Disco") CategoriaDisco disco,
-			final @Optional @Named("Impresora") Impresora impresora) throws JSONException {
+			final @Optional @Named("Impresora") Impresora impresora)
+			throws JSONException {
 		return nuevaComputadora(usuario, ip, mother, procesador, disco,
-				 impresora, this.currentUserName());
+				impresora, this.currentUserName());
 	}
 
 	@Programmatic
 	public Computadora nuevaComputadora(final Usuario usuario, final String ip,
 			final String mother, final String procesador,
-			final CategoriaDisco disco, 
-			final Impresora impresora, final String creadoPor) throws JSONException {
+			final CategoriaDisco disco, final Impresora impresora,
+			final String creadoPor) throws JSONException {
 		final Computadora unaComputadora = container
 				.newTransientInstance(Computadora.class);
-		
+
 		unaComputadora.modifyUsuario(usuario);
 		unaComputadora.setIp(ip);
 		unaComputadora.setMother(mother);
@@ -96,13 +100,10 @@ public class ComputadoraRepositorio {
 		unaComputadora.setHabilitado(true);
 		unaComputadora.setImpresora(impresora);
 		unaComputadora.setDisco(disco);
-		
-		RamItem ram = new RamItem();
-		if(this.zabbixRepositorio!=null)
-		{System.out.println("NNO NULL");
-			unaComputadora.setMemoria(ram.requestItemGet(ip,zabbixRepositorio.obtenerCuentaZabbix()));
-		}else
-			System.out.println("NULL");
+		String ram = ramitem.requestItemGet(ip);
+		System.out.println("4444444444444444444444444444444444444444444");
+		System.out.println(ram);
+		unaComputadora.setMemoria(ram);
 		if (impresora != null) {
 			impresora.agregarComputadora(unaComputadora);
 		}
@@ -111,17 +112,30 @@ public class ComputadoraRepositorio {
 		container.flush();
 		return unaComputadora;
 	}
-	@javax.inject.Inject
-	public ZabbixRepositorio zabbixRepositorio;
-	public String validateAddComputadora(final @Named("Usuario") Usuario usuario,
+
+	@Inject
+	private RamItem ramitem;
+
+	public String validateAddComputadora(
+			final @Named("Usuario") Usuario usuario,
 			final @Named("Direccion Ip") String ip,
 			final @Named("Mother") String mother,
 			final @Named("Procesador") String procesador,
 			final @Named("Disco") CategoriaDisco disco,
 			final @Optional @Named("Impresora") Impresora impresora) {
-		if (usuario.getComputadora()==null)
+		if (usuario.getComputadora() == null)
 			return null;
-		return "El Usuario ya posee una Computadora. Seleccione otro. "; // TODO: return reason why proposed value is invalid, null if valid
+		return "El Usuario ya posee una Computadora. Seleccione otro. "; // TODO:
+																			// return
+																			// reason
+																			// why
+																			// proposed
+																			// value
+																			// is
+																			// invalid,
+																			// null
+																			// if
+																			// valid
 	}
 
 	// //////////////////////////////////////
@@ -156,7 +170,8 @@ public class ComputadoraRepositorio {
 				.allMatches(new QueryDefault<Computadora>(Computadora.class,
 						"eliminarComputadoraTrue"));
 		if (listaComputadoras.isEmpty()) {
-			this.container.warnUser("No hay Computadoras cargados en el sistema.");
+			this.container
+					.warnUser("No hay Computadoras cargados en el sistema.");
 		}
 		return listaComputadoras;
 	}
@@ -191,6 +206,18 @@ public class ComputadoraRepositorio {
 
 	private String currentUserName() {
 		return container.getUser().getName();
+	}
+
+	public String mostrar() {
+		return this.ramitem.mostrar();
+	}
+
+	public Zabbix mostrarElMostrar() {
+		return ramitem.mostrarCuentaZabbix();
+	}
+
+	public Zabbix obtenerRam() {
+		return ramitem.obtenerZabbix();
 	}
 
 	// //////////////////////////////////////
