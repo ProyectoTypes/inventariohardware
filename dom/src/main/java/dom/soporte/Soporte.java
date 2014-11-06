@@ -53,6 +53,7 @@ import org.joda.time.LocalDateTime;
 import dom.computadora.Computadora;
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.ComputadoraRepositorio;
+import dom.computadora.hardware.gabinete.memoria.Memoria;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
@@ -506,7 +507,7 @@ public class Soporte implements Comparable<Soporte> {
 			final @Named("Mother") String mother,
 			final @Named("Procesador") Procesador procesador,
 			final @Named("Disco") CategoriaDisco disco,
-			final @Named("Memoria") String memoria,
+			final @Named("Memoria") Memoria memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
 		this.getEstado().asignarNuevoEquipo(placaDeRed, mother, procesador, disco,
 				memoria, impresora);

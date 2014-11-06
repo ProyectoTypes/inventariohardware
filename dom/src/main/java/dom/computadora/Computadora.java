@@ -42,6 +42,7 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import dom.computadora.hardware.gabinete.memoria.Memoria;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
@@ -160,16 +161,16 @@ public class Computadora implements Comparable<Computadora> {
 	// Memoria (propiedad)
 	// //////////////////////////////////////
 
-	private String memoria;
+	private Memoria memoria;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Memoria de la Computadora:")
 	@MemberOrder(sequence = "50")
-	public String getMemoria() {
+	public Memoria getMemoria() {
 		return memoria;
 	}
 
-	public void setMemoria(final String memoria) {
+	public void setMemoria(final Memoria memoria) {
 		this.memoria = memoria;
 	}
 

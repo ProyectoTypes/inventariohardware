@@ -40,7 +40,7 @@ public class Memoria {
 	}
 
 	public String iconName() {
-		return "Disco";
+		return "Memoria";
 	}
 	
 	// //////////////////////////////////////

@@ -36,6 +36,7 @@ import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.Computadora.CategoriaDisco;
+import dom.computadora.hardware.gabinete.memoria.Memoria;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
@@ -74,7 +75,7 @@ public class ComputadoraRepositorio {
 			final @Named("Mother") String mother,
 			final @Named("Procesador") Procesador procesador,
 			final @Named("Disco") CategoriaDisco disco,
-			final @Named("Memoria") String memoria,
+			final @Named("Memoria") Memoria memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
 		return nuevaComputadora(usuario, placaDeRed, mother, procesador, disco,
 				memoria, impresora, this.currentUserName());
@@ -83,7 +84,7 @@ public class ComputadoraRepositorio {
 	@Programmatic
 	public Computadora nuevaComputadora(final Usuario usuario, final PlacaDeRed placaDeRed,
 			final String mother, final Procesador procesador,
-			final CategoriaDisco disco, final String memoria,
+			final CategoriaDisco disco, final Memoria memoria,
 			final Impresora impresora, final String creadoPor) {
 		final Computadora unaComputadora = container
 				.newTransientInstance(Computadora.class);
