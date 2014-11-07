@@ -68,21 +68,21 @@ public class TecnicoRepositorio {
 	@Programmatic
 	@PostConstruct
 	public void init() {
-		List<Tecnico> usuarios = listar();
-		if (usuarios.isEmpty()) {
-
+		List<Tecnico> tecnicos = listar();
+		if (tecnicos.isEmpty()) {
 			Permiso permiso = new Permiso();
 			Rol rol = new Rol();
 			SortedSet<Permiso> permisos = new TreeSet<Permiso>();
-			// UsuarioShiro uShiro= new UsuarioShiro();
 			permiso.setNombre("ADMIN");
 			permiso.setPath("*");
 			permisos.add(permiso);
 			rol.setNombre("ADMINISTRADOR");
 			rol.setListaPermisos(permisos);
-
-			addTecnico("apeAdmin", "nomAdmin", "emaiAdminl@email.com", null,
-					"sven", "pass", rol);
+			final SortedSet<Rol> roles = new TreeSet<Rol>();
+			roles.add(rol);
+			this.nuevoTecnico("Administrado", "Tecnico",
+					"inventariohardware@gmail.com", null,
+					this.currentUserName(), "sven", "pass", roles);
 		}
 	}
 
