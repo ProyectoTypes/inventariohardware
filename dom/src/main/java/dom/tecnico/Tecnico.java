@@ -59,19 +59,20 @@ import dom.soporte.Soporte;
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletarPorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnico.Tecnico "
-				+ "WHERE creadoPor == :creadoPor && "
+				+ "WHERE  "
 				+ "apellido.indexOf(:apellido) >= 0"),
 		@javax.jdo.annotations.Query(name = "eliminarTecnicoFalse", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnico.Tecnico "
-				+ "WHERE creadoPor == :creadoPor "
-				+ "   && habilitado == false"),
+				+ "WHERE"
+				+ "  habilitado == false"),
 		@javax.jdo.annotations.Query(name = "eliminarTecnicoTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnico.Tecnico " + "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnio.Tecnico"
-				+ "WHERE creadoPor == :creadoPor && "
+				+ "WHERE "
 				+ "apellido.indexOf(:apellido) >= 0"),
-		@javax.jdo.annotations.Query(name = "getTecnico", language = "JDOQL", value = "SELECT FROM dom.tecnico.Tecnico WHERE creadoPor == :creadoPor") })
+		@javax.jdo.annotations.Query(name = "getTecnico", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.tecnico.Tecnico ") })
 @ObjectType("TECNICO")
 @Audited
 @AutoComplete(repository = TecnicoRepositorio.class, action = "autoComplete")
@@ -93,7 +94,6 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 
 	@MemberOrder(sequence = "1")
 	@Column(allowsNull = "false")
-	
 	public String getNick() {
 		return nick;
 	}
@@ -118,7 +118,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	@Element(dependent = "false")
 	private SortedSet<Rol> listaDeRoles = new TreeSet<Rol>();
 
-	@MemberOrder(name="Lista de Roles",sequence = "2")
+	@MemberOrder(name = "Lista de Roles", sequence = "2")
 	@Render(org.apache.isis.applib.annotation.Render.Type.EAGERLY)
 	public SortedSet<Rol> getListaDeRoles() {
 		return listaDeRoles;
@@ -128,7 +128,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		this.listaDeRoles = listaDeRoles;
 	}
 
-	@MemberOrder(name="Lista de Roles",sequence = "3")
+	@MemberOrder(name = "Lista de Roles", sequence = "3")
 	@Named("Agregar Rol")
 	@DescribedAs("Agrega un Rol al Usuario.")
 	public Tecnico addRole(final @Named("Role") Rol rol) {
@@ -138,10 +138,10 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return this;
 	}
 
-	@MemberOrder(name="Lista de Roles",sequence = "5")
+	@MemberOrder(name = "Lista de Roles", sequence = "5")
 	@Named("Eliminar Rol")
 	public Tecnico removeRole(final @Named("Rol") Rol rol) {
-		if(this.getNick().toUpperCase().contentEquals("ADMIN"))
+		if (this.getNick().toUpperCase().contentEquals("ADMIN"))
 			this.container.warnUser("EL ADMINISTRADOR NO PUEDE SER ELIMINADO.");
 		else
 			getListaDeRoles().remove(rol);
@@ -194,7 +194,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	@Element(dependent = "False")
 	private SortedSet<Computadora> computadoras = new TreeSet<Computadora>();
 
-	@MemberOrder(name="Computadoras",sequence = "7")
+	@MemberOrder(name = "Computadoras", sequence = "7")
 	public SortedSet<Computadora> getComputadoras() {
 		return computadoras;
 	}
@@ -209,7 +209,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	// Operaciones de COMPUTADORA: Agregar/Borrar
 	// ///////////////////////////////////////////////////
 	@Named("Agregar Computadora")
-	@MemberOrder(name="Computadoras",sequence = "7")
+	@MemberOrder(name = "Computadoras", sequence = "7")
 	public void addToComputadora(final Computadora unaComputadora) {
 		if (unaComputadora == null
 				|| getComputadoras().contains(unaComputadora)) {
@@ -221,7 +221,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	}
 
 	@Named("Eliminar Computadora")
-	@MemberOrder(name="Computadoras",sequence = "7")
+	@MemberOrder(name = "Computadoras", sequence = "7")
 	public void removeFromComputadora(final Computadora unaComputadora) {
 		if (unaComputadora == null
 				|| !getComputadoras().contains(unaComputadora)) {
