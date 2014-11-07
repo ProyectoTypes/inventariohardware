@@ -32,7 +32,6 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
 import javax.jdo.annotations.VersionStrategy;
 import javax.validation.constraints.Max;
-import javax.validation.constraints.Size;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
@@ -56,7 +55,7 @@ import dom.soporte.Soporte;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Tecnico_apellido_must_be_unique", members = { "id" }) })
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Tecnico_apellido_must_be_unique", members = { "nick" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletarPorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnico.Tecnico "
@@ -119,7 +118,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	@Element(dependent = "false")
 	private SortedSet<Rol> listaDeRoles = new TreeSet<Rol>();
 
-	@MemberOrder(sequence = "3")
+	@MemberOrder(name="Lista de Roles",sequence = "2")
 	@Render(org.apache.isis.applib.annotation.Render.Type.EAGERLY)
 	public SortedSet<Rol> getListaDeRoles() {
 		return listaDeRoles;
@@ -129,7 +128,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		this.listaDeRoles = listaDeRoles;
 	}
 
-	@MemberOrder(sequence = "3")
+	@MemberOrder(name="Lista de Roles",sequence = "3")
 	@Named("Agregar Rol")
 	@DescribedAs("Agrega un Rol al Usuario.")
 	public Tecnico addRole(final @Named("Role") Rol rol) {
@@ -139,11 +138,13 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return this;
 	}
 
-	@MemberOrder(sequence = "5")
-	@Named("Eliminar")
+	@MemberOrder(name="Lista de Roles",sequence = "5")
+	@Named("Eliminar Rol")
 	public Tecnico removeRole(final @Named("Rol") Rol rol) {
-
-		getListaDeRoles().remove(rol);
+		if(this.getNick().toUpperCase().contentEquals("ADMIN"))
+			this.container.warnUser("EL ADMINISTRADOR NO PUEDE SER ELIMINADO.");
+		else
+			getListaDeRoles().remove(rol);
 		return this;
 	}
 
@@ -156,7 +157,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	 * 
 	 * @return la propiedad habilitado en false.
 	 */
-	@Named("Eliminar")
+	@Named("Eliminar Tecnico")
 	@PublishedAction
 	@Bulk
 	@MemberOrder(name = "accionEliminar", sequence = "6")
@@ -193,9 +194,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	@Element(dependent = "False")
 	private SortedSet<Computadora> computadoras = new TreeSet<Computadora>();
 
-	@MemberOrder(sequence = "7")
-	@Size(min = 0, max = 5)
-	// Chequear si funciona el @Size .
+	@MemberOrder(name="Computadoras",sequence = "7")
 	public SortedSet<Computadora> getComputadoras() {
 		return computadoras;
 	}
@@ -210,6 +209,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	// Operaciones de COMPUTADORA: Agregar/Borrar
 	// ///////////////////////////////////////////////////
 	@Named("Agregar Computadora")
+	@MemberOrder(name="Computadoras",sequence = "7")
 	public void addToComputadora(final Computadora unaComputadora) {
 		if (unaComputadora == null
 				|| getComputadoras().contains(unaComputadora)) {
@@ -221,6 +221,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	}
 
 	@Named("Eliminar Computadora")
+	@MemberOrder(name="Computadoras",sequence = "7")
 	public void removeFromComputadora(final Computadora unaComputadora) {
 		if (unaComputadora == null
 				|| !getComputadoras().contains(unaComputadora)) {
