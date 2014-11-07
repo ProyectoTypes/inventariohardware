@@ -153,7 +153,16 @@ public class SoporteRepositorio {
 		return lista;
 	}
 
-	
+	@Named("Buscar")
+	@DescribedAs("Busca todos los soportes que tuvo una computadora")
+	public List<Soporte> buscarPorIp(@Named("Computadora") Computadora computadora) {
+		return container.allMatches(new QueryDefault<Soporte>(Soporte.class,
+				"buscarPorIp", "ip", computadora.getIp()));
+	}
+	public List<Computadora> choices0BuscarPorIp()
+	{
+		return computadoraRepositorio.listar();
+	}
 
 	// //////////////////////////////////////
 	// CurrentUserName
