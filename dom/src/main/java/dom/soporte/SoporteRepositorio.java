@@ -24,6 +24,7 @@ package dom.soporte;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
@@ -38,7 +39,7 @@ import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 import dom.tecnico.TecnicoRepositorio;
 
-@DomainService(menuOrder="20")
+@DomainService(menuOrder = "20")
 @Named("Soporte")
 public class SoporteRepositorio {
 
@@ -74,8 +75,7 @@ public class SoporteRepositorio {
 	public Soporte nuevoSoporte(final Computadora computadora,
 			final String observaciones, final String creadoPor) {
 
-		final Soporte unSoporte = container
-				.newTransientInstance(Soporte.class);
+		final Soporte unSoporte = container.newTransientInstance(Soporte.class);
 		unSoporte.setHabilitado(true);
 		unSoporte.setCreadoPor(creadoPor);
 		unSoporte.setObservaciones(observaciones);
@@ -105,8 +105,8 @@ public class SoporteRepositorio {
 	@Programmatic
 	public List<Soporte> autoComplete(final String buscarTecnico) {
 		return container.allMatches(new QueryDefault<Soporte>(Soporte.class,
-				"autoCompleteSoporte", "creadoPor", this.currentUserName(),
-				"buscarTecnico", buscarTecnico.toUpperCase().trim()));
+				"autoCompleteSoporte", "buscarTecnico", buscarTecnico
+						.toUpperCase().trim()));
 	}
 
 	// //////////////////////////////////////
@@ -133,10 +133,11 @@ public class SoporteRepositorio {
 		final List<Soporte> lista = container
 				.allMatches(new QueryDefault<Soporte>(Soporte.class,
 						"buscarSoportesEnEspera"));
-		if(lista.isEmpty())
+		if (lista.isEmpty())
 			container.warnUser("No hay computadoras en espera de soporte.");
 		return lista;
 	}
+
 	/**
 	 * Devuelve una lista de aquellos soportes que se encuentran en reparacion.
 	 * 
@@ -147,10 +148,12 @@ public class SoporteRepositorio {
 		final List<Soporte> lista = container
 				.allMatches(new QueryDefault<Soporte>(Soporte.class,
 						"buscarSoportesEnReparacion"));
-		if(lista.isEmpty())
+		if (lista.isEmpty())
 			container.warnUser("No hay computadoras en Reparacion.");
 		return lista;
 	}
+
+	
 
 	// //////////////////////////////////////
 	// CurrentUserName
@@ -174,5 +177,4 @@ public class SoporteRepositorio {
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
 
-	
 }
