@@ -37,7 +37,6 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
 import dom.permiso.Permiso;
@@ -167,11 +166,10 @@ public class TecnicoRepositorio {
 
 	@MemberOrder(sequence = "30")
 	public List<Tecnico> buscar(
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") @MinLength(2) String apellidoUsuario) {
+			final @Named("Apellido") @MinLength(2) String apellidoUsuario) {
 		final List<Tecnico> listarTecnicos = this.container
 				.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
-						"buscarPorApellido", "creadoPor", this
-								.currentUserName(), "apellido", apellidoUsuario
+						"buscarPorApellido", "apellido", apellidoUsuario
 								.toUpperCase().trim()));
 		if (listarTecnicos.isEmpty())
 			this.container
@@ -182,8 +180,7 @@ public class TecnicoRepositorio {
 	@Programmatic
 	public List<Tecnico> autoComplete(final String apellido) {
 		return container.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
-				"autoCompletarPorApellido", "creadoPor", currentUserName(),
-				"apellido", apellido));
+				"autoCompletarPorApellido", "apellido", apellido));
 	}
 
 	// //////////////////////////////////////
