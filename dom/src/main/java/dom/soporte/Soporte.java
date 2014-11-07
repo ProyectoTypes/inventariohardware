@@ -76,6 +76,9 @@ import dom.tecnico.TecnicoRepositorio;
 				+ "tecnico.getNombre().indexOf(:buscarTecnico) >= 0"),
 		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.soporte.Soporte " + "WHERE habilitado == true"),
+		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.soporte.Soporte "
+				+ "WHERE computadora.ip.equals(:ip) "),
 		@javax.jdo.annotations.Query(name = "buscarSoportesEnEspera", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.soporte.Soporte " + "WHERE estado == esperando "),
 
