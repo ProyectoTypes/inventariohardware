@@ -171,10 +171,10 @@ public class ComputadoraRepositorio {
 
 	@MemberOrder(sequence = "30")
 	public List<Computadora> buscar(
-			final @RegEx(validation = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])$") @Named("Ip") @MinLength(2) String ip) {
+			final @RegEx(validation = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+					+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+					+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+					+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$") @Named("Ip") @MinLength(2) String ip) {
 		final List<Computadora> listaComputadoras = this.container
 				.allMatches(new QueryDefault<Computadora>(Computadora.class,
 						"buscarPorIp", "ip", ip.toUpperCase().trim()));
@@ -187,8 +187,8 @@ public class ComputadoraRepositorio {
 	@Programmatic
 	public List<Computadora> autoComplete(@Named("Ip") @MinLength(2) String ip) {
 		return container.allMatches(new QueryDefault<Computadora>(
-				Computadora.class, "autoCompletePorComputadora", "creadoPor",
-				this.currentUserName(), "ip", ip.toUpperCase().trim()));
+				Computadora.class, "autoCompletePorComputadora", "ip", ip
+						.toUpperCase().trim()));
 	}
 
 	// //////////////////////////////////////
