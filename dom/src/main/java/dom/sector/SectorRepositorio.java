@@ -82,13 +82,8 @@ public class SectorRepositorio {
 	// //////////////////////////////////////
 	@MemberOrder(sequence = "20")
 	public List<Sector> listar() {
-		final List<Sector> listarSectores = this.container
-				.allMatches(new QueryDefault<Sector>(Sector.class,
-						"todosLosSectores"));
-		if (listarSectores.isEmpty())
-			this.container
-					.warnUser("No se encontraron sectores cargados en el sistema.");
-		return listarSectores;
+		return this.container.allMatches(new QueryDefault<Sector>(Sector.class,
+				"todosLosSectores"));
 	}
 
 	/**
@@ -103,8 +98,8 @@ public class SectorRepositorio {
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") @MinLength(2) String nombreSector) {
 		final List<Sector> listarSectores = this.container
 				.allMatches(new QueryDefault<Sector>(Sector.class,
-						"buscarPorNombre", "nombreSector", nombreSector.toUpperCase()
-								.trim()));
+						"buscarPorNombre", "nombreSector", nombreSector
+								.toUpperCase().trim()));
 		if (listarSectores.isEmpty())
 			this.container
 					.warnUser("No se encontraron sectores cargados en el sistema.");
