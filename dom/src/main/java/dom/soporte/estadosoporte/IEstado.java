@@ -21,7 +21,7 @@
 */
 package dom.soporte.estadosoporte;
 
-import dom.computadora.Computadora.CategoriaDisco;
+import dom.computadora.hardware.gabinete.disco.Disco;
 import dom.computadora.hardware.gabinete.memoria.Memoria;
 import dom.computadora.hardware.gabinete.motherboard.Motherboard;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
@@ -38,7 +38,7 @@ public interface IEstado {
 	void finalizarSoporte();
 
 	void asignarNuevoEquipo(final PlacaDeRed placaDeRed, final Motherboard motherboard,
-			final Procesador procesador, final CategoriaDisco disco,
+			final Procesador procesador, final Disco disco,
 			final Memoria memoria, final Impresora impresora);
 
 	boolean escondeAsignarTecnico();

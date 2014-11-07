@@ -31,8 +31,8 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
 import servicio.email.EmailRepositorio;
-import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.ComputadoraRepositorio;
+import dom.computadora.hardware.gabinete.disco.Disco;
 import dom.computadora.hardware.gabinete.memoria.Memoria;
 import dom.computadora.hardware.gabinete.motherboard.Motherboard;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
@@ -181,7 +181,7 @@ public class Reparando implements IEstado {
 	@Override
 	@Hidden
 	public void asignarNuevoEquipo(final PlacaDeRed placaDeRed, final Motherboard motherboard,
-			final Procesador procesador, final CategoriaDisco disco,
+			final Procesador procesador, final Disco disco,
 			final Memoria memoria, final Impresora impresora) {
 		// Creando nueva computadora.
 		this.computadoraRepositorio.addComputadora(this.getSoporte()

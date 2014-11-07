@@ -42,6 +42,7 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import dom.computadora.hardware.gabinete.disco.Disco;
 import dom.computadora.hardware.gabinete.memoria.Memoria;
 import dom.computadora.hardware.gabinete.motherboard.Motherboard;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
@@ -143,18 +144,14 @@ public class Computadora implements Comparable<Computadora> {
 	// Disco (propiedad)
 	// //////////////////////////////////////
 
-	public static enum CategoriaDisco {
-		Seagate, Western, Otro;
-	}
-
-	private CategoriaDisco disco;
+	private Disco disco;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	public CategoriaDisco getDisco() {
+	public Disco getDisco() {
 		return disco;
 	}
 
-	public void setDisco(final CategoriaDisco disco) {
+	public void setDisco(final Disco disco) {
 		this.disco = disco;
 	}
 
