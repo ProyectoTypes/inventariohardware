@@ -108,6 +108,7 @@ public class ComputadoraRepositorio {
 		return unaComputadora;
 	}
 
+	@Named("Validar Computadora")
 	public String validateAddComputadora(
 			final @Named("Usuario") Usuario usuario,
 			final @Named("Direccion Ip") String ip,

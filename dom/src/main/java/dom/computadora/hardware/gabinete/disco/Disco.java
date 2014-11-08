@@ -47,20 +47,20 @@ public class Disco {
 	// tipo (Atributo)
 	// //////////////////////////////////////
 
-	public static enum TipoDisco {
+	public static enum CategoriaDisco {
 		SATA, IDE, SCSI, SAS;
 	}
 
-	private TipoDisco tipo;
+	private CategoriaDisco tipo;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Tipo de disco:")
 	@MemberOrder(sequence = "10")
-	public TipoDisco getTipo() {
+	public CategoriaDisco getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(final TipoDisco tipo) {
+	public void setTipo(final CategoriaDisco tipo) {
 		this.tipo = tipo;
 	}
 
