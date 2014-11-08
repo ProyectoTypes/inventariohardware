@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.inject.Inject;
+
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.annotation.DomainService;
@@ -53,12 +55,16 @@ import com.googlecode.wickedcharts.highcharts.options.series.Series;
 import dom.computadora.Computadora;
 import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.ComputadoraRepositorio;
+import dom.soporte.Soporte;
+import dom.soporte.SoporteRepositorio;
+import dom.soporte.estadosoporte.Reparando;
 
 @DomainService
 @Named("Estadisticas")
 public class ComputadoraServicioGrafico  {
 //Para probar voy a realizar un grafico que muestre todas las computadoras por sector.
     @ActionSemantics(Of.SAFE)
+    @Named("Discos Rigidos")
     public WickedChart filtrarPorDiscoRigido() {
         
         Map<CategoriaDisco, AtomicInteger> byCategory = Maps.newTreeMap();
@@ -112,6 +118,81 @@ public class ComputadoraServicioGrafico  {
                 series
                 .addPoint(
                         new Point(entry.getKey().name(), entry.getValue().get()).setColor(
+                                new RadialGradient()
+                                    .setCx(0.5)
+                                    .setCy(0.3)
+                                    .setR(0.7)
+                                        .addStop(0, new HighchartsColor(i))
+                                        .addStop(1, new HighchartsColor(i).brighten(-0.3f))));
+                i++;
+            }
+            addSeries(series);
+        }
+    }
+    public static enum CategoriaSoporte {
+		Recibido, Reparando, Otro;
+	}
+    @Inject 
+    private SoporteRepositorio soporteRepositorio;
+    /**
+     * Todas las computadoras que esten en soporte
+     * @return
+     */
+    @Named("Soporte Tecnico")
+    @ActionSemantics(Of.SAFE)
+    public WickedChart filtrarPorComputadorasReparacion() {
+        
+        Map<String, AtomicInteger> byCategory = Maps.newTreeMap();
+        List<Soporte> allSoportes = soporteRepositorio.listar();
+        for (Soporte obj : allSoportes) {
+        	String category = obj.getEstado().getClass().getSimpleName();//.getDisco();
+            AtomicInteger integer = byCategory.get(category);
+            if(integer == null) {
+                integer = new AtomicInteger();
+                byCategory.put(category, integer);
+            }
+            integer.incrementAndGet();
+        }
+        
+        return new WickedChart(new PieWithGradientOptions2(byCategory));
+    }
+    
+    public static class PieWithGradientOptions2 extends Options {
+        private static final long serialVersionUID = 1L;
+
+        public PieWithGradientOptions2(Map<String, AtomicInteger> byCategory) {
+        
+            setChartOptions(new ChartOptions()
+                .setPlotBackgroundColor(new NullColor())
+                .setPlotBorderWidth(null)
+                .setPlotShadow(Boolean.FALSE));
+            
+            setTitle(new Title("Estado de las Computadoras"));
+        
+            PercentageFormatter formatter = new PercentageFormatter();
+            setTooltip(
+                    new Tooltip()
+                        .setFormatter(
+                                formatter)
+                        .       setPercentageDecimals(1));
+        
+            setPlotOptions(new PlotOptionsChoice()
+                .setPie(new PlotOptions()
+                .setAllowPointSelect(Boolean.TRUE)
+                .setCursor(Cursor.POINTER)
+                .setDataLabels(new DataLabels()
+                .setEnabled(Boolean.TRUE)
+                .setColor(new HexColor("#FF8C00"))
+                .setConnectorColor(new HexColor("#483D8B"))
+                .setFormatter(formatter))));
+
+            Series<Point> series = new PointSeries()
+                .setType(SeriesType.PIE);
+            int i=0;
+            for (Map.Entry<String, AtomicInteger> entry : byCategory.entrySet()) {
+                series
+                .addPoint(
+                        new Point(entry.getKey(), entry.getValue().get()).setColor(
                                 new RadialGradient()
                                     .setCx(0.5)
                                     .setCy(0.3)
