@@ -83,7 +83,7 @@ public class TecnicoRepositorio {
 			roles.add(rol);
 			this.nuevoTecnico("Administrado", "Tecnico",
 					"inventariohardware@gmail.com", null,
-					this.currentUserName(), "sven",hash256("pass"), roles);
+					"admin", "sven","pass", roles);
 		}
 	}
 
@@ -125,6 +125,7 @@ public class TecnicoRepositorio {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
+		unTecnico.setDisponible(true);
 		unTecnico.setHabilitado(true);
 		unTecnico.setSoporte(null);
 		if (!rolList.isEmpty()) {
