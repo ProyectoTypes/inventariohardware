@@ -35,7 +35,6 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
-import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.hardware.gabinete.disco.Disco;
 import dom.computadora.hardware.gabinete.memoria.Memoria;
 import dom.computadora.hardware.gabinete.motherboard.Motherboard;
@@ -114,7 +113,7 @@ public class ComputadoraRepositorio {
 			final @Named("Direccion Ip") String ip,
 			final @Named("Mother") String mother,
 			final @Named("Procesador") String procesador,
-			final @Named("Disco") CategoriaDisco disco,
+			final @Named("Disco") Disco disco,
 			final @Named("Memoria") String memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
 		if (usuario.getComputadora() == null)
