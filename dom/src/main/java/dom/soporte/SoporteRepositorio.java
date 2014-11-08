@@ -30,7 +30,6 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.query.QueryDefault;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -65,7 +64,6 @@ public class SoporteRepositorio {
 
 	@Named("Recepcion")
 	@MemberOrder(sequence = "10")
-	@PublishedAction
 	public Soporte add(final @Named("Computadora") Computadora computadora,
 			final @Named("Observaciones") String observaciones) {
 		return nuevoSoporte(computadora, observaciones, this.currentUserName());
@@ -86,6 +84,17 @@ public class SoporteRepositorio {
 		container.flush();
 		return unSoporte;
 
+	}
+
+	public String validateAdd(final Computadora computadora,
+			final String observaciones) {
+
+		List<Soporte> soporte = container.allMatches(new QueryDefault<Soporte>(
+				Soporte.class, "seEncuentraEnReparacion", "ip", computadora
+						.getIp()));
+		if (soporte.isEmpty())
+			return null;
+		return "La computadora se encuentra en reparacion.";
 	}
 
 	public List<Computadora> autoComplete0Add(final @MinLength(2) String search) {
@@ -155,12 +164,13 @@ public class SoporteRepositorio {
 
 	@Named("Buscar")
 	@DescribedAs("Busca todos los soportes que tuvo una computadora")
-	public List<Soporte> buscarPorIp(@Named("Computadora") Computadora computadora) {
+	public List<Soporte> buscarPorIp(
+			@Named("Computadora") Computadora computadora) {
 		return container.allMatches(new QueryDefault<Soporte>(Soporte.class,
 				"buscarPorIp", "ip", computadora.getIp()));
 	}
-	public List<Computadora> choices0BuscarPorIp()
-	{
+
+	public List<Computadora> choices0BuscarPorIp() {
 		return computadoraRepositorio.listar();
 	}
 

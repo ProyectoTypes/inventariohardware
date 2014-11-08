@@ -82,6 +82,9 @@ import dom.tecnico.TecnicoRepositorio;
 		@javax.jdo.annotations.Query(name = "buscarSoportesEnEspera", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.soporte.Soporte " + "WHERE estado == esperando "),
 
+		@javax.jdo.annotations.Query(name = "seEncuentraEnReparacion", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.soporte.Soporte "
+				+ "WHERE computadora.ip.equals(:ip) && (estado == reparando || estado == recepcionado || estado == esperando)  "),
 		@javax.jdo.annotations.Query(name = "buscarSoportesEnReparacion", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.soporte.Soporte " + "WHERE estado == reparando ") })
 @ObjectType("SOPORTE")
