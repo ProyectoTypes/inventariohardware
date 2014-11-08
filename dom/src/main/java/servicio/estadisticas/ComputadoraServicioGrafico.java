@@ -23,6 +23,7 @@ package servicio.estadisticas;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.isis.applib.annotation.ActionSemantics;
@@ -51,30 +52,31 @@ import com.googlecode.wickedcharts.highcharts.options.series.PointSeries;
 import com.googlecode.wickedcharts.highcharts.options.series.Series;
 
 import dom.computadora.Computadora;
-import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.ComputadoraRepositorio;
+import dom.computadora.hardware.gabinete.disco.Disco;
+import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 
 @DomainService
 @Named("Estadisticas")
 public class ComputadoraServicioGrafico  {
-//Para probar voy a realizar un grafico que muestre todas las computadoras por sector.
-    @ActionSemantics(Of.SAFE)
-    public WickedChart filtrarPorDiscoRigido() {
-        
-        Map<CategoriaDisco, AtomicInteger> byCategory = Maps.newTreeMap();
-        List<Computadora> allToDos = computadoraRepositorio.listar();
-        for (Computadora unaComputadora : allToDos) {
-            CategoriaDisco category = unaComputadora.getDisco();
-            AtomicInteger integer = byCategory.get(category);
-            if(integer == null) {
-                integer = new AtomicInteger();
-                byCategory.put(category, integer);
-            }
-            integer.incrementAndGet();
-        }
-        
-        return new WickedChart(new PieWithGradientOptions(byCategory));
-    }
+
+	 @ActionSemantics(Of.SAFE)
+	    public WickedChart filtrarPorDiscoRigido() {
+	        
+	        Map<CategoriaDisco, AtomicInteger> byCategory = Maps.newTreeMap();
+	        List<Computadora> allToDos = computadoraRepositorio.listar();
+	        for (Computadora unaComputadora : allToDos) {
+	            CategoriaDisco category = unaComputadora.getDisco().getTipo();
+	            AtomicInteger integer = byCategory.get(category);
+	            if(integer == null) {
+	                integer = new AtomicInteger();
+	                byCategory.put(category, integer);
+	            }
+	            integer.incrementAndGet();
+	        }
+	        
+	        return new WickedChart(new PieWithGradientOptions(byCategory));
+	    }
     
     public static class PieWithGradientOptions extends Options {
         private static final long serialVersionUID = 1L;
@@ -108,7 +110,7 @@ public class ComputadoraServicioGrafico  {
             Series<Point> series = new PointSeries()
                 .setType(SeriesType.PIE);
             int i=0;
-            for (Map.Entry<CategoriaDisco, AtomicInteger> entry : byCategory.entrySet()) {
+            for (Entry<CategoriaDisco, AtomicInteger> entry : byCategory.entrySet()) {
                 series
                 .addPoint(
                         new Point(entry.getKey().name(), entry.getValue().get()).setColor(
