@@ -22,6 +22,8 @@
 package dom.tecnico;
 
 import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -66,7 +68,7 @@ public class TecnicoRepositorio {
 
 	@Programmatic
 	@PostConstruct
-	public void init() {
+	public void init() throws NoSuchAlgorithmException {
 		List<Tecnico> tecnicos = listar();
 		if (tecnicos.isEmpty()) {
 			Permiso permiso = new Permiso();
@@ -81,7 +83,7 @@ public class TecnicoRepositorio {
 			roles.add(rol);
 			this.nuevoTecnico("Administrado", "Tecnico",
 					"inventariohardware@gmail.com", null,
-					this.currentUserName(), "sven", "pass", roles);
+					this.currentUserName(), "sven",hash256("pass"), roles);
 		}
 	}
 
@@ -118,7 +120,11 @@ public class TecnicoRepositorio {
 		unTecnico.setSector(sector);
 		unTecnico.setCreadoPor(creadoPor);
 		unTecnico.setNick(nick);
-		unTecnico.setPassword(password);
+		try {
+			unTecnico.setPassword(hash256(password));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 		unTecnico.setHabilitado(true);
 		unTecnico.setSoporte(null);
 		if (!rolList.isEmpty()) {
@@ -183,6 +189,25 @@ public class TecnicoRepositorio {
 				"autoCompletarPorApellido", "apellido", apellido));
 	}
 
+	/**
+	 * Permite encodear un string a SHA-256
+	 * @param data
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
+	private static String hash256(String data) throws NoSuchAlgorithmException {
+		MessageDigest md = MessageDigest.getInstance("SHA-256");
+		md.update(data.getBytes());
+		return bytesToHex(md.digest());
+	}
+
+	private static String bytesToHex(byte[] bytes) {
+		StringBuffer result = new StringBuffer();
+		for (byte byt : bytes)
+			result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(
+					1));
+		return result.toString();
+	}
 	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////
