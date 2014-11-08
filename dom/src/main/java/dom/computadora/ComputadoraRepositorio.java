@@ -118,17 +118,7 @@ public class ComputadoraRepositorio {
 			final @Optional @Named("Impresora") Impresora impresora) {
 		if (usuario.getComputadora() == null)
 			return null;
-		return "El Usuario ya posee una Computadora. Seleccione otro. "; // TODO:
-																			// return
-																			// reason
-																			// why
-																			// proposed
-																			// value
-																			// is
-																			// invalid,
-																			// null
-																			// if
-																			// valid
+		return "El Usuario ya posee una Computadora. Seleccione otra. ";
 	}
 
 	// //////////////////////////////////////
@@ -164,7 +154,7 @@ public class ComputadoraRepositorio {
 						"eliminarComputadoraTrue"));
 		if (listaComputadoras.isEmpty()) {
 			this.container
-					.warnUser("No hay Computadoras cargados en el sistema.");
+					.warnUser("No hay Computadoras cargadas en el sistema.");
 		}
 		return listaComputadoras;
 	}
@@ -184,7 +174,7 @@ public class ComputadoraRepositorio {
 						"buscarPorIp", "ip", ip.toUpperCase().trim()));
 		if (listaComputadoras.isEmpty())
 			this.container
-					.warnUser("No se encontraron Computadoras cargados en el sistema.");
+					.warnUser("No se encontraron Computadoras cargadas en el sistema.");
 		return listaComputadoras;
 	}
 
@@ -209,10 +199,6 @@ public class ComputadoraRepositorio {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-
-	@SuppressWarnings("unused")
-	@javax.inject.Inject
-	private ComputadoraRepositorio computadoraRepositorio;
 
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
