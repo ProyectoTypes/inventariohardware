@@ -115,7 +115,7 @@ public class Computadora implements Comparable<Computadora> {
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Mother de la Computadora:")
 	@MemberOrder(sequence = "20")
-	public Motherboard getMother() {
+	public Motherboard getMotherboard() {
 		return motherboard;
 	}
 
