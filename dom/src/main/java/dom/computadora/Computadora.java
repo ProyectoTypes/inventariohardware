@@ -147,6 +147,8 @@ public class Computadora implements Comparable<Computadora> {
 	private Disco disco;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
+	@DescribedAs("Disco de la Computadora:")
+	@MemberOrder(sequence = "40")
 	public Disco getDisco() {
 		return disco;
 	}
