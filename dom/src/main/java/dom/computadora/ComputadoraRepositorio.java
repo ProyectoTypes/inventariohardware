@@ -44,8 +44,6 @@ import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 import dom.zabbix.RamItem;
-import dom.zabbix.Zabbix;
-import dom.zabbix.ZabbixRepositorio;
 
 @DomainService(menuOrder = "10")
 @Named("COMPUTADORA")
@@ -100,7 +98,7 @@ public class ComputadoraRepositorio {
 		unaComputadora.setHabilitado(true);
 		unaComputadora.setImpresora(impresora);
 		unaComputadora.setDisco(disco);
-		unaComputadora.setMemoria("este valor se va a pisar");//Si no pongo esto, tira error 
+		unaComputadora.setMemoria("Sin Definir");//Si no pongo esto, tira error - Luego se pisa.
 		String ram = ramitem.requestItemGet(ip);
 		unaComputadora.setMemoria(ram);
 		if (impresora != null) {
@@ -124,17 +122,7 @@ public class ComputadoraRepositorio {
 			final @Optional @Named("Impresora") Impresora impresora) {
 		if (usuario.getComputadora() == null)
 			return null;
-		return "El Usuario ya posee una Computadora. Seleccione otro. "; // TODO:
-																			// return
-																			// reason
-																			// why
-																			// proposed
-																			// value
-																			// is
-																			// invalid,
-																			// null
-																			// if
-																			// valid
+		return "El Usuario ya posee una Computadora. Seleccione otro. "; 
 	}
 
 	// //////////////////////////////////////
@@ -207,17 +195,8 @@ public class ComputadoraRepositorio {
 		return container.getUser().getName();
 	}
 
-	public String mostrar() {
-		return this.ramitem.mostrar();
-	}
 
-	public Zabbix mostrarElMostrar() {
-		return ramitem.mostrarCuentaZabbix();
-	}
 
-	public Zabbix obtenerRam() {
-		return ramitem.obtenerZabbix();
-	}
 
 	// //////////////////////////////////////
 	// Injected Services
