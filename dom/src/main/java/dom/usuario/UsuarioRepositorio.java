@@ -60,8 +60,8 @@ public class UsuarioRepositorio {
 	// Agregar Usuario
 	// //////////////////////////////////////
 
-	@MemberOrder(sequence = "10")
-	@Named("Agregar")
+	@MemberOrder(name = "Personal", sequence = "40")
+	@Named("Agregar Usuario")
 	public Usuario addUsuario(
 			final Sector sector,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
@@ -103,7 +103,8 @@ public class UsuarioRepositorio {
 	// Listar Usuario
 	// //////////////////////////////////////
 
-	@MemberOrder(sequence = "20")
+	@MemberOrder(name = "Personal", sequence = "50")
+	@Named("Listar Usuarios")
 	public List<Usuario> listar() {
 		final List<Usuario> listaUsuarios = this.container
 				.allMatches(new QueryDefault<Usuario>(Usuario.class,
@@ -119,7 +120,8 @@ public class UsuarioRepositorio {
 	// Buscar Usuario
 	// //////////////////////////////////////
 
-	@MemberOrder(sequence = "30")
+	@MemberOrder(name = "Personal", sequence = "10")
+	@Named("Buscar Usuarios")
 	public List<Usuario> buscar(
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") @MinLength(2) String apellido) {
 		final List<Usuario> listarUsuarios = this.container

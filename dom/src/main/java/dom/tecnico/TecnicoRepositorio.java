@@ -91,8 +91,8 @@ public class TecnicoRepositorio {
 	// Agregar Tecnico
 	// //////////////////////////////////////
 	@NotContributed
-	@MemberOrder(sequence = "10")
-	@Named("Agregar")
+	@MemberOrder(name= "Personal",sequence = "10")
+	@Named("Agregar Tecnico")
 	public Tecnico addTecnico(final @Named("Apellido") String apellido,
 			final @Named("Nombre") String nombre,
 			final @Named("email") String email, final @Optional Sector sector,
@@ -155,7 +155,8 @@ public class TecnicoRepositorio {
 	// Listar Tecnico
 	// //////////////////////////////////////
 
-	@MemberOrder(sequence = "20")
+	@MemberOrder(name= "Personal",sequence = "20")
+	@Named("Listar Tecnicos")
 	public List<Tecnico> listar() {
 		final List<Tecnico> listaTecnicos = this.container
 				.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
@@ -171,7 +172,8 @@ public class TecnicoRepositorio {
 	// Buscar Tecnico
 	// //////////////////////////////////////
 
-	@MemberOrder(sequence = "30")
+	@MemberOrder(name= "Personal",sequence = "30")
+	@Named("Buscar Tecnico")
 	public List<Tecnico> buscar(
 			final @Named("Apellido") @MinLength(2) String apellidoUsuario) {
 		final List<Tecnico> listarTecnicos = this.container
