@@ -24,12 +24,12 @@ package dom.soporte;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.query.QueryDefault;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -38,7 +38,7 @@ import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 import dom.tecnico.TecnicoRepositorio;
 
-@DomainService(menuOrder="20")
+@DomainService(menuOrder = "20")
 @Named("Soporte")
 public class SoporteRepositorio {
 
@@ -64,7 +64,6 @@ public class SoporteRepositorio {
 
 	@Named("Recepcion")
 	@MemberOrder(sequence = "10")
-	@PublishedAction
 	public Soporte add(final @Named("Computadora") Computadora computadora,
 			final @Named("Observaciones") String observaciones) {
 		return nuevoSoporte(computadora, observaciones, this.currentUserName());
@@ -74,8 +73,7 @@ public class SoporteRepositorio {
 	public Soporte nuevoSoporte(final Computadora computadora,
 			final String observaciones, final String creadoPor) {
 
-		final Soporte unSoporte = container
-				.newTransientInstance(Soporte.class);
+		final Soporte unSoporte = container.newTransientInstance(Soporte.class);
 		unSoporte.setHabilitado(true);
 		unSoporte.setCreadoPor(creadoPor);
 		unSoporte.setObservaciones(observaciones);
@@ -86,6 +84,17 @@ public class SoporteRepositorio {
 		container.flush();
 		return unSoporte;
 
+	}
+
+	public String validateAdd(final Computadora computadora,
+			final String observaciones) {
+
+		List<Soporte> soporte = container.allMatches(new QueryDefault<Soporte>(
+				Soporte.class, "seEncuentraEnReparacion", "ip", computadora
+						.getIp()));
+		if (soporte.isEmpty())
+			return null;
+		return "La computadora se encuentra en reparacion.";
 	}
 
 	public List<Computadora> autoComplete0Add(final @MinLength(2) String search) {
@@ -105,8 +114,8 @@ public class SoporteRepositorio {
 	@Programmatic
 	public List<Soporte> autoComplete(final String buscarTecnico) {
 		return container.allMatches(new QueryDefault<Soporte>(Soporte.class,
-				"autoCompleteSoporte", "creadoPor", this.currentUserName(),
-				"buscarTecnico", buscarTecnico.toUpperCase().trim()));
+				"autoCompleteSoporte", "buscarTecnico", buscarTecnico
+						.toUpperCase().trim()));
 	}
 
 	// //////////////////////////////////////
@@ -133,10 +142,11 @@ public class SoporteRepositorio {
 		final List<Soporte> lista = container
 				.allMatches(new QueryDefault<Soporte>(Soporte.class,
 						"buscarSoportesEnEspera"));
-		if(lista.isEmpty())
+		if (lista.isEmpty())
 			container.warnUser("No hay computadoras en espera de soporte.");
 		return lista;
 	}
+
 	/**
 	 * Devuelve una lista de aquellos soportes que se encuentran en reparacion.
 	 * 
@@ -147,9 +157,21 @@ public class SoporteRepositorio {
 		final List<Soporte> lista = container
 				.allMatches(new QueryDefault<Soporte>(Soporte.class,
 						"buscarSoportesEnReparacion"));
-		if(lista.isEmpty())
+		if (lista.isEmpty())
 			container.warnUser("No hay computadoras en Reparacion.");
 		return lista;
+	}
+
+	@Named("Buscar")
+	@DescribedAs("Busca todos los soportes que tuvo una computadora")
+	public List<Soporte> buscarPorIp(
+			@Named("Computadora") Computadora computadora) {
+		return container.allMatches(new QueryDefault<Soporte>(Soporte.class,
+				"buscarPorIp", "ip", computadora.getIp()));
+	}
+
+	public List<Computadora> choices0BuscarPorIp() {
+		return computadoraRepositorio.listar();
 	}
 
 	// //////////////////////////////////////
@@ -174,5 +196,4 @@ public class SoporteRepositorio {
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
 
-	
 }

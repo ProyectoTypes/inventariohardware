@@ -22,7 +22,13 @@
 package dom.tecnico;
 
 import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import javax.annotation.PostConstruct;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DescribedAs;
@@ -33,13 +39,14 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
+import dom.permiso.Permiso;
+import dom.rol.Rol;
 import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
 
-@DomainService(menuOrder="30")
+@DomainService(menuOrder = "30")
 @Named("TECNICO")
 public class TecnicoRepositorio {
 
@@ -59,35 +66,75 @@ public class TecnicoRepositorio {
 		return "Tecnico";
 	}
 
+	@Programmatic
+	@PostConstruct
+	public void init() throws NoSuchAlgorithmException {
+		List<Tecnico> tecnicos = listar();
+		if (tecnicos.isEmpty()) {
+			Permiso permiso = new Permiso();
+			Rol rol = new Rol();
+			SortedSet<Permiso> permisos = new TreeSet<Permiso>();
+			permiso.setNombre("ADMIN");
+			permiso.setPath("*");
+			permisos.add(permiso);
+			rol.setNombre("ADMINISTRADOR");
+			rol.setListaPermisos(permisos);
+			final SortedSet<Rol> roles = new TreeSet<Rol>();
+			roles.add(rol);
+			this.nuevoTecnico("Administrado", "Tecnico",
+					"inventariohardware@gmail.com", null,
+					"admin", "sven","pass", roles);
+		}
+	}
+
 	// //////////////////////////////////////
 	// Agregar Tecnico
 	// //////////////////////////////////////
 	@NotContributed
-	@MemberOrder(sequence = "10")
-	@Named("Agregar")
-	public Tecnico addTecnico(
-			final @Optional Sector sector,
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombre,
-			final @RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") @Named("E-mail") String email) {
-
+	@MemberOrder(name= "Personal",sequence = "10")
+	@Named("Agregar Tecnico")
+	public Tecnico addTecnico(final @Named("Apellido") String apellido,
+			final @Named("Nombre") String nombre,
+			final @Named("email") String email, final @Optional Sector sector,
+			final @Named("Nick") String nick,
+			final @Named("Password") String password,
+			final @Named("Rol") Rol rol) {
+		final SortedSet<Rol> rolesList = new TreeSet<Rol>();
+		if (rol != null) {
+			rolesList.add(rol);
+		}
 		return nuevoTecnico(apellido, nombre, email, sector,
-				this.currentUserName());
+				this.currentUserName(), nick, password, rolesList);
 	}
 
 	@Programmatic
 	public Tecnico nuevoTecnico(final String apellido, final String nombre,
-			final String email, final Sector sector, final String creadoPor) {
+			final String email, final Sector sector, final String creadoPor,
+			final String nick, final String password,
+			final SortedSet<Rol> rolList) {
 		final Tecnico unTecnico = container.newTransientInstance(Tecnico.class);
+
 		unTecnico.setApellido(apellido.toUpperCase().trim());
 		unTecnico.setNombre(nombre.toUpperCase().trim());
 		unTecnico.setEmail(email);
-		unTecnico.setHabilitado(true);
+		unTecnico.setSector(sector);
 		unTecnico.setCreadoPor(creadoPor);
+		unTecnico.setNick(nick);
+		try {
+			unTecnico.setPassword(hash256(password));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		unTecnico.setDisponible(true);
+		unTecnico.setHabilitado(true);
 		unTecnico.setSoporte(null);
+		if (!rolList.isEmpty()) {
+			SortedSet<Rol> listaDeRoles = new TreeSet<Rol>(rolList);
+			unTecnico.setRolesList(listaDeRoles);
+		}
 
 		unTecnico.setCantidadComputadora(new BigDecimal(0));
-		unTecnico.setSector(sector);
+
 		container.persistIfNotAlready(unTecnico);
 		container.flush();
 		return unTecnico;
@@ -95,21 +142,21 @@ public class TecnicoRepositorio {
 	}
 
 	// //////////////////////////////////////
-	// Buscar Tecnico
+	// Buscar Sector
 	// //////////////////////////////////////
 
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector en mayuscula")
-	public List<Sector> autoComplete0AddTecnico(
-			final @MinLength(2) String search) {
-		return sectorRepositorio.autoComplete(search);
+	public List<Sector> choices3AddTecnico() {
+		return sectorRepositorio.listar();
 	}
 
 	// //////////////////////////////////////
 	// Listar Tecnico
 	// //////////////////////////////////////
 
-	@MemberOrder(sequence = "20")
+	@MemberOrder(name= "Personal",sequence = "20")
+	@Named("Listar Tecnicos")
 	public List<Tecnico> listar() {
 		final List<Tecnico> listaTecnicos = this.container
 				.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
@@ -125,13 +172,13 @@ public class TecnicoRepositorio {
 	// Buscar Tecnico
 	// //////////////////////////////////////
 
-	@MemberOrder(sequence = "30")
+	@MemberOrder(name= "Personal",sequence = "30")
+	@Named("Buscar Tecnico")
 	public List<Tecnico> buscar(
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") @MinLength(2) String apellidoUsuario) {
+			final @Named("Apellido") @MinLength(2) String apellidoUsuario) {
 		final List<Tecnico> listarTecnicos = this.container
 				.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
-						"buscarPorApellido", "creadoPor", this
-								.currentUserName(), "apellido", apellidoUsuario
+						"buscarPorApellido", "apellido", apellidoUsuario
 								.toUpperCase().trim()));
 		if (listarTecnicos.isEmpty())
 			this.container
@@ -142,10 +189,28 @@ public class TecnicoRepositorio {
 	@Programmatic
 	public List<Tecnico> autoComplete(final String apellido) {
 		return container.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
-				"autoCompletarPorApellido", "creadoPor", currentUserName(),
-				"apellido", apellido));
+				"autoCompletarPorApellido", "apellido", apellido));
 	}
 
+	/**
+	 * Permite encodear un string a SHA-256
+	 * @param data
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
+	private static String hash256(String data) throws NoSuchAlgorithmException {
+		MessageDigest md = MessageDigest.getInstance("SHA-256");
+		md.update(data.getBytes());
+		return bytesToHex(md.digest());
+	}
+
+	private static String bytesToHex(byte[] bytes) {
+		StringBuffer result = new StringBuffer();
+		for (byte byt : bytes)
+			result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(
+					1));
+		return result.toString();
+	}
 	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////

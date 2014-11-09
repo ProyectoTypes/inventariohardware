@@ -75,7 +75,7 @@ public class InsumosServiceDocx {
 	@NotInServiceMenu
 	@ActionSemantics(Of.SAFE)
 	@Named("Descargar Pedido")
-	@MemberOrder(sequence = "10")
+	@MemberOrder(name = "Insumos Solicitados", sequence = "31")
 	public Blob downloadCustomerConfirmation(final Soporte soporte)
 			throws IOException, JDOMException, MergeException {
 

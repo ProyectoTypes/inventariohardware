@@ -26,49 +26,53 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
 import javax.jdo.annotations.VersionStrategy;
 import javax.validation.constraints.Max;
-import javax.validation.constraints.Size;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bulk;
+import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.PublishedAction;
+import org.apache.isis.applib.annotation.Render;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.computadora.Computadora;
 import dom.persona.Persona;
+import dom.rol.Rol;
 import dom.sector.Sector;
 import dom.soporte.Soporte;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Tecnico_apellido_must_be_unique", members = { "id" }) })
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Tecnico_apellido_must_be_unique", members = { "nick" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletarPorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnico.Tecnico "
-				+ "WHERE creadoPor == :creadoPor && "
+				+ "WHERE  "
 				+ "apellido.indexOf(:apellido) >= 0"),
 		@javax.jdo.annotations.Query(name = "eliminarTecnicoFalse", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnico.Tecnico "
-				+ "WHERE creadoPor == :creadoPor "
-				+ "   && habilitado == false"),
+				+ "WHERE"
+				+ "  habilitado == false"),
 		@javax.jdo.annotations.Query(name = "eliminarTecnicoTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnico.Tecnico " + "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnio.Tecnico"
-				+ "WHERE creadoPor == :creadoPor && "
+				+ "WHERE "
 				+ "apellido.indexOf(:apellido) >= 0"),
-		@javax.jdo.annotations.Query(name = "getTecnico", language = "JDOQL", value = "SELECT FROM dom.tecnico.Tecnico WHERE creadoPor == :creadoPor") })
+		@javax.jdo.annotations.Query(name = "getTecnico", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.tecnico.Tecnico ") })
 @ObjectType("TECNICO")
 @Audited
 @AutoComplete(repository = TecnicoRepositorio.class, action = "autoComplete")
@@ -86,15 +90,77 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return "Tecnico";
 	}
 
+	private String nick;
+
+	@MemberOrder(sequence = "1")
+	@Column(allowsNull = "false")
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(final String nick) {
+		this.nick = nick;
+	}
+
+	private String password;
+
+	@MemberOrder(sequence = "2")
+	@Column(allowsNull = "false")
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(final String password) {
+		this.password = password;
+	}
+
+	@Join
+	@Element(dependent = "false")
+	private SortedSet<Rol> listaDeRoles = new TreeSet<Rol>();
+
+	@MemberOrder(name = "Lista de Roles", sequence = "2")
+	@Render(org.apache.isis.applib.annotation.Render.Type.EAGERLY)
+	public SortedSet<Rol> getListaDeRoles() {
+		return listaDeRoles;
+	}
+
+	public void setRolesList(final SortedSet<Rol> listaDeRoles) {
+		this.listaDeRoles = listaDeRoles;
+	}
+
+	@MemberOrder(name = "Lista de Roles", sequence = "3")
+	@Named("Agregar Rol")
+	@DescribedAs("Agrega un Rol al Usuario.")
+	public Tecnico addRole(final @Named("Role") Rol rol) {
+
+		listaDeRoles.add(rol);
+
+		return this;
+	}
+
+	@MemberOrder(name = "Lista de Roles", sequence = "5")
+	@Named("Eliminar Rol")
+	public Tecnico removeRole(final @Named("Rol") Rol rol) {
+		if (this.getNick().toUpperCase().contentEquals("ADMIN"))
+			this.container.warnUser("EL ADMINISTRADOR NO PUEDE SER ELIMINADO.");
+		else
+			getListaDeRoles().remove(rol);
+		return this;
+	}
+
+	public SortedSet<Rol> choices0RemoveRole() {
+		return getListaDeRoles();
+	}
+
 	/**
 	 * Método que utilizo para deshabilitar un Tecnico.
 	 * 
 	 * @return la propiedad habilitado en false.
 	 */
-	@Named("Eliminar")
+	@Named("Eliminar Tecnico")
 	@PublishedAction
 	@Bulk
-	@MemberOrder(name = "accionEliminar", sequence = "1")
+	@MemberOrder(name = "accionEliminar", sequence = "6")
 	public List<Tecnico> eliminar() {
 		if (getEstaHabilitado() == true) {
 			setHabilitado(false);
@@ -128,9 +194,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	@Element(dependent = "False")
 	private SortedSet<Computadora> computadoras = new TreeSet<Computadora>();
 
-	@MemberOrder(sequence = "1")
-	@Size(min = 0, max = 5)
-	// Chequear si funciona el @Size .
+	@MemberOrder(name = "Computadoras", sequence = "7")
 	public SortedSet<Computadora> getComputadoras() {
 		return computadoras;
 	}
@@ -145,6 +209,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	// Operaciones de COMPUTADORA: Agregar/Borrar
 	// ///////////////////////////////////////////////////
 	@Named("Agregar Computadora")
+	@MemberOrder(name = "Computadoras", sequence = "7")
 	public void addToComputadora(final Computadora unaComputadora) {
 		if (unaComputadora == null
 				|| getComputadoras().contains(unaComputadora)) {
@@ -156,6 +221,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	}
 
 	@Named("Eliminar Computadora")
+	@MemberOrder(name = "Computadoras", sequence = "7")
 	public void removeFromComputadora(final Computadora unaComputadora) {
 		if (unaComputadora == null
 				|| !getComputadoras().contains(unaComputadora)) {
@@ -199,7 +265,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	// {{ Disponible (property)
 	private Boolean disponible;
 
-	@MemberOrder(sequence = "1")
+	@MemberOrder(sequence = "7")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Boolean getDisponible() {
 		return disponible;

@@ -44,7 +44,7 @@ public class PermisoRepositorio {
 		return "Tecnico";
 	}
 
-	@MemberOrder(sequence = "2")
+	@MemberOrder(name="Configurar Seguridad",sequence = "20")
 	@Named("Nuevo Permiso")
 	public Permiso addPermiso(
 			final @Named("Nombre") String nombre,
@@ -83,7 +83,7 @@ public class PermisoRepositorio {
 	}
 
 	@ActionSemantics(Of.NON_IDEMPOTENT)
-	@MemberOrder(sequence = "4")
+	@MemberOrder(name="Configurar Seguridad",sequence = "20")
 	@Named("Eliminar Permiso")
 	public String eliminar(@Named("Permiso") Permiso permiso) {
 		String permissionDescription = permiso.getNombre();
@@ -93,7 +93,7 @@ public class PermisoRepositorio {
 	}
 
 	@ActionSemantics(Of.SAFE)
-	@MemberOrder(sequence = "1")
+	@MemberOrder(name="Configurar Seguridad",sequence = "20")
 	@Named("Todos los Permisos")
 	public List<Permiso> listAll() {
 		return container.allInstances(Permiso.class);

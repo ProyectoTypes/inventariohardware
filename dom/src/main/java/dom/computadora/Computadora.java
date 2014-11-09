@@ -52,22 +52,19 @@ import dom.usuario.Usuario;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.APPLICATION)
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Computadora_ip_must_be_unique", members = {
-		"creadoPor", "ip" }) })
+		 "ip" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorComputadora", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
-				+ "WHERE creadoPor == :creadoPor && " + "ip.indexOf(:ip) >= 0"),
+				+ "WHERE ip.indexOf(:ip) >= 0"),
 		@javax.jdo.annotations.Query(name = "eliminarComputadoraFalse", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
-				+ "WHERE creadoPor == :creadoPor "
-				+ "   && habilitado == false"),
+				+ "WHERE habilitado == false"),
 		@javax.jdo.annotations.Query(name = "eliminarComputadoraTrue", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
 				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.computadora.Computadora "
-				+ "WHERE creadoPor == :creadoPor "
-				+ "   && ip.indexOf(:ip) >= 0") })
+				+ "FROM dom.computadora.Computadora WHERE ip.indexOf(:ip) >= 0") })
 @ObjectType("COMPUTADORA")
 @Audited
 @AutoComplete(repository = ComputadoraRepositorio.class, action = "autoComplete")

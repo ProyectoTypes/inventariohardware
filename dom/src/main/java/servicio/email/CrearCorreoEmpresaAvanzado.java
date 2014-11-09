@@ -18,24 +18,9 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
-package fixture.usershiro;
+ */
+package servicio.email;
 
-import org.apache.isis.applib.fixturescripts.FixtureScript;
-import org.apache.isis.objectstore.jdo.applib.service.support.IsisJdoSupport;
-
-@SuppressWarnings("deprecation")
-public class UsuarioShiroFixtureBaja  extends FixtureScript {
-
-    @Override
-    protected void execute(ExecutionContext executionContext) {
-        isisJdoSupport.executeUpdate("delete from \"UsuarioShiro_listaDeRoles\"");
-        isisJdoSupport.executeUpdate("delete from \"UsuarioShiro\"");
-
-    }
-
-
-	@javax.inject.Inject
-    private IsisJdoSupport isisJdoSupport;
+public class CrearCorreoEmpresaAvanzado {
 
 }
