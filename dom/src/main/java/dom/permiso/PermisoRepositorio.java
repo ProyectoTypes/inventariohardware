@@ -81,6 +81,7 @@ public class PermisoRepositorio {
 	public boolean default4AddPermiso() {
 		return true;
 	}
+	
 
 	@ActionSemantics(Of.NON_IDEMPOTENT)
 	@MemberOrder(name="Configurar Seguridad",sequence = "20")
@@ -98,7 +99,53 @@ public class PermisoRepositorio {
 	public List<Permiso> listAll() {
 		return container.allInstances(Permiso.class);
 	}
-
+//	@ActionSemantics(Of.SAFE)
+//	@MemberOrder(name="Configurar Seguridad",sequence = "20")
+//	@Named("Agregar Permisos")
+//	public List<Permiso> addPermisos(
+//			final @Named("Nombre") String nombre, 
+//			final @Named("package") TiposDePaquetes paquetes,
+//			@Optional @DescribedAs("Por defecto: '*' ") @Named("Clase") String clase,
+//			@Optional @DescribedAs("Por defecto: '*' ") @Named("Metodo/Atributo") String campo,
+//			final @Optional @DescribedAs("Por defecto: lectura/escritura ") @Named("Permiso de Escritura") boolean escritura) {
+//		return null;
+//	}
+//	public List<String> choices2AddPermisos(String nombre, TiposDePaquetes paquetes)
+//	{
+//		Reflections reflections = new Reflections("dom.computadora");
+//
+//		 Set<Class<? extends Object>> allClasses = 
+//		     reflections.getSubTypesOf(Object.class);
+//		 List<String> retorno = new ArrayList<String>();
+//		 for(Object obj :allClasses)
+//		 {
+//			 retorno.add(obj.toString());
+//		 }
+//		return retorno;
+//		
+//	}
+//	public enum TiposDePaquetes {
+//	    COMPUTADORA("dom.computadora"),
+//	    ROL("dom.rol")
+//	    ;
+//
+//	    private final String text;
+//
+//	    /**
+//	     * @param text
+//	     */
+//	    private TiposDePaquetes(final String text) {
+//	        this.text = text;
+//	    }
+//
+//	    /* (non-Javadoc)
+//	     * @see java.lang.Enum#toString()
+//	     */
+//	    @Override
+//	    public String toString() {
+//	        return text;
+//	    }
+//	}
 	@javax.inject.Inject
 	DomainObjectContainer container;
 
