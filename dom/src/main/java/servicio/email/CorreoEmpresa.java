@@ -78,70 +78,31 @@ public class CorreoEmpresa {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
-	
-	
-	// //////////////////////////////////////
-	// ServidorEntrante (propiedad)
-	// //////////////////////////////////////
 
-	private String servidorEntrante;
+	/**
+	 * Configuracion Avanzada.
+	 */
+	private String host;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "2")
-	public String getServidorEntrante() {
-		return servidorEntrante;
+	@MemberOrder(sequence = "30")
+	public String getHost() {
+		return host;
 	}
 
-	public void setServidorEntrante(String servidorEntrante) {
-		this.servidorEntrante = servidorEntrante;
+	public void setHost(String host) {
+		this.host = host;
 	}
-	
-	
-	// //////////////////////////////////////
-	// ServidorSaliente (propiedad)
-	// //////////////////////////////////////
 
-	private String servidorSaliente;
+	private String port;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "2")
-	public String getServidorSaliente() {
-		return servidorSaliente;
+	@MemberOrder(sequence = "40")
+	public String getPort() {
+		return port;
 	}
 
-	public void setServidorSaliente(String servidorSaliente) {
-		this.servidorSaliente = servidorSaliente;
-	}
-	
-	// //////////////////////////////////////
-	// PuertoEntrante (propiedad)
-	// //////////////////////////////////////
-
-	private String puertoEntrante;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "2")
-	public String getPuertoEntrante() {
-		return puertoEntrante;
-	}
-
-	public void setPuertoEntrante(String puertoEntrante) {
-		this.puertoEntrante = puertoEntrante;
-	}
-	
-	// //////////////////////////////////////
-	// PuertoSaliente (propiedad)
-	// //////////////////////////////////////
-
-	private String puertoSaliente;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "2")
-	public String getPuertoSaliente() {
-		return puertoSaliente;
-	}
-
-	public void setPuertoSaliente(String puertoSaliente) {
-		this.puertoSaliente = puertoSaliente;
+	public void setPort(String port) {
+		this.port = port;
 	}
 }
