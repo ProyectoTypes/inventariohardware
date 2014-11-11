@@ -48,7 +48,6 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.NotContributed.As;
 import org.apache.isis.applib.annotation.NotInServiceMenu;
-import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 import org.jsoup.Jsoup;
@@ -83,8 +82,6 @@ import dom.computadora.ComputadoraRepositorio;
 @Named("Casilla de Correo")
 public class EmailRepositorio extends AbstractFactoryAndRepository {
 	private static final String PROPERTY_ROOT = "mail.smtp.";
-	private static final String EMAIL = "inventariohardware@gmail.com";
-	private static final String PASS = "inventario123";
 	private static String contenidoMail;
 
 	/**
@@ -172,7 +169,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 
 	@Named("Enviar Correo")
 	@DescribedAs("Envia mensajes personalizados.")
-	public String send(final @Optional @Named("De: ") CorreoEmpresa correo,
+	public String send(final @Named("De: ") CorreoEmpresa correo,
 			final @Named("Para:") String destino,
 			final @Named("Asunto") String asunto,
 			final @MultiLine(numberOfLines = 4) @Named("Mensaje") String mensaje) {
@@ -451,6 +448,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	/* ******************* FIN: CORREO EMPRESA ************************ */
 
 	/* ******************* DASHBOARD ************************ */
+	@Programmatic
 	public List<Correo> queryBuscarCorreoPorUsuario() {
 		return this.container.allMatches(new QueryDefault<Correo>(Correo.class,
 				"buscarCorreoPorUsuario", "usuario", this.currentUserName()));
