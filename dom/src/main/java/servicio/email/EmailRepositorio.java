@@ -43,6 +43,7 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
+import org.apache.isis.applib.annotation.MultiLine;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.NotContributed.As;
@@ -174,7 +175,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	public String send(final @Optional @Named("De: ") CorreoEmpresa correo,
 			final @Named("Para:") String destino,
 			final @Named("Asunto") String asunto,
-			final @Named("Mensaje") String mensaje) {
+			final @MultiLine(numberOfLines = 4) @Named("Mensaje") String mensaje) {
 
 		return this.configurarEnvio(correo, destino, asunto, mensaje);
 
@@ -191,28 +192,18 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		 * Configuracion para enviar email.
 		 */
 		String smtpHost = getContainer().getProperty(PROPERTY_ROOT + "host",
-				"smtp.gmail.com");
+				correo.getHost());
 
 		String portValue = getContainer().getProperty(PROPERTY_ROOT + "port",
-				"587");
+				correo.getPort());
 
 		int port = Integer.valueOf(portValue).intValue();
-		// Emisor
-		String email = EMAIL;
-		String contrasenia = PASS;
-		if (correo != null) {
-			email = correo.getCorreo();
-			contrasenia = this.desencriptar(correo.getPass());
-		}
-		String authenticationName = getContainer().getProperty(
-				PROPERTY_ROOT + "user", email);
-		String authenticationPassword = getContainer().getProperty(
-				PROPERTY_ROOT + "password", contrasenia);
 
-		String fromName = getContainer().getProperty(
-				PROPERTY_ROOT + "from.name", "No responder");
-		String fromEmailAddress = getContainer().getProperty(
-				PROPERTY_ROOT + "from.address", "noreply@domain.com");
+		String authenticationName = getContainer().getProperty(
+				PROPERTY_ROOT + "user", correo.getCorreo());
+		String authenticationPassword = getContainer().getProperty(
+				PROPERTY_ROOT + "password", correo.getPass());
+
 		try {
 
 			SimpleEmail simpleEmail = new SimpleEmail();
@@ -224,10 +215,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 						authenticationPassword);
 			}
 			simpleEmail.addTo(destino);
-			if (correo != null)
-				simpleEmail.setFrom(correo.getCorreo(), "Soporte Tecnico");
-			else
-				simpleEmail.setFrom(fromEmailAddress, fromName);
+			simpleEmail.setFrom(correo.getCorreo(), "Soporte Tecnico");
 			simpleEmail.setSubject(asunto);
 			simpleEmail.setMsg(mensaje);
 			return simpleEmail.send();
@@ -419,18 +407,24 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	public CorreoEmpresa crearCorreoEmpresa(
 			@Named("Correo") final String correo,
 			@Named("Password") final String password,
-			@Named("Servidor Entrante") final String servidorEntrante,
-			@Named("Puerto Entrante") final String puertoEntrante,
-			@Named("Servidor Saliente") final String servidorSaliente,
-			@Named("Puerto Saliente") final String puertoSaliente)
+			final @Named("Host") @DescribedAs("Host Gmail") String host,
+			final @Named("Puerto") @DescribedAs("Puerto Gmail") String puerto)
 			throws NoSuchAlgorithmException, IOException, EncriptaException {
 
-		return configuracionCorreo(correo, password, servidorEntrante, puertoEntrante, servidorSaliente, puertoSaliente);
+		return configuracionCorreo(correo, password, host, puerto);
+	}
+
+	public String default2CrearCorreoEmpresa() {
+		return "smtp.gmail.com";
+	}
+
+	public String default3CrearCorreoEmpresa() {
+		return "587";
 	}
 
 	private CorreoEmpresa configuracionCorreo(final String correo,
-			final String pass, final String servidorEntrante, final String puertoEntrante, final String servidorSaliente, final String puertoSaliente) throws NoSuchAlgorithmException, IOException,
-			EncriptaException {
+			final String pass, final String host, final String port)
+			throws NoSuchAlgorithmException, IOException, EncriptaException {
 
 		CorreoEmpresa correoempresa = newTransientInstance(CorreoEmpresa.class);
 
@@ -439,6 +433,9 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 
 		correoempresa.setCorreo(correo);
 		correoempresa.setPass(encripta.encriptaCadena(pass));
+		correoempresa.setHost(host);
+		correoempresa.setPort(port);
+
 		this.container.persistIfNotAlready(correoempresa);
 
 		return correoempresa;
