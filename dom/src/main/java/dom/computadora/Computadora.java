@@ -34,12 +34,14 @@ import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
+import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.computadora.hardware.impresora.Impresora;
@@ -185,6 +187,23 @@ public class Computadora implements Comparable<Computadora> {
 		this.habilitado = habilitado;
 	}
 
+	/**
+	 * Método que utilizo para deshabilitar un Tecnico.
+	 * 
+	 * @return la propiedad habilitado en false.
+	 */
+	@Named("Eliminar Computadora")
+	@PublishedAction
+	@Bulk
+	@MemberOrder(name = "accionEliminar", sequence = "6")
+	public List<Computadora> eliminar() {
+			setHabilitado(false);
+			container.flush();
+			container.warnUser("Registro eliminado");
+
+		return computadoraRepositorio.listar();
+	}
+	
 	// //////////////////////////////////////
 	// Impresora (propiedad)
 	// //////////////////////////////////////
@@ -411,7 +430,8 @@ public class Computadora implements Comparable<Computadora> {
 
 	@Inject
 	private ImpresoraRepositorio impresoraRepositorio;
-
+	@Inject
+	private ComputadoraRepositorio computadoraRepositorio;
 	@Inject
 	private DomainObjectContainer container;
 }

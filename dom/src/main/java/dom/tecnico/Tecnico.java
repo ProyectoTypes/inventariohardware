@@ -152,7 +152,6 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return getListaDeRoles();
 	}
 
-	// FIXME: NO ESTA ELIMINANDO
 	/**
 	 * Método que utilizo para deshabilitar un Tecnico.
 	 * 
