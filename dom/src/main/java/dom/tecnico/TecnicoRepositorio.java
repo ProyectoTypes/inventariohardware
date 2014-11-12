@@ -82,8 +82,8 @@ public class TecnicoRepositorio {
 			final SortedSet<Rol> roles = new TreeSet<Rol>();
 			roles.add(rol);
 			this.nuevoTecnico("Administrado", "Tecnico",
-					"inventariohardware@gmail.com", null,
-					"admin", "sven","pass", roles);
+					"inventariohardware@gmail.com", null, "admin", "sven",
+					"pass", roles);
 		}
 	}
 
@@ -91,7 +91,7 @@ public class TecnicoRepositorio {
 	// Agregar Tecnico
 	// //////////////////////////////////////
 	@NotContributed
-	@MemberOrder(name= "Personal",sequence = "10")
+	@MemberOrder(name = "Personal", sequence = "10")
 	@Named("Agregar Tecnico")
 	public Tecnico addTecnico(final @Named("Apellido") String apellido,
 			final @Named("Nombre") String nombre,
@@ -155,12 +155,18 @@ public class TecnicoRepositorio {
 	// Listar Tecnico
 	// //////////////////////////////////////
 
-	@MemberOrder(name= "Personal",sequence = "20")
+	@MemberOrder(name = "Personal", sequence = "20")
 	@Named("Listar Tecnicos")
 	public List<Tecnico> listar() {
-		final List<Tecnico> listaTecnicos = this.container
-				.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
-						"eliminarTecnicoTrue"));
+		final List<Tecnico> listaTecnicos;
+		if (this.container.getUser().getName().contentEquals("sven")) {
+			listaTecnicos = this.container
+					.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
+							"listar"));
+		} else
+			listaTecnicos = this.container
+					.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
+							"listarHabilitados"));
 		if (listaTecnicos.isEmpty()) {
 			this.container.warnUser("No hay tecnicos cargados en el sistema");
 		}
@@ -168,11 +174,12 @@ public class TecnicoRepositorio {
 
 	}
 
+
 	// //////////////////////////////////////
 	// Buscar Tecnico
 	// //////////////////////////////////////
 
-	@MemberOrder(name= "Personal",sequence = "30")
+	@MemberOrder(name = "Personal", sequence = "30")
 	@Named("Buscar Tecnico")
 	public List<Tecnico> buscar(
 			final @Named("Apellido") @MinLength(2) String apellidoUsuario) {
@@ -194,6 +201,7 @@ public class TecnicoRepositorio {
 
 	/**
 	 * Permite encodear un string a SHA-256
+	 * 
 	 * @param data
 	 * @return
 	 * @throws NoSuchAlgorithmException
@@ -211,6 +219,7 @@ public class TecnicoRepositorio {
 					1));
 		return result.toString();
 	}
+
 	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////
