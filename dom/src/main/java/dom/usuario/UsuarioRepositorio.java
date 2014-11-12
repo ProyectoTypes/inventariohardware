@@ -106,9 +106,15 @@ public class UsuarioRepositorio {
 	@MemberOrder(name = "Personal", sequence = "50")
 	@Named("Listar Usuarios")
 	public List<Usuario> listar() {
-		final List<Usuario> listaUsuarios = this.container
-				.allMatches(new QueryDefault<Usuario>(Usuario.class,
-						"eliminarUsuarioTrue"));
+		final List<Usuario> listaUsuarios;
+		if (this.container.getUser().getName().contentEquals("sven"))
+			listaUsuarios = this.container
+					.allMatches(new QueryDefault<Usuario>(Usuario.class,
+							"listar"));
+		else
+			listaUsuarios = this.container
+					.allMatches(new QueryDefault<Usuario>(Usuario.class,
+							"listarHabilitados"));
 		if (listaUsuarios.isEmpty()) {
 			this.container.warnUser("No hay Usuarios cargados en el sistema.");
 		}

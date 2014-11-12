@@ -21,14 +21,21 @@
  */
 package dom.usuario;
 
+import java.util.List;
+
+import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
+import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.computadora.Computadora;
@@ -42,10 +49,9 @@ import dom.persona.Persona;
 		@javax.jdo.annotations.Query(name = "autoCompletePorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario "
 				+ "WHERE apellido.indexOf(:apellido) >= 0"),
-		@javax.jdo.annotations.Query(name = "eliminarUsuarioFalse", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.usuario.Usuario "
-				+ "WHERE habilitado == false"),
-		@javax.jdo.annotations.Query(name = "eliminarUsuarioTrue", language = "JDOQL", value = "SELECT "
+		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.usuario.Usuario "),
+		@javax.jdo.annotations.Query(name = "listarHabilitados", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario " + "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario "
@@ -105,7 +111,22 @@ public class Usuario extends Persona implements Comparable<Persona> {
 		}
 		computadora.clearUsuario();
 	}
+	/**
+	 * Método que utilizo para deshabilitar un Usuario.
+	 * 
+	 * @return la propiedad habilitado en false.
+	 */
+	@Named("Eliminar Usuario")
+	@PublishedAction
+	@Bulk
+	@MemberOrder(name = "accionEliminar", sequence = "6")
+	public List<Usuario> eliminar() {
+			setHabilitado(false);
+			container.flush();
+			container.warnUser("Registro eliminado");
 
+		return usuarioRepositorio.listar();
+	}
 	// //////////////////////////////////////
 	// CompareTo
 	// //////////////////////////////////////
@@ -117,5 +138,9 @@ public class Usuario extends Persona implements Comparable<Persona> {
 	public int compareTo(final Persona persona) {
 		return ObjectContracts.compare(this, persona, "apellido");
 	}
+	@Inject
+	private DomainObjectContainer container;
+	@Inject
+	private UsuarioRepositorio usuarioRepositorio;
 
 }
