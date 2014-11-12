@@ -23,6 +23,7 @@ package dom.sector;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
@@ -50,13 +51,10 @@ import org.apache.isis.applib.util.ObjectContracts;
 		@javax.jdo.annotations.Query(name = "autoCompletePorNombreSector", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.sector.Sector "
 				+ "WHERE nombreSector.indexOf(:nombreSector) >= 0"),
-		@javax.jdo.annotations.Query(name = "todosLosSectores", language = "JDOQL", value = "SELECT "
+		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.sector.Sector "
 				+ " WHERE habilitado == true"),
-		@javax.jdo.annotations.Query(name = "eliminarSectorFalse", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.sector.Sector "
-				+ "WHERE habilitado == true"),
-		@javax.jdo.annotations.Query(name = "eliminarSectorTrue", language = "JDOQL", value = "SELECT "
+		@javax.jdo.annotations.Query(name = "listarHabilitados", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.sector.Sector "
 				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorNombre", language = "JDOQL", value = "SELECT "
@@ -144,12 +142,10 @@ public class Sector implements Comparable<Sector> {
 	@Bulk
 	@MemberOrder(name = "accionEliminar", sequence = "1")
 	public List<Sector> eliminar() {
-		if (getEstaHabilitado() == true) {
 			setHabilitado(false);
-			container.isPersistent(this);
+			container.flush();
 			container.warnUser("Eliminado " + container.titleOf(this));
-		}
-		return null;
+		return sectorRepositorio.listar();
 	}
 	
 	// //////////////////////////////////////
@@ -168,6 +164,8 @@ public class Sector implements Comparable<Sector> {
 	// Injected Services
 	// //////////////////////////////////////
 
-	@javax.inject.Inject
+	@Inject
 	private DomainObjectContainer container;
+	@Inject
+	private SectorRepositorio sectorRepositorio;
 }

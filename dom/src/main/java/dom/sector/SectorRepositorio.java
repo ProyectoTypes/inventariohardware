@@ -82,8 +82,12 @@ public class SectorRepositorio {
 	// //////////////////////////////////////
 	@MemberOrder(sequence = "20")
 	public List<Sector> listar() {
-		return this.container.allMatches(new QueryDefault<Sector>(Sector.class,
-				"todosLosSectores"));
+		if (this.container.getUser().getName().contentEquals("sven"))
+			return this.container.allMatches(new QueryDefault<Sector>(
+					Sector.class, "listar"));
+		else
+			return this.container.allMatches(new QueryDefault<Sector>(
+					Sector.class, "listarHabilitados"));
 	}
 
 	/**
