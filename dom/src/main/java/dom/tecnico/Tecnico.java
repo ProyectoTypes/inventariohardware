@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.inject.Inject;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdentityType;
@@ -38,6 +39,7 @@ import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.DescribedAs;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
@@ -61,18 +63,14 @@ import dom.soporte.Soporte;
 				+ "FROM dom.tecnico.Tecnico "
 				+ "WHERE  "
 				+ "apellido.indexOf(:apellido) >= 0"),
-		@javax.jdo.annotations.Query(name = "eliminarTecnicoFalse", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.tecnico.Tecnico "
-				+ "WHERE"
-				+ "  habilitado == false"),
-		@javax.jdo.annotations.Query(name = "eliminarTecnicoTrue", language = "JDOQL", value = "SELECT "
+		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.tecnico.Tecnico "),
+		@javax.jdo.annotations.Query(name = "listarHabilitados", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnico.Tecnico " + "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnio.Tecnico"
 				+ "WHERE "
-				+ "apellido.indexOf(:apellido) >= 0"),
-		@javax.jdo.annotations.Query(name = "getTecnico", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.tecnico.Tecnico ") })
+				+ "apellido.indexOf(:apellido) >= 0")})
 @ObjectType("TECNICO")
 @Audited
 @AutoComplete(repository = TecnicoRepositorio.class, action = "autoComplete")
@@ -92,7 +90,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 
 	private String nick;
 
-	@MemberOrder(sequence = "1")
+	@MemberOrder(sequence = "40")
 	@Column(allowsNull = "false")
 	public String getNick() {
 		return nick;
@@ -104,7 +102,8 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 
 	private String password;
 
-	@MemberOrder(sequence = "2")
+	@MemberOrder(sequence = "50")
+	@Hidden
 	@Column(allowsNull = "false")
 	public String getPassword() {
 		return password;
@@ -138,11 +137,12 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return this;
 	}
 
+	// FIXME: El rol ADMINISTRADOR NO DEBE SER BORRADO.
 	@MemberOrder(name = "Lista de Roles", sequence = "5")
 	@Named("Eliminar Rol")
 	public Tecnico removeRole(final @Named("Rol") Rol rol) {
-		if (this.getNick().toUpperCase().contentEquals("ADMIN"))
-			this.container.warnUser("EL ADMINISTRADOR NO PUEDE SER ELIMINADO.");
+		if (this.getNick().toUpperCase().contentEquals("SVEN"))
+			this.container.warnUser("EL USUARIO SVEN NO PUEDE SER ELIMINADO.");
 		else
 			getListaDeRoles().remove(rol);
 		return this;
@@ -152,6 +152,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return getListaDeRoles();
 	}
 
+	// FIXME: NO ESTA ELIMINANDO
 	/**
 	 * Método que utilizo para deshabilitar un Tecnico.
 	 * 
@@ -162,18 +163,21 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	@Bulk
 	@MemberOrder(name = "accionEliminar", sequence = "6")
 	public List<Tecnico> eliminar() {
-		if (getEstaHabilitado() == true) {
+		if (!this.getNick().toUpperCase().contentEquals("SVEN")) {
 			setHabilitado(false);
-			container.isPersistent(this);
-			container.warnUser("Eliminado " + container.titleOf(this));
-		}
-		return null;
+			container.flush();
+			container.warnUser("Registro eliminado");
+		} else
+			container.warnUser("El Registro Sven No puede ser eliminado.");
+
+		return tecnicoRepositorio.listar();
 	}
 
 	// {{ Movimiento (property)
 	private Soporte soporte;
 
 	@MemberOrder(sequence = "200")
+	@Hidden
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Soporte getSoporte() {
 		return soporte;
@@ -318,4 +322,6 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
+	@Inject
+	private TecnicoRepositorio tecnicoRepositorio;
 }
