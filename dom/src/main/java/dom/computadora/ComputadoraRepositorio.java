@@ -155,9 +155,16 @@ public class ComputadoraRepositorio {
 
 	@MemberOrder(sequence = "20")
 	public List<Computadora> listar() {
-		final List<Computadora> listaComputadoras = this.container
-				.allMatches(new QueryDefault<Computadora>(Computadora.class,
-						"eliminarComputadoraTrue"));
+		final List<Computadora> listaComputadoras;
+		if (this.container.getUser().getName().contentEquals("sven"))
+			listaComputadoras = this.container
+					.allMatches(new QueryDefault<Computadora>(
+							Computadora.class, "listar"));
+		else
+			listaComputadoras = this.container
+					.allMatches(new QueryDefault<Computadora>(
+							Computadora.class, "listarHabilitados"));
+
 		if (listaComputadoras.isEmpty()) {
 			this.container
 					.warnUser("No hay Computadoras cargados en el sistema.");
