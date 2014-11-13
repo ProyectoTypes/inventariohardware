@@ -18,12 +18,20 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.computadora.hardware.gabinete.motherboard;
+
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.ObjectType;
 
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
+@javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@ObjectType("Motherboard")
 public class Motherboard {
 	// //////////////////////////////////////
 	// Modelo (propiedad)
@@ -33,7 +41,7 @@ public class Motherboard {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Modelo de la Computadora:")
-	@MemberOrder(sequence = "20")
+	@MemberOrder(sequence = "160")
 	public String getModelo() {
 		return modelo;
 	}
