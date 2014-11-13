@@ -70,17 +70,17 @@ public class Hdd {
 	// //////////////////////////////////////
 	// Tamaño (Atributo)
 	// //////////////////////////////////////
-	private int tamaño;
+	private int tamano;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Tamano del disco:")
 	@MemberOrder(sequence = "110")
-	public int getTamaño() {
-		return tamaño;
+	public int getTamano() {
+		return tamano;
 	}
 
-	public void setTamaño(final int tamaño) {
-		this.tamaño = tamaño;
+	public void setTamano(final int tamaño) {
+		this.tamano = tamaño;
 	}
 
 	// //////////////////////////////////////
