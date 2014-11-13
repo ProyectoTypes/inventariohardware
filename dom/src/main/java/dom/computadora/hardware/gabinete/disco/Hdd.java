@@ -21,14 +21,17 @@
  */
 package dom.computadora.hardware.gabinete.disco;
 
-import org.apache.isis.applib.annotation.Audited;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.VersionStrategy;
+
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
-@ObjectType("DISCO")
-@Audited
-
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
+@javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@ObjectType("Hdd")
 public class Hdd {
 	
 	// //////////////////////////////////////
@@ -55,7 +58,7 @@ public class Hdd {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Tipo de disco:")
-	@MemberOrder(sequence = "10")
+	@MemberOrder(sequence = "100")
 	public CategoriaDisco getTipo() {
 		return tipo;
 	}
@@ -71,7 +74,7 @@ public class Hdd {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Tamano del disco:")
-	@MemberOrder(sequence = "20")
+	@MemberOrder(sequence = "110")
 	public int getTamaño() {
 		return tamaño;
 	}
@@ -87,7 +90,7 @@ public class Hdd {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Marca del disco:")
-	@MemberOrder(sequence = "30")
+	@MemberOrder(sequence = "120")
 	public String getMarca() {
 		return marca;
 	}

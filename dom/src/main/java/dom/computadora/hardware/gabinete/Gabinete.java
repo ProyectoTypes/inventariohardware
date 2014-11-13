@@ -17,7 +17,7 @@ import dom.computadora.hardware.gabinete.procesador.Procesador;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@ObjectType("Hardware")
+@ObjectType("Gabinete")
 public class Gabinete {
 
 	// //////////////////////////////////////
