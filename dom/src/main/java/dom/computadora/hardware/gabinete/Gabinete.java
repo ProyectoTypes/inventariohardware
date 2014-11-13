@@ -9,7 +9,7 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Programmatic;
 
-import dom.computadora.hardware.gabinete.disco.Hdd;
+import dom.computadora.hardware.gabinete.disco.Disco;
 import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
 import dom.computadora.hardware.gabinete.motherboard.Motherboard;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
@@ -37,7 +37,7 @@ public class Gabinete {
 	 * Constructor: Composicion.
 	 */
 
-	public Gabinete(List<PlacaDeRed> listaPlacaDeRed, List<Hdd> listaHdd,
+	public Gabinete(List<PlacaDeRed> listaPlacaDeRed, List<Disco> listaHdd,
 			Procesador procesador, List<MemoriaRam> listaMemoriaRam,
 			Motherboard motherboard) {
 		super();
@@ -50,7 +50,7 @@ public class Gabinete {
 
 	private List<PlacaDeRed> listaPlacaDeRed;
 
-	@javax.jdo.annotations.Column(allowsNull = "false")
+	@javax.jdo.annotations.Column(allowsNull = "true")
 	@MemberOrder(sequence = "50")
 	public List<PlacaDeRed> getListaPlacaDeRed() {
 		return listaPlacaDeRed;
@@ -65,25 +65,25 @@ public class Gabinete {
 		this.listaPlacaDeRed.add(placaDeRed);
 	}
 
-	private List<Hdd> listaHdd;
+	private List<Disco> listaHdd;
 
-	@javax.jdo.annotations.Column(allowsNull = "false")
+	@javax.jdo.annotations.Column(allowsNull = "true")
 	@MemberOrder(sequence = "60")
-	public List<Hdd> getListaHdd() {
+	public List<Disco> getListaHdd() {
 		return listaHdd;
 	}
 
-	public void setListaHdd(List<Hdd> listaHdd) {
+	public void setListaHdd(List<Disco> listaHdd) {
 		this.listaHdd = listaHdd;
 	}
 	@Programmatic
-	public void agregarHdd(final Hdd hdd) {
+	public void agregarHdd(final Disco hdd) {
 		this.listaHdd.add(hdd);
 	}
 
 	private Procesador procesador;
 
-	@javax.jdo.annotations.Column(allowsNull = "false")
+	@javax.jdo.annotations.Column(allowsNull = "true")
 	@MemberOrder(sequence = "70")
 	public Procesador getProcesador() {
 		return procesador;
@@ -95,7 +95,7 @@ public class Gabinete {
 
 	private List<MemoriaRam> listaMemoriaRam;
 
-	@javax.jdo.annotations.Column(allowsNull = "false")
+	@javax.jdo.annotations.Column(allowsNull = "true")
 	@MemberOrder(sequence = "80")
 	public List<MemoriaRam> getListaMemoriaRam() {
 		return listaMemoriaRam;
@@ -112,7 +112,7 @@ public class Gabinete {
 
 	private Motherboard motherboard;
 
-	@javax.jdo.annotations.Column(allowsNull = "false")
+	@javax.jdo.annotations.Column(allowsNull = "true")
 	@MemberOrder(sequence = "90")
 	public Motherboard getMotherboard() {
 		return motherboard;
