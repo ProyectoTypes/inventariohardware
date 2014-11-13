@@ -35,8 +35,8 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
-import dom.computadora.hardware.gabinete.disco.Disco;
-import dom.computadora.hardware.gabinete.memoria.Memoria;
+import dom.computadora.hardware.gabinete.disco.Hdd;
+import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
 import dom.computadora.hardware.gabinete.motherboard.Motherboard;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.gabinete.procesador.Procesador;
@@ -75,8 +75,8 @@ public class ComputadoraRepositorio {
 			final @Named("Direccion Ip") PlacaDeRed placaDeRed,
 			final @Named("Mother") Motherboard motherboard,
 			final @Named("Procesador") Procesador procesador,
-			final @Named("Disco") Disco disco,
-			final @Named("Memoria") Memoria memoria,
+			final @Named("Disco") Hdd disco,
+			final @Named("Memoria") MemoriaRam memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
 		return nuevaComputadora(usuario, placaDeRed, motherboard, procesador, disco,
 				memoria, impresora, this.currentUserName());
@@ -85,7 +85,7 @@ public class ComputadoraRepositorio {
 	@Programmatic
 	public Computadora nuevaComputadora(final Usuario usuario, final PlacaDeRed placaDeRed,
 			final Motherboard motherboard, final Procesador procesador,
-			final Disco disco, final Memoria memoria,
+			final Hdd disco, final MemoriaRam memoria,
 			final Impresora impresora, final String creadoPor) {
 		final Computadora unaComputadora = container
 				.newTransientInstance(Computadora.class);
@@ -114,7 +114,7 @@ public class ComputadoraRepositorio {
 			final @Named("Direccion Ip") String ip,
 			final @Named("Mother") String mother,
 			final @Named("Procesador") String procesador,
-			final @Named("Disco") Disco disco,
+			final @Named("Disco") Hdd disco,
 			final @Named("Memoria") String memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
 		if (usuario.getComputadora() == null)

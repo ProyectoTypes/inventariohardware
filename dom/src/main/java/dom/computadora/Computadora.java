@@ -42,8 +42,8 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.util.ObjectContracts;
 
-import dom.computadora.hardware.gabinete.disco.Disco;
-import dom.computadora.hardware.gabinete.memoria.Memoria;
+import dom.computadora.hardware.gabinete.disco.Hdd;
+import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
 import dom.computadora.hardware.gabinete.motherboard.Motherboard;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.gabinete.procesador.Procesador;
@@ -144,16 +144,16 @@ public class Computadora implements Comparable<Computadora> {
 	// Disco (propiedad)
 	// //////////////////////////////////////
 
-	private Disco disco;
+	private Hdd disco;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Disco de la Computadora:")
 	@MemberOrder(sequence = "40")
-	public Disco getDisco() {
+	public Hdd getDisco() {
 		return disco;
 	}
 
-	public void setDisco(final Disco disco) {
+	public void setDisco(final Hdd disco) {
 		this.disco = disco;
 	}
 
@@ -161,16 +161,16 @@ public class Computadora implements Comparable<Computadora> {
 	// Memoria (propiedad)
 	// //////////////////////////////////////
 
-	private Memoria memoria;
+	private MemoriaRam memoria;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Memoria de la Computadora:")
 	@MemberOrder(sequence = "50")
-	public Memoria getMemoria() {
+	public MemoriaRam getMemoria() {
 		return memoria;
 	}
 
-	public void setMemoria(final Memoria memoria) {
+	public void setMemoria(final MemoriaRam memoria) {
 		this.memoria = memoria;
 	}
 
