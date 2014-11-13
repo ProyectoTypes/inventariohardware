@@ -3,7 +3,6 @@ package dom.computadora.hardware;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
-import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
@@ -16,7 +15,6 @@ import dom.computadora.hardware.monitor.Monitor;
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
 @ObjectType("Hardware")
-@Audited
 public class Hardware {
 	// //////////////////////////////////////
 	// Identificacion en la UI
@@ -65,7 +63,7 @@ public class Hardware {
 	private Monitor monitor;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "10")
+	@MemberOrder(sequence = "20")
 	public Monitor getMonitor() {
 		return monitor;
 	}
@@ -77,7 +75,7 @@ public class Hardware {
 	private Gabinete gabinete;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "10")
+	@MemberOrder(sequence = "30")
 	public Gabinete getGabinete() {
 		return gabinete;
 	}
@@ -89,7 +87,7 @@ public class Hardware {
 	private Impresora impresora;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "10")
+	@MemberOrder(sequence = "40")
 	public Impresora getImpresora() {
 		return impresora;
 	}
