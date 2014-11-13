@@ -1,5 +1,7 @@
 package dom.computadora.hardware.gabinete.memoria;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -7,10 +9,11 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.query.QueryDefault;
 
 @DomainService
-@Named("Placa De Red")
-@Hidden()
+@Named("Memoria Ram")
+@Hidden
 public class MemoriaRamRepositorio {
 
 	// //////////////////////////////////////
@@ -33,11 +36,10 @@ public class MemoriaRamRepositorio {
 		return nuevaMemoriaRam(modelo, tamano, marca);
 	}
 
-	private MemoriaRam nuevaMemoriaRam(final String modelo,
-			final int tamano, final String marca) {
+	private MemoriaRam nuevaMemoriaRam(final String modelo, final int tamano,
+			final String marca) {
 
-		MemoriaRam obj = this.container
-				.newTransientInstance(MemoriaRam.class);
+		MemoriaRam obj = this.container.newTransientInstance(MemoriaRam.class);
 		obj.setModelo(modelo);
 		obj.setMarca(marca);
 		obj.setTamano(tamano);
@@ -48,4 +50,9 @@ public class MemoriaRamRepositorio {
 
 	@Inject
 	private DomainObjectContainer container;
+
+	public List<MemoriaRam> listar() {
+		return this.container.allMatches(new QueryDefault<MemoriaRam>(
+				MemoriaRam.class, "listar"));
+	}
 }
