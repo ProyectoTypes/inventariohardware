@@ -1,5 +1,7 @@
 package dom.computadora.hardware.gabinete.placadered;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -7,9 +9,11 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.query.QueryDefault;
+
 @DomainService
 @Named("Placa De Red")
-@Hidden()
+@Hidden
 public class PlacaDeRedRepositorio {
 
 	public PlacaDeRedRepositorio() {
@@ -47,4 +51,10 @@ public class PlacaDeRedRepositorio {
 
 	@Inject
 	private DomainObjectContainer container;
+
+	public List<PlacaDeRed> listar() {
+		return this.container.allMatches(new QueryDefault<PlacaDeRed>(
+				PlacaDeRed.class, "listar"));
+
+	}
 }
