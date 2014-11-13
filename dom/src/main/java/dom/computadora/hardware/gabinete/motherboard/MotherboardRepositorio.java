@@ -1,5 +1,7 @@
 package dom.computadora.hardware.gabinete.motherboard;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -7,10 +9,11 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.query.QueryDefault;
 
 @DomainService
-@Named("Placa De Red")
-@Hidden()
+@Named("Motherboard")
+@Hidden
 public class MotherboardRepositorio {
 
 	// //////////////////////////////////////
@@ -43,4 +46,9 @@ public class MotherboardRepositorio {
 
 	@Inject
 	private DomainObjectContainer container;
+
+	public List<Motherboard> listar() {
+		return this.container.allMatches(new QueryDefault<Motherboard>(
+				Motherboard.class, "listar"));
+	}
 }
