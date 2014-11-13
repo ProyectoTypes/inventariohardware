@@ -1,5 +1,7 @@
 package dom.computadora.hardware.gabinete;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -8,10 +10,15 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 
 import dom.computadora.hardware.gabinete.disco.Hdd;
+import dom.computadora.hardware.gabinete.disco.HddRepositorio;
 import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
+import dom.computadora.hardware.gabinete.memoria.MemoriaRamRepositorio;
 import dom.computadora.hardware.gabinete.motherboard.Motherboard;
+import dom.computadora.hardware.gabinete.motherboard.MotherboardRepositorio;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
+import dom.computadora.hardware.gabinete.placadered.PlacaDeRedRepositorio;
 import dom.computadora.hardware.gabinete.procesador.Procesador;
+import dom.computadora.hardware.gabinete.procesador.ProcesadorRepositorio;
 
 @DomainService
 @Named("Gabinete")
@@ -40,6 +47,26 @@ public class GabineteRepositorio {
 				motherboard);
 	}
 
+	public List<PlacaDeRed> choices0AddGabinete() {
+		return this.placaderedRepositorio.listar();
+	}
+
+	public List<Hdd> choices1AddGabinete() {
+		return this.hddRepositorio.listar();
+	}
+
+	public List<Procesador> choices2AddGabinete() {
+		return this.procesadorRepositorio.listar();
+	}
+
+	public List<MemoriaRam> choices3AddGabinete() {
+		return this.memoriaramRepositorio.listar();
+	}
+
+	public List<Motherboard> choices4AddGabinete() {
+		return this.motherboardRepositorio.listar();
+	}
+
 	private Gabinete nuevoGabinete(final PlacaDeRed placaDeRed, final Hdd hdd,
 			final Procesador procesador, final MemoriaRam memoriaRam,
 			final Motherboard motherboard) {
@@ -57,4 +84,15 @@ public class GabineteRepositorio {
 
 	@Inject
 	private DomainObjectContainer container;
+	@Inject
+	private PlacaDeRedRepositorio placaderedRepositorio;
+	@Inject
+	private HddRepositorio hddRepositorio;
+	@Inject
+	private ProcesadorRepositorio procesadorRepositorio;
+	@Inject
+	private MemoriaRamRepositorio memoriaramRepositorio;
+	@Inject
+	private MotherboardRepositorio motherboardRepositorio;
+
 }
