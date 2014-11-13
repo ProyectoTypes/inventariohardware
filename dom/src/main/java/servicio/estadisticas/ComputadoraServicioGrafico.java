@@ -53,8 +53,8 @@ import com.googlecode.wickedcharts.highcharts.options.series.Series;
 
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
-import dom.computadora.hardware.gabinete.disco.Disco;
-import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
+import dom.computadora.hardware.gabinete.disco.Hdd;
+import dom.computadora.hardware.gabinete.disco.Hdd.CategoriaDisco;
 
 @DomainService
 @Named("Estadisticas")

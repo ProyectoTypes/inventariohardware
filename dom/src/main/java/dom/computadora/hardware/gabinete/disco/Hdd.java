@@ -29,7 +29,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 @ObjectType("DISCO")
 @Audited
 
-public class Disco {
+public class Hdd {
 	
 	// //////////////////////////////////////
 	// Identificacion en la UI

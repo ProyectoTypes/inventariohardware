@@ -29,7 +29,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 @ObjectType("MEMORIA")
 @Audited
 
-public class Memoria {
+public class MemoriaRam {
 	
 	// //////////////////////////////////////
 	// Identificacion en la UI

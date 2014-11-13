@@ -52,8 +52,8 @@ import org.joda.time.LocalDateTime;
 
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
-import dom.computadora.hardware.gabinete.disco.Disco;
-import dom.computadora.hardware.gabinete.memoria.Memoria;
+import dom.computadora.hardware.gabinete.disco.Hdd;
+import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
 import dom.computadora.hardware.gabinete.motherboard.Motherboard;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.gabinete.procesador.Procesador;
@@ -507,8 +507,8 @@ public class Soporte implements Comparable<Soporte> {
 	public Soporte asignarNuevoEquipo(final @Named("Direccion Ip") PlacaDeRed placaDeRed,
 			final @Named("Mother") Motherboard motherboard,
 			final @Named("Procesador") Procesador procesador,
-			final @Named("Disco") Disco disco,
-			final @Named("Memoria") Memoria memoria,
+			final @Named("Disco") Hdd disco,
+			final @Named("Memoria") MemoriaRam memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
 		this.getEstado().asignarNuevoEquipo(placaDeRed, motherboard, procesador, disco,
 				memoria, impresora);
