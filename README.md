@@ -46,7 +46,7 @@ With $ mvn clean install
 
 3 Compile the project inventariohardware
 
-With $ mvn -P self -host antrun:run
+With $ mvn -P self-host antrun:run
 
 License
 
