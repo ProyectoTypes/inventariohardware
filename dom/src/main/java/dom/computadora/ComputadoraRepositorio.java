@@ -78,15 +78,16 @@ public class ComputadoraRepositorio {
 			final @Named("Disco") Hdd disco,
 			final @Named("Memoria") MemoriaRam memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
-		return nuevaComputadora(usuario, placaDeRed, motherboard, procesador, disco,
-				memoria, impresora, this.currentUserName());
+		return nuevaComputadora(usuario, placaDeRed, motherboard, procesador,
+				disco, memoria, impresora, this.currentUserName());
 	}
 
 	@Programmatic
-	public Computadora nuevaComputadora(final Usuario usuario, final PlacaDeRed placaDeRed,
-			final Motherboard motherboard, final Procesador procesador,
-			final Hdd disco, final MemoriaRam memoria,
-			final Impresora impresora, final String creadoPor) {
+	public Computadora nuevaComputadora(final Usuario usuario,
+			final PlacaDeRed placaDeRed, final Motherboard motherboard,
+			final Procesador procesador, final Hdd disco,
+			final MemoriaRam memoria, final Impresora impresora,
+			final String creadoPor) {
 		final Computadora unaComputadora = container
 				.newTransientInstance(Computadora.class);
 
@@ -108,15 +109,10 @@ public class ComputadoraRepositorio {
 		return unaComputadora;
 	}
 
-	@Named("Validar Computadora")
-	public String validateAddComputadora(
-			final @Named("Usuario") Usuario usuario,
-			final @Named("Direccion Ip") String ip,
-			final @Named("Mother") String mother,
-			final @Named("Procesador") String procesador,
-			final @Named("Disco") Hdd disco,
-			final @Named("Memoria") String memoria,
-			final @Optional @Named("Impresora") Impresora impresora) {
+	public String validateAddComputadora(Usuario usuario,
+			PlacaDeRed placaDeRed, Motherboard motherboard,
+			Procesador procesador, Hdd disco, MemoriaRam memoria,
+			Impresora impresora) {
 		if (usuario.getComputadora() == null)
 			return null;
 		return "El Usuario ya posee una Computadora. Seleccione otra. ";
@@ -166,10 +162,10 @@ public class ComputadoraRepositorio {
 
 	@MemberOrder(sequence = "30")
 	public List<Computadora> buscar(
-			final @RegEx(validation = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])$") @Named("Ip") @MinLength(2) String ip) {
+			final @RegEx(validation = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+					+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+					+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+					+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$") @Named("Ip") @MinLength(2) String ip) {
 		final List<Computadora> listaComputadoras = this.container
 				.allMatches(new QueryDefault<Computadora>(Computadora.class,
 						"buscarPorIp", "ip", ip.toUpperCase().trim()));
