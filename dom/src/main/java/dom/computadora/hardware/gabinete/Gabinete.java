@@ -7,6 +7,7 @@ import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.Programmatic;
 
 import dom.computadora.hardware.gabinete.disco.Hdd;
 import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
@@ -59,6 +60,11 @@ public class Gabinete {
 		this.listaPlacaDeRed = listaPlacaDeRed;
 	}
 
+	@Programmatic
+	public void agregarPlacaDeRed(final PlacaDeRed placaDeRed) {
+		this.listaPlacaDeRed.add(placaDeRed);
+	}
+
 	private List<Hdd> listaHdd;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -69,6 +75,10 @@ public class Gabinete {
 
 	public void setListaHdd(List<Hdd> listaHdd) {
 		this.listaHdd = listaHdd;
+	}
+	@Programmatic
+	public void agregarHdd(final Hdd hdd) {
+		this.listaHdd.add(hdd);
 	}
 
 	private Procesador procesador;
@@ -93,6 +103,11 @@ public class Gabinete {
 
 	public void setListaMemoriaRam(List<MemoriaRam> listaMemoriaRam) {
 		this.listaMemoriaRam = listaMemoriaRam;
+	}
+
+	@Programmatic
+	public void agregarMemoriaRam(final MemoriaRam memoriaRam) {
+		this.listaMemoriaRam.add(memoriaRam);
 	}
 
 	private Motherboard motherboard;
