@@ -35,7 +35,7 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
-import dom.computadora.hardware.gabinete.disco.Hdd;
+import dom.computadora.hardware.gabinete.disco.Disco;
 import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
 import dom.computadora.hardware.gabinete.motherboard.Motherboard;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
@@ -75,7 +75,7 @@ public class ComputadoraRepositorio {
 			final @Named("Direccion Ip") PlacaDeRed placaDeRed,
 			final @Named("Mother") Motherboard motherboard,
 			final @Named("Procesador") Procesador procesador,
-			final @Named("Disco") Hdd disco,
+			final @Named("Disco") Disco disco,
 			final @Named("Memoria") MemoriaRam memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
 		return nuevaComputadora(usuario, placaDeRed, motherboard, procesador,
@@ -85,7 +85,7 @@ public class ComputadoraRepositorio {
 	@Programmatic
 	public Computadora nuevaComputadora(final Usuario usuario,
 			final PlacaDeRed placaDeRed, final Motherboard motherboard,
-			final Procesador procesador, final Hdd disco,
+			final Procesador procesador, final Disco disco,
 			final MemoriaRam memoria, final Impresora impresora,
 			final String creadoPor) {
 		final Computadora unaComputadora = container
@@ -111,7 +111,7 @@ public class ComputadoraRepositorio {
 
 	public String validateAddComputadora(Usuario usuario,
 			PlacaDeRed placaDeRed, Motherboard motherboard,
-			Procesador procesador, Hdd disco, MemoriaRam memoria,
+			Procesador procesador, Disco disco, MemoriaRam memoria,
 			Impresora impresora) {
 		if (usuario.getComputadora() == null)
 			return null;

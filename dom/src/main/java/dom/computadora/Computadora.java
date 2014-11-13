@@ -42,7 +42,7 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.util.ObjectContracts;
 
-import dom.computadora.hardware.gabinete.disco.Hdd;
+import dom.computadora.hardware.gabinete.disco.Disco;
 import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
 import dom.computadora.hardware.gabinete.motherboard.Motherboard;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
@@ -144,16 +144,16 @@ public class Computadora implements Comparable<Computadora> {
 	// Disco (propiedad)
 	// //////////////////////////////////////
 
-	private Hdd disco;
+	private Disco disco;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Disco de la Computadora:")
 	@MemberOrder(sequence = "40")
-	public Hdd getDisco() {
+	public Disco getDisco() {
 		return disco;
 	}
 
-	public void setDisco(final Hdd disco) {
+	public void setDisco(final Disco disco) {
 		this.disco = disco;
 	}
 
