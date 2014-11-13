@@ -21,16 +21,19 @@
  */
 package dom.computadora.hardware.gabinete.memoria;
 
-import org.apache.isis.applib.annotation.Audited;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.VersionStrategy;
+
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
-@ObjectType("MEMORIA")
-@Audited
-
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
+@javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@ObjectType("MemoriaRam")
 public class MemoriaRam {
-	
+
 	// //////////////////////////////////////
 	// Identificacion en la UI
 	// //////////////////////////////////////
@@ -42,7 +45,7 @@ public class MemoriaRam {
 	public String iconName() {
 		return "Memoria";
 	}
-	
+
 	// //////////////////////////////////////
 	// Modelo (Atributo)
 	// //////////////////////////////////////
@@ -50,7 +53,7 @@ public class MemoriaRam {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Modelo de la memoria:")
-	@MemberOrder(sequence = "10")
+	@MemberOrder(sequence = "130")
 	public String getModelo() {
 		return modelo;
 	}
@@ -66,7 +69,7 @@ public class MemoriaRam {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Tamano de la memoria:")
-	@MemberOrder(sequence = "20")
+	@MemberOrder(sequence = "140")
 	public int getTamaño() {
 		return tamaño;
 	}
@@ -82,7 +85,7 @@ public class MemoriaRam {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Marca de la memoria:")
-	@MemberOrder(sequence = "30")
+	@MemberOrder(sequence = "150")
 	public String getMarca() {
 		return marca;
 	}
