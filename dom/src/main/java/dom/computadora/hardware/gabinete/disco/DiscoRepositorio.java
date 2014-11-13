@@ -1,5 +1,7 @@
 package dom.computadora.hardware.gabinete.disco;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -7,13 +9,14 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.query.QueryDefault;
 
-import dom.computadora.hardware.gabinete.disco.Hdd.CategoriaDisco;
+import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 
 @DomainService
 @Named("Hdd")
-@Hidden()
-public class HddRepositorio {
+@Hidden
+public class DiscoRepositorio {
 
 	// //////////////////////////////////////
 	// Icono
@@ -28,17 +31,17 @@ public class HddRepositorio {
 	}
 
 	@MemberOrder(sequence = "10")
-	@Named("Agregar Placa de Red")
-	public Hdd addHdd(final @Named("Marca") String marca,
-			final @Named("Categoria") CategoriaDisco tipo,
-			final @Named("Tipo") int tamano) {
-		return nuevoHdd(marca, tipo, tamano);
+	@Named("Agregar Disco")
+	public Disco addDisco(final @Named("Marca") String marca,
+			final @Named("Tipo") CategoriaDisco tipo,
+			final @Named("Tamaño") int tamano) {
+		return nuevoDisco(marca, tipo, tamano);
 	}
 
-	private Hdd nuevoHdd(final String marca, final CategoriaDisco tipo,
+	private Disco nuevoDisco(final String marca, final CategoriaDisco tipo,
 			final int tamano) {
 
-		Hdd obj = this.container.newTransientInstance(Hdd.class);
+		Disco obj = this.container.newTransientInstance(Disco.class);
 		obj.setMarca(marca);
 		obj.setTipo(tipo);
 		obj.setTamano(tamano);
@@ -49,4 +52,10 @@ public class HddRepositorio {
 
 	@Inject
 	private DomainObjectContainer container;
+
+	public List<Disco> listar() {
+		return this.container.allMatches(new QueryDefault<Disco>(
+				Disco.class, "listar"));
+
+	}
 }
