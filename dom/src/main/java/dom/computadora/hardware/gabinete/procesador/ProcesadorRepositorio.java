@@ -15,9 +15,6 @@ import org.apache.isis.applib.query.QueryDefault;
 @Named("Procesador")
 @Hidden
 public class ProcesadorRepositorio {
-	public ProcesadorRepositorio() {
-
-	}
 
 	// //////////////////////////////////////
 	// Icono
