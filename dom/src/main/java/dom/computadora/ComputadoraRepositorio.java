@@ -36,12 +36,14 @@ import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.hardware.gabinete.disco.Disco;
+import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
 import dom.computadora.hardware.gabinete.motherboard.Motherboard;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
+import dom.computadora.hardware.monitor.Monitor;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 
@@ -68,6 +70,33 @@ public class ComputadoraRepositorio {
 	// //////////////////////////////////////
 	// Agregar Computadora
 	// //////////////////////////////////////
+	@MemberOrder(sequence = "10")
+	@Named("Agregar Computadora")
+	@DescribedAs("Agregar Computadora manualmente.")
+	public Computadora agregarComputadora(
+			final @Named("Usuario") Usuario usuario,
+			final @Named("IP") String ip, final @Named("MAC") String mac,
+			final @Named("HDD Marca ") String marcaDisco,
+			final @Named("HDD Categoria ") CategoriaDisco tipoDisco,
+			final @Named("HDD Tamaño ") int tamanoDisco,
+			final @Named("CPU Modelo ") String modeloProcesador,
+			final @Named("RAM Modelo") String modeloRam,
+			final @Named("RAM Tamaño") int tamanoRam,
+			final @Named("RAM Marca") String marcaRam,
+			final @Named("Modelo Motherboard") String modeloMotherboard,
+			final @Named("Fabricante") String fabricante,
+			final @Named("Monitor") Monitor monitor,
+			final @Named("Impresora") Impresora impresora) {
+		PlacaDeRed placaDeRed = new PlacaDeRed(ip, mac);
+		Disco disco = new Disco(marcaDisco, tipoDisco, tamanoDisco);
+		Procesador procesador = new Procesador(modeloProcesador);
+		MemoriaRam memoriaRam = new MemoriaRam(modeloRam, tamanoRam, marcaRam);
+		Motherboard motherboard = new Motherboard(modeloMotherboard);
+		return this.nuevaComputadora(usuario, placaDeRed, motherboard,
+				procesador, disco, memoriaRam, impresora,
+				this.currentUserName());
+	}
+
 	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Computadora")
