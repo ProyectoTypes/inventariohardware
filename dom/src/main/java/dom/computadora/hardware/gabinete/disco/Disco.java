@@ -31,8 +31,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Queries({
-@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
+@javax.jdo.annotations.Queries({ @javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
 		+ "FROM dom.computadora.hardware.gabinete.disco.Disco") })
 @ObjectType("Hdd")
 public class Disco {
@@ -40,6 +39,12 @@ public class Disco {
 	// //////////////////////////////////////
 	// Identificacion en la UI
 	// //////////////////////////////////////
+
+	public Disco(String marcaDisco, CategoriaDisco tipoDisco, int tamanoDisco) {
+		this.marca = marcaDisco;
+		this.tipo = tipoDisco;
+		this.tamano = tamanoDisco;
+	}
 
 	public String title() {
 		return this.getMarca();
