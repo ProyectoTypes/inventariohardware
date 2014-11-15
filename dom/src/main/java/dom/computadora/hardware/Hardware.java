@@ -29,7 +29,7 @@ public class Hardware {
 	}
 
 	/**
-	 * Constructor: Aplicando la composicion.
+	 * Constructor
 	 * 
 	 * @param monitor
 	 * @param impresora
@@ -39,6 +39,12 @@ public class Hardware {
 		this.monitor = monitor;
 		this.impresora = impresora;
 		this.gabinete = gabinete;
+	}
+
+	public Hardware() {
+		this.monitor = new Monitor();
+		this.impresora = new Impresora();
+		this.gabinete = new Gabinete();
 	}
 
 	// //////////////////////////////////////
