@@ -11,6 +11,7 @@ import org.apache.isis.applib.annotation.Named;
 
 import dom.computadora.hardware.gabinete.disco.Disco;
 import dom.computadora.hardware.gabinete.disco.DiscoRepositorio;
+import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
 import dom.computadora.hardware.gabinete.memoria.MemoriaRamRepositorio;
 import dom.computadora.hardware.gabinete.motherboard.Motherboard;
@@ -33,6 +34,27 @@ public class GabineteRepositorio {
 
 	public String iconName() {
 		return "Gabinete";
+	}
+
+	@MemberOrder(sequence = "10")
+	@Named("Agregar Gabinete")
+	public Gabinete agregarGabinete(final @Named("IP") String ip,
+			final @Named("MAC") String mac,
+			final @Named("HDD Marca ") String marcaDisco,
+			final @Named("HDD Categoria ") CategoriaDisco tipoDisco,
+			final @Named("HDD Tamaño ") int tamanoDisco,
+			final @Named("CPU Modelo ") String modeloProcesador,
+			final @Named("RAM Modelo") String modeloRam,
+			final @Named("RAM Tamaño") int tamanoRam,
+			final @Named("RAM Marca") String marcaRam,
+			final @Named("Modelo Motherboard") String modeloMotherboard) {
+		PlacaDeRed placaDeRed = new PlacaDeRed(ip, mac);
+		Disco hdd = new Disco(marcaDisco, tipoDisco, tamanoDisco);
+		Procesador procesador = new Procesador(modeloProcesador);
+		MemoriaRam memoriaRam = new MemoriaRam(modeloRam, tamanoRam, marcaRam);
+		Motherboard motherboard = new Motherboard(modeloMotherboard);
+		return nuevoGabinete(placaDeRed, hdd, procesador, memoriaRam,
+				motherboard);
 	}
 
 	@MemberOrder(sequence = "10")
@@ -67,9 +89,9 @@ public class GabineteRepositorio {
 		return this.motherboardRepositorio.listar();
 	}
 
-	private Gabinete nuevoGabinete(final PlacaDeRed placaDeRed, final Disco hdd,
-			final Procesador procesador, final MemoriaRam memoriaRam,
-			final Motherboard motherboard) {
+	private Gabinete nuevoGabinete(final PlacaDeRed placaDeRed,
+			final Disco hdd, final Procesador procesador,
+			final MemoriaRam memoriaRam, final Motherboard motherboard) {
 
 		Gabinete obj = this.container.newTransientInstance(Gabinete.class);
 		obj.agregarHdd(hdd);
