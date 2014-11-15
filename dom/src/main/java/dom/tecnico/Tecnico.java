@@ -39,12 +39,15 @@ import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.DescribedAs;
+import org.apache.isis.applib.annotation.Disabled;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Render;
+import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.computadora.Computadora;
@@ -235,6 +238,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	 */
 	private BigDecimal cantidadComputadora;
 
+	@Disabled
 	@Max(5)
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public BigDecimal getCantidadComputadora() {
@@ -264,6 +268,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	// {{ Disponible (property)
 	private Boolean disponible;
 
+	@Hidden(where=Where.OBJECT_FORMS)
 	@MemberOrder(sequence = "7")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Boolean getDisponible() {
