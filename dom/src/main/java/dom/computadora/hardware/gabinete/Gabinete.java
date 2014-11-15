@@ -1,5 +1,6 @@
 package dom.computadora.hardware.gabinete;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.annotations.IdentityType;
@@ -42,12 +43,20 @@ public class Gabinete {
 			Motherboard motherboard) {
 		super();
 		this.listaPlacaDeRed = listaPlacaDeRed;
-		this.listaHdd = listaHdd;
+		this.listaDisco = listaHdd;
 		this.procesador = procesador;
 		this.listaMemoriaRam = listaMemoriaRam;
 		this.motherboard = motherboard;
 	}
+	public Gabinete()
+	{
+		this.listaPlacaDeRed = new ArrayList<PlacaDeRed>();
+		this.listaDisco = new ArrayList<Disco>();
+		this.procesador = new Procesador();
+		this.listaMemoriaRam = new ArrayList<MemoriaRam>();;
+		this.motherboard = new Motherboard();
 
+	}
 	private List<PlacaDeRed> listaPlacaDeRed;
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
@@ -65,20 +74,20 @@ public class Gabinete {
 		this.listaPlacaDeRed.add(placaDeRed);
 	}
 
-	private List<Disco> listaHdd;
+	private List<Disco> listaDisco;
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	@MemberOrder(sequence = "60")
-	public List<Disco> getListaHdd() {
-		return listaHdd;
+	public List<Disco> getListaDisco() {
+		return listaDisco;
 	}
 
-	public void setListaHdd(List<Disco> listaHdd) {
-		this.listaHdd = listaHdd;
+	public void setListaDisco(List<Disco> listaDisco) {
+		this.listaDisco = listaDisco;
 	}
 	@Programmatic
 	public void agregarHdd(final Disco hdd) {
-		this.listaHdd.add(hdd);
+		this.listaDisco.add(hdd);
 	}
 
 	private Procesador procesador;
