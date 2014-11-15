@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DomainService;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 
@@ -23,6 +24,7 @@ import dom.computadora.hardware.gabinete.procesador.ProcesadorRepositorio;
 
 @DomainService
 @Named("Gabinete")
+@Hidden
 public class GabineteRepositorio {
 	// //////////////////////////////////////
 	// Icono
