@@ -39,6 +39,14 @@ public class Motherboard {
 	// Identificacion en la UI
 	// //////////////////////////////////////
 
+	public Motherboard(String modeloMotherboard) {
+		this.modelo = modeloMotherboard;
+	}
+
+	public Motherboard() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String title() {
 		return "Motherboard";
 	}
