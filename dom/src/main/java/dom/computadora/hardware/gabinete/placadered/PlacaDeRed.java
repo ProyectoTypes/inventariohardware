@@ -42,6 +42,11 @@ public class PlacaDeRed {
 	// Identificacion en la UI.
 	// //////////////////////////////////////
 
+	public PlacaDeRed(String ip, String mac) {
+		this.ip = ip;
+		this.mac = mac;
+	}
+
 	public String title() {
 		return getIp();
 	}
@@ -57,7 +62,7 @@ public class PlacaDeRed {
 	private String ip;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
+//	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
 	@DescribedAs("IP de la placa de red")
 	@MemberOrder(sequence = "170")
 	public String getIp() {
@@ -75,7 +80,7 @@ public class PlacaDeRed {
 	private String mac;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
+//	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
 	@DescribedAs("MAC de la placa de red")
 	@MemberOrder(sequence = "180")
 	public String getMac() {
