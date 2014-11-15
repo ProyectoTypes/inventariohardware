@@ -34,10 +34,6 @@ public class Gabinete {
 		return "gabinete";
 	}
 
-	/**
-	 * Constructor: Composicion.
-	 */
-
 	public Gabinete(List<PlacaDeRed> listaPlacaDeRed, List<Disco> listaHdd,
 			Procesador procesador, List<MemoriaRam> listaMemoriaRam,
 			Motherboard motherboard) {
@@ -48,6 +44,10 @@ public class Gabinete {
 		this.listaMemoriaRam = listaMemoriaRam;
 		this.motherboard = motherboard;
 	}
+	
+	/**
+	 * Constructor: Composicion.
+	 */
 	public Gabinete()
 	{
 		this.listaPlacaDeRed = new ArrayList<PlacaDeRed>();
