@@ -163,7 +163,7 @@ public class ComputadoraRepositorio {
 
 	@Named("Usuario")
 	@DescribedAs("Buscar el Usuario en mayuscula")
-	public List<Usuario> autoComplete0AddComputadora(
+	public List<Usuario> autoComplete0AgregarComputadora(
 			final @MinLength(2) String search) {
 		return usuarioRepositorio.autoComplete(search);
 
