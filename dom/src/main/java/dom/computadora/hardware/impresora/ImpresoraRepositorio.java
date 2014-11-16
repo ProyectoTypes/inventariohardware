@@ -34,9 +34,9 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.hardware.impresora.Impresora.TipoImpresora;
-@DomainService
+@DomainService(menuOrder = "11")
 @Named("IMPRESORA")
-@Hidden
+
 public class ImpresoraRepositorio {
 
 	// //////////////////////////////////////
@@ -55,8 +55,8 @@ public class ImpresoraRepositorio {
 	// Agregar Impresora
 	// //////////////////////////////////////
 
-	@MemberOrder(sequence = "10")
-	@Named("Agregar")
+	@MemberOrder(name = "Computadoras", sequence = "50")
+	@Named("Agregar Impresora")
 	public Impresora addImpresora(
 			final @Named("Modelo") String modeloImpresora,
 			final @Named("Fabricante") String fabricanteImpresora,
@@ -86,7 +86,8 @@ public class ImpresoraRepositorio {
 	// Listar Impresora
 	// //////////////////////////////////////
 
-	@MemberOrder(sequence = "20")
+	@MemberOrder(name = "Computadoras", sequence = "60")
+	@Named("Listar Impresoras")
 	public List<Impresora> listar() {
 		final List<Impresora> listaImpresora = this.container
 				.allMatches(new QueryDefault<Impresora>(Impresora.class,
@@ -99,13 +100,15 @@ public class ImpresoraRepositorio {
 	// //////////////////////////////////////
 
 	@DescribedAs("Buscar Impresora Mayuscula")
+
 	public List<Impresora> autoComplete0AddImpresora(
 			final @MinLength(2) String search) {
 		return impresoraRepositorio.autoComplete(search);
 
 	}
-
-	@MemberOrder(sequence = "30")
+	@Hidden
+	@MemberOrder(name = "Computadoras", sequence = "70")
+	@Named("Buscar Impresora")
 	public List<Impresora> buscar(
 			final @Named("Modelo") @MinLength(2) String modeloImpresora) {
 		final List<Impresora> listaImpresora = this.container
