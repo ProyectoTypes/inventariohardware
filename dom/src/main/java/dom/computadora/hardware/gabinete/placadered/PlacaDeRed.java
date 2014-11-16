@@ -27,13 +27,11 @@ import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
-import org.apache.isis.applib.annotation.RegEx;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Queries({
-@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
+@javax.jdo.annotations.Queries({ @javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
 		+ "FROM dom.computadora.hardware.gabinete.placadered.PlacaDeRed") })
 @ObjectType("PlacaDeRed")
 public class PlacaDeRed {
@@ -61,8 +59,7 @@ public class PlacaDeRed {
 
 	private String ip;
 
-	@javax.jdo.annotations.Column(allowsNull = "false")
-//	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
+	@javax.jdo.annotations.Column(allowsNull = "false")	
 	@DescribedAs("IP de la placa de red")
 	@MemberOrder(sequence = "170")
 	public String getIp() {
@@ -79,8 +76,7 @@ public class PlacaDeRed {
 
 	private String mac;
 
-	@javax.jdo.annotations.Column(allowsNull = "false")
-//	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
+	@javax.jdo.annotations.Column(allowsNull = "false")	
 	@DescribedAs("MAC de la placa de red")
 	@MemberOrder(sequence = "180")
 	public String getMac() {
