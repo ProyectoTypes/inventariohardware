@@ -21,7 +21,11 @@
 */
 package dom.soporte.estadosoporte;
 
-import dom.computadora.Computadora.CategoriaDisco;
+import dom.computadora.hardware.gabinete.disco.Disco;
+import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
+import dom.computadora.hardware.gabinete.motherboard.Motherboard;
+import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
+import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.tecnico.Tecnico;
 
@@ -33,9 +37,9 @@ public interface IEstado {
 
 	void finalizarSoporte();
 
-	void asignarNuevoEquipo(final String ip, final String mother,
-			final String procesador, final CategoriaDisco disco,
-			final String memoria, final Impresora impresora);
+	void asignarNuevoEquipo(final PlacaDeRed placaDeRed, final Motherboard motherboard,
+			final Procesador procesador, final Disco disco,
+			final MemoriaRam memoria, final Impresora impresora);
 
 	boolean escondeAsignarTecnico();
 

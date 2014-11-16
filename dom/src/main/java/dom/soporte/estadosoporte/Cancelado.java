@@ -29,7 +29,11 @@ import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
-import dom.computadora.Computadora.CategoriaDisco;
+import dom.computadora.hardware.gabinete.disco.Disco;
+import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
+import dom.computadora.hardware.gabinete.motherboard.Motherboard;
+import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
+import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
@@ -95,9 +99,9 @@ public class Cancelado implements IEstado {
 
 	@Override
 	@Hidden
-	public void asignarNuevoEquipo(final String ip, final String mother,
-			final String procesador, final CategoriaDisco disco,
-			final String memoria, final Impresora impresora) {
+	public void asignarNuevoEquipo(final PlacaDeRed placaDeRed, final Motherboard motherboard,
+			final Procesador procesador, final Disco disco,
+			final MemoriaRam memoria, final Impresora impresora) {
 		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
 
 	}

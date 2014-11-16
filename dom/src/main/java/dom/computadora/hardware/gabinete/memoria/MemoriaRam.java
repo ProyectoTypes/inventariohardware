@@ -21,28 +21,39 @@
  */
 package dom.computadora.hardware.gabinete.memoria;
 
-import org.apache.isis.applib.annotation.Audited;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.VersionStrategy;
+
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
-@ObjectType("MEMORIA")
-@Audited
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
+@javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@javax.jdo.annotations.Queries({ @javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
+		+ "FROM dom.computadora.hardware.gabinete.memoria.MemoriaRam") })
+@ObjectType("MemoriaRam")
+public class MemoriaRam {
 
-public class Memoria {
-	
 	// //////////////////////////////////////
 	// Identificacion en la UI
 	// //////////////////////////////////////
+
+	public MemoriaRam(String modeloRam, int tamanoRam, String marcaRam) {
+		this.modelo = modeloRam;
+		this.tamano = tamanoRam;
+		this.marca = marcaRam;
+	}
 
 	public String title() {
 		return this.getMarca();
 	}
 
 	public String iconName() {
-		return "Disco";
+		return "Memoria";
 	}
-	
+
 	// //////////////////////////////////////
 	// Modelo (Atributo)
 	// //////////////////////////////////////
@@ -50,7 +61,7 @@ public class Memoria {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Modelo de la memoria:")
-	@MemberOrder(sequence = "10")
+	@MemberOrder(sequence = "130")
 	public String getModelo() {
 		return modelo;
 	}
@@ -62,17 +73,17 @@ public class Memoria {
 	// //////////////////////////////////////
 	// Tamaño (Atributo)
 	// //////////////////////////////////////
-	private int tamaño;
+	private int tamano;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Tamano de la memoria:")
-	@MemberOrder(sequence = "20")
-	public int getTamaño() {
-		return tamaño;
+	@MemberOrder(sequence = "140")
+	public int getTamano() {
+		return tamano;
 	}
 
-	public void setTamaño(final int tamaño) {
-		this.tamaño = tamaño;
+	public void setTamano(final int tamaño) {
+		this.tamano = tamaño;
 	}
 
 	// //////////////////////////////////////
@@ -82,7 +93,7 @@ public class Memoria {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Marca de la memoria:")
-	@MemberOrder(sequence = "30")
+	@MemberOrder(sequence = "150")
 	public String getMarca() {
 		return marca;
 	}

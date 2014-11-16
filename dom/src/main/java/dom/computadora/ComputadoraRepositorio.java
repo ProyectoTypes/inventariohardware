@@ -35,9 +35,15 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
-import dom.computadora.Computadora.CategoriaDisco;
+import dom.computadora.hardware.gabinete.disco.Disco;
+import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
+import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
+import dom.computadora.hardware.gabinete.motherboard.Motherboard;
+import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
+import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
+import dom.computadora.hardware.monitor.Monitor;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 
@@ -64,31 +70,59 @@ public class ComputadoraRepositorio {
 	// //////////////////////////////////////
 	// Agregar Computadora
 	// //////////////////////////////////////
+	@MemberOrder(sequence = "10")
+	@Named("Agregar Computadora")
+	@DescribedAs("Agregar Computadora manualmente.")
+	public Computadora agregarComputadora(
+			final @Named("Usuario") Usuario usuario,
+			final @Named("IP") String ip, final @Named("MAC") String mac,
+			final @Named("HDD Marca ") String marcaDisco,
+			final @Named("HDD Categoria ") CategoriaDisco tipoDisco,
+			final @Named("HDD Tamaño ") int tamanoDisco,
+			final @Named("CPU Modelo ") String modeloProcesador,
+			final @Named("RAM Modelo") String modeloRam,
+			final @Named("RAM Tamaño") int tamanoRam,
+			final @Named("RAM Marca") String marcaRam,
+			final @Named("Modelo Motherboard") String modeloMotherboard,
+			final @Named("Fabricante") String fabricante,
+			final @Named("Monitor") Monitor monitor,
+			final @Named("Impresora") Impresora impresora) {
+		PlacaDeRed placaDeRed = new PlacaDeRed(ip, mac);
+		Disco disco = new Disco(marcaDisco, tipoDisco, tamanoDisco);
+		Procesador procesador = new Procesador(modeloProcesador);
+		MemoriaRam memoriaRam = new MemoriaRam(modeloRam, tamanoRam, marcaRam);
+		Motherboard motherboard = new Motherboard(modeloMotherboard);
+		return this.nuevaComputadora(usuario, placaDeRed, motherboard,
+				procesador, disco, memoriaRam, impresora,
+				this.currentUserName());
+	}
+
 	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Computadora")
 	public Computadora addComputadora(final @Named("Usuario") Usuario usuario,
-			final @Named("Direccion Ip") String ip,
-			final @Named("Mother") String mother,
-			final @Named("Procesador") String procesador,
-			final @Named("Disco") CategoriaDisco disco,
-			final @Named("Memoria") String memoria,
+			final @Named("Direccion Ip") PlacaDeRed placaDeRed,
+			final @Named("Mother") Motherboard motherboard,
+			final @Named("Procesador") Procesador procesador,
+			final @Named("Disco") Disco disco,
+			final @Named("Memoria") MemoriaRam memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
-		return nuevaComputadora(usuario, ip, mother, procesador, disco,
-				memoria, impresora, this.currentUserName());
+		return nuevaComputadora(usuario, placaDeRed, motherboard, procesador,
+				disco, memoria, impresora, this.currentUserName());
 	}
 
 	@Programmatic
-	public Computadora nuevaComputadora(final Usuario usuario, final String ip,
-			final String mother, final String procesador,
-			final CategoriaDisco disco, final String memoria,
-			final Impresora impresora, final String creadoPor) {
+	public Computadora nuevaComputadora(final Usuario usuario,
+			final PlacaDeRed placaDeRed, final Motherboard motherboard,
+			final Procesador procesador, final Disco disco,
+			final MemoriaRam memoria, final Impresora impresora,
+			final String creadoPor) {
 		final Computadora unaComputadora = container
 				.newTransientInstance(Computadora.class);
 
 		unaComputadora.modifyUsuario(usuario);
-		unaComputadora.setIp(ip);
-		unaComputadora.setMother(mother);
+		unaComputadora.setPlacaDeRed(placaDeRed);
+		unaComputadora.setMotherboard(motherboard);
 		unaComputadora.setProcesador(procesador);
 		unaComputadora.setDisco(disco);
 		unaComputadora.setMemoria(memoria);
@@ -104,27 +138,13 @@ public class ComputadoraRepositorio {
 		return unaComputadora;
 	}
 
-	public String validateAddComputadora(
-			final @Named("Usuario") Usuario usuario,
-			final @Named("Direccion Ip") String ip,
-			final @Named("Mother") String mother,
-			final @Named("Procesador") String procesador,
-			final @Named("Disco") CategoriaDisco disco,
-			final @Named("Memoria") String memoria,
-			final @Optional @Named("Impresora") Impresora impresora) {
+	public String validateAddComputadora(Usuario usuario,
+			PlacaDeRed placaDeRed, Motherboard motherboard,
+			Procesador procesador, Disco disco, MemoriaRam memoria,
+			Impresora impresora) {
 		if (usuario.getComputadora() == null)
 			return null;
-		return "El Usuario ya posee una Computadora. Seleccione otro. "; // TODO:
-																			// return
-																			// reason
-																			// why
-																			// proposed
-																			// value
-																			// is
-																			// invalid,
-																			// null
-																			// if
-																			// valid
+		return "El Usuario ya posee una Computadora. Seleccione otra. ";
 	}
 
 	// //////////////////////////////////////
@@ -167,7 +187,7 @@ public class ComputadoraRepositorio {
 
 		if (listaComputadoras.isEmpty()) {
 			this.container
-					.warnUser("No hay Computadoras cargados en el sistema.");
+					.warnUser("No hay Computadoras cargadas en el sistema.");
 		}
 		return listaComputadoras;
 	}
@@ -187,7 +207,7 @@ public class ComputadoraRepositorio {
 						"buscarPorIp", "ip", ip.toUpperCase().trim()));
 		if (listaComputadoras.isEmpty())
 			this.container
-					.warnUser("No se encontraron Computadoras cargados en el sistema.");
+					.warnUser("No se encontraron Computadoras cargadas en el sistema.");
 		return listaComputadoras;
 	}
 
@@ -212,10 +232,6 @@ public class ComputadoraRepositorio {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-
-	@SuppressWarnings("unused")
-	@javax.inject.Inject
-	private ComputadoraRepositorio computadoraRepositorio;
 
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;

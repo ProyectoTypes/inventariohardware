@@ -51,8 +51,12 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
 import dom.computadora.Computadora;
-import dom.computadora.Computadora.CategoriaDisco;
 import dom.computadora.ComputadoraRepositorio;
+import dom.computadora.hardware.gabinete.disco.Disco;
+import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
+import dom.computadora.hardware.gabinete.motherboard.Motherboard;
+import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
+import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.insumo.Insumo;
@@ -501,13 +505,13 @@ public class Soporte implements Comparable<Soporte> {
 	/* ************************ */
 
 	@DescribedAs("Ingresando una nueva Computadora al Usuario.")
-	public Soporte asignarNuevoEquipo(final @Named("Direccion Ip") String ip,
-			final @Named("Mother") String mother,
-			final @Named("Procesador") String procesador,
-			final @Named("Disco") CategoriaDisco disco,
-			final @Named("Memoria") String memoria,
+	public Soporte asignarNuevoEquipo(final @Named("Direccion Ip") PlacaDeRed placaDeRed,
+			final @Named("Mother") Motherboard motherboard,
+			final @Named("Procesador") Procesador procesador,
+			final @Named("Disco") Disco disco,
+			final @Named("Memoria") MemoriaRam memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
-		this.getEstado().asignarNuevoEquipo(ip, mother, procesador, disco,
+		this.getEstado().asignarNuevoEquipo(placaDeRed, motherboard, procesador, disco,
 				memoria, impresora);
 		return this;
 	}

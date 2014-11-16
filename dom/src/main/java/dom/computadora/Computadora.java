@@ -44,6 +44,11 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import dom.computadora.hardware.gabinete.disco.Disco;
+import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
+import dom.computadora.hardware.gabinete.motherboard.Motherboard;
+import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
+import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.Impresora.TipoImpresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
@@ -74,8 +79,8 @@ public class Computadora implements Comparable<Computadora> {
 	// Identificacion en la UI
 	// //////////////////////////////////////
 
-	public String title() {
-		return this.getIp();
+	public PlacaDeRed title() {
+		return this.getPlacaDeRed();
 	}
 
 	public String iconName() {
@@ -87,51 +92,51 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 
 	@PrimaryKey
-	private String ip;
+	private PlacaDeRed placaDeRed;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@javax.jdo.annotations.PrimaryKey(column = "id")
 	@DescribedAs("Direccion IP de la Computadora:")
 	@MemberOrder(sequence = "10")
-	public String getIp() {
-		return ip;
+	public PlacaDeRed getPlacaDeRed() {
+		return placaDeRed;
 	}
 
-	public void setIp(final String ip) {
-		this.ip = ip;
+	public void setPlacaDeRed(PlacaDeRed placaDeRed) {
+		this.placaDeRed = placaDeRed;
 	}
 
 	// //////////////////////////////////////
 	// Mother (propiedad)
 	// //////////////////////////////////////
 
-	private String mother;
+	private Motherboard motherboard;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Mother de la Computadora:")
 	@MemberOrder(sequence = "20")
-	public String getMother() {
-		return mother;
+	public Motherboard getMotherboard() {
+		return motherboard;
 	}
 
-	public void setMother(final String mother) {
-		this.mother = mother;
+	public void setMotherboard(final Motherboard motherboard) {
+		this.motherboard = motherboard;
 	}
 
 	// //////////////////////////////////////
 	// Procesador (propiedad)
 	// //////////////////////////////////////
 
-	private String procesador;
+	private Procesador procesador;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Procesador de la Computadora:")
 	@MemberOrder(sequence = "30")
-	public String getProcesador() {
+	public Procesador getProcesador() {
 		return procesador;
 	}
 
-	public void setProcesador(final String procesador) {
+	public void setProcesador(final Procesador procesador) {
 		this.procesador = procesador;
 	}
 
@@ -139,18 +144,16 @@ public class Computadora implements Comparable<Computadora> {
 	// Disco (propiedad)
 	// //////////////////////////////////////
 
-	public static enum CategoriaDisco {
-		Seagate, Western, Otro;
-	}
-
-	private CategoriaDisco disco;
+	private Disco disco;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	public CategoriaDisco getDisco() {
+	@DescribedAs("Disco de la Computadora:")
+	@MemberOrder(sequence = "40")
+	public Disco getDisco() {
 		return disco;
 	}
 
-	public void setDisco(final CategoriaDisco disco) {
+	public void setDisco(final Disco disco) {
 		this.disco = disco;
 	}
 
@@ -158,16 +161,16 @@ public class Computadora implements Comparable<Computadora> {
 	// Memoria (propiedad)
 	// //////////////////////////////////////
 
-	private String memoria;
+	private MemoriaRam memoria;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Memoria de la Computadora:")
 	@MemberOrder(sequence = "50")
-	public String getMemoria() {
+	public MemoriaRam getMemoria() {
 		return memoria;
 	}
 
-	public void setMemoria(final String memoria) {
+	public void setMemoria(final MemoriaRam memoria) {
 		this.memoria = memoria;
 	}
 
@@ -224,7 +227,11 @@ public class Computadora implements Comparable<Computadora> {
 		return this.impresoraRepositorio.listar();
 
 	}
-
+	
+	/**
+	 * Metodo que me permite modificar una Impresora precargada a una Computadora.
+	 * @param impresora
+	 */
 	public void modifyImpresora(final Impresora impresora) {
 		Impresora currentImpresora = getImpresora();
 		if (impresora == null || impresora.equals(currentImpresora)) {
@@ -252,6 +259,9 @@ public class Computadora implements Comparable<Computadora> {
 		return this;
 	}
 
+	/**
+	 * Metodo para quitar una Impresora a una Computadora.
+	 */
 	@Hidden
 	public void limpiarImpresora() {
 		Impresora impresora = getImpresora();

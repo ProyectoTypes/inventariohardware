@@ -18,13 +18,43 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.computadora.hardware.gabinete.motherboard;
+
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.ObjectType;
 
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
+@javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@javax.jdo.annotations.Queries({ @javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
+		+ "FROM dom.computadora.hardware.gabinete.motherboard.Motherboard") })
+@ObjectType("Motherboard")
 public class Motherboard {
+	// //////////////////////////////////////
+	// Identificacion en la UI
+	// //////////////////////////////////////
+
+	public Motherboard(String modeloMotherboard) {
+		this.modelo = modeloMotherboard;
+	}
+
+	public Motherboard() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String title() {
+		return "Motherboard";
+	}
+
+	public String iconName() {
+		return "Motherboard";
+	}
+
 	// //////////////////////////////////////
 	// Modelo (propiedad)
 	// //////////////////////////////////////
@@ -33,7 +63,7 @@ public class Motherboard {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Modelo de la Computadora:")
-	@MemberOrder(sequence = "20")
+	@MemberOrder(sequence = "160")
 	public String getModelo() {
 		return modelo;
 	}

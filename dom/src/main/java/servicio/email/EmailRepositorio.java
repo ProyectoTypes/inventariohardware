@@ -148,7 +148,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		String asunto = "Servicio Tecnico Finalizado.";
 		String destino = unaComputadora.getUsuario().getEmail();
 		String mensaje = "La Computadora (IP: "
-				+ unaComputadora.getIp()
+				+ unaComputadora.getPlacaDeRed()
 				+ ") correspondiente al usuario "
 				+ unaComputadora.getUsuario().getApellido()
 				+ ", "

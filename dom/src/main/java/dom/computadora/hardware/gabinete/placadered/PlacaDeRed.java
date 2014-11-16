@@ -21,19 +21,31 @@
  */
 package dom.computadora.hardware.gabinete.placadered;
 
-import org.apache.isis.applib.annotation.Audited;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.VersionStrategy;
+
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.RegEx;
 
-@ObjectType("PLACA DE RED")
-@Audited
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
+@javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@javax.jdo.annotations.Queries({
+@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
+		+ "FROM dom.computadora.hardware.gabinete.placadered.PlacaDeRed") })
+@ObjectType("PlacaDeRed")
 public class PlacaDeRed {
 
 	// //////////////////////////////////////
-	// Identificacion en la UI. Aparece como item del menu
+	// Identificacion en la UI.
 	// //////////////////////////////////////
+
+	public PlacaDeRed(String ip, String mac) {
+		this.ip = ip;
+		this.mac = mac;
+	}
 
 	public String title() {
 		return getIp();
@@ -50,9 +62,9 @@ public class PlacaDeRed {
 	private String ip;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
+//	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
 	@DescribedAs("IP de la placa de red")
-	@MemberOrder(sequence = "10")
+	@MemberOrder(sequence = "170")
 	public String getIp() {
 		return ip;
 	}
@@ -68,9 +80,9 @@ public class PlacaDeRed {
 	private String mac;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
+//	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
 	@DescribedAs("MAC de la placa de red")
-	@MemberOrder(sequence = "20")
+	@MemberOrder(sequence = "180")
 	public String getMac() {
 		return mac;
 	}

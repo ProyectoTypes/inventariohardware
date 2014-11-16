@@ -21,19 +21,30 @@
  */
 package dom.computadora.hardware.gabinete.disco;
 
-import org.apache.isis.applib.annotation.Audited;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.VersionStrategy;
+
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
-@ObjectType("DISCO")
-@Audited
-
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
+@javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@javax.jdo.annotations.Queries({ @javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
+		+ "FROM dom.computadora.hardware.gabinete.disco.Disco") })
+@ObjectType("Hdd")
 public class Disco {
-	
+
 	// //////////////////////////////////////
 	// Identificacion en la UI
 	// //////////////////////////////////////
+
+	public Disco(String marcaDisco, CategoriaDisco tipoDisco, int tamanoDisco) {
+		this.marca = marcaDisco;
+		this.tipo = tipoDisco;
+		this.tamano = tamanoDisco;
+	}
 
 	public String title() {
 		return this.getMarca();
@@ -47,37 +58,37 @@ public class Disco {
 	// tipo (Atributo)
 	// //////////////////////////////////////
 
-	public static enum TipoDisco {
+	public static enum CategoriaDisco {
 		SATA, IDE, SCSI, SAS;
 	}
 
-	private TipoDisco tipo;
+	private CategoriaDisco tipo;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Tipo de disco:")
-	@MemberOrder(sequence = "10")
-	public TipoDisco getTipo() {
+	@MemberOrder(sequence = "100")
+	public CategoriaDisco getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(final TipoDisco tipo) {
+	public void setTipo(final CategoriaDisco tipo) {
 		this.tipo = tipo;
 	}
 
 	// //////////////////////////////////////
 	// Tamaño (Atributo)
 	// //////////////////////////////////////
-	private int tamaño;
+	private int tamano;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Tamano del disco:")
-	@MemberOrder(sequence = "20")
-	public int getTamaño() {
-		return tamaño;
+	@MemberOrder(sequence = "110")
+	public int getTamano() {
+		return tamano;
 	}
 
-	public void setTamaño(final int tamaño) {
-		this.tamaño = tamaño;
+	public void setTamano(final int tamaño) {
+		this.tamano = tamaño;
 	}
 
 	// //////////////////////////////////////
@@ -87,7 +98,7 @@ public class Disco {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Marca del disco:")
-	@MemberOrder(sequence = "30")
+	@MemberOrder(sequence = "120")
 	public String getMarca() {
 		return marca;
 	}
