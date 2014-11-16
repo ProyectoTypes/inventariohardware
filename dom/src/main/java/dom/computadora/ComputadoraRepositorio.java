@@ -70,7 +70,7 @@ public class ComputadoraRepositorio {
 	// //////////////////////////////////////
 	// Agregar Computadora
 	// //////////////////////////////////////
-	@MemberOrder(sequence = "10")
+	@MemberOrder(name = "Computadoras", sequence = "10")
 	@Named("Agregar Computadora")
 	@DescribedAs("Agregar Computadora manualmente.")
 	public Computadora agregarComputadora(
@@ -97,8 +97,8 @@ public class ComputadoraRepositorio {
 				this.currentUserName());
 	}
 
-	@NotContributed
-	@MemberOrder(sequence = "10")
+	@NotContributed	
+	@MemberOrder(name = "Computadoras", sequence = "20")
 	@Named("Agregar Computadora")
 	public Computadora addComputadora(final @Named("Usuario") Usuario usuario,
 			final @Named("Direccion Ip") PlacaDeRed placaDeRed,
@@ -172,8 +172,8 @@ public class ComputadoraRepositorio {
 	// //////////////////////////////////////
 	// Listar Computadora
 	// //////////////////////////////////////
-
-	@MemberOrder(sequence = "20")
+	@MemberOrder(name = "Computadoras", sequence = "30")
+	@Named("Listar Computadoras")
 	public List<Computadora> listar() {
 		final List<Computadora> listaComputadoras;
 		if (this.container.getUser().getName().contentEquals("sven"))
@@ -196,7 +196,8 @@ public class ComputadoraRepositorio {
 	// Buscar Computadora
 	// //////////////////////////////////////
 
-	@MemberOrder(sequence = "30")
+	@MemberOrder(name = "Computadoras", sequence = "40")
+	@Named("Buscar Computadora")
 	public List<Computadora> buscar(
 			final @RegEx(validation = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
 					+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
