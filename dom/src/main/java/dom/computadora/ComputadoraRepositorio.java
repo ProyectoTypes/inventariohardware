@@ -44,6 +44,7 @@ import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.computadora.hardware.monitor.Monitor;
+import dom.computadora.hardware.monitor.MonitorRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 
@@ -147,6 +148,16 @@ public class ComputadoraRepositorio {
 			return null;
 		return "El Usuario ya posee una Computadora. Seleccione otra. ";
 	}
+	
+	// //////////////////////////////////////
+	// Buscar Monitor
+	// //////////////////////////////////////
+
+		// @Named("Impresora")
+		public List<Monitor> choices12AgregarComputadora() {
+			return this.monitorRepositorio.listar();
+
+		}
 
 	// //////////////////////////////////////
 	// Buscar Impresora
@@ -240,4 +251,7 @@ public class ComputadoraRepositorio {
 
 	@javax.inject.Inject
 	private ImpresoraRepositorio impresoraRepositorio;
+	
+	@javax.inject.Inject
+	private MonitorRepositorio monitorRepositorio;
 }
