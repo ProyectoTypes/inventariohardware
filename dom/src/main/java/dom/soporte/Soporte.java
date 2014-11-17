@@ -82,13 +82,13 @@ import dom.tecnico.TecnicoRepositorio;
 				+ "FROM dom.soporte.Soporte " + "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.soporte.Soporte "
-				+ "WHERE computadora.ip.equals(:ip) "),
+				+ "WHERE computadora.placaDeRed.ip.equals(:ip) "),
 		@javax.jdo.annotations.Query(name = "buscarSoportesEnEspera", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.soporte.Soporte " + "WHERE estado == esperando "),
 
 		@javax.jdo.annotations.Query(name = "seEncuentraEnReparacion", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.soporte.Soporte "
-				+ "WHERE computadora.ip.equals(:ip) && (estado == reparando || estado == recepcionado || estado == esperando)  "),
+				+ "WHERE computadora.placaDeRed.ip.equals(:ip) && (estado == reparando || estado == recepcionado || estado == esperando)  "),
 		@javax.jdo.annotations.Query(name = "buscarSoportesEnReparacion", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.soporte.Soporte " + "WHERE estado == reparando ") })
 @ObjectType("SOPORTE")
@@ -452,7 +452,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	public List<Tecnico> choices0AsignarTecnico() {
-		return this.tecnicoRepositorio.listar();
+		return this.tecnicoRepositorio.listarDisponibles();
 	}
 
 	public boolean hideAsignarTecnico() {
