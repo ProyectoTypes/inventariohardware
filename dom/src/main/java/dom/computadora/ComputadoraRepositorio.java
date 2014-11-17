@@ -26,6 +26,7 @@ import java.util.List;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
@@ -88,7 +89,7 @@ public class ComputadoraRepositorio {
 			final @Named("Modelo Motherboard") String modeloMotherboard,
 			final @Named("Fabricante") String fabricante,
 			final @Named("Monitor") Monitor monitor,
-			final @Named("Impresora") Impresora impresora) {
+			final @Named("Impresora") Impresora impresora,final @Named("Rotulo") String rotulo) {
 		PlacaDeRed placaDeRed = new PlacaDeRed(ip, mac);
 		Disco disco = new Disco(marcaDisco, tipoDisco, tamanoDisco);
 		Procesador procesador = new Procesador(modeloProcesador);
@@ -96,9 +97,9 @@ public class ComputadoraRepositorio {
 		Motherboard motherboard = new Motherboard(modeloMotherboard);
 		return this.nuevaComputadora(usuario, placaDeRed, motherboard,
 				procesador, disco, memoriaRam, impresora,
-				this.currentUserName());
-	}
-
+				this.currentUserName(),rotulo);
+	} 
+	@Hidden
 	@NotContributed	
 	@MemberOrder(name = "Computadoras", sequence = "20")
 	@Named("Agregar Computadora")
@@ -110,7 +111,7 @@ public class ComputadoraRepositorio {
 			final @Named("Memoria") MemoriaRam memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
 		return nuevaComputadora(usuario, placaDeRed, motherboard, procesador,
-				disco, memoria, impresora, this.currentUserName());
+				disco, memoria, impresora, this.currentUserName(),"");
 	}
 
 	@Programmatic
@@ -118,10 +119,10 @@ public class ComputadoraRepositorio {
 			final PlacaDeRed placaDeRed, final Motherboard motherboard,
 			final Procesador procesador, final Disco disco,
 			final MemoriaRam memoria, final Impresora impresora,
-			final String creadoPor) {
+			final String creadoPor,final String rotulo) {
 		final Computadora unaComputadora = container
 				.newTransientInstance(Computadora.class);
-
+		unaComputadora.setCodigo(rotulo);
 		unaComputadora.modifyUsuario(usuario);
 		unaComputadora.setPlacaDeRed(placaDeRed);
 		unaComputadora.setMotherboard(motherboard);
