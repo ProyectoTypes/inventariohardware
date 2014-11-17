@@ -56,20 +56,21 @@ import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
 import dom.usuario.Usuario;
 
-@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.APPLICATION)
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Computadora_ip_must_be_unique", members = { "ip" }) })
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Computadora_ip_must_be_unique", members = { "placaDeRed" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorComputadora", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
-				+ "WHERE ip.indexOf(:ip) >= 0"),
+				+ "WHERE placaDeRed.ip.indexOf(:ip) >= 0"),
 		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "),
 		@javax.jdo.annotations.Query(name = "listarHabilitados", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
 				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.computadora.Computadora WHERE ip.indexOf(:ip) >= 0") })
+				+ "FROM dom.computadora.Computadora WHERE placaDeRed.ip.indexOf(:ip) >= 0") })
 @ObjectType("COMPUTADORA")
 @Audited
 @AutoComplete(repository = ComputadoraRepositorio.class, action = "autoComplete")
@@ -79,8 +80,8 @@ public class Computadora implements Comparable<Computadora> {
 	// Identificacion en la UI
 	// //////////////////////////////////////
 
-	public PlacaDeRed title() {
-		return this.getPlacaDeRed();
+	public String title() {
+		return "Rotulo Computadora: "+this.getCodigo();
 	}
 
 	public String iconName() {
@@ -90,12 +91,13 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 	// IP (propiedad)
 	// //////////////////////////////////////
+private String codigo;
 
-	@PrimaryKey
+//	@PrimaryKey
 	private PlacaDeRed placaDeRed;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@javax.jdo.annotations.PrimaryKey(column = "id")
+//	@javax.jdo.annotations.PrimaryKey(column = "id")
 	@DescribedAs("Direccion IP de la Computadora:")
 	@MemberOrder(sequence = "10")
 	public PlacaDeRed getPlacaDeRed() {
@@ -431,12 +433,21 @@ public class Computadora implements Comparable<Computadora> {
 
 	@Override
 	public int compareTo(Computadora computadora) {
-		return ObjectContracts.compare(this, computadora, "ip");
+		return ObjectContracts.compare(this, computadora, "codigo");
 	}
 
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@MemberOrder(sequence = "10")
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 
 	@Inject
 	private ImpresoraRepositorio impresoraRepositorio;
