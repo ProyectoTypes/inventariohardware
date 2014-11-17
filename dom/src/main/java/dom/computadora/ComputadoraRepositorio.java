@@ -75,7 +75,8 @@ public class ComputadoraRepositorio {
 	@DescribedAs("Agregar Computadora manualmente.")
 	public Computadora agregarComputadora(
 			final @Named("Usuario") Usuario usuario,
-			final @Named("IP") String ip, final @Named("MAC") String mac,
+			final @Named("IP") String ip, 
+			final @Named("MAC") String mac,
 			final @Named("HDD Marca ") String marcaDisco,
 			final @Named("HDD Categoria ") CategoriaDisco tipoDisco,
 			final @Named("HDD Tamaño ") int tamanoDisco,
@@ -152,7 +153,7 @@ public class ComputadoraRepositorio {
 	// //////////////////////////////////////
 
 	// @Named("Impresora")
-	public List<Impresora> choices6AddComputadora() {
+	public List<Impresora> choices13AgregarComputadora() {
 		return this.impresoraRepositorio.listar();
 
 	}
