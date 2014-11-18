@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.soporte.estadosoporte;
 
 import javax.inject.Inject;
@@ -81,6 +81,7 @@ public class Reparando implements IEstado {
 	}
 
 	// }}
+	// FIXME: Preguntar si el tecnico que entra esta disponible.
 	/**
 	 * Permite cambiar el Tecnico encargado del Soporte Tecnico.
 	 * <p>
@@ -97,23 +98,37 @@ public class Reparando implements IEstado {
 	@Override
 	@Hidden
 	public void asignarTecnico(final Tecnico tecnico) {
-
-		if (this.getSoporte().getTecnico().estaDisponible()) {
-			if (this.getSoporte().getTecnico() != null) {
-				this.getSoporte().getTecnico()
-						.restaComputadora(this.getSoporte().getComputadora());
-				this.getSoporte().setTecnico(null);
-			}
+		if (tecnico.estaDisponible()
+				&& tecnico != this.getSoporte().getTecnico()) {
+			this.getSoporte().getTecnico()
+					.restaComputadora(this.getSoporte().getComputadora());
+			this.getSoporte().setTecnico(tecnico);
 			this.getSoporte().getTecnico().sumaComputadora();
 			this.getSoporte().getTecnico()
 					.addToComputadora(this.getSoporte().getComputadora());
-
+			this.container.flush();
 			this.container.informUser("ASIGNADO NUEVO TECNICO.");
+
 		} else {
-			this.getSoporte().setTecnico(null);
 			this.container
 					.informUser("EL TECNICO SELECCIONADO NO SE ENCUENTRA DISPONIBLE.");
 		}
+		// if (this.getSoporte().getTecnico().estaDisponible()) {
+		// if (this.getSoporte().getTecnico() != null) {
+		// this.getSoporte().getTecnico()
+		// .restaComputadora(this.getSoporte().getComputadora());
+		// this.getSoporte().setTecnico(null);
+		// }
+		// this.getSoporte().getTecnico().sumaComputadora();
+		// this.getSoporte().getTecnico()
+		// .addToComputadora(this.getSoporte().getComputadora());
+		//
+		// this.container.informUser("ASIGNADO NUEVO TECNICO.");
+		// } else {
+		// this.getSoporte().setTecnico(null);
+		// this.container
+		// .informUser("EL TECNICO SELECCIONADO NO SE ENCUENTRA DISPONIBLE.");
+		// }
 
 	}
 
@@ -180,13 +195,14 @@ public class Reparando implements IEstado {
 	 */
 	@Override
 	@Hidden
-	public void asignarNuevoEquipo(final PlacaDeRed placaDeRed, final Motherboard motherboard,
-			final Procesador procesador, final Disco disco,
-			final MemoriaRam memoria, final Impresora impresora) {
+	public void asignarNuevoEquipo(final PlacaDeRed placaDeRed,
+			final Motherboard motherboard, final Procesador procesador,
+			final Disco disco, final MemoriaRam memoria,
+			final Impresora impresora) {
 		// Creando nueva computadora.
 		this.computadoraRepositorio.addComputadora(this.getSoporte()
-				.getComputadora().getUsuario(), placaDeRed, motherboard, procesador, disco,
-				memoria, impresora);
+				.getComputadora().getUsuario(), placaDeRed, motherboard,
+				procesador, disco, memoria, impresora);
 
 		// Desvinculando Usuario/Tecnico/Impresora de Computadora -
 		this.getSoporte().getTecnico()
