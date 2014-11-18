@@ -237,4 +237,10 @@ public class TecnicoRepositorio {
 
 	@javax.inject.Inject
 	private SectorRepositorio sectorRepositorio;
+
+	public List<Tecnico> listarDisponibles() {
+		return this.container
+					.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
+							"listarDisponibles"));
+	}
 }
