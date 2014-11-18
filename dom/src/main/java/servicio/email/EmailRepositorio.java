@@ -185,21 +185,31 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	private String configurarEnvio(final CorreoEmpresa correo,
 			final String destino, final String asunto, final String mensaje) {
 
+		String host = "smtp.gmail.com";
+		String puerto = "587";
+		String email = "inventariohardware@gmail.com";
+		String pass = "inventario123";
+		if (correo != null) {
+			host = correo.getHost();
+			puerto = correo.getPort();
+			email = correo.getCorreo();
+			pass = correo.getPass();
+		}
 		/*
 		 * Configuracion para enviar email.
 		 */
 		String smtpHost = getContainer().getProperty(PROPERTY_ROOT + "host",
-				correo.getHost());
+				host);
 
 		String portValue = getContainer().getProperty(PROPERTY_ROOT + "port",
-				correo.getPort());
+				puerto);
 
 		int port = Integer.valueOf(portValue).intValue();
 
 		String authenticationName = getContainer().getProperty(
-				PROPERTY_ROOT + "user", correo.getCorreo());
+				PROPERTY_ROOT + "user", email);
 		String authenticationPassword = getContainer().getProperty(
-				PROPERTY_ROOT + "password", correo.getPass());
+				PROPERTY_ROOT + "password", pass);
 
 		try {
 
@@ -212,7 +222,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 						authenticationPassword);
 			}
 			simpleEmail.addTo(destino);
-			simpleEmail.setFrom(correo.getCorreo(), "Soporte Tecnico");
+			simpleEmail.setFrom(email, "Soporte Tecnico");
 			simpleEmail.setSubject(asunto);
 			simpleEmail.setMsg(mensaje);
 			return simpleEmail.send();
