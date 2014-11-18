@@ -67,10 +67,12 @@ import dom.soporte.Soporte;
 				+ "FROM dom.tecnico.Tecnico "),
 		@javax.jdo.annotations.Query(name = "listarHabilitados", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnico.Tecnico " + "WHERE habilitado == true"),
+		@javax.jdo.annotations.Query(name = "listarDisponibles", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.tecnico.Tecnico " + "WHERE disponible == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnio.Tecnico"
 				+ "WHERE "
-				+ "apellido.indexOf(:apellido) >= 0")})
+				+ "apellido.indexOf(:apellido) >= 0") })
 @ObjectType("TECNICO")
 @Audited
 @AutoComplete(repository = TecnicoRepositorio.class, action = "autoComplete")
