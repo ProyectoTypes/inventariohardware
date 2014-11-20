@@ -50,7 +50,7 @@ public class PlacaDeRed {
 	}
 
 	public String iconName() {
-		return "PLACA DE RED";
+		return "PlacaDeRed";
 	}
 
 	// //////////////////////////////////////
