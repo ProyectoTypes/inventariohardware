@@ -47,7 +47,7 @@ public class Disco {
 	}
 
 	public String title() {
-		return this.getMarca();
+		return this.getTamano()+" gb";
 	}
 
 	public String iconName() {
