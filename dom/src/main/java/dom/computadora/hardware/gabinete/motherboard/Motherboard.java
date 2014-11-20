@@ -48,7 +48,7 @@ public class Motherboard {
 	}
 
 	public String title() {
-		return "Motherboard";
+		return this.getModelo();
 	}
 
 	public String iconName() {
