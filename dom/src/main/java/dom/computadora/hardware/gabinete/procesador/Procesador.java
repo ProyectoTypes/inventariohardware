@@ -37,7 +37,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 public class Procesador {
 
 	public String title() {
-		return "Procesador";
+		return this.getModelo();
 	}
 
 	public String iconName() {
