@@ -46,7 +46,7 @@ public class PlacaDeRed {
 	}
 
 	public String title() {
-		return getIp();
+		return getMac();
 	}
 
 	public String iconName() {
