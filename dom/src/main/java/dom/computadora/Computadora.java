@@ -81,7 +81,7 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 
 	public String title() {
-		return "Rotulo Computadora: "+this.getCodigo();
+		return this.getPlacaDeRed().getIp();
 	}
 
 	public String iconName() {
