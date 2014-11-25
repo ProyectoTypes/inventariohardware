@@ -37,7 +37,6 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
-import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.MultiLine;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.NotContributed;
@@ -52,13 +51,11 @@ import org.joda.time.LocalDateTime;
 
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
-import dom.computadora.hardware.gabinete.disco.Disco;
-import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
-import dom.computadora.hardware.gabinete.motherboard.Motherboard;
-import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
-import dom.computadora.hardware.gabinete.procesador.Procesador;
+import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
+import dom.computadora.hardware.monitor.Monitor;
+import dom.computadora.hardware.monitor.MonitorRepositorio;
 import dom.insumo.Insumo;
 import dom.soporte.estadosoporte.Cancelado;
 import dom.soporte.estadosoporte.Entregando;
@@ -505,21 +502,27 @@ public class Soporte implements Comparable<Soporte> {
 	/* ************************ */
 
 	@DescribedAs("Ingresando una nueva Computadora al Usuario.")
-	public Soporte asignarNuevoEquipo(final @Named("Direccion Ip") PlacaDeRed placaDeRed,
-			final @Named("Mother") Motherboard motherboard,
-			final @Named("Procesador") Procesador procesador,
-			final @Named("Disco") Disco disco,
-			final @Named("Memoria") MemoriaRam memoria,
-			final @Optional @Named("Impresora") Impresora impresora) {
-		this.getEstado().asignarNuevoEquipo(placaDeRed, motherboard, procesador, disco,
-				memoria, impresora);
+	public Soporte asignarNuevoEquipo(
+			final @Named("IP") String ip, 
+			final @Named("MAC") String mac,
+			final @Named("HDD Marca ") String marcaDisco,
+			final @Named("HDD Categoria ") CategoriaDisco tipoDisco,
+			final @Named("HDD Tamaño ") int tamanoDisco,
+			final @Named("CPU Modelo ") String modeloProcesador,
+			final @Named("RAM Modelo") String modeloRam,
+			final @Named("RAM Tamaño") int tamanoRam,
+			final @Named("RAM Marca") String marcaRam,
+			final @Named("Modelo Motherboard") String modeloMotherboard,
+			final @Named("Fabricante") String fabricante,
+			final @Named("Monitor") Monitor monitor,
+			final @Named("Impresora") Impresora impresora,
+			final @Named("Rotulo") String rotulo) {
+		this.getEstado().asignarNuevoEquipo(ip,mac,marcaDisco,tipoDisco,
+				tamanoDisco,modeloProcesador,modeloRam,tamanoRam,
+				marcaRam,modeloMotherboard,fabricante,monitor, impresora,rotulo);
 		return this;
 	}
 
-	public List<Impresora> autoComplete5AsignarNuevoEquipo(
-			final @MinLength(2) String search) {
-		return this.impresoraRepositorio.autoComplete(search);
-	}
 
 	public boolean hideAsignarNuevoEquipo() {
 		return this.getEstado().escondeAsignarNuevoEquipo();
@@ -542,4 +545,7 @@ public class Soporte implements Comparable<Soporte> {
 
 	@javax.inject.Inject
 	private ImpresoraRepositorio impresoraRepositorio;
+	
+	@javax.inject.Inject 
+	private MonitorRepositorio monitorRepositorio;
 }
