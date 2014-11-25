@@ -530,7 +530,15 @@ public class Soporte implements Comparable<Soporte> {
 		return this.impresoraRepositorio.listar();
 
 	}
+
+	// ////////////////////////////////////
+	// Listando Monitores
+	// ////////////////////////////////////
 	
+	public List<Monitor> choices11AsignarNuevoEquipo() {
+		return this.monitorRepositorio.listar();
+
+	}
 
 	public boolean hideAsignarNuevoEquipo() {
 		return this.getEstado().escondeAsignarNuevoEquipo();
