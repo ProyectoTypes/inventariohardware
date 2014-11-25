@@ -189,16 +189,13 @@ public class ComputadoraRepositorio {
 	@Named("Listar Computadoras")
 	public List<Computadora> listar() {
 		final List<Computadora> listaComputadoras;
-		if (this.container.getUser().getName().contentEquals("sven"))
-			listaComputadoras = this.container
-					.allMatches(new QueryDefault<Computadora>(
-							Computadora.class, "listar"));
-		else
+		
 			listaComputadoras = this.container
 					.allMatches(new QueryDefault<Computadora>(
 							Computadora.class, "listarHabilitados"));
-
-		if (listaComputadoras.isEmpty()) {
+	
+			
+			if (listaComputadoras.isEmpty()) {
 			this.container
 					.warnUser("No hay Computadoras cargadas en el sistema.");
 		}
