@@ -21,12 +21,11 @@
 */
 package dom.soporte.estadosoporte;
 
-import dom.computadora.hardware.gabinete.disco.Disco;
-import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
-import dom.computadora.hardware.gabinete.motherboard.Motherboard;
-import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
-import dom.computadora.hardware.gabinete.procesador.Procesador;
+import org.apache.isis.applib.annotation.Named;
+
+import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 import dom.computadora.hardware.impresora.Impresora;
+import dom.computadora.hardware.monitor.Monitor;
 import dom.tecnico.Tecnico;
 
 public interface IEstado {
@@ -37,9 +36,20 @@ public interface IEstado {
 
 	void finalizarSoporte();
 
-	void asignarNuevoEquipo(final PlacaDeRed placaDeRed, final Motherboard motherboard,
-			final Procesador procesador, final Disco disco,
-			final MemoriaRam memoria, final Impresora impresora);
+	void asignarNuevoEquipo(
+			final @Named("IP") String ip, 
+			final @Named("MAC") String mac,
+			final @Named("HDD Marca ") String marcaDisco,
+			final @Named("HDD Categoria ") CategoriaDisco tipoDisco,
+			final @Named("HDD Tamaño ") int tamanoDisco,
+			final @Named("CPU Modelo ") String modeloProcesador,
+			final @Named("RAM Modelo") String modeloRam,
+			final @Named("RAM Tamaño") int tamanoRam,
+			final @Named("RAM Marca") String marcaRam,
+			final @Named("Modelo Motherboard") String modeloMotherboard,
+			final @Named("Fabricante") String fabricante,
+			final @Named("Monitor") Monitor monitor,
+			final @Named("Impresora") Impresora impresora,final @Named("Rotulo") String rotulo);
 
 	boolean escondeAsignarTecnico();
 
