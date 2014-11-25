@@ -502,8 +502,7 @@ public class Soporte implements Comparable<Soporte> {
 	/* ************************ */
 
 	@DescribedAs("Ingresando una nueva Computadora al Usuario.")
-	public Soporte asignarNuevoEquipo(
-			final @Named("IP") String ip, 
+	public Soporte asignarNuevoEquipo(final @Named("IP") String ip,
 			final @Named("MAC") String mac,
 			final @Named("HDD Marca ") String marcaDisco,
 			final @Named("HDD Categoria ") CategoriaDisco tipoDisco,
@@ -517,12 +516,21 @@ public class Soporte implements Comparable<Soporte> {
 			final @Named("Monitor") Monitor monitor,
 			final @Named("Impresora") Impresora impresora,
 			final @Named("Rotulo") String rotulo) {
-		this.getEstado().asignarNuevoEquipo(ip,mac,marcaDisco,tipoDisco,
-				tamanoDisco,modeloProcesador,modeloRam,tamanoRam,
-				marcaRam,modeloMotherboard,fabricante,monitor, impresora,rotulo);
+		this.getEstado().asignarNuevoEquipo(ip, mac, marcaDisco, tipoDisco,
+				tamanoDisco, modeloProcesador, modeloRam, tamanoRam, marcaRam,
+				modeloMotherboard, fabricante, monitor, impresora, rotulo);
 		return this;
 	}
 
+	// ////////////////////////////////////
+	// Listando Impresoras
+	// ////////////////////////////////////
+
+	public List<Impresora> choices12AsignarNuevoEquipo() {
+		return this.impresoraRepositorio.listar();
+
+	}
+	
 
 	public boolean hideAsignarNuevoEquipo() {
 		return this.getEstado().escondeAsignarNuevoEquipo();
@@ -545,7 +553,7 @@ public class Soporte implements Comparable<Soporte> {
 
 	@javax.inject.Inject
 	private ImpresoraRepositorio impresoraRepositorio;
-	
-	@javax.inject.Inject 
+
+	@javax.inject.Inject
 	private MonitorRepositorio monitorRepositorio;
 }
