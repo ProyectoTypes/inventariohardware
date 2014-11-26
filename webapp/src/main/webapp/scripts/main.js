@@ -12,8 +12,10 @@ $(document).ready(function(){ //For Normal usage
 		"extendedTimeOut": 1000
 	};
     $('#loginButton').click(function(e,data){
-		username = $('#username').val();
-		password = $('#password').val();
+    	//#usuario se conecta con el id de index.html, en la linea 47
+		username = $('#usuario').val();
+		//#contraseña se conecta con el id de index.html, en la linea 53
+		password = $('#contraseña').val();
 		isisURL = $('#url').val();
 		if(username.length > 0 && password.length > 0 && isisURL.length > 0){
 			if(isisURL[isisURL.length - 1] !== '/'){
