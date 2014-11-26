@@ -13,11 +13,16 @@ $(document).ready(function(){ //For Normal usage
 	};
     $('#loginButton').click(function(e,data){
     	//#usuario se conecta con el id de index.html, en la linea 47
-		username = $('#usuario').val();
+		usuario = $('#usuario').val();
 		//#contraseña se conecta con el id de index.html, en la linea 53
-		password = $('#contraseña').val();
+		contraseña = $('#contraseña').val();
 		isisURL = $('#url').val();
-		if(username.length > 0 && password.length > 0 && isisURL.length > 0){
+		////////////////////////
+		//Esta parte hace la validación del login al entre el usuario y el sistema.
+		////////////////////////
+		//Las variables usuario y contraseña son cargadas desde la linea 18 y 16 de main.js.
+		////////////////////////
+		if(usuario.length > 0 && contraseña.length > 0 && isisURL.length > 0){
 			if(isisURL[isisURL.length - 1] !== '/'){
 				isisURL = isisURL + '/';
 			}
