@@ -35,24 +35,11 @@ public class ReporteRepositorio {
     // //////////////////////////////////////
 
     public String getId() {
-        return "simple";
+        return "Reportes";
     }
 
     public String iconName() {
-        return "SimpleObject";
-    }
-
-    //endregion
-
-    //region > listAll (action)
-    // //////////////////////////////////////
-
-    @Bookmarkable
-    @ActionSemantics(Of.SAFE)
-    @Named("Listar")
-    @MemberOrder(sequence = "1")
-    public List<Reporte> listAll() {
-        return container.allInstances(Reporte.class);
+        return "Reportes";
     }
 
     //endregion
@@ -61,12 +48,12 @@ public class ReporteRepositorio {
     // //////////////////////////////////////
     
     @Named("Crear")
-    @MemberOrder(sequence = "2")
+    @MemberOrder(sequence = "1")
     public Reporte create(
-            final @Named("Order Number") String number,
-            final @Named("Customer Name") String customerName,
-            final @Named("Order Date") LocalDate date,
-            final @Named("Preferences") @Optional String preferences) {
+            final @Named("Numero de Reporte") String number,
+            final @Named("Nombre del Tecnico") String customerName,
+            final @Named("Fecha de Reporte") LocalDate date,
+            final @Named("Preferencias") @Optional String preferences) {
         final Reporte obj = container.newTransientInstance(Reporte.class);
         obj.setNumber(number);
         obj.setDate(date);
@@ -74,6 +61,19 @@ public class ReporteRepositorio {
         obj.setPreferences(preferences);
         container.persistIfNotAlready(obj);
         return obj;
+    }
+
+    //endregion
+    
+    //region > listAll (action)
+    // //////////////////////////////////////
+
+    @Bookmarkable
+    @ActionSemantics(Of.SAFE)
+    @Named("Listar")
+    @MemberOrder(sequence = "2")
+    public List<Reporte> listAll() {
+        return container.allInstances(Reporte.class);
     }
 
     //endregion
