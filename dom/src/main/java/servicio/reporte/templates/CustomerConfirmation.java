@@ -31,6 +31,7 @@ import java.util.SortedSet;
 import javax.annotation.PostConstruct;
 
 import com.google.common.io.Resources;
+import com.google.inject.name.Named;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
@@ -65,8 +66,9 @@ public class CustomerConfirmation {
     @NotContributed(NotContributed.As.ASSOCIATION) // ie contributed as action
     @NotInServiceMenu
     @ActionSemantics(Of.SAFE)
+    @Named("Descargar Reporte")
     @MemberOrder(sequence = "10")
-    public Blob downloadCustomerConfirmation(
+    public Blob descargarReporte(
             final Reporte reporte) throws Exception {
 
         try (PDDocument pdfDocument = loadAndPopulateTemplate(reporte)) {
@@ -96,7 +98,7 @@ public class CustomerConfirmation {
         PDAcroForm pdfForm = pdfDocument.getDocumentCatalog().getAcroForm();
 
         List<PDField> fields = pdfForm.getFields();
-        SortedSet<ReporteLine> reporteLines = reporte.getOrderLines();
+        SortedSet<ReporteLine> orderLines = reporte.getOrderLines();
         for (PDField field : fields) {
 
             String fullyQualifiedName = field.getFullyQualifiedName();
@@ -107,7 +109,7 @@ public class CustomerConfirmation {
             } else if ("customerName".equals(fullyQualifiedName)) {
                 field.setValue(reporte.getCustomerName());
             } else if ("message".equals(fullyQualifiedName)) {
-                String message = "You have ordered '" + reporteLines.size() +"' products";
+                String message = "You have ordered '" + orderLines.size() +"' products";
                 field.setValue(message);
             } else if ("preferences".equals(fullyQualifiedName)) {
                 field.setValue(reporte.getPreferences());
@@ -115,21 +117,20 @@ public class CustomerConfirmation {
         }
 
         int i = 1;
-        Iterator<ReporteLine> reporteLineIterator = reporteLines.iterator();
-        while (i < 7 && reporteLineIterator.hasNext()) {
-            ReporteLine orderLine = reporteLineIterator.next();
+        Iterator<ReporteLine> orderLineIterator = orderLines.iterator();
+        while (i < 7 && orderLineIterator.hasNext()) {
+            ReporteLine orderLine = orderLineIterator.next();
 
-            String descriptionFieldName = "reporteLine|"+i+"|desc";
+            String descriptionFieldName = "orderLine|"+i+"|desc";
             pdfForm.getField(descriptionFieldName).setValue(orderLine.getDescription());
 
-            String costFieldName = "reporteLine|"+i+"|cost";
+            String costFieldName = "orderLine|"+i+"|cost";
             pdfForm.getField(costFieldName).setValue(orderLine.getDescription());
 
-            String quantityFieldName = "reporteLine|"+i+"|quantity";
+            String quantityFieldName = "orderLine|"+i+"|quantity";
             pdfForm.getField(quantityFieldName).setValue(orderLine.getDescription());
             i++;
         }
-
         return pdfDocument;
     }
 }
