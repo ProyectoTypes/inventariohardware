@@ -90,13 +90,13 @@ public class CustomerConfirmation {
      * @return The populated PDF document
      * @throws Exception If the loading or the populating of the document fails for some reason
      */
-    private PDDocument loadAndPopulateTemplate(Reporte reporte) throws Exception {
+	private PDDocument loadAndPopulateTemplate(Reporte reporte) throws Exception {
         PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(pdfAsBytes));
 
         PDAcroForm pdfForm = pdfDocument.getDocumentCatalog().getAcroForm();
 
         List<PDField> fields = pdfForm.getFields();
-        SortedSet<ReporteLine> orderLines = reporte.getOrderLines();
+        SortedSet<ReporteLine> reporteLines = reporte.getOrderLines();
         for (PDField field : fields) {
 
             String fullyQualifiedName = field.getFullyQualifiedName();
@@ -107,7 +107,7 @@ public class CustomerConfirmation {
             } else if ("customerName".equals(fullyQualifiedName)) {
                 field.setValue(reporte.getCustomerName());
             } else if ("message".equals(fullyQualifiedName)) {
-                String message = "You have ordered '" + orderLines.size() +"' products";
+                String message = "You have ordered '" + reporteLines.size() +"' products";
                 field.setValue(message);
             } else if ("preferences".equals(fullyQualifiedName)) {
                 field.setValue(reporte.getPreferences());
@@ -115,17 +115,17 @@ public class CustomerConfirmation {
         }
 
         int i = 1;
-        Iterator<ReporteLine> orderLineIterator = orderLines.iterator();
-        while (i < 7 && orderLineIterator.hasNext()) {
-            ReporteLine orderLine = orderLineIterator.next();
+        Iterator<ReporteLine> reporteLineIterator = reporteLines.iterator();
+        while (i < 7 && reporteLineIterator.hasNext()) {
+            ReporteLine orderLine = reporteLineIterator.next();
 
-            String descriptionFieldName = "orderLine|"+i+"|desc";
+            String descriptionFieldName = "reporteLine|"+i+"|desc";
             pdfForm.getField(descriptionFieldName).setValue(orderLine.getDescription());
 
-            String costFieldName = "orderLine|"+i+"|cost";
+            String costFieldName = "reporteLine|"+i+"|cost";
             pdfForm.getField(costFieldName).setValue(orderLine.getDescription());
 
-            String quantityFieldName = "orderLine|"+i+"|quantity";
+            String quantityFieldName = "reporteLine|"+i+"|quantity";
             pdfForm.getField(quantityFieldName).setValue(orderLine.getDescription());
             i++;
         }
