@@ -28,7 +28,6 @@ import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -87,17 +86,30 @@ public class Computadora implements Comparable<Computadora> {
 	public String iconName() {
 		return "Computadora";
 	}
+	
+	// //////////////////////////////////////
+	// Codigo
+	// //////////////////////////////////////
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@MemberOrder(sequence = "10")
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 
 	// //////////////////////////////////////
 	// IP (propiedad)
 	// //////////////////////////////////////
-private String codigo;
+	private String codigo;
 
-//	@PrimaryKey
+	//@PrimaryKey
 	private PlacaDeRed placaDeRed;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-//	@javax.jdo.annotations.PrimaryKey(column = "id")
+	//@javax.jdo.annotations.PrimaryKey(column = "id")
 	@DescribedAs("Direccion IP de la Computadora:")
 	@MemberOrder(sequence = "10")
 	public PlacaDeRed getPlacaDeRed() {
@@ -439,16 +451,7 @@ private String codigo;
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "10")
-	public String getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-
+	
 	@Inject
 	private ImpresoraRepositorio impresoraRepositorio;
 	@Inject

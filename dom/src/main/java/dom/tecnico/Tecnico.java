@@ -312,6 +312,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	// //////////////////////////////////////
 	// CompareTo
 	// //////////////////////////////////////
+	
 	@Override
 	public int compareTo(final Persona persona) {
 		return ObjectContracts.compare(this, persona, "apellido");
