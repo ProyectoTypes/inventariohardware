@@ -44,12 +44,23 @@ $(document).ready(function(){ //For Normal usage
 							$(homePageList).empty();
 							for(i = 0; i < result.links.length ; i++){
 								if(result.links[i].rel.indexOf("self") == -1 && result.links[i].rel.indexOf("domain-types") == -1){
-									var homePageObjectHref = result.links[i].href;
+									var homePageObjectHref = result.links[1].href;
 									console.log(homePageObjectHref);
-									var homePageObjectName = result.links[i].rel.split("/");
+									var homePageObjectName = result.links[1].rel.split("/");
 									console.log(homePageObjectName);
 									homePageObjectName = homePageObjectName[1];
 									$(homePageList).append('<li data-theme="c"><a class="homePageObject" data-href="'+homePageObjectHref+'" data-transition="slide">'+homePageObjectName+'</a></li>');
+								}
+							}
+							
+							for(i = 0; i < result.links.length ; i++){
+								if(result.links[i].rel.indexOf("self") == -1 && result.links[i].rel.indexOf("domain-types") == -1){
+									var homePageObjectHref = result.links[2].href;
+									console.log(homePageObjectHref);
+									var homePageObjectName = result.links[2].rel.split("/");
+									console.log(homePageObjectName);
+									homePageObjectName = homePageObjectName[2];
+									var servicios = $(homePageList).append('<li data-theme="c"><a class="homePageObject" data-href="'+homePageObjectHref+'" data-transition="slide">'+homePageObjectName+'</a></li>');
 								}
 							}
 							$(homePageList).listview().listview('refresh');
