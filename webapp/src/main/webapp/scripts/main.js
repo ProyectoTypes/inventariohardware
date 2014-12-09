@@ -60,10 +60,13 @@ $(document).ready(function(){ //For Normal usage
 									var homePageObjectName = result.links[2].rel.split("/");
 									console.log(homePageObjectName);
 									homePageObjectName = homePageObjectName[2];
-									var servicios = $(homePageList).append('<li data-theme="c"><a class="homePageObject" data-href="'+homePageObjectHref+'" data-transition="slide">'+homePageObjectName+'</a></li>');
+									//$(servicios).append('<li data-theme="c"><a class="homePageObject" data-href="'+homePageObjectHref+'" data-transition="slide">'+homePageObjectName+'</a></li>');
+									
+									$(homePageObjectName);
 								}
 							}
 							$(homePageList).listview().listview('refresh');
+							$(servicios).listview().listview('refresh');
 							$(this).trigger("pagecreate");
 					});
 					$.mobile.changePage("#home");
