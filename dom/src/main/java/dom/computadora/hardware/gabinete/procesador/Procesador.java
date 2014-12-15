@@ -28,6 +28,10 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase Procesador.
+ */
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -36,10 +40,20 @@ import org.apache.isis.applib.annotation.ObjectType;
 @ObjectType("Procesador")
 public class Procesador {
 
+	/**
+	 * Titulo de la clase
+	 *
+	 * @return the string
+	 */
 	public String title() {
 		return this.getModelo();
 	}
 
+	/**
+	 * Nombre del icono
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "Procesador";
 	}
@@ -47,11 +61,21 @@ public class Procesador {
 	// Modelo (propiedad)
 	// //////////////////////////////////////
 
+	/** The modelo. */
 	private String modelo;
 
+	/**
+	 * Instantiates a new procesador.
+	 *
+	 * @param modeloProcesador the modelo procesador
+	 */
 	public Procesador(String modeloProcesador) {
 		this.modelo = modeloProcesador;
 	}
+	
+	/**
+	 * Instancia de un nuevo procesador.
+	 */
 	public Procesador()
 	{
 		
