@@ -28,17 +28,22 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
+/**
+ * Clase Motherboard.
+ */
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
 @javax.jdo.annotations.Queries({ @javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
 		+ "FROM dom.computadora.hardware.gabinete.motherboard.Motherboard") })
 @ObjectType("Motherboard")
+
 public class Motherboard {
 	// //////////////////////////////////////
 	// Identificacion en la UI
 	// //////////////////////////////////////
 
+	
 	public Motherboard(String modeloMotherboard) {
 		this.modelo = modeloMotherboard;
 	}
@@ -58,7 +63,6 @@ public class Motherboard {
 	// //////////////////////////////////////
 	// Modelo (propiedad)
 	// //////////////////////////////////////
-
 	private String modelo;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")

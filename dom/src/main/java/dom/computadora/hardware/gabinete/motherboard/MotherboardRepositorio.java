@@ -11,9 +11,13 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.query.QueryDefault;
 
+/**
+ * Clase MotherboardRepositorio.
+ */
 @DomainService
 @Named("Motherboard")
 @Hidden
+
 public class MotherboardRepositorio {
 
 	// //////////////////////////////////////
@@ -24,16 +28,33 @@ public class MotherboardRepositorio {
 		return "motherboard";
 	}
 
+	/**
+	 * Icon name.
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "motherboard";
 	}
 
+	/**
+	 * Adds the motherboard.
+	 *
+	 * @param modelo the modelo
+	 * @return the motherboard
+	 */
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Motherboard")
 	public Motherboard addMotherboard(final @Named("Modelo") String modelo) {
 		return nuevaMotherboard(modelo);
 	}
 
+	/**
+	 * Nueva motherboard.
+	 *
+	 * @param modelo the modelo
+	 * @return the motherboard
+	 */
 	private Motherboard nuevaMotherboard(final String modelo) {
 
 		Motherboard obj = this.container
@@ -44,9 +65,15 @@ public class MotherboardRepositorio {
 		return obj;
 	}
 
+	/** The container. */
 	@Inject
 	private DomainObjectContainer container;
 
+	/**
+	 * Metodo para Listar.
+	 *
+	 * @return the list
+	 */
 	public List<Motherboard> listar() {
 		return this.container.allMatches(new QueryDefault<Motherboard>(
 				Motherboard.class, "listar"));
