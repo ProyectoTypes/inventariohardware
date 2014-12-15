@@ -11,11 +11,18 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.query.QueryDefault;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase PlacaDeRedRepositorio.
+ */
 @DomainService
 @Named("Placa De Red")
 @Hidden
 public class PlacaDeRedRepositorio {
 
+	/**
+	 * Instantiates a new placa de red repositorio.
+	 */
 	public PlacaDeRedRepositorio() {
 
 	}
@@ -28,10 +35,21 @@ public class PlacaDeRedRepositorio {
 		return "placaDeRed";
 	}
 
+	/**
+	 * Nombre del Icono
+	 * @return the string
+	 */
 	public String iconName() {
 		return "red";
 	}
 
+	/**
+	 * Adds the placa de red.
+	 *
+	 * @param ip the ip
+	 * @param mac the mac
+	 * @return the placa de red
+	 */
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Placa de Red")
 	public PlacaDeRed addPlacaDeRed(final @Named("IP") String ip,
@@ -39,6 +57,13 @@ public class PlacaDeRedRepositorio {
 		return nuevaPlacaDeRed(ip, mac);
 	}
 
+	/**
+	 * Nueva placa de red.
+	 *
+	 * @param ip the ip
+	 * @param mac the mac
+	 * @return the placa de red
+	 */
 	private PlacaDeRed nuevaPlacaDeRed(final String ip, final String mac) {
 
 		PlacaDeRed obj = this.container.newTransientInstance(PlacaDeRed.class);
@@ -49,9 +74,15 @@ public class PlacaDeRedRepositorio {
 		return obj;
 	}
 
+	/** The container. */
 	@Inject
 	private DomainObjectContainer container;
 
+	/**
+	 * Metodo para listar
+	 *
+	 * @return the list
+	 */
 	public List<PlacaDeRed> listar() {
 		return this.container.allMatches(new QueryDefault<PlacaDeRed>(
 				PlacaDeRed.class, "listar"));

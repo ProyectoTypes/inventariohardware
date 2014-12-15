@@ -28,6 +28,10 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase  PlacaDeRed.
+ */
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -40,15 +44,31 @@ public class PlacaDeRed {
 	// Identificacion en la UI.
 	// //////////////////////////////////////
 
+	/**
+	 * Instantiates a new placa de red.
+	 *
+	 * @param ip the ip
+	 * @param mac the mac
+	 */
 	public PlacaDeRed(String ip, String mac) {
 		this.ip = ip;
 		this.mac = mac;
 	}
 
+	/**
+	 * Titulo de la clase
+	 *
+	 * @return the string
+	 */
 	public String title() {
 		return getMac();
 	}
 
+	/**
+	 * Icon de la clase
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "PlacaDeRed";
 	}
@@ -57,6 +77,7 @@ public class PlacaDeRed {
 	// IP placa de red
 	// //////////////////////////////////////
 
+	/** The ip. */
 	private String ip;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")	
@@ -74,6 +95,7 @@ public class PlacaDeRed {
 	// MAC de la placa de red
 	// //////////////////////////////////////
 
+	/** The mac. */
 	private String mac;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")	
