@@ -13,6 +13,9 @@ import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 
+/**
+ * Clase DiscoRepositorio.
+ */
 @DomainService
 @Named("Hdd")
 @Hidden
