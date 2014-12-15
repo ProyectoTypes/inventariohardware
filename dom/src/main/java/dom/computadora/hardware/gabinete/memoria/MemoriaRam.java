@@ -28,28 +28,49 @@ import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
+/**
+ * Clase MemoriaRam.
+ */
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
 @javax.jdo.annotations.Queries({ @javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
 		+ "FROM dom.computadora.hardware.gabinete.memoria.MemoriaRam") })
 @ObjectType("MemoriaRam")
+
 public class MemoriaRam {
 
 	// //////////////////////////////////////
 	// Identificacion en la UI
 	// //////////////////////////////////////
 
+	/**
+	 * Instantiates a new memoria ram.
+	 *
+	 * @param modeloRam the modelo ram
+	 * @param tamanoRam the tamano ram
+	 * @param marcaRam the marca ram
+	 */
 	public MemoriaRam(String modeloRam, int tamanoRam, String marcaRam) {
 		this.modelo = modeloRam;
 		this.tamano = tamanoRam;
 		this.marca = marcaRam;
 	}
 
+	/**
+	 * Titulo de la clase
+	 *
+	 * @return the string
+	 */
 	public String title() {
 		return this.getTamano()+" gb";
 	}
 
+	/**
+	 * Nombre de icono
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "Memoria";
 	}
@@ -57,6 +78,9 @@ public class MemoriaRam {
 	// //////////////////////////////////////
 	// Modelo (Atributo)
 	// //////////////////////////////////////
+	/**
+	 * Modelo de memori.
+	 */
 	private String modelo;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -73,6 +97,9 @@ public class MemoriaRam {
 	// //////////////////////////////////////
 	// Tamaño (Atributo)
 	// //////////////////////////////////////
+	/**
+	 * Tamaño de la memoria.
+	 */
 	private int tamano;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -89,6 +116,9 @@ public class MemoriaRam {
 	// //////////////////////////////////////
 	// Marca (Atributo)
 	// //////////////////////////////////////
+	/**
+	 * Marca de la memoria.
+	 */
 	private String marca;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")

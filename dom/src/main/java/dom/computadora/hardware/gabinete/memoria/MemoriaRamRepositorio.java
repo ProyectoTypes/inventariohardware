@@ -11,6 +11,9 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.query.QueryDefault;
 
+/**
+ * Clase MemoriaRamRepositorio.
+ */
 @DomainService
 @Named("Memoria Ram")
 @Hidden
@@ -24,10 +27,16 @@ public class MemoriaRamRepositorio {
 		return "memoriaram";
 	}
 
+	/**
+	 * Nombre del icono
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "memoriaram";
 	}
 
+	
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Placa de Red")
 	public MemoriaRam addMemoriaRam(final @Named("Modelo") String modelo,
@@ -36,6 +45,14 @@ public class MemoriaRamRepositorio {
 		return nuevaMemoriaRam(modelo, tamano, marca);
 	}
 
+	/**
+	 * Nueva memoria ram.
+	 *
+	 * @param modelo the modelo
+	 * @param tamano the tamano
+	 * @param marca the marca
+	 * @return the memoria ram
+	 */
 	private MemoriaRam nuevaMemoriaRam(final String modelo, final int tamano,
 			final String marca) {
 
@@ -48,9 +65,17 @@ public class MemoriaRamRepositorio {
 		return obj;
 	}
 
+	/**
+	 * The container.
+	 */
 	@Inject
 	private DomainObjectContainer container;
 
+	/**
+	 * Metodo Listar.
+	 *
+	 * @return the list
+	 */
 	public List<MemoriaRam> listar() {
 		return this.container.allMatches(new QueryDefault<MemoriaRam>(
 				MemoriaRam.class, "listar"));
