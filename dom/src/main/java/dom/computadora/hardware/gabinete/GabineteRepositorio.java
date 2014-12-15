@@ -22,6 +22,10 @@ import dom.computadora.hardware.gabinete.placadered.PlacaDeRedRepositorio;
 import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.gabinete.procesador.ProcesadorRepositorio;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase GabineteRepositorio.
+ */
 @DomainService
 @Named("Gabinete")
 @Hidden
@@ -34,10 +38,30 @@ public class GabineteRepositorio {
 		return "gabinete";
 	}
 
+	/**
+	 * Nombre del clase
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "Gabinete";
 	}
 
+	/**
+	 * Agregar gabinete.
+	 *
+	 * @param ip the ip
+	 * @param mac the mac
+	 * @param marcaDisco the marca disco
+	 * @param tipoDisco the tipo disco
+	 * @param tamanoDisco the tamano disco
+	 * @param modeloProcesador the modelo procesador
+	 * @param modeloRam the modelo ram
+	 * @param tamanoRam the tamano ram
+	 * @param marcaRam the marca ram
+	 * @param modeloMotherboard the modelo motherboard
+	 * @return the gabinete
+	 */
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Gabinete")
 	public Gabinete agregarGabinete(final @Named("IP") String ip,
@@ -71,26 +95,61 @@ public class GabineteRepositorio {
 				motherboard);
 	}
 
+	/**
+	 * Metodo que lista las placas de red.
+	 *
+	 * @return the list
+	 */
 	public List<PlacaDeRed> choices0AddGabinete() {
 		return this.placaderedRepositorio.listar();
 	}
 
+	/**
+	 * Metodo que lista los disos rigidos.
+	 *
+	 * @return the list
+	 */
 	public List<Disco> choices1AddGabinete() {
 		return this.discoRepositorio.listar();
 	}
 
+	/**
+	 * Metodo que lista los procesadores.
+	 *
+	 * @return the list
+	 */
 	public List<Procesador> choices2AddGabinete() {
 		return this.procesadorRepositorio.listar();
 	}
 
+	/**
+	 * Metodo que lista las memorias.
+	 *
+	 * @return the list
+	 */
 	public List<MemoriaRam> choices3AddGabinete() {
 		return this.memoriaramRepositorio.listar();
 	}
 
+	/**
+	 * Metodo que lista las motherboards.
+	 *
+	 * @return the list
+	 */
 	public List<Motherboard> choices4AddGabinete() {
 		return this.motherboardRepositorio.listar();
 	}
 
+	/**
+	 * Nuevo gabinete.
+	 *
+	 * @param placaDeRed the placa de red
+	 * @param hdd the hdd
+	 * @param procesador the procesador
+	 * @param memoriaRam the memoria ram
+	 * @param motherboard the motherboard
+	 * @return the gabinete
+	 */
 	private Gabinete nuevoGabinete(final PlacaDeRed placaDeRed,
 			final Disco hdd, final Procesador procesador,
 			final MemoriaRam memoriaRam, final Motherboard motherboard) {
@@ -106,16 +165,27 @@ public class GabineteRepositorio {
 		return obj;
 	}
 
+	/** The container. */
 	@Inject
 	private DomainObjectContainer container;
+	
+	/** The placadered repositorio. */
 	@Inject
 	private PlacaDeRedRepositorio placaderedRepositorio;
+	
+	/** The disco repositorio. */
 	@Inject
 	private DiscoRepositorio discoRepositorio;
+	
+	/** The procesador repositorio. */
 	@Inject
 	private ProcesadorRepositorio procesadorRepositorio;
+	
+	/** The memoriaram repositorio. */
 	@Inject
 	private MemoriaRamRepositorio memoriaramRepositorio;
+	
+	/** The motherboard repositorio. */
 	@Inject
 	private MotherboardRepositorio motherboardRepositorio;
 

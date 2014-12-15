@@ -16,6 +16,10 @@ import dom.computadora.hardware.gabinete.motherboard.Motherboard;
 import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
 import dom.computadora.hardware.gabinete.procesador.Procesador;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase Gabinete.
+ */
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -26,16 +30,32 @@ public class Gabinete {
 	// Identificacion en la UI
 	// //////////////////////////////////////
 
+	/**
+	 * Titulo de la clase
+	 *
+	 * @return the string
+	 */
 	public String title() {
 		return "GABINETE";
 	}
 
+	/**
+	 * Nombre del icono.
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "gabinete";
 	}
 
 	/**
 	 * Constructor: Composicion.
+	 *
+	 * @param listaPlacaDeRed the lista placa de red
+	 * @param listaHdd the lista hdd
+	 * @param procesador the procesador
+	 * @param listaMemoriaRam the lista memoria ram
+	 * @param motherboard the lista motherboard
 	 */
 
 	public Gabinete(List<PlacaDeRed> listaPlacaDeRed, List<Disco> listaHdd,
@@ -48,6 +68,10 @@ public class Gabinete {
 		this.listaMemoriaRam = listaMemoriaRam;
 		this.motherboard = motherboard;
 	}
+	
+	/**
+	 * Instantiates a new gabinete.
+	 */
 	public Gabinete()
 	{
 		this.listaPlacaDeRed = new ArrayList<PlacaDeRed>();
@@ -57,6 +81,8 @@ public class Gabinete {
 		this.motherboard = new Motherboard();
 
 	}
+	
+	/** lista placa de red. */
 	private List<PlacaDeRed> listaPlacaDeRed;
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
@@ -69,11 +95,17 @@ public class Gabinete {
 		this.listaPlacaDeRed = listaPlacaDeRed;
 	}
 
+	/**
+	 * Agregar placa de red.
+	 *
+	 * @param placaDeRed the placa de red
+	 */
 	@Programmatic
 	public void agregarPlacaDeRed(final PlacaDeRed placaDeRed) {
 		this.listaPlacaDeRed.add(placaDeRed);
 	}
 
+	/** The lista disco. */
 	private List<Disco> listaDisco;
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
@@ -85,11 +117,18 @@ public class Gabinete {
 	public void setListaDisco(List<Disco> listaDisco) {
 		this.listaDisco = listaDisco;
 	}
+	
+	/**
+	 * Agregar hdd.
+	 *
+	 * @param hdd the hdd
+	 */
 	@Programmatic
 	public void agregarHdd(final Disco hdd) {
 		this.listaDisco.add(hdd);
 	}
 
+	/** The procesador. */
 	private Procesador procesador;
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
@@ -102,6 +141,7 @@ public class Gabinete {
 		this.procesador = procesador;
 	}
 
+	/** The lista memoria ram. */
 	private List<MemoriaRam> listaMemoriaRam;
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
@@ -114,11 +154,17 @@ public class Gabinete {
 		this.listaMemoriaRam = listaMemoriaRam;
 	}
 
+	/**
+	 * Agregar memoria ram.
+	 *
+	 * @param memoriaRam the memoria ram
+	 */
 	@Programmatic
 	public void agregarMemoriaRam(final MemoriaRam memoriaRam) {
 		this.listaMemoriaRam.add(memoriaRam);
 	}
 
+	/** The motherboard. */
 	private Motherboard motherboard;
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
