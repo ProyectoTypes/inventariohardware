@@ -34,19 +34,34 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.hardware.impresora.Impresora.TipoImpresora;
+
+// TODO: Auto-generated Javadoc
+
+/**
+ * Clase ImpresoraRepositorio.
+ */
 @DomainService(menuOrder = "11")
 @Named("IMPRESORA")
-
 public class ImpresoraRepositorio {
 
 	// //////////////////////////////////////
 	// Icono
 	// //////////////////////////////////////
 
+	/**
+	 * Titulo de la Clase
+	 *
+	 * @return the string
+	 */
 	public String title() {
 		return "IMPRESORA";
 	}
 
+	/**
+	 * Titulo del icono
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "IMPRESORA";
 	}
@@ -55,6 +70,17 @@ public class ImpresoraRepositorio {
 	// Agregar Impresora
 	// //////////////////////////////////////
 
+	/**
+	 * Adds the impresora.
+	 *
+	 * @param modeloImpresora
+	 *            the modelo impresora
+	 * @param fabricanteImpresora
+	 *            the fabricante impresora
+	 * @param tipoImpresora
+	 *            the tipo impresora
+	 * @return the impresora
+	 */
 	@MemberOrder(name = "Computadoras", sequence = "50")
 	@Named("Agregar Impresora")
 	public Impresora addImpresora(
@@ -65,6 +91,19 @@ public class ImpresoraRepositorio {
 				tipoImpresora, this.currentUserName());
 	}
 
+	/**
+	 * Nueva impresora.
+	 *
+	 * @param modeloImpresora
+	 *            the modelo impresora
+	 * @param fabricanteImpresora
+	 *            the fabricante impresora
+	 * @param tipoImpresora
+	 *            the tipo impresora
+	 * @param creadoPor
+	 *            the creado por
+	 * @return the impresora
+	 */
 	@Programmatic
 	public Impresora nuevaImpresora(final String modeloImpresora,
 			final String fabricanteImpresora,
@@ -86,6 +125,11 @@ public class ImpresoraRepositorio {
 	// Listar Impresora
 	// //////////////////////////////////////
 
+	/**
+	 * Motodo para listar las impresoras.
+	 *
+	 * @return the list
+	 */
 	@MemberOrder(name = "Computadoras", sequence = "60")
 	@Named("Listar Impresoras")
 	public List<Impresora> listar() {
@@ -99,13 +143,28 @@ public class ImpresoraRepositorio {
 	// Buscar Impresora
 	// //////////////////////////////////////
 
+	/**
+	 * Auto complete0 add impresora. Meotodo para buscar las impresoras a medida
+	 * que se va escribiendo el nombre de la impresora.
+	 *
+	 * @param search
+	 * 
+	 * @return the list
+	 */
 	@DescribedAs("Buscar Impresora Mayuscula")
-
 	public List<Impresora> autoComplete0AddImpresora(
 			final @MinLength(2) String search) {
 		return impresoraRepositorio.autoComplete(search);
 
 	}
+
+	/**
+	 * Listado de impresoras.
+	 *
+	 * @param modeloImpresora
+	 *            
+	 * @return the list
+	 */
 	@Hidden
 	@MemberOrder(name = "Computadoras", sequence = "70")
 	@Named("Buscar Impresora")
@@ -116,14 +175,21 @@ public class ImpresoraRepositorio {
 						"buscarPormodeloImpresora", "creadoPor", this
 								.currentUserName(), "modeloImpresora",
 						modeloImpresora.toUpperCase().trim()));
-		if (listaImpresora.isEmpty())
-		{	this.container
+		if (listaImpresora.isEmpty()) {
+			this.container
 					.warnUser("No se encontraron Impresoras cargados en el sistema.");
 			return null;
 		}
 		return listaImpresora;
 	}
 
+	/**
+	 * Auto complete.
+	 *
+	 * @param modelo
+	 *            
+	 * @return the list
+	 */
 	@Programmatic
 	public List<Impresora> autoComplete(final String modelo) {
 		return container.allMatches(new QueryDefault<Impresora>(
@@ -135,6 +201,11 @@ public class ImpresoraRepositorio {
 	// CurrentUserName
 	// //////////////////////////////////////
 
+	/**
+	 * Current user name.
+	 *
+	 * @return the string
+	 */
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
@@ -143,9 +214,11 @@ public class ImpresoraRepositorio {
 	// Injected Services
 	// //////////////////////////////////////
 
+	/** The container. */
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 
+	/** The impresora repositorio. */
 	@javax.inject.Inject
 	private ImpresoraRepositorio impresoraRepositorio;
 }

@@ -41,6 +41,10 @@ import org.apache.isis.applib.annotation.Where;
 
 import dom.computadora.Computadora;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase Impresora.
+ */
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -70,10 +74,20 @@ public class Impresora {
 	// Identificacion en la UI. Aparece como item del menu
 	// //////////////////////////////////////
 
+	/**
+	 * Titulo de la clase.
+	 *
+	 * @return the string
+	 */
 	public String title() {
 		return this.getModeloImpresora();
 	}
 
+	/**
+	 * Nombre del icono
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "IMPRESORA";
 	}
@@ -82,6 +96,9 @@ public class Impresora {
 	// Modelo Impresora
 	// //////////////////////////////////////
 
+	/**
+	 * Modelo impresora.
+	 */
 	private String modeloImpresora;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -100,6 +117,9 @@ public class Impresora {
 	// Fabricante Impresora
 	// //////////////////////////////////////
 
+	/**
+	 * Fabricante impresora.
+	 */
 	private String fabricanteImpresora;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -118,10 +138,17 @@ public class Impresora {
 	// Tipo de Impresora
 	// //////////////////////////////////////
 
+	/**
+	 * Enumerador de la impresora.
+	 */
 	public static enum TipoImpresora {
+		
 		LASER, CHORRO_DE_TINTA, MATRIZ_DE_PUNTO;
 	}
 
+	/**
+	 * Tipo de impresora.
+	 */
 	private TipoImpresora tipo;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -137,6 +164,9 @@ public class Impresora {
 	// creadoPor
 	// //////////////////////////////////////
 
+	/**
+	 * Atributo que especifica que usuario creo la impresora.
+	 */
 	private String creadoPor;
 
 	@Hidden(where = Where.ALL_TABLES)
@@ -153,6 +183,10 @@ public class Impresora {
 	// Relacion Impresora/Computadora
 	// //////////////////////////////////////
 
+	/**
+	 * Relacion entre impreso y computadora.
+	 * Una impresora puede ser usada por varias computadoras.
+	 */
 	@Persistent(mappedBy = "impresora", dependentElement = "False")
 	@Join
 	private SortedSet<Computadora> computadora = new TreeSet<Computadora>();
@@ -165,6 +199,11 @@ public class Impresora {
 		this.computadora = computadora;
 	}
 
+	/**
+	 * Agregar computadora.
+	 *
+	 * @param unaComputadora the una computadora
+	 */
 	@Named("Agregar Impresora")
 	public void agregarComputadora(final Computadora unaComputadora) {
 		if (unaComputadora == null || getComputadora().contains(unaComputadora)) {
@@ -175,6 +214,12 @@ public class Impresora {
 		getComputadora().add(unaComputadora);
 	}
 
+	/**
+	 * Limpiar computadora.
+	 * 	Metodo que elimina la computadora que tiene asociada la impresora.
+	 *
+	 * @param unaComputadora 
+	 */
 	@Named("Eliminar de Computadora")
 	public void limpiarComputadora(final Computadora unaComputadora) {
 		if (unaComputadora == null || !getComputadora().contains(unaComputadora)) {
@@ -189,6 +234,9 @@ public class Impresora {
 	// Habilitado
 	// //////////////////////////////////////
 
+	/**
+	 * Habilitado.
+	 */
 	public boolean habilitado;
 
 	@Hidden
