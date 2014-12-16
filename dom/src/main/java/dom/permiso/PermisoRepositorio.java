@@ -32,6 +32,10 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Optional;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase PermisoRepositorio.
+ */
 @DomainService(menuOrder = "82", repositoryFor = Permiso.class)
 @Named("Permisos")
 public class PermisoRepositorio {
@@ -40,11 +44,26 @@ public class PermisoRepositorio {
 		return "Permiso";
 	}
 
+	/**
+	 * Nombre del icono
+	 *
+	 * @return string
+	 */
 	public String iconName() {
 		return "Tecnico";
 	}
 
-	@MemberOrder(name="Configurar Seguridad",sequence = "20")
+	/**
+	 * Addpermiso: metodo que se encarga de la creacion de un nuevo permiso.
+	 *
+	 * @param nombre
+	 * @param path
+	 * @param clase
+	 * @param campo
+	 * @param escritura
+	 * @return permiso
+	 */
+	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
 	@Named("Nuevo Permiso")
 	public Permiso addPermiso(
 			final @Named("Nombre") String nombre,
@@ -70,20 +89,42 @@ public class PermisoRepositorio {
 		return permiso;
 	}
 
+	/**
+	 * Default2addpermiso se encarga de poner la "clase" en default.
+	 *
+	 * @return string
+	 */
 	public String default2AddPermiso() {
 		return "*";
 	}
 
+	/**
+	 * Default3addpermiso, se encarga de poner "metodo/atributo"en default
+	 *
+	 * @return the string
+	 */
 	public String default3AddPermiso() {
 		return "*";
 	}
 
+	/**
+	 * Default4addpermiso.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean default4AddPermiso() {
 		return true;
 	}
 
+	/**
+	 * Eliminar Permiso
+	 *
+	 * @param permiso
+	 * 
+	 * @return string
+	 */
 	@ActionSemantics(Of.NON_IDEMPOTENT)
-	@MemberOrder(name="Configurar Seguridad",sequence = "20")
+	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
 	@Named("Eliminar Permiso")
 	public String eliminar(@Named("Permiso") Permiso permiso) {
 		String permissionDescription = permiso.getNombre();
@@ -92,13 +133,19 @@ public class PermisoRepositorio {
 				+ " ha sido eliminado correctamente.";
 	}
 
+	/**
+	 * Lista todos los permisos.
+	 *
+	 * @return the list
+	 */
 	@ActionSemantics(Of.SAFE)
-	@MemberOrder(name="Configurar Seguridad",sequence = "20")
+	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
 	@Named("Todos los Permisos")
 	public List<Permiso> listAll() {
 		return container.allInstances(Permiso.class);
 	}
 
+	/** Container. */
 	@javax.inject.Inject
 	DomainObjectContainer container;
 

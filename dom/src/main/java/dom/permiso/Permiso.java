@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.permiso;
 
 import javax.jdo.annotations.Column;
@@ -29,6 +29,10 @@ import org.apache.isis.applib.annotation.Bounded;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase Permiso.
+ */
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -36,10 +40,16 @@ import org.apache.isis.applib.annotation.ObjectType;
 @Bounded
 public class Permiso implements Comparable<Permiso> {
 
+	/**
+	 * Titulo de la clase.
+	 *
+	 * @return string
+	 */
 	public String title() {
 		return nombre;
 	}
 
+	/** Nombre. */
 	private String nombre;
 
 	@MemberOrder(sequence = "1")
@@ -52,6 +62,7 @@ public class Permiso implements Comparable<Permiso> {
 		this.nombre = detalles;
 	}
 
+	/** Path. */
 	private String path;
 
 	@MemberOrder(sequence = "1")
@@ -64,6 +75,11 @@ public class Permiso implements Comparable<Permiso> {
 		this.path = text;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	@Override
 	public int compareTo(Permiso other) {
 		return this.getNombre().compareTo(other.getNombre());
