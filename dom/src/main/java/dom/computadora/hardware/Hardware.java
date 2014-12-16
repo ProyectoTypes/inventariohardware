@@ -11,6 +11,10 @@ import dom.computadora.hardware.gabinete.Gabinete;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.monitor.Monitor;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Calse Hardware.
+ */
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -20,20 +24,30 @@ public class Hardware {
 	// Identificacion en la UI
 	// //////////////////////////////////////
 
+	/**
+	 * Titulo de la clase.
+	 *
+	 * @return the string
+	 */
 	public String title() {
 		return "HARDWARE";
 	}
 
+	/**
+	 * Nombre del icono de la clase.
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "hardware";
 	}
 
 	/**
-	 * Constructor
-	 * 
-	 * @param monitor
-	 * @param impresora
-	 * @param gabinete
+	 * Constructor.
+	 *
+	 * @param monitor the monitor
+	 * @param impresora the impresora
+	 * @param gabinete the gabinete
 	 */
 	public Hardware(Monitor monitor, Impresora impresora, Gabinete gabinete) {
 		this.monitor = monitor;
@@ -41,6 +55,9 @@ public class Hardware {
 		this.gabinete = gabinete;
 	}
 
+	/**
+	 * Instancia de un nuevo hardware.
+	 */
 	public Hardware() {
 		this.monitor = new Monitor();
 		this.impresora = new Impresora();
@@ -53,6 +70,7 @@ public class Hardware {
 
 	// FIXME: Que sucede en la composicion cuando todos las clases que componen
 	// a hardware tienen un campo fabricante?
+	/** Fabricante del hardware. */
 	private String fabricante;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -66,6 +84,7 @@ public class Hardware {
 		this.fabricante = fabricante;
 	}
 
+	/** Monitor. */
 	private Monitor monitor;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -78,6 +97,7 @@ public class Hardware {
 		this.monitor = monitor;
 	}
 
+	/** Gabinete. */
 	private Gabinete gabinete;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -90,6 +110,7 @@ public class Hardware {
 		this.gabinete = gabinete;
 	}
 
+	/** Impresora. */
 	private Impresora impresora;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")

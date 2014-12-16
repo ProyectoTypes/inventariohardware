@@ -12,6 +12,10 @@ import dom.computadora.hardware.gabinete.Gabinete;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.monitor.Monitor;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase HardwareRepositorio.
+ */
 @DomainService
 @Named("Hardware")
 @Hidden
@@ -24,10 +28,24 @@ public class HardwareRepositorio {
 		return "hardware";
 	}
 
+	/**
+	 * Nombre del icono de la clase
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "Hardware";
 	}
 
+	/**
+	 * Agregando el hardware.
+	 *
+	 * @param fabricante 
+	 * @param monitor 
+	 * @param gabinete 
+	 * @param impresora 
+	 * @return  hardware
+	 */
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Hardware")
 	public Hardware addHardware(final @Named("Fabricante") String fabricante,
@@ -39,6 +57,15 @@ public class HardwareRepositorio {
 
 	}
 
+	/**
+	 * Nuevo hardware.
+	 *
+	 * @param fabricante
+	 * @param monitor
+	 * @param gabinete 
+	 * @param impresora
+	 * @return hardware
+	 */
 	private Hardware nuevoHardware(final String fabricante,
 			final Monitor monitor, final Gabinete gabinete,
 			final Impresora impresora) {
@@ -53,6 +80,7 @@ public class HardwareRepositorio {
 		return hardware;
 	}
 
+	/** The container. */
 	@Inject
 	private DomainObjectContainer container;
 }
