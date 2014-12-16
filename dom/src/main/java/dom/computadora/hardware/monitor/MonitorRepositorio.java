@@ -33,6 +33,10 @@ import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.hardware.monitor.Monitor.TipoMonitor;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase MonitorRepositorio.
+ */
 @DomainService
 @Named("Monitor")
 public class MonitorRepositorio {
@@ -40,10 +44,20 @@ public class MonitorRepositorio {
 	// Icono
 	// //////////////////////////////////////
 
+	/**
+	 * Titulo de la Clase.
+	 *
+	 * @return the string
+	 */
 	public String title() {
 		return "Monitor";
 	}
 
+	/**
+	 * Nombre del icono de la clase
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "Monitor";
 	}
@@ -51,6 +65,14 @@ public class MonitorRepositorio {
 	// //////////////////////////////////////
 	// Agregar Monitor
 	// //////////////////////////////////////
+	/**
+	 * Adds the monitor.
+	 *
+	 * @param tamaño 
+	 * @param tipo 
+	 * @param marca 
+	 * @return monitor
+	 */
 	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
@@ -60,11 +82,21 @@ public class MonitorRepositorio {
 		return nuevosMonitor(tamaño, tipo, marca, this.currentUserName());
 	}
 
+	/**
+	 * Nuevos monitor
+	 * pasamos los parametros de carga
+	 *
+	 * @param tamaño the tamaño
+	 * @param tipo the tipo
+	 * @param marca the marca
+	 * @param creadoPor the creado por
+	 * @return the monitor
+	 */
 	@Programmatic
 	public Monitor nuevosMonitor(final int tamaño, final TipoMonitor tipo,
 			final String marca, final String creadoPor) {
 		final Monitor unMonitor = container.newTransientInstance(Monitor.class);
-		unMonitor.setTamaño(tamaño);
+		unMonitor.setTamanio(tamaño);
 		unMonitor.setTipo(tipo);
 		unMonitor.setMarca(marca.toUpperCase().trim());
 		unMonitor.setHabilitado(true);
@@ -78,6 +110,11 @@ public class MonitorRepositorio {
 	// Listar Monitor
 	// //////////////////////////////////////
 
+	/**
+	 * Metodo para Listar los monitores.
+	 *
+	 * @return the list
+	 */
 	@MemberOrder(sequence = "100")
 	public List<Monitor> listar() {
 		final List<Monitor> listaSoftware = this.container
@@ -92,6 +129,11 @@ public class MonitorRepositorio {
 	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////
+	/**
+	 * Current user name.
+	 *
+	 * @return the string
+	 */
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
@@ -99,6 +141,7 @@ public class MonitorRepositorio {
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
+	/** The container. */
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 }

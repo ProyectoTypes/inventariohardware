@@ -39,6 +39,10 @@ import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase Monitor.
+ */
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -67,10 +71,20 @@ public class Monitor implements Comparable<Monitor> {
 	// Identificacion en la UI
 	// //////////////////////////////////////
 
+	/**
+	 * Titulo de la Clase.
+	 *
+	 * @return the string
+	 */
 	public String title() {
 		return this.getMarca();
 	}
 
+	/**
+	 * Nombre del icono.
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "Monitor";
 	}
@@ -79,10 +93,15 @@ public class Monitor implements Comparable<Monitor> {
 	// tipo (Atributo)
 	// //////////////////////////////////////
 
+	/**
+	 * The Enum TipoMonitor.
+	 */
 	public static enum TipoMonitor {
-		CRT, LCD, LED;
+	
+		CRT,  LCD,  LED;
 	}
 
+	/** Tipo de monitor. */
 	private TipoMonitor tipo;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -99,22 +118,24 @@ public class Monitor implements Comparable<Monitor> {
 	// //////////////////////////////////////
 	// tamaño (Atributo)
 	// //////////////////////////////////////
-	private int tamaño;
+	/** Tamaño de monitor. */
+	private int tamanio;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Nombre de monitor:")
 	@MemberOrder(sequence = "20")
-	public int getTamaño() {
-		return tamaño;
+	public int getTamanio() {
+		return tamanio;
 	}
 
-	public void setTamaño(final int tamaño) {
-		this.tamaño = tamaño;
+	public void setTamanio(final int tamanio) {
+		this.tamanio = tamanio;
 	}
 
 	// //////////////////////////////////////
 	// marca (Atributo)
 	// //////////////////////////////////////
+	/** Marca del monitor. */
 	private String marca;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -132,6 +153,7 @@ public class Monitor implements Comparable<Monitor> {
 	// Habilitado (propiedad)
 	// //////////////////////////////////////
 
+	/** The habilitado. */
 	public boolean habilitado;
 
 	@Hidden
@@ -148,6 +170,7 @@ public class Monitor implements Comparable<Monitor> {
 	// creadoPor
 	// //////////////////////////////////////
 
+	/** Creado por el usuario.... */
 	private String creadoPor;
 
 	@Hidden(where = Where.ALL_TABLES)
@@ -164,7 +187,7 @@ public class Monitor implements Comparable<Monitor> {
 	// Eliminar
 	// //////////////////////////////////////
 	/**
-	 * Método que utilizo para deshabilitar un Insumo.
+	 * Método utilizado para deshabilitar un Insumo.
 	 * 
 	 * @return la propiedad habilitado en false.
 	 */
@@ -186,7 +209,9 @@ public class Monitor implements Comparable<Monitor> {
 	// //////////////////////////////////////
 	/**
 	 * Implementacion de la interface comparable, necesaria para toda entidad.
-	 * 
+	 *
+	 * @param monitor
+	 * @return the int
 	 */
 	@Override
 	public int compareTo(final Monitor monitor) {
@@ -197,6 +222,7 @@ public class Monitor implements Comparable<Monitor> {
 	// Injected Services
 	// //////////////////////////////////////
 
+	/** The container. */
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 }
