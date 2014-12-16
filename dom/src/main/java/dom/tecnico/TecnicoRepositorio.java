@@ -46,6 +46,13 @@ import dom.rol.Rol;
 import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
 
+/**
+ * Contiene la funcionalidad para Cargar/Listar un nuevo Técnico.
+ * @author ProyectoTypes
+ * @since 17/05/2014
+ * @version 1.0.0
+ */
+
 @DomainService(menuOrder = "30")
 @Named("TECNICO")
 public class TecnicoRepositorio {
@@ -54,18 +61,22 @@ public class TecnicoRepositorio {
 
 	}
 
-	// //////////////////////////////////////
-	// Icono
-	// //////////////////////////////////////
-
+	/**
+	 * Retorna el nombre del icono para el Técnico.
+	 * @return String
+	 */
 	public String getId() {
 		return "tecnico";
 	}
 
 	public String iconName() {
-		return "Tecnico";
+		return "Técnico";
 	}
 
+	/**
+	 * Método que al iniciar la aplicación crea por defecto un Técnico del tipo Administrador.
+	 * @throws NoSuchAlgorithmException
+	 */
 	@Programmatic
 	@PostConstruct
 	public void init() throws NoSuchAlgorithmException {
@@ -81,18 +92,26 @@ public class TecnicoRepositorio {
 			rol.setListaPermisos(permisos);
 			final SortedSet<Rol> roles = new TreeSet<Rol>();
 			roles.add(rol);
-			this.nuevoTecnico("Administrado", "Tecnico",
+			this.nuevoTecnico("Administrador", "Técnico",
 					"inventariohardware@gmail.com", null, "admin", "sven",
 					"pass", roles);
 		}
 	}
 
-	// //////////////////////////////////////
-	// Agregar Tecnico
-	// //////////////////////////////////////
+	/**
+	 * Obtiene los datos del Técnico.
+	 * @param apellido
+	 * @param nombre
+	 * @param email
+	 * @param sector
+	 * @param nick
+	 * @param password
+	 * @param rol
+	 * @return nuevoTecnico
+	 */
 	@NotContributed
 	@MemberOrder(name = "Personal", sequence = "10")
-	@Named("Agregar Tecnico")
+	@Named("Agregar Técnico")
 	public Tecnico addTecnico(final @Named("Apellido") String apellido,
 			final @Named("Nombre") String nombre,
 			final @Named("email") String email, final @Optional Sector sector,
@@ -106,7 +125,19 @@ public class TecnicoRepositorio {
 		return nuevoTecnico(apellido, nombre, email, sector,
 				this.currentUserName(), nick, password, rolesList);
 	}
-
+	
+	/**
+	 * Toma los datos ingresados del Técnico y lo persiste.
+	 * @param apellido
+	 * @param nombre
+	 * @param email
+	 * @param sector
+	 * @param creadoPor
+	 * @param nick
+	 * @param password
+	 * @param rolList
+	 * @return
+	 */
 	@Programmatic
 	public Tecnico nuevoTecnico(final String apellido, final String nombre,
 			final String email, final Sector sector, final String creadoPor,
@@ -138,23 +169,22 @@ public class TecnicoRepositorio {
 		container.persistIfNotAlready(unTecnico);
 		container.flush();
 		return unTecnico;
-
 	}
 
-	// //////////////////////////////////////
-	// Buscar Sector
-	// //////////////////////////////////////
-
+	/**
+	 * Método que permite el listado de los Sectores.
+	 * @return sectorRepositorio.listar()
+	 */
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector en mayuscula")
 	public List<Sector> choices3AddTecnico() {
 		return sectorRepositorio.listar();
 	}
 
-	// //////////////////////////////////////
-	// Listar Tecnico
-	// //////////////////////////////////////
-
+	/**
+	 * Método que permite listar todos los Técnicos habilitados.
+	 * @return listaTecnicos
+	 */
 	@MemberOrder(name = "Personal", sequence = "20")
 	@Named("Listar Tecnicos")
 	public List<Tecnico> listar() {
@@ -168,19 +198,28 @@ public class TecnicoRepositorio {
 					.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
 							"listarHabilitados"));
 		if (listaTecnicos.isEmpty()) {
-			this.container.warnUser("No hay tecnicos cargados en el sistema");
+			this.container.warnUser("No hay Técnicos cargados en el sistema.");
 		}
 		return listaTecnicos;
 
 	}
+	
+	/**
+	 * Método que permite listar todos los Técnicos disponibles.
+	 * @return listarDisponibles
+	 */
+	public List<Tecnico> listarDisponibles() {
+		return this.container
+					.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
+							"listarDisponibles"));
+	}
 
-
-	// //////////////////////////////////////
-	// Buscar Tecnico
-	// //////////////////////////////////////
-
+	/**
+	 * Método que permite buscar y listar todos los Técnicos por Apellido.
+	 * @return listarTecnicos
+	 */
 	@MemberOrder(name = "Personal", sequence = "30")
-	@Named("Buscar Tecnico")
+	@Named("Buscar Técnico")
 	public List<Tecnico> buscar(
 			final @Named("Apellido") @MinLength(2) String apellidoUsuario) {
 		final List<Tecnico> listarTecnicos = this.container
@@ -189,10 +228,16 @@ public class TecnicoRepositorio {
 								.toUpperCase().trim()));
 		if (listarTecnicos.isEmpty())
 			this.container
-					.warnUser("No se encontraron Tecnicos cargados en el sistema.");
+					.warnUser("No se encontraron Técnicos cargados en el sistema.");
 		return listarTecnicos;
 	}
 
+	/**
+	 * Método que contiene la capacidad de autocompletar las propiedades de referencia del Técnico y 
+	 * permite mostrarlas en un cuadro de lista despegable.
+	 * @param apellido
+	 * @return
+	 */
 	@Programmatic
 	public List<Tecnico> autoComplete(final String apellido) {
 		return container.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
@@ -200,8 +245,7 @@ public class TecnicoRepositorio {
 	}
 
 	/**
-	 * Permite encodear un string a SHA-256
-	 * 
+	 * Permite encodear un string a SHA-256.
 	 * @param data
 	 * @return
 	 * @throws NoSuchAlgorithmException
@@ -220,27 +264,23 @@ public class TecnicoRepositorio {
 		return result.toString();
 	}
 
-	// //////////////////////////////////////
-	// CurrentUserName
-	// //////////////////////////////////////
-
+	/**
+	 * Obtiene el nombre del Técnico que se encuentra logueado.
+	 * @return
+	 */
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
 
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
+	/**
+	 * Inyección del contenedor.
+	 */
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 
+	/**
+	 * Inyección del servicio del Sector.
+	 */
 	@javax.inject.Inject
 	private SectorRepositorio sectorRepositorio;
-
-	public List<Tecnico> listarDisponibles() {
-		return this.container
-					.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
-							"listarDisponibles"));
-	}
 }
