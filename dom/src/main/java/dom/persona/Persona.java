@@ -37,6 +37,10 @@ import org.apache.isis.applib.annotation.RegEx;
 import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase abstracta Persona.
+ */
 @PersistenceCapable
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public abstract class Persona {
@@ -45,6 +49,7 @@ public abstract class Persona {
 	// APELLIDO (propiedad)
 	// //////////////////////////////////////
 
+	/**Apellido. */
 	private String apellido;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -63,6 +68,7 @@ public abstract class Persona {
 	// NOMBRE (propiedad)
 	// //////////////////////////////////////
 
+	/** Nombre. */
 	private String nombre;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -81,6 +87,7 @@ public abstract class Persona {
 	// EMAIL (propiedad)
 	// //////////////////////////////////////
 
+	/** Email. */
 	private String email;
 
 	
@@ -100,6 +107,7 @@ public abstract class Persona {
 	// Habilitado (propiedad)
 	// //////////////////////////////////////
 
+	/** Habilitado. */
 	public boolean habilitado;
 
 	@Hidden
@@ -116,6 +124,7 @@ public abstract class Persona {
 	// creadoPor
 	// //////////////////////////////////////
 
+	/** Creado por. */
 	private String creadoPor;
 
 	@Hidden
@@ -132,6 +141,7 @@ public abstract class Persona {
 	// Sector (propiedad)
 	// //////////////////////////////////////
 
+	/** Sector. */
 	private Sector sector;
 
 	@MemberOrder(sequence = "100")
@@ -148,6 +158,12 @@ public abstract class Persona {
 	// Modificar Sector
 	// //////////////////////////////////////
 
+	/**
+	 * Modificar sector: se usa para cambiar el sector que posee un usuario.
+	 *
+	 * @param sector the sector
+	 * @return the persona
+	 */
 	@MemberOrder(sequence = "110")
 	@Named("Modificar Sector")
 	public Persona mod(final Sector sector) {
@@ -162,6 +178,12 @@ public abstract class Persona {
 	// Buscar Sector
 	// //////////////////////////////////////
 
+	/**
+	 * Auto complete0 mod.
+	 *
+	 * @param search the search
+	 * @return the list
+	 */
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector")
 	public List<Sector> autoComplete0Mod(final @MinLength(2) String search) {
@@ -172,6 +194,12 @@ public abstract class Persona {
 	// Autocomplete Sector
 	// //////////////////////////////////////
 
+	/**
+	 * Auto complete sector.
+	 *
+	 * @param search the search
+	 * @return the list
+	 */
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector")
 	public List<Sector> autoCompleteSector(final @MinLength(2) String search) {
@@ -184,6 +212,7 @@ public abstract class Persona {
 	// Injected Services
 	// //////////////////////////////////////
 
+	/** The sector repositorio. */
 	@javax.inject.Inject
 	private SectorRepositorio sectorRepositorio;
 }
