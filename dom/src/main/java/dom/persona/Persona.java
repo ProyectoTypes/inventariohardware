@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.persona;
 
 import java.util.List;
@@ -49,7 +49,7 @@ public abstract class Persona {
 	// APELLIDO (propiedad)
 	// //////////////////////////////////////
 
-	/**Apellido. */
+	/** Apellido. */
 	private String apellido;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -90,7 +90,6 @@ public abstract class Persona {
 	/** Email. */
 	private String email;
 
-	
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	@RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
@@ -159,10 +158,11 @@ public abstract class Persona {
 	// //////////////////////////////////////
 
 	/**
-	 * Modificar sector: se usa para cambiar el sector que posee un usuario.
+	 * Modificar sector: se usa para modificar el sector que posee un usuario.
 	 *
-	 * @param sector the sector
-	 * @return the persona
+	 * @param sector
+	 * 
+	 * @return persona
 	 */
 	@MemberOrder(sequence = "110")
 	@Named("Modificar Sector")
@@ -179,26 +179,30 @@ public abstract class Persona {
 	// //////////////////////////////////////
 
 	/**
-	 * Auto complete0 mod.
+	 * Autocomplete0mod: metodo que completa el sector mientras se lo va
+	 * cargando
 	 *
-	 * @param search the search
-	 * @return the list
+	 * @param search
+	 * 
+	 * @return list
 	 */
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector")
 	public List<Sector> autoComplete0Mod(final @MinLength(2) String search) {
 		return sectorRepositorio.autoComplete(search);
 	}
-	
+
 	// //////////////////////////////////////
 	// Autocomplete Sector
 	// //////////////////////////////////////
 
 	/**
-	 * Auto complete sector.
+	 * Autocompletesector:metodo que completa el sector mientras se lo va
+	 * cargando
 	 *
-	 * @param search the search
-	 * @return the list
+	 * @param search
+	 * 
+	 * @return list
 	 */
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector")
@@ -206,13 +210,11 @@ public abstract class Persona {
 		return sectorRepositorio.autoComplete(search);
 	}
 
-	
-
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
 
-	/** The sector repositorio. */
+	/** Sector repositorio. */
 	@javax.inject.Inject
 	private SectorRepositorio sectorRepositorio;
 }

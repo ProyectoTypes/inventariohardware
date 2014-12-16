@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.rol;
 
 import java.util.SortedSet;
@@ -39,6 +39,10 @@ import org.apache.isis.applib.annotation.Render;
 
 import dom.permiso.Permiso;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase Rol.
+ */
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -46,11 +50,17 @@ import dom.permiso.Permiso;
 @Bounded
 public class Rol implements Comparable<Rol> {
 
+	/**
+	 * Titulo de la lcase.
+	 *
+	 * @return string
+	 */
 	public String title() {
 		String text = nombre;
 		return text;
 	}
 
+	/** Nombre. */
 	private String nombre;
 
 	@MemberOrder(sequence = "1")
@@ -63,6 +73,7 @@ public class Rol implements Comparable<Rol> {
 		this.nombre = nombre;
 	}
 
+	/** Lista permisos. */
 	@Join
 	@Element(dependent = "false")
 	private SortedSet<Permiso> listaPermisos = new TreeSet<Permiso>();
@@ -77,6 +88,12 @@ public class Rol implements Comparable<Rol> {
 		this.listaPermisos = listaPermisos;
 	}
 
+	/**
+	 * Addpermiso: metodo que agrega permisos al rol que estamos creando.
+	 *
+	 * @param permiso
+	 * @return rol
+	 */
 	@MemberOrder(sequence = "4")
 	@Named("Agregar Permiso")
 	@DescribedAs("Agregar un Permiso a este Rol.")
@@ -85,6 +102,14 @@ public class Rol implements Comparable<Rol> {
 		return this;
 	}
 
+	/**
+	 * Removepermiso: metodo que nos permite eliminar permisos de los roles que
+	 * tenemos.
+	 *
+	 * @param permiso
+	 * 
+	 * @return rol
+	 */
 	@MemberOrder(sequence = "5")
 	@Named("Eliminar Permiso")
 	@DescribedAs("Remover permiso para este Rol.")
@@ -93,10 +118,20 @@ public class Rol implements Comparable<Rol> {
 		return this;
 	}
 
+	/**
+	 * Choices0removepermiso: metodo que nos permite listar todos los permisos.
+	 *
+	 * @return sorted set
+	 */
 	public SortedSet<Permiso> choices0RemovePermiso() {
 		return getListaPermisos();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	@Override
 	public int compareTo(Rol other) {
 		return this.getNombre().compareTo(other.getNombre());

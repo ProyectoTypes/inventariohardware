@@ -37,6 +37,10 @@ import org.apache.isis.applib.annotation.Where;
 
 import dom.permiso.Permiso;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase RolRepositorio.
+ */
 @DomainService(menuOrder = "81", repositoryFor = Rol.class)
 @Named("Rol")
 public class RolRepositorio {
@@ -45,18 +49,35 @@ public class RolRepositorio {
 		return "rol";
 	}
 
+	/**
+	 * Nombre del icono.
+	 *
+	 * @return string
+	 */
 	public String iconName() {
 		return "Tecnico";
 	}
 
+	/**
+	 * Listall: metodo que devuelve una lista de todos los roles.
+	 *
+	 * @return list
+	 */
 	@ActionSemantics(Of.SAFE)
-	@MemberOrder(name="Configurar Seguridad",sequence = "20")
+	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
 	@Named("Lista de Roles")
 	public List<Rol> listAll() {
 		return container.allInstances(Rol.class);
 	}
 
-	@MemberOrder(name="Configurar Seguridad",sequence = "20")
+	/**
+	 * AddRoll: método para la creación de roles.
+	 *
+	 * @param nombre
+	 * @param permiso
+	 * @return the
+	 */
+	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
 	@Named("Crear Rol")
 	@Hidden(where = Where.OBJECT_FORMS)
 	public Rol addRol(final @Named("Nombre") String nombre,
@@ -72,6 +93,14 @@ public class RolRepositorio {
 		return rol;
 	}
 
+	/**
+	 * AddRol: toma los datos cargados en el formulario y los persiste en la
+	 * base de datos.
+	 *
+	 * @param nombre
+	 * @param permisos
+	 * @return rol
+	 */
 	@Programmatic
 	public Rol addRol(final @Named("Nombre") String nombre,
 			final @Named("Permiso") List<Permiso> permisos) {
@@ -85,8 +114,14 @@ public class RolRepositorio {
 		return rol;
 	}
 
+	/**
+	 * RemoveRol: metodo que se utiliza para la eliminacion de roles
+	 *
+	 * @param rol
+	 * @return string
+	 */
 	@ActionSemantics(Of.NON_IDEMPOTENT)
-	@MemberOrder(name="Configurar Seguridad",sequence = "20")
+	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
 	@Named("Eliminar Rol")
 	public String removeRol(@Named("Rol") Rol rol) {
 		String roleName = rol.getNombre();
@@ -94,6 +129,7 @@ public class RolRepositorio {
 		return "El Rol " + roleName + " se ha eliminado correctamente.";
 	}
 
+	/** Container. */
 	@javax.inject.Inject
 	DomainObjectContainer container;
 }
