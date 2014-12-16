@@ -43,6 +43,10 @@ import org.joda.time.LocalDate;
 
 import dom.soporte.Soporte;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase Insumo.
+ */
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "idInsumo")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -71,12 +75,22 @@ public class Insumo implements Comparable<Insumo> {
 	// Identificacion en la UI
 	// //////////////////////////////////////
 
+	/**
+	 * Titulo de la clase
+	 *
+	 * @return the string
+	 */
 	public String title() {
 
 		return this.getMarca() + " - " + this.getProducto();
 
 	}
 
+	/**
+	 * Nombre del icono
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "Insumos";
 	}
@@ -85,6 +99,7 @@ public class Insumo implements Comparable<Insumo> {
 	// Cantidad (Atributo)
 	// //////////////////////////////////////
 
+	/** Cantidad. */
 	private int cantidad;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -102,6 +117,7 @@ public class Insumo implements Comparable<Insumo> {
 	// Producto (Atributo)
 	// //////////////////////////////////////
 
+	/** Producto. */
 	private String producto;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -119,6 +135,7 @@ public class Insumo implements Comparable<Insumo> {
 	// Marca (Atributo)
 	// //////////////////////////////////////
 
+	/** Marca. */
 	private String marca;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -136,6 +153,7 @@ public class Insumo implements Comparable<Insumo> {
 	// Modelo (Atributo)
 	// //////////////////////////////////////
 
+	/** Modelo. */
 	private String modelo;
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
@@ -153,6 +171,7 @@ public class Insumo implements Comparable<Insumo> {
 	// Habilitado (propiedad)
 	// //////////////////////////////////////
 
+	/** Habilitado. */
 	public boolean habilitado;
 
 	@Hidden
@@ -169,6 +188,7 @@ public class Insumo implements Comparable<Insumo> {
 	// creadoPor
 	// //////////////////////////////////////
 
+	/** Creado por. */
 	private String creadoPor;
 
 	@Hidden(where = Where.ALL_TABLES)
@@ -185,6 +205,7 @@ public class Insumo implements Comparable<Insumo> {
 	// Fecha (propiedad)
 	// //////////////////////////////////////
 
+	/** Fecha. */
 	private LocalDate fecha;
 
 	@Disabled
@@ -202,6 +223,7 @@ public class Insumo implements Comparable<Insumo> {
 	// Relacion Movimiento/Insumos.
 	// //////////////////////////////////////
 
+	/** Soporte. */
 	private Soporte soporte;
 
 	@Hidden(where = Where.ALL_TABLES)
@@ -215,6 +237,11 @@ public class Insumo implements Comparable<Insumo> {
 		this.soporte = soporte;
 	}
 
+	/**
+	 * Modifica el soporte agregando un insumo
+	 *
+	 * @param soporte
+	 */
 	public void modifySoporte(final Soporte soporte) {
 		Soporte currentSoporte = getSoporte();
 		if (soporte == null || soporte.equals(currentSoporte)) {
@@ -223,6 +250,9 @@ public class Insumo implements Comparable<Insumo> {
 		soporte.agregarUnInsumo(this);
 	}
 
+	/**
+	 * Limpieza de insumos en soporte.
+	 */
 	public void clearSoporte() {
 		Soporte currentSoporte = getSoporte();
 		if (currentSoporte == null) {
@@ -232,7 +262,7 @@ public class Insumo implements Comparable<Insumo> {
 	}
 
 	/**
-	 * Método que utilizo para deshabilitar un Insumo.
+	 * Método que se utiliza para deshabilitar un Insumo.
 	 * 
 	 * @return la propiedad habilitado en false.
 	 */
@@ -248,10 +278,6 @@ public class Insumo implements Comparable<Insumo> {
 		}
 		return null;
 	}
-	
-	/**
-	 * TERMINAR DE IMPLEMENTAR CORRECTAMENTE LOS SIGUIENTES METODOS.
-	 */
 
 	@Programmatic
 	public void limpiarSoporte() {
@@ -261,11 +287,12 @@ public class Insumo implements Comparable<Insumo> {
 	public int compareTo(Insumo o) {
 		return 0;
 	}
-	
+
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
 
+	/** Container. */
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 }
