@@ -54,6 +54,14 @@ import dom.rol.Rol;
 import dom.sector.Sector;
 import dom.soporte.Soporte;
 
+/**
+ * Entidad Técnico, representa a  las personas que pertenecen al Departamento de Sistemas. 
+ * Extiende de la clase Persona.
+ * @author ProyectoTypes
+ * @since 17/05/2014
+ * @version 1.0.0
+ */
+
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -78,10 +86,10 @@ import dom.soporte.Soporte;
 @AutoComplete(repository = TecnicoRepositorio.class, action = "autoComplete")
 public class Tecnico extends Persona implements Comparable<Persona> {
 
-	// //////////////////////////////////////
-	// Identification in the UI
-	// //////////////////////////////////////
-
+	/**
+	 * Obtiene el Apellido y Nombre del Técnico.
+	 * @return String
+	 */
 	public String title() {
 		return this.getApellido() + ", " + this.getNombre();
 	}
@@ -89,7 +97,11 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	public String iconName() {
 		return "Tecnico";
 	}
-
+	
+	/**
+	 * Retorna el nick del Técnico que se va a persistir.
+	 * @return nick
+	 */
 	private String nick;
 
 	@MemberOrder(sequence = "40")
@@ -98,10 +110,18 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return nick;
 	}
 
+	/**
+	 * Setea el nick del Técnico que se va a persistir.
+	 * @param nick
+	 */
 	public void setNick(final String nick) {
 		this.nick = nick;
 	}
 
+	/**
+	 * Retorna el password del Técnico que se va a persistir.
+	 * @return password
+	 */
 	private String password;
 
 	@MemberOrder(sequence = "50")
@@ -111,6 +131,10 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return password;
 	}
 
+	/**
+	 * Setea el password del Técnico que se va a persistir.
+	 * @param password
+	 */
 	public void setPassword(final String password) {
 		this.password = password;
 	}
@@ -118,7 +142,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	@Join
 	@Element(dependent = "false")
 	private SortedSet<Rol> listaDeRoles = new TreeSet<Rol>();
-
+	
 	@MemberOrder(name = "Lista de Roles", sequence = "2")
 	@Render(org.apache.isis.applib.annotation.Render.Type.EAGERLY)
 	public SortedSet<Rol> getListaDeRoles() {
@@ -129,6 +153,11 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		this.listaDeRoles = listaDeRoles;
 	}
 
+	/**
+	 * Método que permite asignar un Rol al Técnico.
+	 * @param rol
+	 * @return
+	 */
 	@MemberOrder(name = "Lista de Roles", sequence = "3")
 	@Named("Agregar Rol")
 	@DescribedAs("Agrega un Rol al Usuario.")
@@ -139,6 +168,11 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return this;
 	}
 
+	/**
+	 * Método que permite quitar el Rol del Técnico.
+	 * @param rol
+	 * @return
+	 */
 	// FIXME: El rol ADMINISTRADOR NO DEBE SER BORRADO.
 	@MemberOrder(name = "Lista de Roles", sequence = "5")
 	@Named("Eliminar Rol")
@@ -150,14 +184,17 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return this;
 	}
 
+	/**
+	 * Permite listar los Roles.
+	 * @return
+	 */
 	public SortedSet<Rol> choices0RemoveRole() {
 		return getListaDeRoles();
 	}
 
 	/**
-	 * Método que utilizo para deshabilitar un Tecnico.
-	 * 
-	 * @return la propiedad habilitado en false.
+	 * Método cuya funcionalidad es deshabilitar un Técnico.
+	 * @return tecnicoRepositorio.listar()
 	 */
 	@Named("Eliminar Tecnico")
 	@PublishedAction
@@ -174,7 +211,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return tecnicoRepositorio.listar();
 	}
 
-	// {{ Movimiento (property)
+	
 	private Soporte soporte;
 
 	@MemberOrder(sequence = "200")
@@ -188,13 +225,10 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		this.soporte = soporte;
 	}
 
-	// }}
-
 	/**
-	 * Relacion entre Tecnico/Computadora. Un Tecnico podrá tener hasta 5
-	 * Computadoras.
+	 * Relacion bidirecciononal entre Técnico y Computadora.
+	 * @return computadoras
 	 */
-	// {{ Computadoras (Collection)
 	@Join
 	@Element(dependent = "False")
 	private SortedSet<Computadora> computadoras = new TreeSet<Computadora>();
@@ -208,11 +242,10 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		this.computadoras = computadoras;
 	}
 
-	// }}
-
-	// ///////////////////////////////////////////////////
-	// Operaciones de COMPUTADORA: Agregar/Borrar
-	// ///////////////////////////////////////////////////
+	/**
+	 * Método que permite agregar una Computadora con sus respectivos atributos.
+	 * @param unaComputadora
+	 */
 	@Named("Agregar Computadora")
 	@MemberOrder(name = "Computadoras", sequence = "7")
 	public void addToComputadora(final Computadora unaComputadora) {
@@ -225,6 +258,10 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		this.getComputadoras().add(unaComputadora);
 	}
 
+	/**
+	 * Método que permite eliminar una Computadora con sus respectivos atributos.
+	 * @param unaComputadora
+	 */
 	@Named("Eliminar Computadora")
 	@MemberOrder(name = "Computadoras", sequence = "7")
 	public void removeFromComputadora(final Computadora unaComputadora) {
@@ -236,8 +273,9 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		this.getComputadoras().remove(unaComputadora);
 	}
 
-	/*
-	 * Permite saber cuantas computadoras esta reparando el tecnico.
+	/**
+	 * Permite saber cuantas computadoras esta reparando el Tecnico.
+	 * @return cantidadComputadora
 	 */
 	private BigDecimal cantidadComputadora;
 
@@ -246,14 +284,13 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	public BigDecimal getCantidadComputadora() {
 		return cantidadComputadora;
 	}
-
+	
 	public void setCantidadComputadora(final BigDecimal cantidadComputadora) {
 		this.cantidadComputadora = cantidadComputadora;
 	}
 
 	/**
-	 * SumaComputadora: Controla que no sean mas de 5 equipos por Tecnico.
-	 * A.comparetTo(B) -> 0 : Si son iguales ; 1: A > B ; -1: B > A
+	 * SumaComputadora: Controla que no sean mas de cinco equipos por Tecnico.
 	 */
 	@Programmatic
 	public void sumaComputadora() {
@@ -261,25 +298,39 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		this.setCantidadComputadora(this.cantidadComputadora.add(valor));
 	}
 
+	/**
+	 * RestaComputadora: Dependiendo del Estado, resta una Computadora al Técnico.
+	 */
 	@Programmatic
 	public void restaComputadora(final Computadora computadora) {
 		BigDecimal valor = BigDecimal.valueOf(-1);
 		this.setCantidadComputadora(this.cantidadComputadora.add(valor));
 	}
 
-	// {{ Disponible (property)
 	private Boolean disponible;
 
+	/**
+	 * Retorna la disponibilidad del Técnico.
+	 * @return boolean
+	 */
 	@MemberOrder(sequence = "7")
 	@javax.jdo.annotations.Column(allowsNull = "true")
 	public Boolean getDisponible() {
 		return disponible;
 	}
 
+	/**
+	 * Setea la propiedad Disponible.
+	 * @param disponible
+	 */
 	public void setDisponible(final Boolean disponible) {
 		this.disponible = disponible;
 	}
 
+	/**
+	 * Retorna la disponibilidad del Técnico.
+	 * @return boolean
+	 */
 	@Programmatic
 	public Boolean estaDisponible() {
 		BigDecimal tope = BigDecimal.valueOf(10);
@@ -287,17 +338,12 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 			return true;
 		else
 			return false;
-
 	}
 
-	// }}
-
 	/**
-	 * Elimina el sector de forma logica.
-	 * 
+	 * Método que elimina el Sector.
 	 * @return
 	 */
-
 	@MemberOrder(sequence = "120")
 	@Named("Eliminar Sector")
 	public Tecnico clear() {
@@ -309,20 +355,20 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		return this;
 	}
 
-	// //////////////////////////////////////
-	// CompareTo
-	// //////////////////////////////////////
 	@Override
 	public int compareTo(final Persona persona) {
 		return ObjectContracts.compare(this, persona, "apellido");
 	}
 
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
+	/**
+	 * Inyección del contenedor.
+	 */
 	@javax.inject.Inject
 	private DomainObjectContainer container;
+	
+	/**
+	 * Inyección del servicio del Técnico.
+	 */
 	@Inject
 	private TecnicoRepositorio tecnicoRepositorio;
 }
