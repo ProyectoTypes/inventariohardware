@@ -22,50 +22,79 @@
 package servicio.reporte;
 
 import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.*;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 
+import dom.tecnico.Tecnico;
+import dom.tecnico.TecnicoRepositorio;
+
+/**
+ * ReporteRepositorio. Permite crear y listar los Reportes solicitados.
+ * @author ProyectoTypes
+ * @since 17/12/2014
+ * @version 1.0.0
+ */
+
 @DomainService(menuOrder = "10", repositoryFor = Reporte.class)
 @Named("Reporte")
 public class ReporteRepositorio {
 
-    //region > identification in the UI
-    // //////////////////////////////////////
-
+	/**
+	 * Obtiene el Id del Reporte.
+	 * @return String
+	 */
     public String getId() {
         return "Reportes";
     }
 
+    /**
+     * Obtiene el ícono del Reporte.
+     * @return
+     */
     public String iconName() {
         return "Reportes";
     }
 
-    //endregion
-
-    //region > create (action)
-    // //////////////////////////////////////
-    
-    @Named("Crear")
+    /**
+     * Método que permite crear el Reporte.
+     * @param numero
+     * @param tecnico
+     * @param fechaReporte
+     * @return obj
+     */
+    @Named("Generar Reporte")
     @MemberOrder(sequence = "1")
     public Reporte create(
             final @Named("Número de Reporte") String numero,
-            final @Named("Nombre del Tecnico") String nombreTecnico,
+            final @Named("Apellido del Técnico") Tecnico tecnico,
             final @Named("Fecha de Reporte") LocalDate fechaReporte) {
         final Reporte obj = container.newTransientInstance(Reporte.class);
         obj.setNumero(numero);
+        obj.modifyTecnico(tecnico);
         obj.setFechaReporte(fechaReporte);
-        obj.setNombreTecnico(nombreTecnico);
         container.persistIfNotAlready(obj);
         return obj;
     }
-
-    //endregion
     
-    //region > listAll (action)
-    // //////////////////////////////////////
-
+    /**
+     * Método que permite la búsqueda del Técnico.
+     * @param search
+     * @return tecnicoRepositorio.autoComplete(search);
+     */
+	@Named("Buscar Técnico")
+	@DescribedAs("Buscar el Técnico en mayúsculas.")
+	public List<Tecnico> autoCompleteAgregarReporte(
+			final @MinLength(2) String search) {
+		return tecnicoRepositorio.autoComplete(search);
+	}
+    
+	/**
+	 * Método que lista los Reportes.
+	 * @return container.allInstances(Reporte.class);
+	 */
     @Bookmarkable
     @ActionSemantics(Of.SAFE)
     @Named("Listar")
@@ -74,13 +103,15 @@ public class ReporteRepositorio {
         return container.allInstances(Reporte.class);
     }
 
-    //endregion
-
-    //region > injected services
-    // //////////////////////////////////////
-
+    /**
+	 * Inyección del contenedor.
+	 */
     @javax.inject.Inject 
     DomainObjectContainer container;
-
-    //endregion
+    
+	/**
+	 * Inyección del servicio del Técnico.
+	 */
+	@javax.inject.Inject
+	private TecnicoRepositorio tecnicoRepositorio;
 }
