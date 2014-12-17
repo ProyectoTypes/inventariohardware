@@ -107,7 +107,7 @@ public class CustomerConfirmation {
             } else if ("orderNumber".equals(fullyQualifiedName)) {
                 field.setValue(reporte.getNumero());
             } else if ("customerName".equals(fullyQualifiedName)) {
-                field.setValue(reporte.getNombreTecnico());
+                field.setValue(reporte.getTecnico().getApellido());
             } else if ("message".equals(fullyQualifiedName)) {
                 String message = "You have ordered '" + orderLines.size() +"' products";
                 field.setValue(message);

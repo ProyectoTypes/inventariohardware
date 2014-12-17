@@ -22,12 +22,14 @@
 package servicio.reporte.scripts;
 
 import java.math.BigDecimal;
-import servicio.reporte.Reporte;
-import servicio.reporte.ReporteRepositorio;
-import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.apache.isis.applib.services.clock.ClockService;
+import org.joda.time.LocalDate;
+
+import servicio.reporte.Reporte;
+import servicio.reporte.ReporteRepositorio;
+import dom.tecnico.Tecnico;
 
 public class PdfModuleAppSetupFixture extends FixtureScript {
 
@@ -42,7 +44,7 @@ public class PdfModuleAppSetupFixture extends FixtureScript {
         //executeChild(new PdfModuleAppTeardownFixture(), executionContext);
 
         // create
-        final Reporte order = Create("1234", "Joe Smith", clockService.now().minusDays(5), executionContext);
+        final Reporte order = Create("1234", null, clockService.now().minusDays(5), executionContext);
 
         order.add("TV", BigDecimal.valueOf(543.21), 1);
         order.add("X-Men", BigDecimal.valueOf(12.34), 1);
@@ -54,10 +56,10 @@ public class PdfModuleAppSetupFixture extends FixtureScript {
 
     private Reporte Create(
             final String numero,
-            final String nombreTecnico,
+            final Tecnico tecnico,
             final LocalDate fechaReporte,
             final ExecutionContext executionContext) {
-        return executionContext.add(this, orders.create(numero, nombreTecnico, fechaReporte));
+        return executionContext.add(this, orders.create(numero, tecnico, fechaReporte));
     }
 
     // //////////////////////////////////////
