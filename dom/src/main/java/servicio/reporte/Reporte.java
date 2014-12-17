@@ -44,67 +44,52 @@ import org.apache.isis.applib.util.ObjectContracts;
 @MemberGroupLayout(columnSpans = {6,0,0,6})
 public class Reporte implements Comparable<Reporte> {
 
-    //region > number (property)
+    //region > numero (property)
     // //////////////////////////////////////
-    private String number;
+    private String numero;
 
     @javax.jdo.annotations.Column(allowsNull="false")
     @Title(sequence = "1")
     @MemberOrder(sequence = "1")
-    public String getNumber() {
-        return number;
+    public String getNumero() {
+        return numero;
     }
 
-    public void setNumber(final String number) {
-        this.number = number;
+    public void setNumero(final String numero) {
+        this.numero = numero;
     }
     //endregion
 
-    //region > customerName (property)
+    //region > nombreTecnico (property)
 
-    private String customerName;
+    private String nombreTecnico;
 
     @javax.jdo.annotations.Column(allowsNull="false")
     @Title(prepend= ", ", sequence="2")
     @MemberOrder(sequence = "1")
-    public String getCustomerName() {
-        return customerName;
+    public String getNombreTecnico() {
+        return nombreTecnico;
     }
 
-    public void setCustomerName(final String customerName) {
-        this.customerName = customerName;
+    public void setNombreTecnico(final String nombreTecnico) {
+        this.nombreTecnico = nombreTecnico;
     }
 
     //endregion
 
-    //region > date (property)
+    //region > fechaReporte (property)
 
     @javax.jdo.annotations.Persistent(defaultFetchGroup="true")
-    private LocalDate date;
+    private LocalDate fechaReporte;
 
     @javax.jdo.annotations.Column(allowsNull="true")
     @MemberOrder(sequence = "1")
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getFechaReporte() {
+        return fechaReporte;
     }
 
-    public void setDate(final LocalDate date) {
-        this.date = date;
-    }
-    //endregion
-
-    //region > preferences (property)
-    private String preferences;
-
-    @javax.jdo.annotations.Column(allowsNull="true")
-    @MemberOrder(sequence = "4")
-    @MultiLine(numberOfLines = 6)
-    public String getPreferences() {
-        return preferences;
-    }
-
-    public void setPreferences(final String preferences) {
-        this.preferences = preferences;
+    public void setFechaReporte(final LocalDate fechaReporte) {
+        this.fechaReporte = fechaReporte;
     }
     //endregion
 
