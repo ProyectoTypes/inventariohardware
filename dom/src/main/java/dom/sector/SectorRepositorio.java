@@ -34,10 +34,17 @@ import org.apache.isis.applib.annotation.Prototype;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase SectorRepositorio.
+ */
 @DomainService(menuOrder = "50")
 @Named("SECTOR")
 public class SectorRepositorio {
 
+	/**
+	 * Instantiates a new sector repositorio.
+	 */
 	public SectorRepositorio() {
 
 	}
@@ -50,6 +57,11 @@ public class SectorRepositorio {
 		return "servicio";
 	}
 
+	/**
+	 * Icon name.
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "Sector";
 	}
@@ -57,6 +69,12 @@ public class SectorRepositorio {
 	// //////////////////////////////////////
 	// Insertar un Sector.
 	// //////////////////////////////////////
+	/**
+	 * Agregar.
+	 *
+	 * @param nombreSector the nombre sector
+	 * @return the sector
+	 */
 	@Named("Agregar")
 	@MemberOrder(sequence = "10")
 	public Sector agregar(
@@ -64,6 +82,13 @@ public class SectorRepositorio {
 		return nuevoSector(nombreSector, this.currentUserName());
 	}
 
+	/**
+	 * Nuevo sector.
+	 *
+	 * @param nombreSector the nombre sector
+	 * @param creadoPor the creado por
+	 * @return the sector
+	 */
 	@Programmatic
 	public Sector nuevoSector(final String nombreSector, final String creadoPor) {
 		final Sector unSector = this.container
@@ -80,6 +105,11 @@ public class SectorRepositorio {
 	// //////////////////////////////////////
 	// ListarTodos
 	// //////////////////////////////////////
+	/**
+	 * Listar.
+	 *
+	 * @return the list
+	 */
 	@MemberOrder(sequence = "20")
 	public List<Sector> listar() {
 		if (this.container.getUser().getName().contentEquals("sven"))
@@ -91,10 +121,10 @@ public class SectorRepositorio {
 	}
 
 	/**
-	 * Buscar
-	 * 
-	 * @param nombreSector
-	 * @return
+	 * Buscar.
+	 *
+	 * @param nombreSector the nombre sector
+	 * @return the list
 	 */
 
 	@MemberOrder(sequence = "21")
@@ -113,6 +143,12 @@ public class SectorRepositorio {
 	// //////////////////////////////////////
 	// AutoComplete: Servicio utilizado por Sector.
 	// //////////////////////////////////////
+	/**
+	 * Auto complete.
+	 *
+	 * @param buscarNombreSector the buscar nombre sector
+	 * @return the list
+	 */
 	@Programmatic
 	public List<Sector> autoComplete(final String buscarNombreSector) {
 		return container.allMatches(new QueryDefault<Sector>(Sector.class,
@@ -120,6 +156,11 @@ public class SectorRepositorio {
 				buscarNombreSector.toUpperCase().trim()));
 	}
 
+	/**
+	 * Crear sectores.
+	 *
+	 * @return the list
+	 */
 	@Prototype
 	public List<Sector> crearSectores() {
 		List<Sector> sectores = new ArrayList<Sector>();
@@ -135,6 +176,11 @@ public class SectorRepositorio {
 	// CurrentUserName
 	// //////////////////////////////////////
 
+	/**
+	 * Current user name.
+	 *
+	 * @return the string
+	 */
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
@@ -143,6 +189,7 @@ public class SectorRepositorio {
 	// Injected Services
 	// //////////////////////////////////////
 
+	/** The container. */
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 }

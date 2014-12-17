@@ -18,7 +18,7 @@
  * 
  * 
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 package dom.sector;
 
 import java.util.List;
@@ -42,6 +42,10 @@ import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase Sector.
+ */
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -52,11 +56,9 @@ import org.apache.isis.applib.util.ObjectContracts;
 				+ "FROM dom.sector.Sector "
 				+ "WHERE nombreSector.indexOf(:nombreSector) >= 0"),
 		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.sector.Sector "
-				+ " WHERE habilitado == true"),
+				+ "FROM dom.sector.Sector " + " WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "listarHabilitados", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.sector.Sector "
-				+ "WHERE habilitado == true"),
+				+ "FROM dom.sector.Sector " + "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorNombre", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.sector.Sector "
 				+ "WHERE nombreSector.indexOf(:nombreSector) >= 0") })
@@ -70,18 +72,25 @@ public class Sector implements Comparable<Sector> {
 	// Identificacion en la UI
 	// //////////////////////////////////////
 
+	/**
+	 * Titulo de la clase.
+	 *
+	 * @return the string
+	 */
 	public String title() {
 		return this.getNombreSector();
 	}
 
+	/**
+	 * Nombre del icono.
+	 *
+	 * @return the string
+	 */
 	public String iconName() {
 		return "Sector";
 	}
 
-	// //////////////////////////////////////
-	// Nombre
-	// //////////////////////////////////////
-	
+	/** Nombre sector. */
 	private String nombreSector;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -96,10 +105,7 @@ public class Sector implements Comparable<Sector> {
 		this.nombreSector = nombreSector;
 	}
 
-	// //////////////////////////////////////
-	// creadoPor
-	// //////////////////////////////////////
-
+	/** Creado por. */
 	private String creadoPor;
 
 	@Hidden(where = Where.ALL_TABLES)
@@ -112,11 +118,7 @@ public class Sector implements Comparable<Sector> {
 		this.creadoPor = creadoPor;
 	}
 
-
-	// //////////////////////////////////////
-	// Habilitado
-	// //////////////////////////////////////
-
+	/** Hbilitado. */
 	public boolean habilitado;
 
 	@Hidden
@@ -128,12 +130,9 @@ public class Sector implements Comparable<Sector> {
 	public void setHabilitado(final boolean habilitado) {
 		this.habilitado = habilitado;
 	}
-	
-	// //////////////////////////////////////
-	// Eliminar
-	// //////////////////////////////////////
+
 	/**
-	 * Método que utilizo para deshabilitar un Insumo.
+	 * Eliminar: Método que se usa para deshabilitar un Insumo.
 	 * 
 	 * @return la propiedad habilitado en false.
 	 */
@@ -142,30 +141,32 @@ public class Sector implements Comparable<Sector> {
 	@Bulk
 	@MemberOrder(name = "accionEliminar", sequence = "1")
 	public List<Sector> eliminar() {
-			setHabilitado(false);
-			container.flush();
-			container.warnUser("Eliminado " + container.titleOf(this));
+		setHabilitado(false);
+		container.flush();
+		container.warnUser("Eliminado " + container.titleOf(this));
 		return sectorRepositorio.listar();
 	}
-	
-	// //////////////////////////////////////
-	// Comparable
-	// //////////////////////////////////////
+
 	/**
 	 * Implementacion de la interface comparable, necesaria para toda entidad.
-	 *  
+	 *
+	 * @param sector
+	 * @return int
 	 */
 	@Override
 	public int compareTo(final Sector sector) {
 		return ObjectContracts.compare(this, sector, "nombreSector");
 	}
-	
+
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
 
+	/** Container. */
 	@Inject
 	private DomainObjectContainer container;
+
+	/** Sector repositorio. */
 	@Inject
 	private SectorRepositorio sectorRepositorio;
 }
