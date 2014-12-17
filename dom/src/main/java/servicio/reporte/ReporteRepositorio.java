@@ -50,15 +50,13 @@ public class ReporteRepositorio {
     @Named("Crear")
     @MemberOrder(sequence = "1")
     public Reporte create(
-            final @Named("Numero de Reporte") String number,
-            final @Named("Nombre del Tecnico") String customerName,
-            final @Named("Fecha de Reporte") LocalDate date,
-            final @Named("Preferencias") @Optional String preferences) {
+            final @Named("Número de Reporte") String numero,
+            final @Named("Nombre del Tecnico") String nombreTecnico,
+            final @Named("Fecha de Reporte") LocalDate fechaReporte) {
         final Reporte obj = container.newTransientInstance(Reporte.class);
-        obj.setNumber(number);
-        obj.setDate(date);
-        obj.setCustomerName(customerName);
-        obj.setPreferences(preferences);
+        obj.setNumero(numero);
+        obj.setFechaReporte(fechaReporte);
+        obj.setNombreTecnico(nombreTecnico);
         container.persistIfNotAlready(obj);
         return obj;
     }
