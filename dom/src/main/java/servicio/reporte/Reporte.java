@@ -25,12 +25,17 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
+
 import org.joda.time.LocalDate;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.*;
 import org.apache.isis.applib.util.ObjectContracts;
+
+import dom.tecnico.Tecnico;
 
 @javax.jdo.annotations.PersistenceCapable(identityType=IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(
@@ -59,23 +64,52 @@ public class Reporte implements Comparable<Reporte> {
         this.numero = numero;
     }
     //endregion
+	
+	/*****************************************************
+	 * Relacion Reporte/Técnico
+	 ****************************************************/
+	private Tecnico tecnico;
 
-    //region > nombreTecnico (property)
+	@MemberOrder(sequence = "2")
+	@Column(allowsNull = "true")
+	public Tecnico getTecnico() {
+		return tecnico;
+	}
 
-    private String nombreTecnico;
+	public void setTecnico(final Tecnico tecnico) {
+		this.tecnico = tecnico;
+	}
 
-    @javax.jdo.annotations.Column(allowsNull="false")
-    @Title(prepend= ", ", sequence="2")
-    @MemberOrder(sequence = "1")
-    public String getNombreTecnico() {
-        return nombreTecnico;
-    }
-
-    public void setNombreTecnico(final String nombreTecnico) {
-        this.nombreTecnico = nombreTecnico;
-    }
-
-    //endregion
+	public String validateTecnico(final Tecnico tecnico) {
+		if (tecnico.getReporte() == null || this.getTecnico() == tecnico)
+			return null;
+		else
+			return "Seleccione otro Técnico.";
+	}
+	
+	// ///////////////////////////////////////////////////
+	// Operaciones del Reporte: Agregar/Borrar Técnico
+	// ///////////////////////////////////////////////////
+	@Named("Modificar Técnico")
+	public void modifyTecnico(final Tecnico user) {
+		Tecnico tecnico = getTecnico();
+		if (user == null || user.equals(tecnico)) {
+			return;
+		}
+		this.clearTecnico();
+		user.setReporte(this);
+		this.setTecnico(user);
+	}
+	
+	@Named("Borrar Técnico")
+	public void clearTecnico() {
+		Tecnico tecnico = getTecnico();
+		if (tecnico == null) {
+			return;
+		}
+		tecnico.setReporte(null);
+		this.setTecnico(null);
+	}
 
     //region > fechaReporte (property)
 
@@ -83,7 +117,7 @@ public class Reporte implements Comparable<Reporte> {
     private LocalDate fechaReporte;
 
     @javax.jdo.annotations.Column(allowsNull="true")
-    @MemberOrder(sequence = "1")
+    @MemberOrder(sequence = "3")
     public LocalDate getFechaReporte() {
         return fechaReporte;
     }
@@ -141,7 +175,6 @@ public class Reporte implements Comparable<Reporte> {
         return getOrderLines();
     }
 
-
     //endregion
 
     //region > compareTo
@@ -152,10 +185,9 @@ public class Reporte implements Comparable<Reporte> {
     }
     //endregion
 
-    //region > injected services
-
+    /**
+	 * Inyección del contenedor.
+	 */
     @javax.inject.Inject
     private DomainObjectContainer container;
-
-    //endregion
 }
