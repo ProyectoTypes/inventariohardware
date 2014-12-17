@@ -76,7 +76,7 @@ public class CustomerConfirmation {
             final ByteArrayOutputStream target = new ByteArrayOutputStream();
             pdfDocument.save(target);
 
-            final String name = "customerConfirmation-" + reporte.getNumber() + ".pdf";
+            final String name = "customerConfirmation-" + reporte.getNumero() + ".pdf";
             final String mimeType = "application/pdf";
             final byte[] bytes = target.toByteArray();
 
@@ -103,16 +103,14 @@ public class CustomerConfirmation {
 
             String fullyQualifiedName = field.getFullyQualifiedName();
             if ("orderDate".equals(fullyQualifiedName)) {
-                field.setValue(reporte.getDate().toString());
+                field.setValue(reporte.getFechaReporte().toString());
             } else if ("orderNumber".equals(fullyQualifiedName)) {
-                field.setValue(reporte.getNumber());
+                field.setValue(reporte.getNumero());
             } else if ("customerName".equals(fullyQualifiedName)) {
-                field.setValue(reporte.getCustomerName());
+                field.setValue(reporte.getNombreTecnico());
             } else if ("message".equals(fullyQualifiedName)) {
                 String message = "You have ordered '" + orderLines.size() +"' products";
                 field.setValue(message);
-            } else if ("preferences".equals(fullyQualifiedName)) {
-                field.setValue(reporte.getPreferences());
             }
         }
 
