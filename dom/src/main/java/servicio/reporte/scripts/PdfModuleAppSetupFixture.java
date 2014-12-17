@@ -42,7 +42,7 @@ public class PdfModuleAppSetupFixture extends FixtureScript {
         //executeChild(new PdfModuleAppTeardownFixture(), executionContext);
 
         // create
-        final Reporte order = Create("1234", "Joe Smith", clockService.now().minusDays(5), "leave in the porch if out, don't deliver after 5pm, expedite if possible", executionContext);
+        final Reporte order = Create("1234", "Joe Smith", clockService.now().minusDays(5), executionContext);
 
         order.add("TV", BigDecimal.valueOf(543.21), 1);
         order.add("X-Men", BigDecimal.valueOf(12.34), 1);
@@ -53,12 +53,11 @@ public class PdfModuleAppSetupFixture extends FixtureScript {
     // //////////////////////////////////////
 
     private Reporte Create(
-            final String number,
-            final String customerName,
-            final LocalDate date,
-            final String preferences,
+            final String numero,
+            final String nombreTecnico,
+            final LocalDate fechaReporte,
             final ExecutionContext executionContext) {
-        return executionContext.add(this, orders.create(number, customerName, date, preferences));
+        return executionContext.add(this, orders.create(numero, nombreTecnico, fechaReporte));
     }
 
     // //////////////////////////////////////
