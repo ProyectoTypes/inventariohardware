@@ -31,6 +31,7 @@ import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 import javax.validation.constraints.Max;
 
@@ -48,6 +49,7 @@ import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Render;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import servicio.reporte.Reporte;
 import dom.computadora.Computadora;
 import dom.persona.Persona;
 import dom.rol.Rol;
@@ -70,7 +72,7 @@ import dom.soporte.Soporte;
 		@javax.jdo.annotations.Query(name = "listarDisponibles", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnico.Tecnico " + "WHERE disponible == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorApellido", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.tecnio.Tecnico"
+				+ "FROM dom.tecnico.Tecnico"
 				+ "WHERE "
 				+ "apellido.indexOf(:apellido) >= 0") })
 @ObjectType("TECNICO")
@@ -307,6 +309,22 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		}
 		this.getSector().setHabilitado(false);
 		return this;
+	}
+	
+	/***************************************************
+	 * Un Reporte tiene un solo Técnico.
+	 ***************************************************/
+	private Reporte reporte;
+
+	@MemberOrder(sequence = "2")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+    @Persistent(mappedBy="tecnico")
+	public Reporte getReporte() {
+		return reporte;
+	}
+
+	public void setReporte(final Reporte reporte) {
+		this.reporte = reporte;
 	}
 
 	// //////////////////////////////////////
