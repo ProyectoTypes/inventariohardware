@@ -38,6 +38,13 @@ import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 import dom.tecnico.TecnicoRepositorio;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase SoporteRepositorio.
+ * @author ProyectoTypes
+ * @since 17/05/2014
+ * @version 1.0.0
+ */
 @DomainService(menuOrder = "20")
 @Named("Soporte")
 public class SoporteRepositorio {
@@ -150,7 +157,7 @@ public class SoporteRepositorio {
 	/**
 	 * Devuelve una lista de aquellos soportes que se encuentran en reparacion.
 	 * 
-	 * @return
+	 * @return lista
 	 */
 	@Programmatic
 	public static List<Soporte> queryBuscarSoportesEnReparacion() {
@@ -186,13 +193,16 @@ public class SoporteRepositorio {
 	// Injected Services
 	// //////////////////////////////////////
 
+	/** Container. */
 	@javax.inject.Inject
 	private static DomainObjectContainer container;
 
+	/** Tecnico repositorio. */
 	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
 
+	/** Computadora repositorio. */
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
 
