@@ -105,6 +105,7 @@ public class ComputadoraRepositorio {
 	@Named("Agregar Computadora")
 	@DescribedAs("Agregar Computadora manualmente.")
 	public Computadora agregarComputadora(
+			final @Named("Rotulo") String rotulo,
 			final @Named("Usuario") Usuario usuario,
 			final @Named("IP") String ip, final @Named("MAC") String mac,
 			final @Named("HDD Marca ") String marcaDisco,
@@ -116,9 +117,9 @@ public class ComputadoraRepositorio {
 			final @Named("RAM Marca") String marcaRam,
 			final @Named("Modelo Motherboard") String modeloMotherboard,
 			final @Named("Fabricante") String fabricante,
-			final @Named("Monitor") Monitor monitor,
-			final @Named("Impresora") Impresora impresora,
-			final @Named("Rotulo") String rotulo) {
+			final @Optional @Named("Monitor") Monitor monitor,
+			final @Optional @Named("Impresora") Impresora impresora
+			) {
 		PlacaDeRed placaDeRed = new PlacaDeRed(ip, mac);
 		Disco disco = new Disco(marcaDisco, tipoDisco, tamanoDisco);
 		Procesador procesador = new Procesador(modeloProcesador);
