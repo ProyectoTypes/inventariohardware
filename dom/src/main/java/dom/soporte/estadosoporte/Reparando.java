@@ -78,8 +78,7 @@ public class Reparando implements IEstado {
 		this.soporte = soporte;
 	}
 
-	// }}
-	// FIXME: Preguntar si el tecnico que entra esta disponible.
+	
 	/**
 	 * Permite cambiar el Tecnico encargado del Soporte Tecnico.
 	 * <p>
@@ -111,23 +110,7 @@ public class Reparando implements IEstado {
 			this.container
 					.informUser("EL TECNICO SELECCIONADO NO SE ENCUENTRA DISPONIBLE.");
 		}
-		// if (this.getSoporte().getTecnico().estaDisponible()) {
-		// if (this.getSoporte().getTecnico() != null) {
-		// this.getSoporte().getTecnico()
-		// .restaComputadora(this.getSoporte().getComputadora());
-		// this.getSoporte().setTecnico(null);
-		// }
-		// this.getSoporte().getTecnico().sumaComputadora();
-		// this.getSoporte().getTecnico()
-		// .addToComputadora(this.getSoporte().getComputadora());
-		//
-		// this.container.informUser("ASIGNADO NUEVO TECNICO.");
-		// } else {
-		// this.getSoporte().setTecnico(null);
-		// this.container
-		// .informUser("EL TECNICO SELECCIONADO NO SE ENCUENTRA DISPONIBLE.");
-		// }
-
+		
 	}
 
 	/**
