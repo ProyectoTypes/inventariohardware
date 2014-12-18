@@ -86,7 +86,7 @@ public class ReporteRepositorio {
      */
 	@Named("Buscar Técnico")
 	@DescribedAs("Buscar el Técnico en mayúsculas.")
-	public List<Tecnico> autoCompleteAgregarReporte(
+	public List<Tecnico> autoComplete1Create(
 			final @MinLength(2) String search) {
 		return tecnicoRepositorio.autoComplete(search);
 	}
