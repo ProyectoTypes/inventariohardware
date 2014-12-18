@@ -36,6 +36,14 @@ import org.apache.isis.applib.query.QueryDefault;
 import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Clase UsuarioRepositorio.
+ * 
+ * @author ProyectoTypes
+ * @since 17/05/2014
+ * @version 1.0.0
+ */
 @DomainService(menuOrder = "40")
 @Named("USUARIO")
 public class UsuarioRepositorio {
@@ -60,6 +68,15 @@ public class UsuarioRepositorio {
 	// Agregar Usuario
 	// //////////////////////////////////////
 
+	/**
+	 * Motodo utilizado para cargar los datos de un usuario por formulario.
+	 *
+	 * @param sector
+	 * @param apellido
+	 * @param nombre
+	 * @param email
+	 * @return usuario
+	 */
 	@MemberOrder(name = "Personal", sequence = "40")
 	@Named("Agregar Usuario")
 	public Usuario addUsuario(
@@ -72,6 +89,17 @@ public class UsuarioRepositorio {
 				this.currentUserName());
 	}
 
+	/**
+	 * Nuevo usuario, metodo que toma los datos ingresado y los persiste en la
+	 * base de datos.
+	 *
+	 * @param sector
+	 * @param apellido
+	 * @param nombre
+	 * @param email
+	 * @param creadoPor
+	 * @return usuario
+	 */
 	@Programmatic
 	public Usuario nuevoUsuario(final Sector sector, final String apellido,
 			final String nombre, final String email, final String creadoPor) {
@@ -103,6 +131,11 @@ public class UsuarioRepositorio {
 	// Listar Usuario
 	// //////////////////////////////////////
 
+	/**
+	 * Listar, metodo para lista a los usuarios
+	 *
+	 * @return list
+	 */
 	@MemberOrder(name = "Personal", sequence = "50")
 	@Named("Listar Usuarios")
 	public List<Usuario> listar() {
@@ -126,6 +159,13 @@ public class UsuarioRepositorio {
 	// Buscar Usuario
 	// //////////////////////////////////////
 
+	/**
+	 * Buscar, metodo que busca por apellido de usuario.
+	 *
+	 * @param apellido
+	 * 
+	 * @return list
+	 */
 	@MemberOrder(name = "Personal", sequence = "10")
 	@Named("Buscar Usuarios")
 	public List<Usuario> buscar(
@@ -159,9 +199,11 @@ public class UsuarioRepositorio {
 	// Injected Services
 	// //////////////////////////////////////
 
+	/** Container. */
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 
+	/** Sector repositorio. */
 	@javax.inject.Inject
 	private SectorRepositorio sectorRepositorio;
 }
