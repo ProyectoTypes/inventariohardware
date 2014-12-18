@@ -190,10 +190,10 @@ public class Reparando implements IEstado {
 			final @Named("Monitor") Monitor monitor,
 			final @Named("Impresora") Impresora impresora,final @Named("Rotulo") String rotulo) {
 		// Creando nueva computadora.
-		this.computadoraRepositorio.agregarComputadora(this.getSoporte()
+		this.computadoraRepositorio.agregarComputadora(rotulo,this.getSoporte()
 				.getComputadora().getUsuario(),ip,mac,marcaDisco,
 				tipoDisco,tamanoDisco,modeloProcesador,modeloRam,tamanoRam,
-				marcaRam,modeloMotherboard,fabricante,monitor,impresora,rotulo);
+				marcaRam,modeloMotherboard,fabricante,monitor,impresora);
 
 		// Desvinculando Usuario/Tecnico/Impresora de Computadora -
 		this.getSoporte().getTecnico()
