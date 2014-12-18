@@ -107,7 +107,8 @@ public class ComputadoraRepositorio {
 	public Computadora agregarComputadora(
 			final @Named("Rotulo") String rotulo,
 			final @Named("Usuario") Usuario usuario,
-			final @Named("IP") String ip, final @Named("MAC") String mac,
+			final @Named("IP") String ip, 
+			final @Named("MAC") String mac,
 			final @Named("HDD Marca ") String marcaDisco,
 			final @Named("HDD Categoria ") CategoriaDisco tipoDisco,
 			final @Named("HDD Tamaño ") int tamanoDisco,
@@ -169,7 +170,7 @@ public class ComputadoraRepositorio {
 	 * @param impresora
 	 * @param creadoPor
 	 * @param rotulo
-	 * @return the
+	 * @return unaComputadora
 	 */
 	@Programmatic
 	public Computadora nuevaComputadora(final Usuario usuario,
@@ -201,21 +202,14 @@ public class ComputadoraRepositorio {
 	/**
 	 * Validate add computadora.
 	 *
-	 * @param usuario
-	 *            the usuario
-	 * @param placaDeRed
-	 *            the placa de red
+	 * @param usuario        
+	 * @param placaDeRed       
 	 * @param motherboard
-	 *            the motherboard
-	 * @param procesador
-	 *            the procesador
-	 * @param disco
-	 *            the disco
-	 * @param memoria
-	 *            the memoria
+	 * @param procesador  
+	 * @param disco 
+	 * @param memoria    
 	 * @param impresora
-	 *            the impresora
-	 * @return the string
+	 * @return  string
 	 */
 	public String validateAddComputadora(Usuario usuario,
 			PlacaDeRed placaDeRed, Motherboard motherboard,
@@ -236,7 +230,7 @@ public class ComputadoraRepositorio {
 	 *
 	 * @return the list
 	 */
-	public List<Monitor> choices12AgregarComputadora() {
+	public List<Monitor> choices13AgregarComputadora() {
 		return this.monitorRepositorio.listar();
 
 	}
@@ -251,7 +245,7 @@ public class ComputadoraRepositorio {
 	 *
 	 * @return the list
 	 */
-	public List<Impresora> choices13AgregarComputadora() {
+	public List<Impresora> choices14AgregarComputadora() {
 		return this.impresoraRepositorio.listar();
 
 	}
@@ -269,7 +263,7 @@ public class ComputadoraRepositorio {
 	 */
 	@Named("Usuario")
 	@DescribedAs("Buscar el Usuario en mayuscula")
-	public List<Usuario> autoComplete0AgregarComputadora(
+	public List<Usuario> autoComplete1AgregarComputadora(
 			final @MinLength(2) String search) {
 		return usuarioRepositorio.autoComplete(search);
 
