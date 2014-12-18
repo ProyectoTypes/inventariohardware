@@ -28,6 +28,13 @@ import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.monitor.Monitor;
 import dom.tecnico.Tecnico;
 
+/**
+ * Interfaz IEstado
+ * Utilizada con el patron State para poder desacoplar el resto de los estados.
+ * @author ProyectoTypes
+ * @since 17/05/2014
+ * @version 1.0.0
+ */
 public interface IEstado {
 	void asignarTecnico(final Tecnico tecnico);
 
