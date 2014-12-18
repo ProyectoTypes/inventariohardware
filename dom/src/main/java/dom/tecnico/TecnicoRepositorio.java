@@ -208,6 +208,8 @@ public class TecnicoRepositorio {
 	 * Método que permite listar todos los Técnicos disponibles.
 	 * @return listarDisponibles
 	 */
+	@MemberOrder(name = "Personal", sequence = "10")
+	@Named("Agregar Técnico")
 	public List<Tecnico> listarDisponibles() {
 		return this.container
 					.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
