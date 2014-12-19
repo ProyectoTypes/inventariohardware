@@ -107,8 +107,8 @@ public class ComputadoraRepositorio {
 	public Computadora agregarComputadora(
 			final @Named("Rotulo") String rotulo,
 			final @Named("Usuario") Usuario usuario,
-			final @Named("IP") String ip, 
-			final @Named("MAC") String mac,
+			final @RegEx(validation= "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])")@Named("IP") String ip, 
+			final @RegEx(validation = "([0-9a-fA-F][0-9a-fA-F]:){5}([0-9a-fA-F][0-9a-fA-F])") @Named("MAC") String mac,
 			final @Named("HDD Marca ") String marcaDisco,
 			final @Named("HDD Categoria ") CategoriaDisco tipoDisco,
 			final @Named("HDD Tamaño ") int tamanoDisco,
@@ -180,7 +180,7 @@ public class ComputadoraRepositorio {
 			final String creadoPor, final String rotulo) {
 		final Computadora unaComputadora = container
 				.newTransientInstance(Computadora.class);
-		unaComputadora.setCodigo(rotulo);
+		unaComputadora.setRotulo(rotulo);
 		unaComputadora.modifyUsuario(usuario);
 		unaComputadora.setPlacaDeRed(placaDeRed);
 		unaComputadora.setMotherboard(motherboard);
