@@ -104,17 +104,25 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 	// IP (propiedad)
 	// //////////////////////////////////////
-	/** Codigo. */
-	private String codigo;
+	/** Rotulo. */
+	private String rotulo;
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@MemberOrder(sequence = "10")
+	public String getRotulo() {
+		return rotulo;
+	}
 
-	// @PrimaryKey
+	public void setRotulo(String rotulo) {
+		this.rotulo = rotulo;
+	}
+
 	/** Placa de red. */
 	private PlacaDeRed placaDeRed;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	// @javax.jdo.annotations.PrimaryKey(column = "id")
 	@DescribedAs("Direccion IP de la Computadora:")
-	@MemberOrder(sequence = "10")
+	@MemberOrder(sequence = "15")
 	public PlacaDeRed getPlacaDeRed() {
 		return placaDeRed;
 	}
@@ -383,7 +391,7 @@ public class Computadora implements Comparable<Computadora> {
 	 * Validate usuario.
 	 *
 	 * @param usuario
-	 *          
+	 * 
 	 * @return the string
 	 */
 	public String validateUsuario(final Usuario usuario) {
@@ -493,7 +501,7 @@ public class Computadora implements Comparable<Computadora> {
 	 * Agregar Soporte
 	 *
 	 * @param unSoporte
-	 *          
+	 * 
 	 */
 	@Hidden
 	@Named("Agregar Soporte")
@@ -510,7 +518,7 @@ public class Computadora implements Comparable<Computadora> {
 	 * Removes the from soporte.
 	 *
 	 * @param unSoporte
-	 *          
+	 * 
 	 */
 	@Hidden
 	@Named("Eliminar de Recepcion")
@@ -535,15 +543,6 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "10")
-	public String getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
 
 	/** The impresora repositorio. */
 	@Inject
