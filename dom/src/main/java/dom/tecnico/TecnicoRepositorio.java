@@ -67,7 +67,7 @@ public class TecnicoRepositorio {
 	 * @return String
 	 */
 	public String getId() {
-		return "tecnico";
+		return "Tecnico";
 	}
 
 	public String iconName() {
