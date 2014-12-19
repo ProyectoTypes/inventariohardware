@@ -33,6 +33,7 @@ import javax.annotation.PostConstruct;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
@@ -111,7 +112,7 @@ public class TecnicoRepositorio {
 	 */
 	@NotContributed
 	@MemberOrder(name = "Personal", sequence = "10")
-	@Named("Agregar Técnico")
+	@Named("(+) Técnico")
 	public Tecnico addTecnico(final @Named("Apellido") String apellido,
 			final @Named("Nombre") String nombre,
 			final @Named("email") String email, final @Optional Sector sector,
@@ -185,8 +186,9 @@ public class TecnicoRepositorio {
 	 * Método que permite listar todos los Técnicos habilitados.
 	 * @return listaTecnicos
 	 */
+	@Hidden
 	@MemberOrder(name = "Personal", sequence = "20")
-	@Named("Listar Tecnicos")
+	@Named("--Listar Tecnicos")
 	public List<Tecnico> listar() {
 		final List<Tecnico> listaTecnicos;
 		if (this.container.getUser().getName().contentEquals("sven")) {
@@ -209,7 +211,7 @@ public class TecnicoRepositorio {
 	 * @return listarDisponibles
 	 */
 	@MemberOrder(name = "Personal", sequence = "10")
-	@Named("Agregar Técnico")
+	@Named("--Listar Técnico")
 	public List<Tecnico> listarDisponibles() {
 		return this.container
 					.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
@@ -221,7 +223,7 @@ public class TecnicoRepositorio {
 	 * @return listarTecnicos
 	 */
 	@MemberOrder(name = "Personal", sequence = "30")
-	@Named("Buscar Técnico")
+	@Named("--Buscar Técnico")
 	public List<Tecnico> buscar(
 			final @Named("Apellido") @MinLength(2) String apellidoUsuario) {
 		final List<Tecnico> listarTecnicos = this.container
