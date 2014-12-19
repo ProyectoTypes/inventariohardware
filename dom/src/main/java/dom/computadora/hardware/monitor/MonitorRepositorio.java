@@ -74,8 +74,8 @@ public class MonitorRepositorio {
 	 * @return monitor
 	 */
 	@NotContributed
-	@MemberOrder(sequence = "10")
-	@Named("Agregar")
+	@MemberOrder(name= "Hardware" ,sequence = "12")
+	@Named("  (+) Monitor")
 	public Monitor addMonitor(final @Named("Tamaño en plg.") int tamaño,
 			final @Named("Tipo") TipoMonitor tipo,
 			final @Named("Marca") String marca) {
@@ -115,7 +115,8 @@ public class MonitorRepositorio {
 	 *
 	 * @return the list
 	 */
-	@MemberOrder(sequence = "100")
+	@MemberOrder(name = "Hardware",sequence = "13")
+	@Named("--Listar Monitores")
 	public List<Monitor> listar() {
 		final List<Monitor> listaSoftware = this.container
 				.allMatches(new QueryDefault<Monitor>(Monitor.class,
