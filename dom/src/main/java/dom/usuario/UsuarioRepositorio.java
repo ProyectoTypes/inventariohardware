@@ -78,7 +78,7 @@ public class UsuarioRepositorio {
 	 * @return usuario
 	 */
 	@MemberOrder(name = "Personal", sequence = "40")
-	@Named("Agregar Usuario")
+	@Named("(+) Usuario")
 	public Usuario addUsuario(
 			final Sector sector,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
@@ -137,7 +137,7 @@ public class UsuarioRepositorio {
 	 * @return list
 	 */
 	@MemberOrder(name = "Personal", sequence = "50")
-	@Named("Listar Usuarios")
+	@Named("--Listar Usuarios")
 	public List<Usuario> listar() {
 		final List<Usuario> listaUsuarios;
 		if (this.container.getUser().getName().contentEquals("sven"))
@@ -166,8 +166,8 @@ public class UsuarioRepositorio {
 	 * 
 	 * @return list
 	 */
-	@MemberOrder(name = "Personal", sequence = "10")
-	@Named("Buscar Usuarios")
+	@MemberOrder(name = "Personal", sequence = "41")
+	@Named("--Buscar Usuarios")
 	public List<Usuario> buscar(
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") @MinLength(2) String apellido) {
 		final List<Usuario> listarUsuarios = this.container
