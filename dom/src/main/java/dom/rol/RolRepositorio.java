@@ -65,7 +65,7 @@ public class RolRepositorio {
 	 */
 	@ActionSemantics(Of.SAFE)
 	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
-	@Named("Lista de Roles")
+	@Named("--Lista de Roles")
 	public List<Rol> listAll() {
 		return container.allInstances(Rol.class);
 	}
@@ -78,7 +78,7 @@ public class RolRepositorio {
 	 * @return the
 	 */
 	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
-	@Named("Crear Rol")
+	@Named("(+) Rol")
 	@Hidden(where = Where.OBJECT_FORMS)
 	public Rol addRol(final @Named("Nombre") String nombre,
 			final @Named("Permiso") Permiso permiso) {
@@ -122,7 +122,7 @@ public class RolRepositorio {
 	 */
 	@ActionSemantics(Of.NON_IDEMPOTENT)
 	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
-	@Named("Eliminar Rol")
+	@Named("--Eliminar Rol")
 	public String removeRol(@Named("Rol") Rol rol) {
 		String roleName = rol.getNombre();
 		container.remove(rol);
