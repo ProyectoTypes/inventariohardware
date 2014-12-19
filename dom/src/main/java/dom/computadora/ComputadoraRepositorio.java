@@ -101,8 +101,8 @@ public class ComputadoraRepositorio {
 	 * @param rotulo
 	 * @return computadora
 	 */
-	@MemberOrder(name = "Computadoras", sequence = "10")
-	@Named("Agregar Computadora")
+	@MemberOrder(name = "Hardware", sequence = "10")
+	@Named("(+) Computadora")
 	@DescribedAs("Agregar Computadora manualmente.")
 	public Computadora agregarComputadora(
 			final @Named("Rotulo") String rotulo,
@@ -277,8 +277,8 @@ public class ComputadoraRepositorio {
 	 *
 	 * @return the list
 	 */
-	@MemberOrder(name = "Computadoras", sequence = "30")
-	@Named("Listar Computadoras")
+	@MemberOrder(name = "Hardware", sequence = "16")
+	@Named("--Listar Computadoras")
 	public List<Computadora> listar() {
 		final List<Computadora> listaComputadoras;
 
@@ -304,8 +304,8 @@ public class ComputadoraRepositorio {
 	 *           
 	 * @return the list
 	 */
-	@MemberOrder(name = "Computadoras", sequence = "40")
-	@Named("Buscar Computadora")
+	@MemberOrder(name = "Hardware", sequence = "17")
+	@Named("--Buscar Computadora")
 	public List<Computadora> buscar(
 			final @RegEx(validation = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
 					+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
