@@ -44,9 +44,9 @@ public class UsuariosFixture extends FixtureScript {
 	@Override
 	protected void execute(ExecutionContext executionContext) {
 		
-		int Cantidad=DatosFixture.ObtenerCantidad()*14;
+		int Cantidad = DatosFixture.ObtenerCantidad()*14;
 		
-		List<Usuario> listUs=new ArrayList<Usuario>();
+		List<Usuario> listUs = new ArrayList<Usuario>();
 		
 		// Crea los Usuarios de manera aleatoria.
 		for(int x=0; x<=Cantidad;x++)
