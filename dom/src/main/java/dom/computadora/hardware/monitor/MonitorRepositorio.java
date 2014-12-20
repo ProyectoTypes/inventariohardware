@@ -64,15 +64,9 @@ public class MonitorRepositorio {
 	 * @return monitor
 	 */
 	@NotContributed
-<<<<<<< HEAD
-	@MemberOrder(name= "Hardware" ,sequence = "12")
-	@Named("  (+) Monitor")
-	public Monitor addMonitor(final @Named("Tamaño en plg.") int tamaño,
-=======
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
 	public Monitor create(final @Named("Tamaño en pulgadas") int tamaño,
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 			final @Named("Tipo") TipoMonitor tipo,
 			final @Named("Marca") String marca) {
 		return nuevosMonitor(tamaño, tipo, marca, this.currentUserName());
@@ -106,17 +100,9 @@ public class MonitorRepositorio {
 	 * Método para Listar los monitores.
 	 * @return the list
 	 */
-<<<<<<< HEAD
-	@MemberOrder(name = "Hardware",sequence = "13")
-	@Named("--Listar Monitores")
-	public List<Monitor> listar() {
-		final List<Monitor> listaSoftware = this.container
-				.allMatches(new QueryDefault<Monitor>(Monitor.class,
-=======
 	@MemberOrder(sequence = "100")
 	public List<Monitor> listAll() {
 		final List<Monitor> listaMonitor = this.container.allMatches(new QueryDefault<Monitor>(Monitor.class,
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 						"listarMonitorTrue"));
 		if (listaMonitor.isEmpty()) {
 			this.container.warnUser("No hay Monitores cargados en el sistema.");

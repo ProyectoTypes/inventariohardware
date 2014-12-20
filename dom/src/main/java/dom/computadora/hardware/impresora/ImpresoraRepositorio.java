@@ -65,15 +65,9 @@ public class ImpresoraRepositorio {
 	 * @param tipoImpresora
 	 * @return 
 	 */
-<<<<<<< HEAD
-	@MemberOrder(name = "Hardware", sequence = "11")
-	@Named("  (+) Impresora")
-	public Impresora addImpresora(
-=======
 	@MemberOrder(name = "Computadoras", sequence = "50")
 	@Named("Agregar Impresora")
 	public Impresora create(
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 			final @Named("Modelo") String modeloImpresora,
 			final @Named("Fabricante") String fabricanteImpresora,
 			final @Named("Tipo") TipoImpresora tipoImpresora) {
@@ -110,15 +104,9 @@ public class ImpresoraRepositorio {
 	 * Método para listar las impresoras.
 	 * @return the list
 	 */
-<<<<<<< HEAD
-	@MemberOrder(name = "Hardware", sequence = "14")
-	@Named("--Listar Impresoras")
-	public List<Impresora> listar() {
-=======
 	@MemberOrder(name = "Computadoras", sequence = "60")
 	@Named("Listar Impresoras")
 	public List<Impresora> listAll() {
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 		final List<Impresora> listaImpresora = this.container
 				.allMatches(new QueryDefault<Impresora>(Impresora.class,
 						"todasLasImpresoras"));
