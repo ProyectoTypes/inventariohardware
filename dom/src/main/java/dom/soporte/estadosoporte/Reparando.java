@@ -193,11 +193,7 @@ public class Reparando implements IEstado {
 			final @Optional @Named("Monitor") Monitor monitor,
 			final @Optional @Named("Impresora") Impresora impresora) {
 		// Creando nueva computadora.
-<<<<<<< HEAD
-		this.computadoraRepositorio.agregarComputadora(rotulo,this.getSoporte()
-=======
-		this.computadoraRepositorio.create(this.getSoporte()
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
+		this.computadoraRepositorio.create(rotulo, this.getSoporte()
 				.getComputadora().getUsuario(),ip,mac,marcaDisco,
 				tipoDisco,tamanoDisco,modeloProcesador,modeloRam,tamanoRam,
 				marcaRam,modeloMotherboard,fabricante,monitor,impresora);
@@ -260,5 +256,4 @@ public class Reparando implements IEstado {
 
 	@Inject
 	private ComputadoraRepositorio computadoraRepositorio;
-
 }

@@ -66,10 +66,8 @@ import dom.soporte.estadosoporte.Reparando;
 import dom.tecnico.Tecnico;
 import dom.tecnico.TecnicoRepositorio;
 
-// TODO: Auto-generated Javadoc
 /**
  * Clase Soporte.
- * 
  * @author ProyectoTypes
  * @since 17/05/2014
  * @version 1.0.0
@@ -634,33 +632,18 @@ public class Soporte implements Comparable<Soporte> {
 	// Listando Impresoras
 	// ////////////////////////////////////
 
-<<<<<<< HEAD
-	
-	public List<Impresora> choices13AsignarNuevoEquipo() {
-		return this.impresoraRepositorio.listar();
-=======
 	public List<Impresora> choices12AsignarNuevoEquipo() {
 		return this.impresoraRepositorio.listAll();
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
-
 	}
 
 	// ////////////////////////////////////
 	// Listando Monitores
 	// ////////////////////////////////////
 
-	
-<<<<<<< HEAD
-	public List<Monitor> choices12AsignarNuevoEquipo() {
-		return this.monitorRepositorio.listar();
-
-=======
 	public List<Monitor> choices11AsignarNuevoEquipo() {
 		return this.monitorRepositorio.listAll();
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 	}
 
-	
 	public boolean hideAsignarNuevoEquipo() {
 		return this.getEstado().escondeAsignarNuevoEquipo();
 	}
@@ -670,23 +653,27 @@ public class Soporte implements Comparable<Soporte> {
 	 * ***************************************************
 	 */
 
-	// ////////////////////////////////////
-	// Injected Services
-	// ////////////////////////////////////
-
-	/** tecnico repositorio. */
+	/**
+	 * Inyección del servicio para Tecnico.
+	 */
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
 
-	/** computadora repositorio. */
+	/**
+	 * Inyección del servicio para Computadora.
+	 */
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
 
-	/** impresora repositorio. */
+	/**
+	 * Inyección del servicio para Impresora.
+	 */
 	@javax.inject.Inject
 	private ImpresoraRepositorio impresoraRepositorio;
 
-	/** monitor repositorio. */
+	/**
+	 * Inyección del servicio para Monitor.
+	 */
 	@javax.inject.Inject
 	private MonitorRepositorio monitorRepositorio;
 }
