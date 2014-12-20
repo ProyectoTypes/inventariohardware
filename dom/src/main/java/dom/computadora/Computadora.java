@@ -55,7 +55,6 @@ import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
 import dom.usuario.Usuario;
 
-// TODO: Auto-generated Javadoc
 /**
  * Clase Computadora.
  */
@@ -79,13 +78,8 @@ import dom.usuario.Usuario;
 @AutoComplete(repository = ComputadoraRepositorio.class, action = "autoComplete")
 public class Computadora implements Comparable<Computadora> {
 
-	// //////////////////////////////////////
-	// Identificacion en la UI
-	// //////////////////////////////////////
-
 	/**
-	 * Titutlo de la clase.
-	 *
+	 * Título de la clase.
 	 * @return the string
 	 */
 	public String title() {
@@ -93,26 +87,36 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	/**
-	 * Nombre del icono.
-	 *
+	 * Nombre del Icono.
 	 * @return the string
 	 */
 	public String iconName() {
 		return "Computadora";
 	}
+	
+	// //////////////////////////////////////
+	// Código
+	// //////////////////////////////////////
+	
+	private String codigo;
+	
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@MemberOrder(sequence = "10")
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 
 	// //////////////////////////////////////
 	// IP (propiedad)
 	// //////////////////////////////////////
-	/** Codigo. */
-	private String codigo;
 
-	// @PrimaryKey
-	/** Placa de red. */
 	private PlacaDeRed placaDeRed;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	// @javax.jdo.annotations.PrimaryKey(column = "id")
 	@DescribedAs("Direccion IP de la Computadora:")
 	@MemberOrder(sequence = "10")
 	public PlacaDeRed getPlacaDeRed() {
@@ -127,7 +131,6 @@ public class Computadora implements Comparable<Computadora> {
 	// Mother (propiedad)
 	// //////////////////////////////////////
 
-	/** Motherboard. */
 	private Motherboard motherboard;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -145,7 +148,6 @@ public class Computadora implements Comparable<Computadora> {
 	// Procesador (propiedad)
 	// //////////////////////////////////////
 
-	/** Procesador. */
 	private Procesador procesador;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -163,7 +165,6 @@ public class Computadora implements Comparable<Computadora> {
 	// Disco (propiedad)
 	// //////////////////////////////////////
 
-	/** Disco. */
 	private Disco disco;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -181,7 +182,6 @@ public class Computadora implements Comparable<Computadora> {
 	// Memoria (propiedad)
 	// //////////////////////////////////////
 
-	/** Memoria. */
 	private MemoriaRam memoria;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -199,7 +199,6 @@ public class Computadora implements Comparable<Computadora> {
 	// Habilitado (propiedad)
 	// //////////////////////////////////////
 
-	/** Habilitado. */
 	public boolean habilitado;
 
 	@Hidden
@@ -214,8 +213,7 @@ public class Computadora implements Comparable<Computadora> {
 
 	/**
 	 * Método que se usa para deshabilitar un Tecnico.
-	 * 
-	 * @return habilitado en false.
+	 * @return
 	 */
 	@Named("Eliminar Computadora")
 	@PublishedAction
@@ -226,14 +224,13 @@ public class Computadora implements Comparable<Computadora> {
 		container.flush();
 		container.warnUser("Registro eliminado");
 
-		return computadoraRepositorio.listar();
+		return computadoraRepositorio.listAll();
 	}
 
 	// //////////////////////////////////////
 	// Impresora (propiedad)
 	// //////////////////////////////////////
 
-	/** Impresora. */
 	private Impresora impresora;
 
 	@MemberOrder(sequence = "50")
@@ -247,19 +244,16 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	/**
-	 * Listado de impresora.
-	 *
-	 * @return list
+	 * Método que permite listar las Impresoras.
+	 * @return
 	 */
 	public List<Impresora> choicesImpresora() {
-		return this.impresoraRepositorio.listar();
+		return this.impresoraRepositorio.listAll();
 
 	}
 
 	/**
-	 * Metodo que me permite modificar una Impresora precargada a una
-	 * Computadora.
-	 *
+	 * Método que me permite modificar una Impresora.
 	 * @param impresora
 	 */
 	public void modifyImpresora(final Impresora impresora) {
@@ -272,9 +266,8 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	/**
-	 * Hide quitar impresora.
-	 *
-	 * @return true, if successful
+	 * Quitar impresora.
+	 * @retun
 	 */
 	public boolean hideQuitarImpresora() {
 		if (this.getImpresora() == null) {
@@ -284,9 +277,7 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	/**
-	 * Quitar impresora el metodo comprueba que no halla impresora, de ser asi
-	 * la setea en null.
-	 *
+	 * Quitar impresora.
 	 * @return computadora
 	 */
 	@Named("Borrar Impresora")
@@ -301,7 +292,7 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	/**
-	 * Metodo para quitar una Impresora a una Computadora.
+	 * Método para quitar una Impresora.
 	 */
 	@Hidden
 	public void limpiarImpresora() {
@@ -313,15 +304,11 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	/**
-	 * Adds the impresora.
-	 *
+	 * Nueva Impresora.
 	 * @param modeloImpresora
-	 *            the modelo impresora
 	 * @param fabricanteImpresora
-	 *            the fabricante impresora
 	 * @param tipoImpresora
-	 *            the tipo impresora
-	 * @return the impresora
+	 * @return 
 	 */
 	@Named("Nueva Impresora")
 	public Impresora addImpresora(
@@ -330,16 +317,11 @@ public class Computadora implements Comparable<Computadora> {
 			final @Named("Tipo") TipoImpresora tipoImpresora) {
 		return impresoraRepositorio.nuevaImpresora(modeloImpresora,
 				fabricanteImpresora, tipoImpresora, this.currentUserName());
-
 	}
 
-	// //////////////////////////////////////
-	// CurrentUserName
-	// //////////////////////////////////////
 	/**
-	 * Current user name.
-	 *
-	 * @return the string
+	 * Devuelve el Usuario logueado.
+	 * @return 
 	 */
 	private String currentUserName() {
 		return container.getUser().getName();
@@ -349,7 +331,6 @@ public class Computadora implements Comparable<Computadora> {
 	// creadoPor
 	// //////////////////////////////////////
 
-	/** The creado por. */
 	private String creadoPor;
 
 	@Hidden
@@ -365,8 +346,6 @@ public class Computadora implements Comparable<Computadora> {
 	/**
 	 * Relacion Computadora/Usuario.
 	 */
-
-	// Usuario (property)
 	private Usuario usuario;
 
 	@MemberOrder(sequence = "1")
@@ -380,11 +359,9 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	/**
-	 * Validate usuario.
-	 *
-	 * @param usuario
-	 *          
-	 * @return the string
+	 * Validar los datos de Usuario.
+	 * @param usuario  
+	 * @return 
 	 */
 	public String validateUsuario(final Usuario usuario) {
 		if (usuario.getComputadora() == null || this.getUsuario() == usuario)
@@ -398,8 +375,7 @@ public class Computadora implements Comparable<Computadora> {
 	// ///////////////////////////////////////////////////
 
 	/**
-	 * Modify usuario.
-	 *
+	 * Modificar Usuario.
 	 * @param user
 	 */
 	@Named("Modificar Usuario")
@@ -414,7 +390,7 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	/**
-	 * Clear usuario.
+	 * Borrar Usuario.
 	 */
 	@Named("Borrar Usuario")
 	public void clearUsuario() {
@@ -430,7 +406,6 @@ public class Computadora implements Comparable<Computadora> {
 	 * Relacion Computadora/Tecnico.
 	 */
 
-	// Tecnico (property)
 	private Tecnico tecnico;
 
 	@Disabled
@@ -450,8 +425,7 @@ public class Computadora implements Comparable<Computadora> {
 	// ///////////////////////////////////////////////////
 
 	/**
-	 * Modify tecnico.
-	 *
+	 * Modificar Técnico.
 	 * @param unTecnico
 	 */
 	public void modifyTecnico(final Tecnico unTecnico) {
@@ -491,9 +465,7 @@ public class Computadora implements Comparable<Computadora> {
 
 	/**
 	 * Agregar Soporte
-	 *
-	 * @param unSoporte
-	 *          
+	 * @param unSoporte        
 	 */
 	@Hidden
 	@Named("Agregar Soporte")
@@ -507,13 +479,11 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	/**
-	 * Removes the from soporte.
-	 *
-	 * @param unSoporte
-	 *          
+	 * Eliminar Recepción.
+	 * @param unSoporte       
 	 */
 	@Hidden
-	@Named("Eliminar de Recepcion")
+	@Named("Eliminar de Recepción")
 	public void removeFromSoporte(final Soporte unSoporte) {
 		if (unSoporte == null || !getSoporte().contains(unSoporte)) {
 			return;
@@ -522,38 +492,31 @@ public class Computadora implements Comparable<Computadora> {
 		getSoporte().remove(unSoporte);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	/**
+	 * CompareTo
+	 * @param computadora
+	 * @return
 	 */
 	@Override
 	public int compareTo(Computadora computadora) {
 		return ObjectContracts.compare(this, computadora, "codigo");
 	}
+	
+	/**
+	 * Inyección del Contenedor.
+	 */
+	@Inject
+	private DomainObjectContainer container;
 
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "10")
-	public String getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-
-	/** The impresora repositorio. */
+	/**
+	 * Inyección del servicio para Impresora.
+	 */
 	@Inject
 	private ImpresoraRepositorio impresoraRepositorio;
 
-	/** The computadora repositorio. */
+	/**
+	 * Inyección del servicio para Computadora.
+	 */
 	@Inject
 	private ComputadoraRepositorio computadoraRepositorio;
-
-	/** The container. */
-	@Inject
-	private DomainObjectContainer container;
 }

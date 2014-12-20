@@ -28,7 +28,6 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
-import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.DescribedAs;
@@ -55,15 +54,14 @@ import org.apache.isis.applib.util.ObjectContracts;
 		@javax.jdo.annotations.Query(name = "autoCompletePorNombreSector", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.sector.Sector "
 				+ "WHERE nombreSector.indexOf(:nombreSector) >= 0"),
-		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.sector.Sector " + " WHERE habilitado == true"),
+		@javax.jdo.annotations.Query(name = "ListarSectores", language = "JDOQL", value = "SELECT "
+				+ "FROM dom.sector.Sector "),
 		@javax.jdo.annotations.Query(name = "listarHabilitados", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.sector.Sector " + "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorNombre", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.sector.Sector "
 				+ "WHERE nombreSector.indexOf(:nombreSector) >= 0") })
 @ObjectType("SECTOR")
-@Audited
 @AutoComplete(repository = SectorRepositorio.class, action = "autoComplete")
 @MemberGroupLayout(columnSpans = { 3, 0, 0, 9 })
 public class Sector implements Comparable<Sector> {
@@ -118,16 +116,19 @@ public class Sector implements Comparable<Sector> {
 		this.creadoPor = creadoPor;
 	}
 
-	/** Hbilitado. */
-	public boolean habilitado;
+	// //////////////////////////////////////
+	// Habilitado
+	// //////////////////////////////////////
+
+	public char habilitado;
 
 	@Hidden
 	@MemberOrder(name = "Detalles", sequence = "9")
-	public boolean getEstaHabilitado() {
+	public char getEstaHabilitado() {
 		return habilitado;
 	}
 
-	public void setHabilitado(final boolean habilitado) {
+	public void setHabilitado(final char habilitado) {
 		this.habilitado = habilitado;
 	}
 
@@ -141,10 +142,10 @@ public class Sector implements Comparable<Sector> {
 	@Bulk
 	@MemberOrder(name = "accionEliminar", sequence = "1")
 	public List<Sector> eliminar() {
-		setHabilitado(false);
-		container.flush();
-		container.warnUser("Eliminado " + container.titleOf(this));
-		return sectorRepositorio.listar();
+			//setHabilitado(false);
+			container.flush();
+			container.warnUser("Eliminado " + container.titleOf(this));
+		return sectorRepositorio.listAll();
 	}
 
 	/**
@@ -167,6 +168,7 @@ public class Sector implements Comparable<Sector> {
 	private DomainObjectContainer container;
 
 	/** Sector repositorio. */
+
 	@Inject
 	private SectorRepositorio sectorRepositorio;
 }

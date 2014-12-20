@@ -145,7 +145,7 @@ public class Reparando implements IEstado {
 	@Hidden
 	public void solicitarInsumos(final int cantidad, final String producto,
 			final String marca, final String modelo) {
-		Insumo unInsumo = this.insumoRepositorio.addInsumo(cantidad, producto,
+		Insumo unInsumo = this.insumoRepositorio.create(cantidad, producto,
 				marca, modelo);
 		this.getSoporte().agregarUnInsumo(unInsumo);
 		this.getSoporte().clearTecnico();
@@ -207,7 +207,7 @@ public class Reparando implements IEstado {
 			final @Named("Monitor") Monitor monitor,
 			final @Named("Impresora") Impresora impresora,final @Named("Rotulo") String rotulo) {
 		// Creando nueva computadora.
-		this.computadoraRepositorio.agregarComputadora(this.getSoporte()
+		this.computadoraRepositorio.create(this.getSoporte()
 				.getComputadora().getUsuario(),ip,mac,marcaDisco,
 				tipoDisco,tamanoDisco,modeloProcesador,modeloRam,tamanoRam,
 				marcaRam,modeloMotherboard,fabricante,monitor,impresora,rotulo);

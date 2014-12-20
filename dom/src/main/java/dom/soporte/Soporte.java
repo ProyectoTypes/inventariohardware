@@ -527,7 +527,7 @@ public class Soporte implements Comparable<Soporte> {
 	// ////////////////////////////////////
 
 	public List<Impresora> choices12AsignarNuevoEquipo() {
-		return this.impresoraRepositorio.listar();
+		return this.impresoraRepositorio.listAll();
 
 	}
 
@@ -536,8 +536,7 @@ public class Soporte implements Comparable<Soporte> {
 	// ////////////////////////////////////
 	
 	public List<Monitor> choices11AsignarNuevoEquipo() {
-		return this.monitorRepositorio.listar();
-
+		return this.monitorRepositorio.listAll();
 	}
 
 	public boolean hideAsignarNuevoEquipo() {

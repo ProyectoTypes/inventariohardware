@@ -57,12 +57,12 @@ public class UsuarioRepositorio {
 	}
 
 	// //////////////////////////////////////
-	// Agregar Usuario
+	// Agregar 
 	// //////////////////////////////////////
 
 	@MemberOrder(name = "Personal", sequence = "40")
 	@Named("Agregar Usuario")
-	public Usuario addUsuario(
+	public Usuario create(
 			final Sector sector,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombre,
@@ -93,7 +93,7 @@ public class UsuarioRepositorio {
 
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector en mayuscula")
-	public List<Sector> autoComplete0AddUsuario(
+	public List<Sector> autoComplete0Create(
 			final @MinLength(2) String search) {
 		return sectorRepositorio.autoComplete(search);
 
@@ -105,7 +105,7 @@ public class UsuarioRepositorio {
 
 	@MemberOrder(name = "Personal", sequence = "50")
 	@Named("Listar Usuarios")
-	public List<Usuario> listar() {
+	public List<Usuario> listAll() {
 		final List<Usuario> listaUsuarios;
 		if (this.container.getUser().getName().contentEquals("sven"))
 			listaUsuarios = this.container

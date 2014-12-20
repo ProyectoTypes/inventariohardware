@@ -33,20 +33,15 @@ import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.hardware.monitor.Monitor.TipoMonitor;
 
-// TODO: Auto-generated Javadoc
 /**
  * Clase MonitorRepositorio.
  */
 @DomainService
 @Named("Monitor")
 public class MonitorRepositorio {
-	// //////////////////////////////////////
-	// Icono
-	// //////////////////////////////////////
 
 	/**
 	 * Titulo de la Clase.
-	 *
 	 * @return the string
 	 */
 	public String title() {
@@ -55,19 +50,14 @@ public class MonitorRepositorio {
 
 	/**
 	 * Nombre del icono de la clase
-	 *
 	 * @return the string
 	 */
 	public String iconName() {
 		return "Monitor";
 	}
 
-	// //////////////////////////////////////
-	// Agregar Monitor
-	// //////////////////////////////////////
 	/**
-	 * Adds the monitor.
-	 *
+	 * Agregar Monitor.
 	 * @param tamaño 
 	 * @param tipo 
 	 * @param marca 
@@ -76,7 +66,7 @@ public class MonitorRepositorio {
 	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
-	public Monitor addMonitor(final @Named("Tamaño en plg.") int tamaño,
+	public Monitor create(final @Named("Tamaño en pulgadas") int tamaño,
 			final @Named("Tipo") TipoMonitor tipo,
 			final @Named("Marca") String marca) {
 		return nuevosMonitor(tamaño, tipo, marca, this.currentUserName());
@@ -106,42 +96,32 @@ public class MonitorRepositorio {
 		return unMonitor;
 	}
 
-	// //////////////////////////////////////
-	// Listar Monitor
-	// //////////////////////////////////////
-
 	/**
-	 * Metodo para Listar los monitores.
-	 *
+	 * Método para Listar los monitores.
 	 * @return the list
 	 */
 	@MemberOrder(sequence = "100")
-	public List<Monitor> listar() {
-		final List<Monitor> listaSoftware = this.container
-				.allMatches(new QueryDefault<Monitor>(Monitor.class,
+	public List<Monitor> listAll() {
+		final List<Monitor> listaMonitor = this.container.allMatches(new QueryDefault<Monitor>(Monitor.class,
 						"listarMonitorTrue"));
-		if (listaSoftware.isEmpty()) {
+		if (listaMonitor.isEmpty()) {
 			this.container.warnUser("No hay Monitores cargados en el sistema.");
 		}
-		return listaSoftware;
+		return listaMonitor;
 	}
 
-	// //////////////////////////////////////
-	// CurrentUserName
-	// //////////////////////////////////////
 	/**
 	 * Current user name.
-	 *
 	 * @return the string
 	 */
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
+	
+	/**
+	 * Inyección del Contenedor.
+	 */
 
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-	/** The container. */
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 }

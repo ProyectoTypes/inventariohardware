@@ -31,10 +31,12 @@ import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 import javax.validation.constraints.Max;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bulk;
@@ -46,8 +48,11 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Render;
+import org.apache.isis.applib.annotation.Where;
+import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import servicio.reporte.Reporte;
 import dom.computadora.Computadora;
 import dom.persona.Persona;
 import dom.rol.Rol;
@@ -78,7 +83,7 @@ import dom.soporte.Soporte;
 		@javax.jdo.annotations.Query(name = "listarDisponibles", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.tecnico.Tecnico " + "WHERE disponible == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorApellido", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.tecnio.Tecnico"
+				+ "FROM dom.tecnico.Tecnico"
 				+ "WHERE "
 				+ "apellido.indexOf(:apellido) >= 0") })
 @ObjectType("TECNICO")
@@ -208,7 +213,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		} else
 			container.warnUser("El Registro Sven No puede ser eliminado.");
 
-		return tecnicoRepositorio.listar();
+		return tecnicoRepositorio.listAll();
 	}
 
 	
@@ -344,17 +349,38 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	 * Método que elimina el Sector.
 	 * @return
 	 */
-	@MemberOrder(sequence = "120")
-	@Named("Eliminar Sector")
-	public Tecnico clear() {
-		Sector currentSector = this.getSector();
-		if (currentSector == null) {
-			return this;
-		}
-		this.getSector().setHabilitado(false);
-		return this;
+	@Hidden(where = Where.OBJECT_FORMS)    
+    @ActionSemantics(Of.NON_IDEMPOTENT)
+    @MemberOrder(sequence = "120")
+    @Named("Eliminar Sector")    
+    public String removeSector(@Named("Eliminar: ") Sector delTecnico, @Named("¿Está seguro?") Boolean seguro) {
+    		
+		delTecnico.setHabilitado('N');
+		String remTecnico = delTecnico.title();						
+		return  remTecnico + " fue eliminado";
+			
+	}
+	
+	/***************************************************
+	 * Un Reporte tiene un solo Técnico.
+	 ***************************************************/
+	private Reporte reporte;
+
+	@MemberOrder(sequence = "2")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+    @Persistent(mappedBy="tecnico")
+	public Reporte getReporte() {
+		return reporte;
 	}
 
+	public void setReporte(final Reporte reporte) {
+		this.reporte = reporte;
+	}
+
+	// //////////////////////////////////////
+	// CompareTo
+	// //////////////////////////////////////
+	
 	@Override
 	public int compareTo(final Persona persona) {
 		return ObjectContracts.compare(this, persona, "apellido");

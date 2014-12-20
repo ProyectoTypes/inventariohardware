@@ -65,7 +65,7 @@ public class PermisoFixture extends FixtureScript {
 	private Permiso create(final String nombre, final String path,
 			ExecutionContext executionContext) {
 		return executionContext.add(this,
-				permisoRepositorio.addPermiso(nombre, path, "", "", true));
+				permisoRepositorio.create(nombre, path, "", "", true));
 	}
 
 	// //////////////////////////////////////

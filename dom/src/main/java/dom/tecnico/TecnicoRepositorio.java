@@ -80,7 +80,7 @@ public class TecnicoRepositorio {
 	@Programmatic
 	@PostConstruct
 	public void init() throws NoSuchAlgorithmException {
-		List<Tecnico> tecnicos = listar();
+		List<Tecnico> tecnicos = listAll();
 		if (tecnicos.isEmpty()) {
 			Permiso permiso = new Permiso();
 			Rol rol = new Rol();
@@ -111,8 +111,8 @@ public class TecnicoRepositorio {
 	 */
 	@NotContributed
 	@MemberOrder(name = "Personal", sequence = "10")
-	@Named("Agregar Técnico")
-	public Tecnico addTecnico(final @Named("Apellido") String apellido,
+	@Named("Agregar Tecnico")
+	public Tecnico create(final @Named("Apellido") String apellido,
 			final @Named("Nombre") String nombre,
 			final @Named("email") String email, final @Optional Sector sector,
 			final @Named("Nick") String nick,
@@ -177,8 +177,8 @@ public class TecnicoRepositorio {
 	 */
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector en mayuscula")
-	public List<Sector> choices3AddTecnico() {
-		return sectorRepositorio.listar();
+	public List<Sector> choices3Create() {
+		return sectorRepositorio.listAll();
 	}
 
 	/**
@@ -187,7 +187,7 @@ public class TecnicoRepositorio {
 	 */
 	@MemberOrder(name = "Personal", sequence = "20")
 	@Named("Listar Tecnicos")
-	public List<Tecnico> listar() {
+	public List<Tecnico> listAll() {
 		final List<Tecnico> listaTecnicos;
 		if (this.container.getUser().getName().contentEquals("sven")) {
 			listaTecnicos = this.container
@@ -215,8 +215,9 @@ public class TecnicoRepositorio {
 	}
 
 	/**
-	 * Método que permite buscar y listar todos los Técnicos por Apellido.
-	 * @return listarTecnicos
+	 * Buscar Técnico.
+	 * @param apellidoUsuario
+	 * @return
 	 */
 	@MemberOrder(name = "Personal", sequence = "30")
 	@Named("Buscar Técnico")
@@ -279,7 +280,7 @@ public class TecnicoRepositorio {
 	private DomainObjectContainer container;
 
 	/**
-	 * Inyección del servicio del Sector.
+	 * Inyección del servicio del Tecnico.
 	 */
 	@javax.inject.Inject
 	private SectorRepositorio sectorRepositorio;

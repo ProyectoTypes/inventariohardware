@@ -110,7 +110,7 @@ public class Esperando implements IEstado {
 	@Hidden
 	public void solicitarInsumos(final int cantidad, final String producto,
 			final String marca, final String modelo) {
-		Insumo unInsumo = this.insumoRepositorio.addInsumo(cantidad, producto,
+		Insumo unInsumo = this.insumoRepositorio.create(cantidad, producto,
 				marca, modelo);
 		this.getSoporte().agregarUnInsumo(unInsumo);
 		this.container.informUser("SOLICITANDO NUEVOS INSUMOS");

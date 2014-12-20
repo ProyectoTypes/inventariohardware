@@ -49,7 +49,6 @@ import dom.computadora.hardware.monitor.MonitorRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 
-// TODO: Auto-generated Javadoc
 /**
  * Clase ComputadoraRepositorio.
  */
@@ -61,29 +60,24 @@ public class ComputadoraRepositorio {
 
 	}
 
-	// //////////////////////////////////////
-	// Icono
-	// //////////////////////////////////////
-
+	/**
+	 * Id
+	 * @return
+	 */
 	public String getId() {
 		return "computadora";
 	}
 
 	/**
-	 * Nombre del icono
-	 *
+	 * Nombre del Icono.
 	 * @return string
 	 */
 	public String iconName() {
 		return "Computadora";
 	}
 
-	// //////////////////////////////////////
-	// Agregar Computadora
-	// //////////////////////////////////////
 	/**
 	 * Agregar computadora.
-	 *
 	 * @param usuario
 	 * @param ip
 	 * @param mac
@@ -104,7 +98,7 @@ public class ComputadoraRepositorio {
 	@MemberOrder(name = "Computadoras", sequence = "10")
 	@Named("Agregar Computadora")
 	@DescribedAs("Agregar Computadora manualmente.")
-	public Computadora agregarComputadora(
+	public Computadora create(
 			final @Named("Usuario") Usuario usuario,
 			final @Named("IP") String ip, final @Named("MAC") String mac,
 			final @Named("HDD Marca ") String marcaDisco,
@@ -128,19 +122,7 @@ public class ComputadoraRepositorio {
 				procesador, disco, memoriaRam, impresora,
 				this.currentUserName(), rotulo);
 	}
-
-	/**
-	 * Adds the computadora.
-	 *
-	 * @param usuario
-	 * @param placaDeRed
-	 * @param motherboard
-	 * @param procesador
-	 * @param disco
-	 * @param memoria
-	 * @param impresora
-	 * @return computadora
-	 */
+	
 	@Hidden
 	@NotContributed
 	@MemberOrder(name = "Computadoras", sequence = "20")
@@ -158,7 +140,6 @@ public class ComputadoraRepositorio {
 
 	/**
 	 * Nueva computadora.
-	 *
 	 * @param usuario
 	 * @param placaDeRed
 	 * @param motherboard
@@ -191,30 +172,21 @@ public class ComputadoraRepositorio {
 		if (impresora != null) {
 			impresora.agregarComputadora(unaComputadora);
 		}
-
 		container.persistIfNotAlready(unaComputadora);
 		container.flush();
 		return unaComputadora;
 	}
 
 	/**
-	 * Validate add computadora.
-	 *
+	 * Validar los datos de Computadora.
 	 * @param usuario
-	 *            the usuario
 	 * @param placaDeRed
-	 *            the placa de red
 	 * @param motherboard
-	 *            the motherboard
 	 * @param procesador
-	 *            the procesador
 	 * @param disco
-	 *            the disco
 	 * @param memoria
-	 *            the memoria
 	 * @param impresora
-	 *            the impresora
-	 * @return the string
+	 * @return 
 	 */
 	public String validateAddComputadora(Usuario usuario,
 			PlacaDeRed placaDeRed, Motherboard motherboard,
@@ -225,66 +197,42 @@ public class ComputadoraRepositorio {
 		return "El Usuario ya posee una Computadora. Seleccione otra. ";
 	}
 
-	// //////////////////////////////////////
-	// Buscar Monitor
-	// //////////////////////////////////////
-
-	// @Named("Impresora")
 	/**
-	 * Lista de los monitores cargados
-	 *
+	 * Método que lista los Monitores cargados.
 	 * @return the list
 	 */
-	public List<Monitor> choices12AgregarComputadora() {
-		return this.monitorRepositorio.listar();
-
+	public List<Monitor> choices12Create() {
+		return this.monitorRepositorio.listAll();
 	}
 
-	// //////////////////////////////////////
-	// Buscar Impresora
-	// //////////////////////////////////////
-
-	// @Named("Impresora")
 	/**
-	 * Lista de las impresoras cargadas
-	 *
+	 * Método que lista las Impresoras cargadas.
 	 * @return the list
 	 */
-	public List<Impresora> choices13AgregarComputadora() {
-		return this.impresoraRepositorio.listar();
-
+	public List<Impresora> choices13Create() {
+		return this.impresoraRepositorio.listAll();
 	}
 
-	// //////////////////////////////////////
-	// Buscar Usuario
-	// //////////////////////////////////////
-
 	/**
-	 * Auto complete busqueda de usuario a medida que se cargan los datos
-	 *
-	 * @param search
-	 *           
-	 * @return  list
+	 * Auto complete búsqueda de usuario a medida que se cargan los datos.
+	 * @param search       
+	 * @return
 	 */
 	@Named("Usuario")
 	@DescribedAs("Buscar el Usuario en mayuscula")
-	public List<Usuario> autoComplete0AgregarComputadora(
+	public List<Usuario> autoComplete0Create(
 			final @MinLength(2) String search) {
 		return usuarioRepositorio.autoComplete(search);
 
 	}
 
-	// //////////////////////////////////////
-	// Listar Computadora
-	// //////////////////////////////////////
 	/**
-	 * Listas de computadoras.
-	 *
-	 * @return the list
+	 * Método que permite listar las Computadoras.
+	 * @return
 	 */
 	@MemberOrder(name = "Computadoras", sequence = "30")
 	@Named("Listar Computadoras")
-	public List<Computadora> listar() {
+	public List<Computadora> listAll() {
 		final List<Computadora> listaComputadoras;
 
 		listaComputadoras = this.container
@@ -298,16 +246,10 @@ public class ComputadoraRepositorio {
 		return listaComputadoras;
 	}
 
-	// //////////////////////////////////////
-	// Buscar Computadora
-	// //////////////////////////////////////
-
 	/**
-	 * Busqueda de computadora por ip
-	 *
-	 * @param ip
-	 *           
-	 * @return the list
+	 * Permite realizar la búsqueda de Computadora por el parámetro Ip.
+	 * @param ip         
+	 * @return
 	 */
 	@MemberOrder(name = "Computadoras", sequence = "40")
 	@Named("Buscar Computadora")
@@ -327,10 +269,8 @@ public class ComputadoraRepositorio {
 
 	/**
 	 * Auto complete.
-	 *
-	 * @param ip
-	 *          
-	 * @return the list
+	 * @param ip     
+	 * @return
 	 */
 	@Programmatic
 	public List<Computadora> autoComplete(@Named("Ip") @MinLength(2) String ip) {
@@ -339,36 +279,35 @@ public class ComputadoraRepositorio {
 						.toUpperCase().trim()));
 	}
 
-	// //////////////////////////////////////
-	// CurrentUserName
-	// //////////////////////////////////////
-
 	/**
 	 * Current user name, devuelve el nombre del usuario.
-	 *
 	 * @return  string 
 	 */
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
 
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
-	/**Container. */
+	/**
+	 * Inyección del Contenedor.
+	 */
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 
-	/** Usuario repositorio. */
+	/**
+	 * Inyección del servicio para Usuario.
+	 */
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
 
-	/** Impresora repositorio. */
+	/**
+	 * Inyección del servicio para Impresora.
+	 */
 	@javax.inject.Inject
 	private ImpresoraRepositorio impresoraRepositorio;
 
-	/** Monitor repositorio. */
+	/**
+	 * Inyección del servicio para Monitor.
+	 */
 	@javax.inject.Inject
 	private MonitorRepositorio monitorRepositorio;
 }

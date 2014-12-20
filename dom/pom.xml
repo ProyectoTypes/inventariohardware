@@ -141,7 +141,6 @@
 
 		<!-- AGREGADO PARA EXPORTAR DOCUMENTO EXCEL -->
 		<dependency>
-
 			<groupId>com.danhaywood.isis.domainservice</groupId>
 			<artifactId>danhaywood-isis-domainservice-excel-applib</artifactId>
 		</dependency>
@@ -166,6 +165,13 @@
 			<artifactId>google-http-client</artifactId>
 			<version>1.19.0</version>
 		</dependency>
+
+		<!-- DEPENDENCIAS PARA PDF.BOX -->
+		<dependency>
+            		<groupId>org.apache.pdfbox</groupId>
+            		<artifactId>pdfbox</artifactId>
+            		<version>1.8.7</version>
+        	</dependency>
 
 		<dependency>
 			<groupId>commons-configuration</groupId>

@@ -33,7 +33,6 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
 import org.joda.time.LocalDate;
 
-// TODO: Auto-generated Javadoc
 /**
  * Clase InsumoRepositorio.
  */
@@ -42,13 +41,8 @@ import org.joda.time.LocalDate;
 @Hidden
 public class InsumoRepositorio {
 
-	// //////////////////////////////////////
-	// Icono
-	// //////////////////////////////////////
-
 	/**
 	 * Titulo de la clase.
-	 *
 	 * @return the string
 	 */
 	public String title() {
@@ -57,16 +51,12 @@ public class InsumoRepositorio {
 
 	/**
 	 * Nombre del icono
-	 *
 	 * @return the string
 	 */
 	public String iconName() {
 		return "Insumo";
 	}
 
-	// //////////////////////////////////////
-	// Agregar Insumo
-	// //////////////////////////////////////
 	/**
 	 * Adds the insumo.
 	 *
@@ -79,7 +69,7 @@ public class InsumoRepositorio {
 	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
-	public Insumo addInsumo(final @Named("Cantidad") int cantidad,
+	public Insumo create(final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
 			final @Named("Modelo") String modelo) {
@@ -113,17 +103,12 @@ public class InsumoRepositorio {
 		return unInsumo;
 	}
 
-	// //////////////////////////////////////
-	// Listar Insumos
-	// //////////////////////////////////////
-
 	/**
 	 * Listado de Insumos.
-	 *
 	 * @return the list
 	 */
 	@MemberOrder(sequence = "100")
-	public List<Insumo> listar() {
+	public List<Insumo> listAll() {
 		final List<Insumo> listaInsumo = this.container
 				.allMatches(new QueryDefault<Insumo>(Insumo.class,
 						"listarInsumoTrue"));
@@ -133,24 +118,17 @@ public class InsumoRepositorio {
 		return listaInsumo;
 	}
 
-	// //////////////////////////////////////
-	// CurrentUserName
-	// //////////////////////////////////////
-
 	/**
 	 * Current user name.
-	 *
 	 * @return string
 	 */
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
 
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
-	/** Container. */
+	/**
+	 * Inyección del Contenedor.
+	 */
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 }

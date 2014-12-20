@@ -45,13 +45,16 @@ import dom.permiso.Permiso;
 @Named("Rol")
 public class RolRepositorio {
 
+	// //////////////////////////////////////
+	// Identificacion
+	// //////////////////////////////////////
+	
 	public String getId() {
 		return "rol";
 	}
 
 	/**
 	 * Nombre del icono.
-	 *
 	 * @return string
 	 */
 	public String iconName() {
@@ -59,20 +62,7 @@ public class RolRepositorio {
 	}
 
 	/**
-	 * Listall: metodo que devuelve una lista de todos los roles.
-	 *
-	 * @return list
-	 */
-	@ActionSemantics(Of.SAFE)
-	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
-	@Named("Lista de Roles")
-	public List<Rol> listAll() {
-		return container.allInstances(Rol.class);
-	}
-
-	/**
 	 * AddRoll: método para la creación de roles.
-	 *
 	 * @param nombre
 	 * @param permiso
 	 * @return the
@@ -80,7 +70,7 @@ public class RolRepositorio {
 	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
 	@Named("Crear Rol")
 	@Hidden(where = Where.OBJECT_FORMS)
-	public Rol addRol(final @Named("Nombre") String nombre,
+	public Rol create(final @Named("Nombre") String nombre,
 			final @Named("Permiso") Permiso permiso) {
 		final Rol rol = container.newTransientInstance(Rol.class);
 		final SortedSet<Permiso> permissionsList = new TreeSet<Permiso>();
@@ -94,9 +84,7 @@ public class RolRepositorio {
 	}
 
 	/**
-	 * AddRol: toma los datos cargados en el formulario y los persiste en la
-	 * base de datos.
-	 *
+	 * AddRol: toma los datos cargados en el formulario y los persiste.
 	 * @param nombre
 	 * @param permisos
 	 * @return rol
@@ -113,10 +101,20 @@ public class RolRepositorio {
 		container.persistIfNotAlready(rol);
 		return rol;
 	}
+	
+	/**
+	 * Listall: método que devuelve una lista de todos los roles.
+	 * @return list
+	 */
+	@ActionSemantics(Of.SAFE)
+	@MemberOrder(name="Configurar Seguridad",sequence = "20")
+	@Named("Lista de Roles")
+	public List<Rol> listAll() {
+		return container.allInstances(Rol.class);
+	}
 
 	/**
-	 * RemoveRol: metodo que se utiliza para la eliminacion de roles
-	 *
+	 * RemoveRol: método que se utiliza para la eliminacion de roles
 	 * @param rol
 	 * @return string
 	 */
@@ -129,7 +127,9 @@ public class RolRepositorio {
 		return "El Rol " + roleName + " se ha eliminado correctamente.";
 	}
 
-	/** Container. */
+	/**
+	 * Inyección del Contenedor.
+	 */
 	@javax.inject.Inject
 	DomainObjectContainer container;
 }

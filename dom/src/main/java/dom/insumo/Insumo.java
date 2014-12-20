@@ -72,7 +72,7 @@ import dom.soporte.Soporte;
 public class Insumo implements Comparable<Insumo> {
 
 	// //////////////////////////////////////
-	// Identificacion en la UI
+	// Identificacion
 	// //////////////////////////////////////
 
 	/**
