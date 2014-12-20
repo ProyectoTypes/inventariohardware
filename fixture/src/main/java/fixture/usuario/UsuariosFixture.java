@@ -21,14 +21,18 @@
 */
 package fixture.usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
+import org.apache.isis.applib.fixturescripts.FixtureScript.ExecutionContext;
+import org.joda.time.LocalDate;
 
+import dom.persona.Persona;
 import dom.sector.Sector;
-import dom.sector.SectorRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
+import fixture.datos.DatosFixture;
 
 public class UsuariosFixture extends FixtureScript {
 
@@ -36,40 +40,56 @@ public class UsuariosFixture extends FixtureScript {
 		withDiscoverability(Discoverability.DISCOVERABLE);
 	}
 
-	// //////////////////////////////////////
 	@Override
 	protected void execute(ExecutionContext executionContext) {
-		// prereqs
-		execute(new UsuariosFixtureBaja(), executionContext);
+		
+		int Cantidad=DatosFixture.ObtenerCantidad()*14;
+		
+		List<Usuario> listUs=new ArrayList<Usuario>();
+		
 		// create
-		List<Sector> listasectores = sectores.listAll();
-		create(listasectores.get(0), "Perez", "Juan", "cipoleto@gmail.com",
-				executionContext);
-		create(listasectores.get(1), "Garcia", "Pedro", "oscarsepulveda16@yahoo.com.ar",
-				executionContext);
-		create(listasectores.get(2), "Wiedermann", "Fernando", "ewiedermann@neuquen.gov.ar",
-				executionContext);
-		create(listasectores.get(3), "Buffolo", "Laura", "lawiedermann@yahoo.com.ar",
-				executionContext);
-		create(listasectores.get(4), "Addati", "Soledad", "soledad_addati@yahoo.com.ar",
-				executionContext);
-		create(listasectores.get(5), "Wiedermann", "Rodrigo", "exequie.wiedermann@gmail.com",
-				executionContext);
-
+		for(int x=0; x<=Cantidad;x++)
+		{
+			Usuario usuario=new Usuario();
+			usuario.setNombre(DatosFixture.ObtenerNombre());
+			usuario.setApellido(DatosFixture.ObtenerApellido());
+			usuario.setSector(DatosFixture.ObtenerSector());
+			usuario.setEmail(DatosFixture.ObtenerEmail());
+			
+			listUs.add(usuario);
+     	}
+        	for(Usuario us:removerrepetidos(listUs))
+        		create(us.getNombre(), us.getApellido(), us.getSector(), us.getEmail(), executionContext);
 	}
 
 	// //////////////////////////////////////
 
-	private Usuario create(final Sector sector, final String apellido,
-			final String nombre, final String email,
-			ExecutionContext executionContext) {
-		return executionContext.add(this,
-				usuarios.create(sector, apellido, nombre, email));
+	private List<Usuario> removerrepetidos(List<Usuario> listaUsuario) {
+		for (int x = 0; x < listaUsuario.size() - 1; x++) {
+			for (int y = x + 1; y < listaUsuario.size(); y++) {
+				if (listaUsuario.get(x).getNombre()
+						.equals(listaUsuario.get(y).getNombre())
+						&& listaUsuario.get(x).getApellido()
+								.equals(listaUsuario.get(y).getApellido())) {
+					listaUsuario.remove(y);
+				}
+			}
+		}
+		return listaUsuario;
+	}
+	    
+	private Usuario create(final String nombre, String apellido, Sector sector, String email, ExecutionContext executionContext) {
+		return executionContext.add(this, usuarios.create(nombre, apellido, sector, email));
 	}
 
+	// //////////////////////////////////////
+
+	public void BorrarDBAlumnos(ExecutionContext executionContext) {
+		execute(new GenericTearDownFixture("Usuario"), executionContext);
+	        return;
+	}
+	    
+	    
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarios;
-	@javax.inject.Inject
-	private SectorRepositorio sectores;
-
 }
