@@ -41,6 +41,10 @@ import dom.permiso.Permiso;
 @Named("Rol")
 public class RolRepositorio {
 
+	// //////////////////////////////////////
+	// Identificacion
+	// //////////////////////////////////////
+	
 	public String getId() {
 		return "rol";
 	}
@@ -48,18 +52,15 @@ public class RolRepositorio {
 	public String iconName() {
 		return "Tecnico";
 	}
-
-	@ActionSemantics(Of.SAFE)
-	@MemberOrder(name="Configurar Seguridad",sequence = "20")
-	@Named("Lista de Roles")
-	public List<Rol> listAll() {
-		return container.allInstances(Rol.class);
-	}
+	
+	// //////////////////////////////////////
+	// Agregar
+	// //////////////////////////////////////
 
 	@MemberOrder(name="Configurar Seguridad",sequence = "20")
 	@Named("Crear Rol")
 	@Hidden(where = Where.OBJECT_FORMS)
-	public Rol addRol(final @Named("Nombre") String nombre,
+	public Rol create(final @Named("Nombre") String nombre,
 			final @Named("Permiso") Permiso permiso) {
 		final Rol rol = container.newTransientInstance(Rol.class);
 		final SortedSet<Permiso> permissionsList = new TreeSet<Permiso>();
@@ -84,6 +85,17 @@ public class RolRepositorio {
 		container.persistIfNotAlready(rol);
 		return rol;
 	}
+	
+	// //////////////////////////////////////
+	// Listar
+	// //////////////////////////////////////
+	
+	@ActionSemantics(Of.SAFE)
+	@MemberOrder(name="Configurar Seguridad",sequence = "20")
+	@Named("Lista de Roles")
+	public List<Rol> listAll() {
+		return container.allInstances(Rol.class);
+	}
 
 	@ActionSemantics(Of.NON_IDEMPOTENT)
 	@MemberOrder(name="Configurar Seguridad",sequence = "20")
@@ -94,6 +106,10 @@ public class RolRepositorio {
 		return "El Rol " + roleName + " se ha eliminado correctamente.";
 	}
 
+	// //////////////////////////////////////
+	// Inject Container
+	// //////////////////////////////////////
+	
 	@javax.inject.Inject
 	DomainObjectContainer container;
 }

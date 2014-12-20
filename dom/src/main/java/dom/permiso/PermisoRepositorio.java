@@ -36,6 +36,10 @@ import org.apache.isis.applib.annotation.Optional;
 @Named("Permisos")
 public class PermisoRepositorio {
 
+	// //////////////////////////////////////
+	// Identificacion
+	// //////////////////////////////////////
+	
 	public String getId() {
 		return "Permiso";
 	}
@@ -43,10 +47,14 @@ public class PermisoRepositorio {
 	public String iconName() {
 		return "Tecnico";
 	}
+	
+	// //////////////////////////////////////
+	// Agregar
+	// //////////////////////////////////////
 
 	@MemberOrder(name="Configurar Seguridad",sequence = "20")
 	@Named("Nuevo Permiso")
-	public Permiso addPermiso(
+	public Permiso create(
 			final @Named("Nombre") String nombre,
 			final @Named("Directorio") String path,
 			@Optional @DescribedAs("Por defecto: '*' ") @Named("Clase") String clase,
@@ -70,17 +78,32 @@ public class PermisoRepositorio {
 		return permiso;
 	}
 
-	public String default2AddPermiso() {
+	public String default2Create() {
 		return "*";
 	}
 
-	public String default3AddPermiso() {
+	public String default3Create() {
 		return "*";
 	}
 
-	public boolean default4AddPermiso() {
+	public boolean default4Create() {
 		return true;
 	}
+	
+	// //////////////////////////////////////
+	// Listar
+	// //////////////////////////////////////
+	
+	@ActionSemantics(Of.SAFE)
+	@MemberOrder(name="Configurar Seguridad",sequence = "20")
+	@Named("Todos los Permisos")
+	public List<Permiso> listAll() {
+		return container.allInstances(Permiso.class);
+	}
+	
+	// //////////////////////////////////////
+	// Eliminar
+	// //////////////////////////////////////
 
 	@ActionSemantics(Of.NON_IDEMPOTENT)
 	@MemberOrder(name="Configurar Seguridad",sequence = "20")
@@ -92,14 +115,10 @@ public class PermisoRepositorio {
 				+ " ha sido eliminado correctamente.";
 	}
 
-	@ActionSemantics(Of.SAFE)
-	@MemberOrder(name="Configurar Seguridad",sequence = "20")
-	@Named("Todos los Permisos")
-	public List<Permiso> listAll() {
-		return container.allInstances(Permiso.class);
-	}
-
+	// //////////////////////////////////////
+	// Inject Container
+	// //////////////////////////////////////
+	
 	@javax.inject.Inject
 	DomainObjectContainer container;
-
 }
