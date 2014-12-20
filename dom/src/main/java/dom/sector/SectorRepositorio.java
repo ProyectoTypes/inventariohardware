@@ -32,6 +32,7 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Prototype;
 import org.apache.isis.applib.annotation.RegEx;
@@ -62,6 +63,7 @@ public class SectorRepositorio {
 
 	/**
 	 * Icon name.
+	 * 
 	 * @return the string
 	 */
 	public String iconName() {
@@ -70,7 +72,9 @@ public class SectorRepositorio {
 
 	/**
 	 * Agregar.
-	 * @param nombreSector the nombre sector
+	 * 
+	 * @param nombreSector
+	 *            the nombre sector
 	 * @return the sector
 	 */
 	@Named("Agregar")
@@ -83,13 +87,16 @@ public class SectorRepositorio {
 	/**
 	 * Nuevo sector.
 	 *
-	 * @param nombreSector the nombre sector
-	 * @param creadoPor the creado por
+	 * @param nombreSector
+	 *            the nombre sector
+	 * @param creadoPor
+	 *            the creado por
 	 * @return the sector
 	 */
 	@Programmatic
 	public Sector nuevoSector(final String nombreSector, final String creadoPor) {
-		final Sector unSector = this.container.newTransientInstance(Sector.class);
+		final Sector unSector = this.container
+				.newTransientInstance(Sector.class);
 		unSector.setNombreSector(nombreSector.toUpperCase().trim());
 		unSector.setHabilitado('S');
 		unSector.setCreadoPor(creadoPor);
@@ -100,48 +107,35 @@ public class SectorRepositorio {
 	}
 
 	/**
-	 * Listar.
+	 * Buscar Sector.
+	 * 
+	 * @param nombreSector
+	 *            the nombre sector
 	 * @return the list
 	 */
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
 	@MemberOrder(sequence = "20")
-	public List<Sector> listar() {
-		if (this.container.getUser().getName().contentEquals("sven"))
-			return this.container.allMatches(new QueryDefault<Sector>(
-					Sector.class, "listar"));
-		else
-			return this.container.allMatches(new QueryDefault<Sector>(
-					Sector.class, "listarHabilitados"));
+	@Named("--Listar Sector")
+	public List<Sector> listAll() {
+		return filtroAL(container.allMatches(new QueryDefault<Sector>(
+				Sector.class, "ListarSectores")), 'S');
 	}
 
-	/**
-	 * Buscar Sector.
-	 * @param nombreSector the nombre sector
-	 * @return the list
-	 */	
-    @Bookmarkable
-    @ActionSemantics(Of.SAFE)
-    @MemberOrder(sequence = "20")
-    @Named ("Listar Sector")
-    public List<Sector> listAll() {
-        return filtroAL(container.allMatches(new QueryDefault<Sector>(Sector.class,
-				"ListarSectores")),'S');
-    }
-    
-	private List<Sector> filtroAL(List<Sector> Sectores, char S)
-	{
-		List<Sector> filtroAL=new ArrayList<Sector>();
-		
-		for(Sector sec:Sectores)
-		{
-			if(sec.getEstaHabilitado()==S)
+	private List<Sector> filtroAL(List<Sector> Sectores, char S) {
+		List<Sector> filtroAL = new ArrayList<Sector>();
+
+		for (Sector sec : Sectores) {
+			if (sec.getEstaHabilitado() == S)
 				filtroAL.add(sec);
 		}
-		
+
 		return filtroAL;
 	}
 
 	/**
 	 * Buscar
+	 * 
 	 * @param nombreSector
 	 * @return
 	 */
@@ -163,6 +157,7 @@ public class SectorRepositorio {
 	// //////////////////////////////////////
 	/**
 	 * Auto complete.
+	 * 
 	 * @param buscarNombreSector
 	 * @return the list
 	 */
@@ -175,6 +170,7 @@ public class SectorRepositorio {
 
 	/**
 	 * Crear sectores.
+	 * 
 	 * @return the list
 	 */
 	@Prototype
