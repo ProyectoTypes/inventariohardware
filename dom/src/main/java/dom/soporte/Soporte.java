@@ -610,7 +610,8 @@ public class Soporte implements Comparable<Soporte> {
 	 * @return soporte
 	 */
 	@DescribedAs("Ingresando una nueva Computadora al Usuario.")
-	public Soporte asignarNuevoEquipo(final @Named("IP") String ip,
+	public Soporte asignarNuevoEquipo(final @Named("Nombre de Equipo") String rotulo,
+			final @Named("IP") String ip,
 			final @Named("MAC") String mac,
 			final @Named("HDD Marca ") String marcaDisco,
 			final @Named("HDD Categoria ") CategoriaDisco tipoDisco,
@@ -621,12 +622,11 @@ public class Soporte implements Comparable<Soporte> {
 			final @Named("RAM Marca") String marcaRam,
 			final @Named("Modelo Motherboard") String modeloMotherboard,
 			final @Named("Fabricante") String fabricante,
-			final @Named("Monitor") Monitor monitor,
-			final @Named("Impresora") Impresora impresora,
-			final @Named("Rotulo") String rotulo) {
-		this.getEstado().asignarNuevoEquipo(ip, mac, marcaDisco, tipoDisco,
+			final @Optional @Named("Monitor") Monitor monitor,
+			final @Optional @Named("Impresora") Impresora impresora) {
+		this.getEstado().asignarNuevoEquipo(rotulo,ip, mac, marcaDisco, tipoDisco,
 				tamanoDisco, modeloProcesador, modeloRam, tamanoRam, marcaRam,
-				modeloMotherboard, fabricante, monitor, impresora, rotulo);
+				modeloMotherboard, fabricante, monitor, impresora);
 		return this;
 	}
 
@@ -635,7 +635,7 @@ public class Soporte implements Comparable<Soporte> {
 	// ////////////////////////////////////
 
 	
-	public List<Impresora> choices12AsignarNuevoEquipo() {
+	public List<Impresora> choices13AsignarNuevoEquipo() {
 		return this.impresoraRepositorio.listar();
 
 	}
@@ -645,7 +645,7 @@ public class Soporte implements Comparable<Soporte> {
 	// ////////////////////////////////////
 
 	
-	public List<Monitor> choices11AsignarNuevoEquipo() {
+	public List<Monitor> choices12AsignarNuevoEquipo() {
 		return this.monitorRepositorio.listar();
 
 	}
