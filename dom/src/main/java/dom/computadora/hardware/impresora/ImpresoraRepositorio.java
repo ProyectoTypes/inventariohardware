@@ -135,7 +135,7 @@ public class ImpresoraRepositorio {
 	public List<Impresora> listar() {
 		final List<Impresora> listaImpresora = this.container
 				.allMatches(new QueryDefault<Impresora>(Impresora.class,
-						"eliminarImpresoraTrue"));
+						"todasLasImpresoras"));
 		return listaImpresora;
 	}
 
