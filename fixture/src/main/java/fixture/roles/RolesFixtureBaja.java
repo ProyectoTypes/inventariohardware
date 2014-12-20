@@ -31,11 +31,8 @@ public class RolesFixtureBaja  extends FixtureScript {
     protected void execute(ExecutionContext executionContext) {
         isisJdoSupport.executeUpdate("delete from \"Rol_listaPermisos\"");
         isisJdoSupport.executeUpdate("delete from \"Rol\"");
-
     }
-
 
 	@javax.inject.Inject
     private IsisJdoSupport isisJdoSupport;
-
 }
