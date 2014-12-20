@@ -95,35 +95,39 @@ public class Computadora implements Comparable<Computadora> {
 	}
 	
 	// //////////////////////////////////////
-	// Código (propiedad)
+	// NombrEquipo  (propiedad)
 	// //////////////////////////////////////
 	
-	private String codigo;
-	
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "10")
-	public String getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-
-	// //////////////////////////////////////
-	// IP (propiedad)
-	// //////////////////////////////////////
-
 	private String nombreEquipo;
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@MemberOrder(sequence = "10")
+		
 	public String getNombreEquipo() {
 		return nombreEquipo;
 	}
 
 	public void setNombreEquipo(String nombreEquipo) {
 		this.nombreEquipo = nombreEquipo;
+	}	
+
+	// //////////////////////////////////////
+	// IP (propiedad)
+	// //////////////////////////////////////
+
+	private String ip;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@MemberOrder(sequence = "10")
+	
+	public String getIp() {
+		return ip;
 	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	
 	
 	// //////////////////////////////////////
 	// Placa de Red (propiedad)

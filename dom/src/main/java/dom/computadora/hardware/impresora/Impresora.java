@@ -55,7 +55,7 @@ import dom.computadora.Computadora;
 				+ "FROM dom.impresora.Impresora "
 				+ "modeloImpresora.indexOf(:modeloImpresora) >= 0"),
 		@javax.jdo.annotations.Query(name = "todasLasImpresoras", language = "JDOQL", value = "SELECT FROM dom.impresora.Impresora "
-				+ "habilitado == true"),
+				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarImpresoraFalse", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.impresora.Impresora "
 				+ "WHERE creadoPor == :creadoPor " + "   && habilitado == true"),

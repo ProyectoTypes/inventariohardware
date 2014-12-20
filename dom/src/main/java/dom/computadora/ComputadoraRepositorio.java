@@ -97,7 +97,7 @@ public class ComputadoraRepositorio {
 	 */
 	@MemberOrder(name = "Hardware", sequence = "10")
 	@Named("(+) Computadora")
-	@DescribedAs("Agregar Computadora manualmente.")
+	@DescribedAs("Agregar Computadora.")
 	public Computadora create(
 			final @Named("Nombre de Equipo") String rotulo,
 			final @Named("Usuario") Usuario usuario,
@@ -128,14 +128,14 @@ public class ComputadoraRepositorio {
 	@NotContributed
 	@MemberOrder(name = "Computadoras", sequence = "20")
 	@Named("Agregar Computadora")
-	public Computadora addComputadora(final @Named("Nombre de Equipo") String rotulo, final @Named("Usuario") Usuario usuario,
+	public Computadora addComputadora(final @Named("Nombre de Equipo") String nombreEquipo, final @Named("Usuario") Usuario usuario,
 			final @Named("Direccion Ip") PlacaDeRed placaDeRed,
 			final @Named("Mother") Motherboard motherboard,
 			final @Named("Procesador") Procesador procesador,
 			final @Named("Disco") Disco disco,
 			final @Named("Memoria") MemoriaRam memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
-		return nuevaComputadora(rotulo, usuario, placaDeRed, motherboard, procesador,
+		return nuevaComputadora(nombreEquipo, usuario, placaDeRed, motherboard, procesador,
 				disco, memoria, impresora, this.currentUserName());
 	}
 
@@ -201,7 +201,7 @@ public class ComputadoraRepositorio {
 	 * Método que lista los Monitores cargados.
 	 * @return the list
 	 */
-	public List<Monitor> choices12Create() {
+	public List<Monitor> choices13Create() {
 		return this.monitorRepositorio.listAll();
 	}
 
@@ -209,7 +209,7 @@ public class ComputadoraRepositorio {
 	 * Método que lista las Impresoras cargadas.
 	 * @return the list
 	 */
-	public List<Impresora> choices13Create() {
+	public List<Impresora> choices14Create() {
 		return this.impresoraRepositorio.listAll();
 	}
 
@@ -220,7 +220,7 @@ public class ComputadoraRepositorio {
 	 */
 	@Named("Usuario")
 	@DescribedAs("Buscar el Usuario en mayuscula")
-	public List<Usuario> autoComplete0Create(
+	public List<Usuario> autoComplete1Create(
 			final @MinLength(2) String search) {
 		return usuarioRepositorio.autoComplete(search);
 

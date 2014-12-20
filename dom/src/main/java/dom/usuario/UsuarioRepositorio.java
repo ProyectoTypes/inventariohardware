@@ -136,14 +136,14 @@ public class UsuarioRepositorio {
 	 * @return list
 	 */
 	@MemberOrder(name = "Personal", sequence = "50")
-	@Named("Listar Usuarios")
+	@Named("--Listar Usuarios")
 	public List<Usuario> listAll() {
 		final List<Usuario> listaUsuarios;
-		if (this.container.getUser().getName().contentEquals("sven"))
-			listaUsuarios = this.container
-					.allMatches(new QueryDefault<Usuario>(Usuario.class,
-							"listar"));
-		else
+//		if (this.container.getUser().getName().contentEquals("sven"))
+//			listaUsuarios = this.container
+//					.allMatches(new QueryDefault<Usuario>(Usuario.class,
+//							"listar"));
+//		else
 			listaUsuarios = this.container
 					.allMatches(new QueryDefault<Usuario>(Usuario.class,
 							"listarHabilitados"));
