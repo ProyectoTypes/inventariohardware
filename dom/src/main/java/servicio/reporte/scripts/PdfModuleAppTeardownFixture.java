@@ -24,6 +24,9 @@ package servicio.reporte.scripts;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 
+/**
+ * Clase PdfModuleAppTeardownFixture
+ */
 public class PdfModuleAppTeardownFixture extends FixtureScript {
 
     @Override
