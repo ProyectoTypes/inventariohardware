@@ -29,6 +29,7 @@ import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.Optional;
 
 import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 import dom.computadora.hardware.impresora.Impresora;
@@ -97,7 +98,7 @@ public class Cancelado implements IEstado {
 
 	@Override
 	@Hidden
-	public void asignarNuevoEquipo(final @Named("IP") String ip, 
+	public void asignarNuevoEquipo(final @Named("Nombre de Equipo") String rotulo,final @Named("IP") String ip, 
 			final @Named("MAC") String mac,
 			final @Named("HDD Marca ") String marcaDisco,
 			final @Named("HDD Categoria ") CategoriaDisco tipoDisco,
@@ -108,8 +109,8 @@ public class Cancelado implements IEstado {
 			final @Named("RAM Marca") String marcaRam,
 			final @Named("Modelo Motherboard") String modeloMotherboard,
 			final @Named("Fabricante") String fabricante,
-			final @Named("Monitor") Monitor monitor,
-			final @Named("Impresora") Impresora impresora,final @Named("Rotulo") String rotulo) {
+			final @Optional @Named("Monitor") Monitor monitor,
+			final @Optional @Named("Impresora") Impresora impresora) {
 		this.container.informUser("EL SOPORTE HA SIDO CANCELADO.");
 
 	}
