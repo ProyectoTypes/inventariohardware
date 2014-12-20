@@ -8,7 +8,7 @@ import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 
 public class DatosFixtureBaja extends FixtureScript{
 	
-private String Etable="";
+private String Etable = "";
 	
 	public DatosFixtureBaja(String table)
 	{
@@ -125,6 +125,7 @@ private String Etable="";
     			//table= table+"_"+table+"_ID_seq";
     			//ALTER SEQUENCE "Funcion_Funcion_ID_seq" RESTART WITH 1		
     }
+    
     
     @javax.inject.Inject
     private IsisJdoSupport isisJdoSupport;

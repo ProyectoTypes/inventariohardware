@@ -21,10 +21,17 @@
 */
 package fixture.sector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.isis.applib.fixturescripts.FixtureScript;
+import org.apache.isis.applib.fixturescripts.FixtureScript.Discoverability;
+import org.apache.isis.applib.fixturescripts.FixtureScript.ExecutionContext;
 
 import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
+import fixture.datos.DatosFixture;
+import fixture.datos.DatosFixtureBaja;
 
 public class SectorFixture extends FixtureScript {
 
@@ -32,30 +39,63 @@ public class SectorFixture extends FixtureScript {
 		withDiscoverability(Discoverability.DISCOVERABLE);
 	}
 
-	// //////////////////////////////////////
+	@Override
+	protected void execute(ExecutionContext executionContext) {
+		
+		int Cantidad=DatosFixture.ObtenerCantidad()*14;
+		
+		List<Sector> listSec = new ArrayList<Sector>();
+		
+		// Crea los Sectores de manera aleatoria.
+		for(int x=0; x<=Cantidad;x++)
+		{
+			Sector sector = new Sector();
+			Sector.setSector(DatosFixture.ObtenerSector());
+			
+			listSec.add(sector);
+     	}
+        	for(Sector sec:removerrepetidos(listSec))
+        		create(sec.getSector(), executionContext);
+	}
 
+	/**
+	 * Lista los Sectores y remueve los repetidos.
+	 * @param listaUsuario
+	 * @return
+	 */
+	private List<Sector> removerrepetidos(List<Sector> listaSector) {
+		for (int x = 0; x < listaSector.size() - 1; x++) {
+			for (int y = x + 1; y < listaSector.size(); y++) {
+				if (listaSector.get(x).getSector().equals(listaSector.get(y).getSector())) {
+					listaSector.remove(y);
+				}
+			}
+		}
+		return listaSector;
+	}
+	
+	/**
+	 * Crear un Sector.
+	 * @param nombre
+	 * @param executionContext
+	 * @return
+	 */
 	private Sector create(final String nombre, ExecutionContext executionContext) {
 		return executionContext.add(this, sectores.create(nombre));
 	}
-
-	// //////////////////////////////////////
-	@Override
-	protected void execute(ExecutionContext executionContext) {
-
-		// prereqs
-		execute(new SectorFixtureBaja(), executionContext);
-
-		// create
-		create("Administración", executionContext);
-		create("Informática", executionContext);
-		create("Ventas", executionContext);
-		create("Contaduria", executionContext);
-		create("Mesa de Entrada", executionContext);
-		create("Depósito", executionContext);
-
+	
+	/**
+	 * 
+	 * @param executionContext
+	 */
+	public void BorrarDBAlumnos(ExecutionContext executionContext) {
+		execute(new DatosFixtureBaja("Usuario"), executionContext);
+	        return;
 	}
-
+	    
+	/**
+	 * Inyección del servicio Sector.
+	 */
 	@javax.inject.Inject
 	private SectorRepositorio sectores;
-
 }
