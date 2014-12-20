@@ -138,8 +138,7 @@ public class Sector implements Comparable<Sector> {
 	 * @return la propiedad habilitado en false.
 	 */
 	@Named("Eliminar")
-	@PublishedAction
-	@Bulk
+	@PublishedAction	
 	@MemberOrder(name = "accionEliminar", sequence = "1")
 	public List<Sector> eliminar() {
 			//setHabilitado(false);
