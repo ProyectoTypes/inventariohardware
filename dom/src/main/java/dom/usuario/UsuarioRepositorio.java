@@ -36,7 +36,6 @@ import org.apache.isis.applib.query.QueryDefault;
 import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
 
-// TODO: Auto-generated Javadoc
 /**
  * Clase UsuarioRepositorio.
  * 
@@ -78,13 +77,8 @@ public class UsuarioRepositorio {
 	 * @return usuario
 	 */
 	@MemberOrder(name = "Personal", sequence = "40")
-<<<<<<< HEAD
 	@Named("(+) Usuario")
-	public Usuario addUsuario(
-=======
-	@Named("Agregar Usuario")
 	public Usuario create(
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 			final Sector sector,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombre,
@@ -142,13 +136,8 @@ public class UsuarioRepositorio {
 	 * @return list
 	 */
 	@MemberOrder(name = "Personal", sequence = "50")
-<<<<<<< HEAD
-	@Named("--Listar Usuarios")
-	public List<Usuario> listar() {
-=======
 	@Named("Listar Usuarios")
 	public List<Usuario> listAll() {
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 		final List<Usuario> listaUsuarios;
 		if (this.container.getUser().getName().contentEquals("sven"))
 			listaUsuarios = this.container

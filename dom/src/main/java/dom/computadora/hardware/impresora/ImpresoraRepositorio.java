@@ -65,8 +65,8 @@ public class ImpresoraRepositorio {
 	 * @param tipoImpresora
 	 * @return 
 	 */
-	@MemberOrder(name = "Computadoras", sequence = "50")
-	@Named("Agregar Impresora")
+	@MemberOrder(name = "Hardware", sequence = "50")
+	@Named("(+) Impresora")
 	public Impresora create(
 			final @Named("Modelo") String modeloImpresora,
 			final @Named("Fabricante") String fabricanteImpresora,
@@ -104,8 +104,8 @@ public class ImpresoraRepositorio {
 	 * Método para listar las impresoras.
 	 * @return the list
 	 */
-	@MemberOrder(name = "Computadoras", sequence = "60")
-	@Named("Listar Impresoras")
+	@MemberOrder(name = "Hardware", sequence = "60")
+	@Named("--Listar Impresoras")
 	public List<Impresora> listAll() {
 		final List<Impresora> listaImpresora = this.container
 				.allMatches(new QueryDefault<Impresora>(Impresora.class,

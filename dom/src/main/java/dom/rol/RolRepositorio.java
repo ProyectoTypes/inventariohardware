@@ -45,16 +45,16 @@ import dom.permiso.Permiso;
 @Named("Rol")
 public class RolRepositorio {
 
-	// //////////////////////////////////////
-	// Identificacion
-	// //////////////////////////////////////
-	
+	/**
+	 * Id
+	 * @return
+	 */
 	public String getId() {
 		return "rol";
 	}
 
 	/**
-	 * Nombre del icono.
+	 * Nombre del Icono.
 	 * @return string
 	 */
 	public String iconName() {
@@ -62,25 +62,10 @@ public class RolRepositorio {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Listall: metodo que devuelve una lista de todos los roles.
-	 *
-	 * @return list
-	 */
-	@ActionSemantics(Of.SAFE)
-	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
-	@Named("--Lista de Roles")
-	public List<Rol> listAll() {
-		return container.allInstances(Rol.class);
-	}
-
-	/**
-=======
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
-	 * AddRoll: método para la creación de roles.
+	 * AddRoll: Método para la creación de roles.
 	 * @param nombre
 	 * @param permiso
-	 * @return the
+	 * @return 
 	 */
 	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
 	@Named("(+) Rol")
@@ -102,7 +87,7 @@ public class RolRepositorio {
 	 * AddRol: toma los datos cargados en el formulario y los persiste.
 	 * @param nombre
 	 * @param permisos
-	 * @return rol
+	 * @return 
 	 */
 	@Programmatic
 	public Rol addRol(final @Named("Nombre") String nombre,

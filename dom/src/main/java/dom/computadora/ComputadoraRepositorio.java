@@ -230,8 +230,8 @@ public class ComputadoraRepositorio {
 	 * Método que permite listar las Computadoras.
 	 * @return
 	 */
-	@MemberOrder(name = "Computadoras", sequence = "30")
-	@Named("Listar Computadoras")
+	@MemberOrder(name = "Hardware", sequence = "30")
+	@Named("--Listar Computadoras")
 	public List<Computadora> listAll() {
 		final List<Computadora> listaComputadoras;
 

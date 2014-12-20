@@ -65,13 +65,8 @@ public class PermisoRepositorio {
 	 * @return permiso
 	 */
 	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
-<<<<<<< HEAD
-	@Named("(+) Permiso")
-	public Permiso addPermiso(
-=======
 	@Named("Nuevo Permiso")
 	public Permiso create(
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 			final @Named("Nombre") String nombre,
 			final @Named("Directorio") String path,
 			@Optional @DescribedAs("Por defecto: '*' ") @Named("Clase") String clase,
@@ -140,17 +135,6 @@ public class PermisoRepositorio {
 	/** 
 	 * Inyección del Contenedor.
 	 */
-<<<<<<< HEAD
-	@ActionSemantics(Of.SAFE)
-	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
-	@Named("--Lista Permisos")
-	public List<Permiso> listAll() {
-		return container.allInstances(Permiso.class);
-	}
-
-	/** Container. */
-=======
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 	@javax.inject.Inject
 	DomainObjectContainer container;
 }

@@ -112,13 +112,8 @@ public class TecnicoRepositorio {
 	 */
 	@NotContributed
 	@MemberOrder(name = "Personal", sequence = "10")
-<<<<<<< HEAD
-	@Named("(+) Técnico")
-	public Tecnico addTecnico(final @Named("Apellido") String apellido,
-=======
-	@Named("Agregar Tecnico")
+	@Named("(+) Tecnico")
 	public Tecnico create(final @Named("Apellido") String apellido,
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 			final @Named("Nombre") String nombre,
 			final @Named("email") String email, final @Optional Sector sector,
 			final @Named("Nick") String nick,
@@ -193,13 +188,8 @@ public class TecnicoRepositorio {
 	 */
 	@Hidden
 	@MemberOrder(name = "Personal", sequence = "20")
-<<<<<<< HEAD
-	@Named("--Listar Tecnicos")
-	public List<Tecnico> listar() {
-=======
 	@Named("Listar Tecnicos")
 	public List<Tecnico> listAll() {
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 		final List<Tecnico> listaTecnicos;
 		if (this.container.getUser().getName().contentEquals("sven")) {
 			listaTecnicos = this.container
