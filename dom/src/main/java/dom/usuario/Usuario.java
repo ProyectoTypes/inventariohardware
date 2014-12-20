@@ -44,11 +44,11 @@ import dom.persona.Persona;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Usuario_apellido_must_be_unique", members = { "id" }) })
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Usuario_apellido_must_be_unique", members = { "apellido", "nombre", "email" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario "
-				+ "WHERE apellido.indexOf(:apellido) >= 0"),
+				+ "WHERE apellido.indexOf(:apellido) >= 0 && habilitado == true" ),
 		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario "),
 		@javax.jdo.annotations.Query(name = "listarHabilitados", language = "JDOQL", value = "SELECT "
@@ -136,7 +136,7 @@ public class Usuario extends Persona implements Comparable<Persona> {
 	 */
 	@Override
 	public int compareTo(final Persona persona) {
-		return ObjectContracts.compare(this, persona, "apellido");
+		return ObjectContracts.compare(this, persona, "apellido, nombre, email");
 	}
 	@Inject
 	private DomainObjectContainer container;
