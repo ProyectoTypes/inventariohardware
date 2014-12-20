@@ -37,6 +37,13 @@ import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.tecnico.Tecnico;
 
+/**
+ * Entidad Reporte.
+ * @author ProyectoTypes
+ * @since 17/12/2014
+ * @version 1.0.0
+ */
+
 @javax.jdo.annotations.PersistenceCapable(identityType=IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
