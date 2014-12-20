@@ -28,9 +28,13 @@ public class ProcesadorRepositorio {
 		return "procesador";
 	}
 
+	// //////////////////////////////////////
+	// Agregar
+	// //////////////////////////////////////
+	
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Procesador")
-	public Procesador addProcesador(final @Named("Modelo") String modelo) {
+	public Procesador create(final @Named("Modelo") String modelo) {
 		return nuevoProcesador(modelo);
 	}
 
@@ -43,11 +47,19 @@ public class ProcesadorRepositorio {
 		return obj;
 	}
 
-	@Inject
-	private DomainObjectContainer container;
-
-	public List<Procesador> listar() {
+	// //////////////////////////////////////
+	// Listar
+	// //////////////////////////////////////
+	
+	public List<Procesador> listAll() {
 		return this.container.allMatches(new QueryDefault<Procesador>(
 				Procesador.class, "listar"));
 	}
+	
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+	
+	@Inject
+	private DomainObjectContainer container;
 }

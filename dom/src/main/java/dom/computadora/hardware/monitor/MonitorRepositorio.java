@@ -36,6 +36,7 @@ import dom.computadora.hardware.monitor.Monitor.TipoMonitor;
 @DomainService
 @Named("Monitor")
 public class MonitorRepositorio {
+	
 	// //////////////////////////////////////
 	// Icono
 	// //////////////////////////////////////
@@ -49,12 +50,13 @@ public class MonitorRepositorio {
 	}
 
 	// //////////////////////////////////////
-	// Agregar Monitor
+	// Agregar 
 	// //////////////////////////////////////
+	
 	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
-	public Monitor addMonitor(final @Named("Tamaño en plg.") int tamaño,
+	public Monitor create(final @Named("Tamaño en pulgadas") int tamaño,
 			final @Named("Tipo") TipoMonitor tipo,
 			final @Named("Marca") String marca) {
 		return nuevosMonitor(tamaño, tipo, marca, this.currentUserName());
@@ -75,23 +77,23 @@ public class MonitorRepositorio {
 	}
 
 	// //////////////////////////////////////
-	// Listar Monitor
+	// Listar 
 	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "100")
-	public List<Monitor> listar() {
-		final List<Monitor> listaSoftware = this.container
-				.allMatches(new QueryDefault<Monitor>(Monitor.class,
+	public List<Monitor> listAll() {
+		final List<Monitor> listaMonitor = this.container.allMatches(new QueryDefault<Monitor>(Monitor.class,
 						"listarMonitorTrue"));
-		if (listaSoftware.isEmpty()) {
+		if (listaMonitor.isEmpty()) {
 			this.container.warnUser("No hay Monitores cargados en el sistema.");
 		}
-		return listaSoftware;
+		return listaMonitor;
 	}
 
 	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////
+	
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
@@ -99,6 +101,7 @@ public class MonitorRepositorio {
 	// //////////////////////////////////////
 	// Injected Services
 	// //////////////////////////////////////
+	
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 }

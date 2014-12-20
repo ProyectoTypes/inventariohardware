@@ -26,6 +26,7 @@ import dom.computadora.hardware.gabinete.procesador.ProcesadorRepositorio;
 @Named("Gabinete")
 @Hidden
 public class GabineteRepositorio {
+	
 	// //////////////////////////////////////
 	// Icono
 	// //////////////////////////////////////
@@ -38,9 +39,13 @@ public class GabineteRepositorio {
 		return "Gabinete";
 	}
 
+	// //////////////////////////////////////
+	// Agregar
+	// //////////////////////////////////////
+	
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Gabinete")
-	public Gabinete agregarGabinete(final @Named("IP") String ip,
+	public Gabinete create(final @Named("IP") String ip,
 			final @Named("MAC") String mac,
 			final @Named("HDD Marca ") String marcaDisco,
 			final @Named("HDD Categoria ") CategoriaDisco tipoDisco,
@@ -72,23 +77,23 @@ public class GabineteRepositorio {
 	}
 
 	public List<PlacaDeRed> choices0AddGabinete() {
-		return this.placaderedRepositorio.listar();
+		return this.placaderedRepositorio.listAll();
 	}
 
 	public List<Disco> choices1AddGabinete() {
-		return this.discoRepositorio.listar();
+		return this.discoRepositorio.listAll();
 	}
 
 	public List<Procesador> choices2AddGabinete() {
-		return this.procesadorRepositorio.listar();
+		return this.procesadorRepositorio.listAll();
 	}
 
 	public List<MemoriaRam> choices3AddGabinete() {
-		return this.memoriaramRepositorio.listar();
+		return this.memoriaramRepositorio.listAll();
 	}
 
 	public List<Motherboard> choices4AddGabinete() {
-		return this.motherboardRepositorio.listar();
+		return this.motherboardRepositorio.listAll();
 	}
 
 	private Gabinete nuevoGabinete(final PlacaDeRed placaDeRed,
@@ -106,17 +111,25 @@ public class GabineteRepositorio {
 		return obj;
 	}
 
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+	
 	@Inject
 	private DomainObjectContainer container;
+	
 	@Inject
 	private PlacaDeRedRepositorio placaderedRepositorio;
+	
 	@Inject
 	private DiscoRepositorio discoRepositorio;
+	
 	@Inject
 	private ProcesadorRepositorio procesadorRepositorio;
+	
 	@Inject
 	private MemoriaRamRepositorio memoriaramRepositorio;
+	
 	@Inject
 	private MotherboardRepositorio motherboardRepositorio;
-
 }

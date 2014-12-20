@@ -52,12 +52,12 @@ public class ImpresoraRepositorio {
 	}
 
 	// //////////////////////////////////////
-	// Agregar Impresora
+	// Agregar 
 	// //////////////////////////////////////
 
 	@MemberOrder(name = "Computadoras", sequence = "50")
 	@Named("Agregar Impresora")
-	public Impresora addImpresora(
+	public Impresora create(
 			final @Named("Modelo") String modeloImpresora,
 			final @Named("Fabricante") String fabricanteImpresora,
 			final @Named("Tipo") TipoImpresora tipoImpresora) {
@@ -88,7 +88,7 @@ public class ImpresoraRepositorio {
 
 	@MemberOrder(name = "Computadoras", sequence = "60")
 	@Named("Listar Impresoras")
-	public List<Impresora> listar() {
+	public List<Impresora> listAll() {
 		final List<Impresora> listaImpresora = this.container
 				.allMatches(new QueryDefault<Impresora>(Impresora.class,
 						"eliminarImpresoraTrue"));
@@ -101,11 +101,11 @@ public class ImpresoraRepositorio {
 
 	@DescribedAs("Buscar Impresora Mayuscula")
 
-	public List<Impresora> autoComplete0AddImpresora(
+	public List<Impresora> autoComplete0Create(
 			final @MinLength(2) String search) {
 		return impresoraRepositorio.autoComplete(search);
-
 	}
+	
 	@Hidden
 	@MemberOrder(name = "Computadoras", sequence = "70")
 	@Named("Buscar Impresora")

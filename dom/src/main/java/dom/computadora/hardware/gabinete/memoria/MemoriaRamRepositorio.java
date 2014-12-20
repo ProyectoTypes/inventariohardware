@@ -27,10 +27,14 @@ public class MemoriaRamRepositorio {
 	public String iconName() {
 		return "memoriaram";
 	}
+	
+	// //////////////////////////////////////
+	// Agregar 
+	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Placa de Red")
-	public MemoriaRam addMemoriaRam(final @Named("Modelo") String modelo,
+	public MemoriaRam create(final @Named("Modelo") String modelo,
 			final @Named("Tamaño") int tamano,
 			final @Named("Marca") String marca) {
 		return nuevaMemoriaRam(modelo, tamano, marca);
@@ -48,11 +52,19 @@ public class MemoriaRamRepositorio {
 		return obj;
 	}
 
-	@Inject
-	private DomainObjectContainer container;
-
-	public List<MemoriaRam> listar() {
+	// //////////////////////////////////////
+	// Listar 
+	// //////////////////////////////////////
+	
+	public List<MemoriaRam> listAll() {
 		return this.container.allMatches(new QueryDefault<MemoriaRam>(
 				MemoriaRam.class, "listar"));
 	}
+	
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+	
+	@Inject
+	private DomainObjectContainer container;
 }

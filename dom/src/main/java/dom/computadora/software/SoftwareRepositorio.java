@@ -49,10 +49,11 @@ public class SoftwareRepositorio {
 	// //////////////////////////////////////
 	// Agregar Software
 	// //////////////////////////////////////
+	
 	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
-	public Software addSoftware(final @Named("Codigo") String codigo,
+	public Software create(final @Named("Codigo") String codigo,
 			final @Named("Tipo") int tipo,
 			final @Named("Nombre") String nombre,
 			final @Named("Marca") String marca,
@@ -83,7 +84,7 @@ public class SoftwareRepositorio {
 	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "100")
-	public List<Software> listar() {
+	public List<Software> listAll() {
 		final List<Software> listaSoftware = this.container
 				.allMatches(new QueryDefault<Software>(Software.class,
 						"listarSoftwareTrue"));

@@ -16,6 +16,7 @@ import dom.computadora.hardware.monitor.Monitor;
 @Named("Hardware")
 @Hidden
 public class HardwareRepositorio {
+	
 	// //////////////////////////////////////
 	// Icono
 	// //////////////////////////////////////
@@ -27,16 +28,18 @@ public class HardwareRepositorio {
 	public String iconName() {
 		return "Hardware";
 	}
-
+	
+	// //////////////////////////////////////
+	// Agregar
+	// //////////////////////////////////////
+	
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Hardware")
-	public Hardware addHardware(final @Named("Fabricante") String fabricante,
+	public Hardware create(final @Named("Fabricante") String fabricante,
 			final @Named("Monitor") Monitor monitor,
 			final @Named("Gabinete") Gabinete gabinete,
 			final @Named("Impresora") Impresora impresora) {
-
 		return nuevoHardware(fabricante, monitor, gabinete, impresora);
-
 	}
 
 	private Hardware nuevoHardware(final String fabricante,
@@ -53,6 +56,10 @@ public class HardwareRepositorio {
 		return hardware;
 	}
 
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+	
 	@Inject
 	private DomainObjectContainer container;
 }

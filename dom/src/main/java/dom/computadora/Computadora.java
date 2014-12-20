@@ -218,7 +218,7 @@ public class Computadora implements Comparable<Computadora> {
 			container.flush();
 			container.warnUser("Registro eliminado");
 
-		return computadoraRepositorio.listar();
+		return computadoraRepositorio.listAll();
 	}
 	
 	// //////////////////////////////////////
@@ -238,7 +238,7 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	public List<Impresora> choicesImpresora() {
-		return this.impresoraRepositorio.listar();
+		return this.impresoraRepositorio.listAll();
 
 	}
 	

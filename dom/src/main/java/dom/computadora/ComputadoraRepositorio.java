@@ -75,7 +75,7 @@ public class ComputadoraRepositorio {
 	@MemberOrder(name = "Computadoras", sequence = "10")
 	@Named("Agregar Computadora")
 	@DescribedAs("Agregar Computadora manualmente.")
-	public Computadora agregarComputadora(
+	public Computadora create(
 			final @Named("Usuario") Usuario usuario,
 			final @Named("IP") String ip, 
 			final @Named("MAC") String mac,
@@ -98,7 +98,8 @@ public class ComputadoraRepositorio {
 		return this.nuevaComputadora(usuario, placaDeRed, motherboard,
 				procesador, disco, memoriaRam, impresora,
 				this.currentUserName(),rotulo);
-	} 
+	}
+	
 	@Hidden
 	@NotContributed	
 	@MemberOrder(name = "Computadoras", sequence = "20")
@@ -135,7 +136,6 @@ public class ComputadoraRepositorio {
 		if (impresora != null) {
 			impresora.agregarComputadora(unaComputadora);
 		}
-
 		container.persistIfNotAlready(unaComputadora);
 		container.flush();
 		return unaComputadora;
@@ -151,22 +151,19 @@ public class ComputadoraRepositorio {
 	}
 	
 	// //////////////////////////////////////
-	// Buscar Monitor
+	// Elegir Monitor
 	// //////////////////////////////////////
 
-		// @Named("Impresora")
-		public List<Monitor> choices12AgregarComputadora() {
-			return this.monitorRepositorio.listar();
-
-		}
+	public List<Monitor> choices12Create() {
+		return this.monitorRepositorio.listAll();
+	}
 
 	// //////////////////////////////////////
-	// Buscar Impresora
+	// Elegir Impresora
 	// //////////////////////////////////////
 
-	// @Named("Impresora")
-	public List<Impresora> choices13AgregarComputadora() {
-		return this.impresoraRepositorio.listar();
+	public List<Impresora> choices13Create() {
+		return this.impresoraRepositorio.listAll();
 
 	}
 
@@ -176,7 +173,7 @@ public class ComputadoraRepositorio {
 
 	@Named("Usuario")
 	@DescribedAs("Buscar el Usuario en mayuscula")
-	public List<Usuario> autoComplete0AgregarComputadora(
+	public List<Usuario> autoComplete0Create(
 			final @MinLength(2) String search) {
 		return usuarioRepositorio.autoComplete(search);
 
@@ -187,7 +184,7 @@ public class ComputadoraRepositorio {
 	// //////////////////////////////////////
 	@MemberOrder(name = "Computadoras", sequence = "30")
 	@Named("Listar Computadoras")
-	public List<Computadora> listar() {
+	public List<Computadora> listAll() {
 		final List<Computadora> listaComputadoras;
 		
 			listaComputadoras = this.container

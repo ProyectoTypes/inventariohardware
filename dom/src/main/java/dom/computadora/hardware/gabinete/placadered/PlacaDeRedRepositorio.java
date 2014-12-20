@@ -31,10 +31,14 @@ public class PlacaDeRedRepositorio {
 	public String iconName() {
 		return "red";
 	}
+	
+	// //////////////////////////////////////
+	// Agregar 
+	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Placa de Red")
-	public PlacaDeRed addPlacaDeRed(final @Named("IP") String ip,
+	public PlacaDeRed create(final @Named("IP") String ip,
 			final @Named("MAC") String mac) {
 		return nuevaPlacaDeRed(ip, mac);
 	}
@@ -49,12 +53,19 @@ public class PlacaDeRedRepositorio {
 		return obj;
 	}
 
-	@Inject
-	private DomainObjectContainer container;
-
-	public List<PlacaDeRed> listar() {
+	// //////////////////////////////////////
+	// Listar 
+	// //////////////////////////////////////
+	
+	public List<PlacaDeRed> listAll() {
 		return this.container.allMatches(new QueryDefault<PlacaDeRed>(
 				PlacaDeRed.class, "listar"));
-
 	}
+	
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+	
+	@Inject
+	private DomainObjectContainer container;
 }

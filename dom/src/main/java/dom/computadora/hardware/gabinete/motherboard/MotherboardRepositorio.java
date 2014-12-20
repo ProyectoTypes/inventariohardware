@@ -27,10 +27,14 @@ public class MotherboardRepositorio {
 	public String iconName() {
 		return "motherboard";
 	}
+	
+	// //////////////////////////////////////
+	// Agregar 
+	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Motherboard")
-	public Motherboard addMotherboard(final @Named("Modelo") String modelo) {
+	public Motherboard create(final @Named("Modelo") String modelo) {
 		return nuevaMotherboard(modelo);
 	}
 
@@ -44,11 +48,19 @@ public class MotherboardRepositorio {
 		return obj;
 	}
 
-	@Inject
-	private DomainObjectContainer container;
-
-	public List<Motherboard> listar() {
+	// //////////////////////////////////////
+	// Listar 
+	// //////////////////////////////////////
+	
+	public List<Motherboard> listAll() {
 		return this.container.allMatches(new QueryDefault<Motherboard>(
 				Motherboard.class, "listar"));
 	}
+	
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
+	
+	@Inject
+	private DomainObjectContainer container;
 }
