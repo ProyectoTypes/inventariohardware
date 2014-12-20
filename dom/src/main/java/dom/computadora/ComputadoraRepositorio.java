@@ -105,7 +105,7 @@ public class ComputadoraRepositorio {
 	@Named("(+) Computadora")
 	@DescribedAs("Agregar Computadora manualmente.")
 	public Computadora agregarComputadora(
-			final @Named("Rotulo") String rotulo,
+			final @Named("Nombre de Equipo") String rotulo,
 			final @Named("Usuario") Usuario usuario,
 			final @RegEx(validation= "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])")@Named("IP") String ip, 
 			final @RegEx(validation = "([0-9a-fA-F][0-9a-fA-F]:){5}([0-9a-fA-F][0-9a-fA-F])") @Named("MAC") String mac,
@@ -177,10 +177,10 @@ public class ComputadoraRepositorio {
 			final PlacaDeRed placaDeRed, final Motherboard motherboard,
 			final Procesador procesador, final Disco disco,
 			final MemoriaRam memoria, final Impresora impresora,
-			final String creadoPor, final String rotulo) {
+			final String creadoPor, final String nombreEquipo) {
 		final Computadora unaComputadora = container
 				.newTransientInstance(Computadora.class);
-		unaComputadora.setRotulo(rotulo);
+		unaComputadora.setNombreEquipo(nombreEquipo);
 		unaComputadora.modifyUsuario(usuario);
 		unaComputadora.setPlacaDeRed(placaDeRed);
 		unaComputadora.setMotherboard(motherboard);
@@ -224,11 +224,10 @@ public class ComputadoraRepositorio {
 	// Buscar Monitor
 	// //////////////////////////////////////
 
-	// @Named("Impresora")
 	/**
 	 * Lista de los monitores cargados
 	 *
-	 * @return the list
+	 * @return list
 	 */
 	public List<Monitor> choices13AgregarComputadora() {
 		return this.monitorRepositorio.listar();
@@ -239,7 +238,6 @@ public class ComputadoraRepositorio {
 	// Buscar Impresora
 	// //////////////////////////////////////
 
-	// @Named("Impresora")
 	/**
 	 * Lista de las impresoras cargadas
 	 *
