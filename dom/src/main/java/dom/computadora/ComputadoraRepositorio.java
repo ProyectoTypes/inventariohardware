@@ -99,7 +99,7 @@ public class ComputadoraRepositorio {
 	@Named("(+) Computadora")
 	@DescribedAs("Agregar Computadora.")
 	public Computadora create(
-			final @Named("Nombre de Equipo") String rotulo,
+			final @Named("Nombre de Equipo") String nombreEquipo,
 			final @Named("Usuario") Usuario usuario,
 			final @RegEx(validation= "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])")@Named("IP") String ip, 
 			final @RegEx(validation = "([0-9a-fA-F][0-9a-fA-F]:){5}([0-9a-fA-F][0-9a-fA-F])") @Named("MAC") String mac,
@@ -120,7 +120,7 @@ public class ComputadoraRepositorio {
 		Procesador procesador = new Procesador(modeloProcesador);
 		MemoriaRam memoriaRam = new MemoriaRam(modeloRam, tamanoRam, marcaRam);
 		Motherboard motherboard = new Motherboard(modeloMotherboard);
-		return this.nuevaComputadora(rotulo, usuario, placaDeRed, motherboard,
+		return this.nuevaComputadora(nombreEquipo, usuario, placaDeRed, motherboard,
 				procesador, disco, memoriaRam, impresora, this.currentUserName());
 	}
 	
@@ -158,17 +158,18 @@ public class ComputadoraRepositorio {
 			final Procesador procesador, final Disco disco,
 			final MemoriaRam memoria, final Impresora impresora,
 			final String creadoPor) {
-		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);
-		unaComputadora.setNombreEquipo(nombreEquipo);
-		unaComputadora.modifyUsuario(usuario);
-		unaComputadora.setPlacaDeRed(placaDeRed);
-		unaComputadora.setMotherboard(motherboard);
-		unaComputadora.setProcesador(procesador);
-		unaComputadora.setDisco(disco);
-		unaComputadora.setMemoria(memoria);
-		unaComputadora.setImpresora(impresora);
-		unaComputadora.setHabilitado(true);
+		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);		
 		unaComputadora.setCreadoPor(creadoPor);
+		unaComputadora.setDisco(disco);
+		unaComputadora.setHabilitado(true);
+		unaComputadora.setMemoria(memoria);
+		unaComputadora.setMotherboard(motherboard);
+		unaComputadora.setNombreEquipo(nombreEquipo);
+		unaComputadora.setPlacaDeRed(placaDeRed);
+		unaComputadora.setProcesador(procesador);
+		unaComputadora.modifyUsuario(usuario);	
+		unaComputadora.setImpresora(impresora);
+		
 		if (impresora != null) {
 			impresora.agregarComputadora(unaComputadora);
 		}
