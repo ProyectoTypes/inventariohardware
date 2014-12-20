@@ -61,7 +61,7 @@ import dom.usuario.Usuario;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Computadora_ip_must_be_unique", members = { "placaDeRed" }) })
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Computadora_ip_must_be_unique", members = { "nombreEquipo" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorComputadora", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
@@ -95,7 +95,7 @@ public class Computadora implements Comparable<Computadora> {
 	}
 	
 	// //////////////////////////////////////
-	// NombrEquipo  (propiedad)
+	// Nombre Equipo  (propiedad)
 	// //////////////////////////////////////
 	
 	private String nombreEquipo;
@@ -109,25 +109,6 @@ public class Computadora implements Comparable<Computadora> {
 	public void setNombreEquipo(String nombreEquipo) {
 		this.nombreEquipo = nombreEquipo;
 	}	
-
-	// //////////////////////////////////////
-	// IP (propiedad)
-	// //////////////////////////////////////
-
-	private String ip;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "10")
-	
-	public String getIp() {
-		return ip;
-	}
-
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-
-	
 	
 	// //////////////////////////////////////
 	// Placa de Red (propiedad)

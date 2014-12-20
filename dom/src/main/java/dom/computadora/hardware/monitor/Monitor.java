@@ -46,7 +46,7 @@ import org.apache.isis.applib.util.ObjectContracts;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Monitor_unique", members = { "tamaño,tipo,marca", }) })
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Monitor_unique", members = { "tamaño","tipo","marca", }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorMonitor", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.monitor.Monitor "
