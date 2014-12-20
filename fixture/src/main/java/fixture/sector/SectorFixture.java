@@ -35,7 +35,7 @@ public class SectorFixture extends FixtureScript {
 	// //////////////////////////////////////
 
 	private Sector create(final String nombre, ExecutionContext executionContext) {
-		return executionContext.add(this, sectores.agregar(nombre));
+		return executionContext.add(this, sectores.create(nombre));
 	}
 
 	// //////////////////////////////////////
@@ -46,12 +46,12 @@ public class SectorFixture extends FixtureScript {
 		execute(new SectorFixtureBaja(), executionContext);
 
 		// create
-		create("Administracion", executionContext);
-		create("Informatica", executionContext);
+		create("Administración", executionContext);
+		create("Informática", executionContext);
 		create("Ventas", executionContext);
 		create("Contaduria", executionContext);
 		create("Mesa de Entrada", executionContext);
-		create("Deposito", executionContext);
+		create("Depósito", executionContext);
 
 	}
 

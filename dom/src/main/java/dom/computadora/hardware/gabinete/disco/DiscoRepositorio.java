@@ -35,7 +35,7 @@ public class DiscoRepositorio {
 
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Disco")
-	public Disco addDisco(final @Named("Marca") String marca,
+	public Disco create(final @Named("Marca") String marca,
 			final @Named("Tipo") CategoriaDisco tipo,
 			final @Named("Tamaño") int tamano) {
 		return nuevoDisco(marca, tipo, tamano);
@@ -52,13 +52,20 @@ public class DiscoRepositorio {
 		this.container.flush();
 		return obj;
 	}
+	
+	// //////////////////////////////////////
+	// Listar 
+	// //////////////////////////////////////
+	
+	public List<Disco> listAll() {
+		return this.container.allMatches(new QueryDefault<Disco>(
+				Disco.class, "listar"));
+	}
+	
+	// //////////////////////////////////////
+	// Injected Services
+	// //////////////////////////////////////
 
 	@Inject
 	private DomainObjectContainer container;
-
-	public List<Disco> listar() {
-		return this.container.allMatches(new QueryDefault<Disco>(
-				Disco.class, "listar"));
-
-	}
 }

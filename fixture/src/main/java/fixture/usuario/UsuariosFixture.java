@@ -42,7 +42,7 @@ public class UsuariosFixture extends FixtureScript {
 		// prereqs
 		execute(new UsuariosFixtureBaja(), executionContext);
 		// create
-		List<Sector> listasectores = sectores.listar();
+		List<Sector> listasectores = sectores.listAll();
 		create(listasectores.get(0), "Perez", "Juan", "cipoleto@gmail.com",
 				executionContext);
 		create(listasectores.get(1), "Garcia", "Pedro", "oscarsepulveda16@yahoo.com.ar",
@@ -64,7 +64,7 @@ public class UsuariosFixture extends FixtureScript {
 			final String nombre, final String email,
 			ExecutionContext executionContext) {
 		return executionContext.add(this,
-				usuarios.addUsuario(sector, apellido, nombre, email));
+				usuarios.create(sector, apellido, nombre, email));
 	}
 
 	@javax.inject.Inject

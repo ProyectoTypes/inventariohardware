@@ -13,7 +13,6 @@ import dom.computadora.hardware.gabinete.Gabinete;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.monitor.Monitor;
 
-// TODO: Auto-generated Javadoc
 /**
  * Clase HardwareRepositorio.
  */
@@ -21,18 +20,18 @@ import dom.computadora.hardware.monitor.Monitor;
 @Named("Hardware")
 @Hidden
 public class HardwareRepositorio {
-	// //////////////////////////////////////
-	// Icono
-	// //////////////////////////////////////
-
+	
+	/**
+	 * Id
+	 * @return
+	 */
 	public String getId() {
 		return "hardware";
 	}
 
 	/**
-	 * Nombre del icono de la clase
-	 *
-	 * @return the string
+	 * Nombre del Icono.
+	 * @return 
 	 */
 	public String iconName() {
 		return "Hardware";
@@ -40,7 +39,6 @@ public class HardwareRepositorio {
 
 	/**
 	 * Agregando el hardware.
-	 *
 	 * @param fabricante 
 	 * @param monitor 
 	 * @param gabinete 
@@ -50,18 +48,15 @@ public class HardwareRepositorio {
 	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Hardware")
-	public Hardware addHardware(final @Named("Fabricante") String fabricante,
+	public Hardware create(final @Named("Fabricante") String fabricante,
 			final @Named("Monitor") Monitor monitor,
 			final @Named("Gabinete") Gabinete gabinete,
 			final @Named("Impresora") Impresora impresora) {
-
 		return nuevoHardware(fabricante, monitor, gabinete, impresora);
-
 	}
 
 	/**
-	 * Nuevo hardware.
-	 *
+	 * Nuevo Hardware.
 	 * @param fabricante
 	 * @param monitor
 	 * @param gabinete 
@@ -82,7 +77,9 @@ public class HardwareRepositorio {
 		return hardware;
 	}
 
-	/** The container. */
+	/**
+	 * Inyección del Contenedor.
+	 */
 	@Inject
 	private DomainObjectContainer container;
 }

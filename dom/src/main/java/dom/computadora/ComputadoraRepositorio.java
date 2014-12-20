@@ -49,7 +49,6 @@ import dom.computadora.hardware.monitor.MonitorRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 
-// TODO: Auto-generated Javadoc
 /**
  * Clase ComputadoraRepositorio.
  */
@@ -61,29 +60,24 @@ public class ComputadoraRepositorio {
 
 	}
 
-	// //////////////////////////////////////
-	// Icono
-	// //////////////////////////////////////
-
+	/**
+	 * Id
+	 * @return
+	 */
 	public String getId() {
 		return "computadora";
 	}
 
 	/**
-	 * Nombre del icono
-	 *
+	 * Nombre del Icono.
 	 * @return string
 	 */
 	public String iconName() {
 		return "Computadora";
 	}
 
-	// //////////////////////////////////////
-	// Agregar Computadora
-	// //////////////////////////////////////
 	/**
 	 * Agregar computadora.
-	 *
 	 * @param usuario
 	 * @param ip
 	 * @param mac
@@ -104,8 +98,12 @@ public class ComputadoraRepositorio {
 	@MemberOrder(name = "Hardware", sequence = "10")
 	@Named("(+) Computadora")
 	@DescribedAs("Agregar Computadora manualmente.")
+<<<<<<< HEAD
 	public Computadora agregarComputadora(
 			final @Named("Nombre de Equipo") String rotulo,
+=======
+	public Computadora create(
+>>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 			final @Named("Usuario") Usuario usuario,
 			final @RegEx(validation= "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])")@Named("IP") String ip, 
 			final @RegEx(validation = "([0-9a-fA-F][0-9a-fA-F]:){5}([0-9a-fA-F][0-9a-fA-F])") @Named("MAC") String mac,
@@ -130,19 +128,7 @@ public class ComputadoraRepositorio {
 				procesador, disco, memoriaRam, impresora,
 				this.currentUserName(), rotulo);
 	}
-
-	/**
-	 * Adds the computadora.
-	 *
-	 * @param usuario
-	 * @param placaDeRed
-	 * @param motherboard
-	 * @param procesador
-	 * @param disco
-	 * @param memoria
-	 * @param impresora
-	 * @return computadora
-	 */
+	
 	@Hidden
 	@NotContributed
 	@MemberOrder(name = "Computadoras", sequence = "20")
@@ -160,7 +146,6 @@ public class ComputadoraRepositorio {
 
 	/**
 	 * Nueva computadora.
-	 *
 	 * @param usuario
 	 * @param placaDeRed
 	 * @param motherboard
@@ -193,13 +178,13 @@ public class ComputadoraRepositorio {
 		if (impresora != null) {
 			impresora.agregarComputadora(unaComputadora);
 		}
-
 		container.persistIfNotAlready(unaComputadora);
 		container.flush();
 		return unaComputadora;
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Validate add computadora.
 	 *
 	 * @param usuario        
@@ -210,6 +195,17 @@ public class ComputadoraRepositorio {
 	 * @param memoria    
 	 * @param impresora
 	 * @return  string
+=======
+	 * Validar los datos de Computadora.
+	 * @param usuario
+	 * @param placaDeRed
+	 * @param motherboard
+	 * @param procesador
+	 * @param disco
+	 * @param memoria
+	 * @param impresora
+	 * @return 
+>>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 	 */
 	public String validateAddComputadora(Usuario usuario,
 			PlacaDeRed placaDeRed, Motherboard motherboard,
@@ -220,6 +216,7 @@ public class ComputadoraRepositorio {
 		return "El Usuario ya posee una Computadora. Seleccione otra. ";
 	}
 
+<<<<<<< HEAD
 	// //////////////////////////////////////
 	// Buscar Monitor
 	// //////////////////////////////////////
@@ -238,46 +235,60 @@ public class ComputadoraRepositorio {
 	// Buscar Impresora
 	// //////////////////////////////////////
 
+=======
 	/**
-	 * Lista de las impresoras cargadas
-	 *
+	 * Método que lista los Monitores cargados.
 	 * @return the list
 	 */
+	public List<Monitor> choices12Create() {
+		return this.monitorRepositorio.listAll();
+	}
+
+>>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
+	/**
+	 * Método que lista las Impresoras cargadas.
+	 * @return the list
+	 */
+<<<<<<< HEAD
 	public List<Impresora> choices14AgregarComputadora() {
 		return this.impresoraRepositorio.listar();
 
+=======
+	public List<Impresora> choices13Create() {
+		return this.impresoraRepositorio.listAll();
+>>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 	}
 
-	// //////////////////////////////////////
-	// Buscar Usuario
-	// //////////////////////////////////////
-
 	/**
-	 * Auto complete busqueda de usuario a medida que se cargan los datos
-	 *
-	 * @param search
-	 *           
-	 * @return  list
+	 * Auto complete búsqueda de usuario a medida que se cargan los datos.
+	 * @param search       
+	 * @return
 	 */
 	@Named("Usuario")
 	@DescribedAs("Buscar el Usuario en mayuscula")
+<<<<<<< HEAD
 	public List<Usuario> autoComplete1AgregarComputadora(
+=======
+	public List<Usuario> autoComplete0Create(
+>>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 			final @MinLength(2) String search) {
 		return usuarioRepositorio.autoComplete(search);
 
 	}
 
-	// //////////////////////////////////////
-	// Listar Computadora
-	// //////////////////////////////////////
 	/**
-	 * Listas de computadoras.
-	 *
-	 * @return the list
+	 * Método que permite listar las Computadoras.
+	 * @return
 	 */
+<<<<<<< HEAD
 	@MemberOrder(name = "Hardware", sequence = "16")
 	@Named("--Listar Computadoras")
 	public List<Computadora> listar() {
+=======
+	@MemberOrder(name = "Computadoras", sequence = "30")
+	@Named("Listar Computadoras")
+	public List<Computadora> listAll() {
+>>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 		final List<Computadora> listaComputadoras;
 
 		listaComputadoras = this.container
@@ -291,16 +302,10 @@ public class ComputadoraRepositorio {
 		return listaComputadoras;
 	}
 
-	// //////////////////////////////////////
-	// Buscar Computadora
-	// //////////////////////////////////////
-
 	/**
-	 * Busqueda de computadora por ip
-	 *
-	 * @param ip
-	 *           
-	 * @return the list
+	 * Permite realizar la búsqueda de Computadora por el parámetro Ip.
+	 * @param ip         
+	 * @return
 	 */
 	@MemberOrder(name = "Hardware", sequence = "17")
 	@Named("--Buscar Computadora")
@@ -320,10 +325,8 @@ public class ComputadoraRepositorio {
 
 	/**
 	 * Auto complete.
-	 *
-	 * @param ip
-	 *          
-	 * @return the list
+	 * @param ip     
+	 * @return
 	 */
 	@Programmatic
 	public List<Computadora> autoComplete(@Named("Ip") @MinLength(2) String ip) {
@@ -332,36 +335,35 @@ public class ComputadoraRepositorio {
 						.toUpperCase().trim()));
 	}
 
-	// //////////////////////////////////////
-	// CurrentUserName
-	// //////////////////////////////////////
-
 	/**
 	 * Current user name, devuelve el nombre del usuario.
-	 *
 	 * @return  string 
 	 */
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
 
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
-	/**Container. */
+	/**
+	 * Inyección del Contenedor.
+	 */
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 
-	/** Usuario repositorio. */
+	/**
+	 * Inyección del servicio para Usuario.
+	 */
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarioRepositorio;
 
-	/** Impresora repositorio. */
+	/**
+	 * Inyección del servicio para Impresora.
+	 */
 	@javax.inject.Inject
 	private ImpresoraRepositorio impresoraRepositorio;
 
-	/** Monitor repositorio. */
+	/**
+	 * Inyección del servicio para Monitor.
+	 */
 	@javax.inject.Inject
 	private MonitorRepositorio monitorRepositorio;
 }

@@ -20,40 +20,37 @@ import org.apache.isis.applib.query.QueryDefault;
 
 public class MotherboardRepositorio {
 
-	// //////////////////////////////////////
-	// Icono
-	// //////////////////////////////////////
-
+	/**
+	 * Id
+	 * @return
+	 */
 	public String getId() {
 		return "motherboard";
 	}
 
 	/**
-	 * Icon name.
-	 *
-	 * @return the string
+	 * Nombre del Icono.
+	 * @return
 	 */
 	public String iconName() {
 		return "motherboard";
 	}
 
 	/**
-	 * Adds the motherboard.
-	 *
-	 * @param modelo the modelo
-	 * @return the motherboard
+	 * Agregar Motherboard.
+	 * @param modelo
+	 * @return
 	 */
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Motherboard")
-	public Motherboard addMotherboard(final @Named("Modelo") String modelo) {
+	public Motherboard create(final @Named("Modelo") String modelo) {
 		return nuevaMotherboard(modelo);
 	}
 
 	/**
-	 * Nueva motherboard.
-	 *
-	 * @param modelo the modelo
-	 * @return the motherboard
+	 * Nueva Motherboard.
+	 * @param modelo
+	 * @return
 	 */
 	private Motherboard nuevaMotherboard(final String modelo) {
 
@@ -65,17 +62,18 @@ public class MotherboardRepositorio {
 		return obj;
 	}
 
-	/** The container. */
-	@Inject
-	private DomainObjectContainer container;
-
 	/**
-	 * Metodo para Listar.
-	 *
+	 * Método para Listar.
 	 * @return the list
-	 */
-	public List<Motherboard> listar() {
+	 */	
+	public List<Motherboard> listAll() {
 		return this.container.allMatches(new QueryDefault<Motherboard>(
 				Motherboard.class, "listar"));
 	}
+
+	/**
+	 * Inyección del Contenedor.
+	 */
+	@Inject
+	private DomainObjectContainer container;
 }

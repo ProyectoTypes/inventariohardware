@@ -11,7 +11,6 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.query.QueryDefault;
 
-// TODO: Auto-generated Javadoc
 /**
  * clase ProcesadorRepositorio.
  */
@@ -20,17 +19,16 @@ import org.apache.isis.applib.query.QueryDefault;
 @Hidden
 public class ProcesadorRepositorio {
 
-	// //////////////////////////////////////
-	// Icono
-	// //////////////////////////////////////
-
+	/**
+	 * Id
+	 * @return
+	 */
 	public String getId() {
 		return "procesador";
 	}
 
 	/**
 	 * Nombre de icono
-	 *
 	 * @return the string
 	 */
 	public String iconName() {
@@ -38,24 +36,20 @@ public class ProcesadorRepositorio {
 	}
 
 	/**
-	 * Adds the procesador.
-	 *
-	 * @param modelo del procesador
-	 *            
-	 * @return the procesador
+	 * Agregar Procesador..
+	 * @param modelo 
+	 * @return
 	 */
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Procesador")
-	public Procesador addProcesador(final @Named("Modelo") String modelo) {
+	public Procesador create(final @Named("Modelo") String modelo) {
 		return nuevoProcesador(modelo);
 	}
 
 	/**
 	 * Nuevo procesador.
-	 *
-	 * @param modelo
-	 *            
-	 * @return the procesador
+	 * @param modelo         
+	 * @return obj
 	 */
 	private Procesador nuevoProcesador(final String modelo) {
 
@@ -66,17 +60,18 @@ public class ProcesadorRepositorio {
 		return obj;
 	}
 
-	/** The container. */
-	@Inject
-	private DomainObjectContainer container;
-
 	/**
 	 * Lista de procesador.
-	 *
 	 * @return the list
-	 */
-	public List<Procesador> listar() {
+	 */	
+	public List<Procesador> listAll() {
 		return this.container.allMatches(new QueryDefault<Procesador>(
 				Procesador.class, "listar"));
 	}
+	
+	/**
+ 	* Inyección del Contenedor.
+ 	*/
+	@Inject
+	private DomainObjectContainer container;
 }

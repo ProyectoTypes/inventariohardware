@@ -22,7 +22,6 @@ import dom.computadora.hardware.gabinete.placadered.PlacaDeRedRepositorio;
 import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.gabinete.procesador.ProcesadorRepositorio;
 
-// TODO: Auto-generated Javadoc
 /**
  * Clase GabineteRepositorio.
  */
@@ -30,17 +29,17 @@ import dom.computadora.hardware.gabinete.procesador.ProcesadorRepositorio;
 @Named("Gabinete")
 @Hidden
 public class GabineteRepositorio {
-	// //////////////////////////////////////
-	// Icono
-	// //////////////////////////////////////
 
+	/**
+	 * Id
+	 * @return
+	 */
 	public String getId() {
 		return "gabinete";
 	}
 
 	/**
-	 * Nombre del clase
-	 *
+	 * Nombre del Icono.
 	 * @return the string
 	 */
 	public String iconName() {
@@ -48,23 +47,22 @@ public class GabineteRepositorio {
 	}
 
 	/**
-	 * Agregar gabinete.
-	 *
-	 * @param ip the ip
-	 * @param mac the mac
-	 * @param marcaDisco the marca disco
-	 * @param tipoDisco the tipo disco
-	 * @param tamanoDisco the tamano disco
-	 * @param modeloProcesador the modelo procesador
-	 * @param modeloRam the modelo ram
-	 * @param tamanoRam the tamano ram
-	 * @param marcaRam the marca ram
-	 * @param modeloMotherboard the modelo motherboard
-	 * @return the gabinete
+	 * Agregar Gabinete.
+	 * @param ip 
+	 * @param mac 
+	 * @param marcaDisco 
+	 * @param tipoDisco 
+	 * @param tamanoDisco 
+	 * @param modeloProcesador 
+	 * @param modeloRam 
+	 * @param tamanoRam
+	 * @param marcaRam
+	 * @param modeloMotherboard
+	 * @return
 	 */
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Gabinete")
-	public Gabinete agregarGabinete(final @Named("IP") String ip,
+	public Gabinete create(final @Named("IP") String ip,
 			final @Named("MAC") String mac,
 			final @Named("HDD Marca ") String marcaDisco,
 			final @Named("HDD Categoria ") CategoriaDisco tipoDisco,
@@ -96,59 +94,53 @@ public class GabineteRepositorio {
 	}
 
 	/**
-	 * Metodo que lista las placas de red.
-	 *
-	 * @return the list
+	 * Método que lista las Placas de Red.
+	 * @return
 	 */
 	public List<PlacaDeRed> choices0AddGabinete() {
-		return this.placaderedRepositorio.listar();
+		return this.placaderedRepositorio.listAll();
 	}
 
 	/**
-	 * Metodo que lista los disos rigidos.
-	 *
-	 * @return the list
+	 * Método que lista los Disos Rígidos.
+	 * @return
 	 */
 	public List<Disco> choices1AddGabinete() {
-		return this.discoRepositorio.listar();
+		return this.discoRepositorio.listAll();
 	}
 
 	/**
-	 * Metodo que lista los procesadores.
-	 *
-	 * @return the list
+	 * Método que lista los Procesadores.
+	 * @return
 	 */
 	public List<Procesador> choices2AddGabinete() {
-		return this.procesadorRepositorio.listar();
+		return this.procesadorRepositorio.listAll();
 	}
 
 	/**
-	 * Metodo que lista las memorias.
-	 *
-	 * @return the list
+	 * Método que lista las Memorias.
+	 * @return 
 	 */
 	public List<MemoriaRam> choices3AddGabinete() {
-		return this.memoriaramRepositorio.listar();
+		return this.memoriaramRepositorio.listAll();
 	}
 
 	/**
-	 * Metodo que lista las motherboards.
-	 *
-	 * @return the list
+	 * Método que lista las Motherboards.
+	 * @return 
 	 */
 	public List<Motherboard> choices4AddGabinete() {
-		return this.motherboardRepositorio.listar();
+		return this.motherboardRepositorio.listAll();
 	}
 
 	/**
 	 * Nuevo gabinete.
-	 *
-	 * @param placaDeRed the placa de red
-	 * @param hdd the hdd
-	 * @param procesador the procesador
-	 * @param memoriaRam the memoria ram
-	 * @param motherboard the motherboard
-	 * @return the gabinete
+	 * @param placaDeRed
+	 * @param hdd 
+	 * @param procesador 
+	 * @param memoriaRam 
+	 * @param motherboard 
+	 * @return 
 	 */
 	private Gabinete nuevoGabinete(final PlacaDeRed placaDeRed,
 			final Disco hdd, final Procesador procesador,
@@ -164,29 +156,40 @@ public class GabineteRepositorio {
 		this.container.flush();
 		return obj;
 	}
-
-	/** The container. */
+	
+	/**
+	 * Inyección del Contenedor.
+	 */
 	@Inject
 	private DomainObjectContainer container;
 	
-	/** The placadered repositorio. */
+	/**
+	 * Inyección del servicio para Placas de Red.
+	 */
 	@Inject
 	private PlacaDeRedRepositorio placaderedRepositorio;
 	
-	/** The disco repositorio. */
+	/**
+	 * Inyección del servicio para Disos Rígidos.
+	 */
 	@Inject
 	private DiscoRepositorio discoRepositorio;
 	
-	/** The procesador repositorio. */
+	/**
+	 * Inyección del servicio para Procesador.
+	 */
 	@Inject
 	private ProcesadorRepositorio procesadorRepositorio;
 	
-	/** The memoriaram repositorio. */
+	/**
+	 * Inyección del servicio para Memoria.
+	 */
 	@Inject
 	private MemoriaRamRepositorio memoriaramRepositorio;
-	
-	/** The motherboard repositorio. */
+
+	/**
+	 * Inyección del servicio para Mother.
+	 */
 	@Inject
 	private MotherboardRepositorio motherboardRepositorio;
-
 }
