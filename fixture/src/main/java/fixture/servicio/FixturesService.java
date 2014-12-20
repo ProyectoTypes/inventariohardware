@@ -1,24 +1,21 @@
 /*
- * This is a software made for inventory control
- * 
- * Copyright (C) 2014, ProyectoTypes
- * 
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ *  Licensed to the Apache Software Foundation (ASF) under one
+ *  or more contributor license agreements.  See the NOTICE file
+ *  distributed with this work for additional information
+ *  regarding copyright ownership.  The ASF licenses this file
+ *  to you under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * 
- * 
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
 package fixture.servicio;
 
 import java.util.List;
@@ -33,17 +30,9 @@ import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.apache.isis.applib.fixturescripts.FixtureScripts;
 import org.apache.isis.applib.fixturescripts.SimpleFixtureScript;
 
-import fixture.instalar.SectorFixture;
-import fixture.permisos.PermisoFixture;
-import fixture.roles.RolesFixture;
-import fixture.tecnico.TecnicoFixture;
+import fixture.sector.SectorFixture;
 import fixture.usuario.UsuariosFixture;
 
-
-
-/**
- * Enables fixtures to be installed from the application.
- */
 @Named("Prototyping")
 @DomainService(menuOrder = "200")
 public class FixturesService extends FixtureScripts {
@@ -65,11 +54,10 @@ public class FixturesService extends FixtureScripts {
     public List<FixtureScript> choices0RunFixtureScript() {
         return super.choices0RunFixtureScript();
     }
-
-
+    
     // //////////////////////////////////////
 
-	// @Prototype
+	@Prototype
     @Programmatic
     @MemberOrder(sequence="20")
     public Object instalarFixturesSectores() {
@@ -79,33 +67,10 @@ public class FixturesService extends FixtureScripts {
     
     @Prototype
     @MemberOrder(sequence="30")
-    public Object instalarFixturesTecnicos() {
-        final List<FixtureResult> run = findFixtureScriptFor(TecnicoFixture.class).run(null);
-        return run.get(0).getObject();
-    }
-    @Prototype
-    @MemberOrder(sequence="30")
     public Object instalarFixturesUsuariosConSector() {
-//        findFixtureScriptFor(SectorFixture.class).run(null);
+        findFixtureScriptFor(SectorFixture.class).run(null);
     	this.instalarFixturesSectores();
         final List<FixtureResult> run = findFixtureScriptFor(UsuariosFixture.class).run(null);
         return run.get(0).getObject();
     }
-    @Prototype
-    @MemberOrder(sequence="30")
-    public Object instalarRolesYPermisosFixture() {
-    	final List<FixtureResult> run = findFixtureScriptFor(PermisoFixture.class).run(null);
-    	this.instalarRoles();
-    	//this.instalarUsuariosShiro();
-        return run.get(0).getObject();
-    }
-    @Programmatic
-    @MemberOrder(sequence="30")
-    public Object instalarRoles() {
-        final List<FixtureResult> run = findFixtureScriptFor(RolesFixture.class).run(null);
-        return run.get(0).getObject();
-    }
-  
-    
-    
 }

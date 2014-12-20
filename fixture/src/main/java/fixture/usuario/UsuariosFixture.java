@@ -1,39 +1,13 @@
-/*
- * This is a software made for inventory control
- * 
- * Copyright (C) 2014, ProyectoTypes
- * 
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * 
- * 
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
 package fixture.usuario;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
-import org.apache.isis.applib.fixturescripts.FixtureScript.ExecutionContext;
-import org.joda.time.LocalDate;
 
-import dom.persona.Persona;
 import dom.sector.Sector;
+import dom.sector.SectorRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
-import fixture.datos.DatosFixture;
-import fixture.datos.DatosFixtureBaja;
 
 public class UsuariosFixture extends FixtureScript {
 
@@ -41,72 +15,47 @@ public class UsuariosFixture extends FixtureScript {
 		withDiscoverability(Discoverability.DISCOVERABLE);
 	}
 
+	// //////////////////////////////////////
+	
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void execute(ExecutionContext executionContext) {
-		
-		int Cantidad = DatosFixture.ObtenerCantidad()*14;
-		
-		List<Usuario> listUs = new ArrayList<Usuario>();
-		
-		// Crea los Usuarios de manera aleatoria.
-		for(int x=0; x<=Cantidad;x++)
-		{
-			Usuario usuario=new Usuario();
-			usuario.setNombre(DatosFixture.ObtenerNombre());
-			usuario.setApellido(DatosFixture.ObtenerApellido());
-			//usuario.setSector(DatosFixture.ObtenerSector());
-			usuario.setEmail(DatosFixture.ObtenerEmail());
-			
-			listUs.add(usuario);
-     	}
-//        	for(Usuario us:removerrepetidos(listUs))
-//        		create(us.getNombre(), us.getApellido(), us.getSector(), us.getEmail(), executionContext);
+		// prereqs
+		execute(new UsuariosFixtureBaja(), executionContext);
+		// create
+		List<Sector> listasectores = sectores.listAll();
+		create(listasectores.get(0), "Perez", "Juan", "cipoleto@gmail.com",	executionContext);
+		create(listasectores.get(1), "Ranteria", "Jose", "nicolasvergara89@gmail.com", executionContext);
+		create(listasectores.get(2), "Addati", "Soledad", "ewfwiedermann@gmail.com", executionContext);
+		create(listasectores.get(3), "Wider", "Exequiel", "cipoleto@gmail.com",	executionContext);
+		create(listasectores.get(4), "Arancibia", "Juan", "cipoleto@gmail.com",	executionContext);
+		create(listasectores.get(5), "Villegas", "Diego", "cipoleto@gmail.com",	executionContext);
 	}
 
 	/**
-	 * Lista los Usuarios y remueve los repetidos.
-	 * @param listaUsuario
-	 * @return
-	 */
-	private List<Usuario> removerrepetidos(List<Usuario> listaUsuario) {
-		for (int x = 0; x < listaUsuario.size() - 1; x++) {
-			for (int y = x + 1; y < listaUsuario.size(); y++) {
-				if (listaUsuario.get(x).getNombre()
-						.equals(listaUsuario.get(y).getNombre())
-						&& listaUsuario.get(x).getApellido()
-								.equals(listaUsuario.get(y).getApellido())) {
-					listaUsuario.remove(y);
-				}
-			}
-		}
-		return listaUsuario;
-	}
-	
-	/**
-	 * Crear un Usuario.
-	 * @param nombre
-	 * @param apellido
+	 * Crear los Usuarios.
 	 * @param sector
+	 * @param apellido
+	 * @param nombre
 	 * @param email
 	 * @param executionContext
 	 * @return
 	 */
-//	private Usuario create(final String nombre, String apellido, Sector sector, String email, ExecutionContext executionContext) {
-//		return executionContext.add(this, usuarios.create(nombre, apellido, sector, email));
-//	}
-	
-	/**
-	 * 
-	 * @param executionContext
-	 */
-	public void BorrarDBAlumnos(ExecutionContext executionContext) {
-		execute(new DatosFixtureBaja("Usuario"), executionContext);
-	        return;
+	private Usuario create(final Sector sector, final String apellido,
+			final String nombre, final String email,
+			ExecutionContext executionContext) {
+		return executionContext.add(this, usuarios.create(sector, apellido, nombre, email));
 	}
-	    
+
 	/**
-	 * Inyección del servicio Usuario.
+	 * Inyección del Servicio para Usuarios.
 	 */
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarios;
+	
+	/**
+	 * Inyección del Servicio para Sectores.
+	 */
+	@javax.inject.Inject
+	private SectorRepositorio sectores;
 }
