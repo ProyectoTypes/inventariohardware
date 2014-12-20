@@ -95,7 +95,7 @@ public class Computadora implements Comparable<Computadora> {
 	}
 	
 	// //////////////////////////////////////
-	// Código
+	// Código (propiedad)
 	// //////////////////////////////////////
 	
 	private String codigo;
@@ -113,8 +113,7 @@ public class Computadora implements Comparable<Computadora> {
 	// //////////////////////////////////////
 	// IP (propiedad)
 	// //////////////////////////////////////
-<<<<<<< HEAD
-	/** Rotulo. */
+
 	private String nombreEquipo;
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@MemberOrder(sequence = "10")
@@ -126,10 +125,10 @@ public class Computadora implements Comparable<Computadora> {
 		this.nombreEquipo = nombreEquipo;
 	}
 	
-	/** Placa de red. */
-=======
-
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
+	// //////////////////////////////////////
+	// Placa de Red (propiedad)
+	// //////////////////////////////////////
+	
 	private PlacaDeRed placaDeRed;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -375,17 +374,9 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Validate usuario.
-	 *
-	 * @param usuario
-	 * 
-	 * @return the string
-=======
 	 * Validar los datos de Usuario.
 	 * @param usuario  
 	 * @return 
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 	 */
 	public String validateUsuario(final Usuario usuario) {
 		if (usuario.getComputadora() == null || this.getUsuario() == usuario)
@@ -429,7 +420,6 @@ public class Computadora implements Comparable<Computadora> {
 	/**
 	 * Relacion Computadora/Tecnico.
 	 */
-
 	private Tecnico tecnico;
 
 	@Disabled
@@ -489,13 +479,7 @@ public class Computadora implements Comparable<Computadora> {
 
 	/**
 	 * Agregar Soporte
-<<<<<<< HEAD
-	 *
-	 * @param unSoporte
-	 * 
-=======
 	 * @param unSoporte        
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 	 */
 	@Hidden
 	@Named("Agregar Soporte")
@@ -509,15 +493,8 @@ public class Computadora implements Comparable<Computadora> {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Removes the from soporte.
-	 *
-	 * @param unSoporte
-	 * 
-=======
 	 * Eliminar Recepción.
 	 * @param unSoporte       
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 	 */
 	@Hidden
 	@Named("Eliminar de Recepción")
@@ -545,17 +522,9 @@ public class Computadora implements Comparable<Computadora> {
 	@Inject
 	private DomainObjectContainer container;
 
-<<<<<<< HEAD
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
-	/** The impresora repositorio. */
-=======
 	/**
 	 * Inyección del servicio para Impresora.
 	 */
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 	@Inject
 	private ImpresoraRepositorio impresoraRepositorio;
 

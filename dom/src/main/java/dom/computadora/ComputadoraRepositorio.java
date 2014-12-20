@@ -98,12 +98,8 @@ public class ComputadoraRepositorio {
 	@MemberOrder(name = "Hardware", sequence = "10")
 	@Named("(+) Computadora")
 	@DescribedAs("Agregar Computadora manualmente.")
-<<<<<<< HEAD
-	public Computadora agregarComputadora(
-			final @Named("Nombre de Equipo") String rotulo,
-=======
 	public Computadora create(
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
+			final @Named("Nombre de Equipo") String rotulo,
 			final @Named("Usuario") Usuario usuario,
 			final @RegEx(validation= "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])")@Named("IP") String ip, 
 			final @RegEx(validation = "([0-9a-fA-F][0-9a-fA-F]:){5}([0-9a-fA-F][0-9a-fA-F])") @Named("MAC") String mac,
@@ -117,31 +113,30 @@ public class ComputadoraRepositorio {
 			final @Named("Modelo Motherboard") String modeloMotherboard,
 			final @Named("Fabricante") String fabricante,
 			final @Optional @Named("Monitor") Monitor monitor,
-			final @Optional @Named("Impresora") Impresora impresora
+			final @Optional @Named("Impresora") Impresora impresora			
 			) {
 		PlacaDeRed placaDeRed = new PlacaDeRed(ip, mac);
 		Disco disco = new Disco(marcaDisco, tipoDisco, tamanoDisco);
 		Procesador procesador = new Procesador(modeloProcesador);
 		MemoriaRam memoriaRam = new MemoriaRam(modeloRam, tamanoRam, marcaRam);
 		Motherboard motherboard = new Motherboard(modeloMotherboard);
-		return this.nuevaComputadora(usuario, placaDeRed, motherboard,
-				procesador, disco, memoriaRam, impresora,
-				this.currentUserName(), rotulo);
+		return this.nuevaComputadora(rotulo, usuario, placaDeRed, motherboard,
+				procesador, disco, memoriaRam, impresora, this.currentUserName());
 	}
 	
 	@Hidden
 	@NotContributed
 	@MemberOrder(name = "Computadoras", sequence = "20")
 	@Named("Agregar Computadora")
-	public Computadora addComputadora(final @Named("Usuario") Usuario usuario,
+	public Computadora addComputadora(final @Named("Nombre de Equipo") String rotulo, final @Named("Usuario") Usuario usuario,
 			final @Named("Direccion Ip") PlacaDeRed placaDeRed,
 			final @Named("Mother") Motherboard motherboard,
 			final @Named("Procesador") Procesador procesador,
 			final @Named("Disco") Disco disco,
 			final @Named("Memoria") MemoriaRam memoria,
 			final @Optional @Named("Impresora") Impresora impresora) {
-		return nuevaComputadora(usuario, placaDeRed, motherboard, procesador,
-				disco, memoria, impresora, this.currentUserName(), "");
+		return nuevaComputadora(rotulo, usuario, placaDeRed, motherboard, procesador,
+				disco, memoria, impresora, this.currentUserName());
 	}
 
 	/**
@@ -158,13 +153,12 @@ public class ComputadoraRepositorio {
 	 * @return unaComputadora
 	 */
 	@Programmatic
-	public Computadora nuevaComputadora(final Usuario usuario,
+	public Computadora nuevaComputadora(final String nombreEquipo, final Usuario usuario,
 			final PlacaDeRed placaDeRed, final Motherboard motherboard,
 			final Procesador procesador, final Disco disco,
 			final MemoriaRam memoria, final Impresora impresora,
-			final String creadoPor, final String nombreEquipo) {
-		final Computadora unaComputadora = container
-				.newTransientInstance(Computadora.class);
+			final String creadoPor) {
+		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);
 		unaComputadora.setNombreEquipo(nombreEquipo);
 		unaComputadora.modifyUsuario(usuario);
 		unaComputadora.setPlacaDeRed(placaDeRed);
@@ -184,18 +178,6 @@ public class ComputadoraRepositorio {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Validate add computadora.
-	 *
-	 * @param usuario        
-	 * @param placaDeRed       
-	 * @param motherboard
-	 * @param procesador  
-	 * @param disco 
-	 * @param memoria    
-	 * @param impresora
-	 * @return  string
-=======
 	 * Validar los datos de Computadora.
 	 * @param usuario
 	 * @param placaDeRed
@@ -205,9 +187,8 @@ public class ComputadoraRepositorio {
 	 * @param memoria
 	 * @param impresora
 	 * @return 
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 	 */
-	public String validateAddComputadora(Usuario usuario,
+	public String validateAddComputadora(String rotulo, Usuario usuario,
 			PlacaDeRed placaDeRed, Motherboard motherboard,
 			Procesador procesador, Disco disco, MemoriaRam memoria,
 			Impresora impresora) {
@@ -216,26 +197,6 @@ public class ComputadoraRepositorio {
 		return "El Usuario ya posee una Computadora. Seleccione otra. ";
 	}
 
-<<<<<<< HEAD
-	// //////////////////////////////////////
-	// Buscar Monitor
-	// //////////////////////////////////////
-
-	/**
-	 * Lista de los monitores cargados
-	 *
-	 * @return list
-	 */
-	public List<Monitor> choices13AgregarComputadora() {
-		return this.monitorRepositorio.listar();
-
-	}
-
-	// //////////////////////////////////////
-	// Buscar Impresora
-	// //////////////////////////////////////
-
-=======
 	/**
 	 * Método que lista los Monitores cargados.
 	 * @return the list
@@ -244,19 +205,12 @@ public class ComputadoraRepositorio {
 		return this.monitorRepositorio.listAll();
 	}
 
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 	/**
 	 * Método que lista las Impresoras cargadas.
 	 * @return the list
 	 */
-<<<<<<< HEAD
-	public List<Impresora> choices14AgregarComputadora() {
-		return this.impresoraRepositorio.listar();
-
-=======
 	public List<Impresora> choices13Create() {
 		return this.impresoraRepositorio.listAll();
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 	}
 
 	/**
@@ -266,11 +220,7 @@ public class ComputadoraRepositorio {
 	 */
 	@Named("Usuario")
 	@DescribedAs("Buscar el Usuario en mayuscula")
-<<<<<<< HEAD
-	public List<Usuario> autoComplete1AgregarComputadora(
-=======
 	public List<Usuario> autoComplete0Create(
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 			final @MinLength(2) String search) {
 		return usuarioRepositorio.autoComplete(search);
 
@@ -280,15 +230,9 @@ public class ComputadoraRepositorio {
 	 * Método que permite listar las Computadoras.
 	 * @return
 	 */
-<<<<<<< HEAD
-	@MemberOrder(name = "Hardware", sequence = "16")
-	@Named("--Listar Computadoras")
-	public List<Computadora> listar() {
-=======
 	@MemberOrder(name = "Computadoras", sequence = "30")
 	@Named("Listar Computadoras")
 	public List<Computadora> listAll() {
->>>>>>> 6ca70bf950b9552273f8f1fb55eca0856030e2a2
 		final List<Computadora> listaComputadoras;
 
 		listaComputadoras = this.container
