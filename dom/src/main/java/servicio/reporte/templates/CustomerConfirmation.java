@@ -48,21 +48,27 @@ import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.NotInServiceMenu;
 import org.apache.isis.applib.value.Blob;
 
+/**
+ * Clase CustomerConfirmation.
+ */
 @DomainService
 public class CustomerConfirmation {
-
-    //region > init
 
     private byte[] pdfAsBytes;
 
     @PostConstruct
     public void init() throws IOException {
-        pdfAsBytes = Resources.toByteArray(Resources.getResource(this.getClass(), "CustomerConfirmation.pdf"));
+        pdfAsBytes = Resources.toByteArray(Resources.getResource(this.getClass(), "Reporte.pdf"));
     }
-    //endregion
+    
 
-    //region > downloadCustomerConfirmation (action)
-
+    /**
+     * Descargar el pdf del reporte.
+     * 
+     * @param reporte
+     * @return Las variables del pdf a crear.
+     * @throws Excepción si la carga del documento falla
+     */
     @NotContributed(NotContributed.As.ASSOCIATION) // ie contributed as action
     @NotInServiceMenu
     @ActionSemantics(Of.SAFE)
@@ -76,21 +82,20 @@ public class CustomerConfirmation {
             final ByteArrayOutputStream target = new ByteArrayOutputStream();
             pdfDocument.save(target);
 
-            final String name = "customerConfirmation-" + reporte.getNumero() + ".pdf";
+            final String name = "Reporte-" + reporte.getNumero() + ".pdf";
             final String mimeType = "application/pdf";
             final byte[] bytes = target.toByteArray();
 
             return new Blob(name, mimeType, bytes);
         }
     }
-    //endregion (
 
     /**
-     * Loads the template pdf file and populates it with the order details
+     * Carga el archivo de plantilla pdf y lo llena con los detalles de la orden
      *
      * @param order The order with the details for the pdf document
-     * @return The populated PDF document
-     * @throws Exception If the loading or the populating of the document fails for some reason
+     * @return El documento PDF
+     * @throws Excepción si la carga del documento falla.
      */
 	private PDDocument loadAndPopulateTemplate(Reporte reporte) throws Exception {
         PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(pdfAsBytes));
