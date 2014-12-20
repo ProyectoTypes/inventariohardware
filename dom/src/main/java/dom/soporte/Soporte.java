@@ -114,7 +114,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	// ////////////////////////////////////////////////////
-	// Identificacion en la UI. Aparece como item del menu.
+	// Identificacion
 	// ////////////////////////////////////////////////////
 
 	public String title() {
@@ -129,7 +129,6 @@ public class Soporte implements Comparable<Soporte> {
 	// Obeservaciones (propiedad)
 	// //////////////////////////////////////
 
-	/** Observaciones. */
 	private String observaciones;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -148,7 +147,6 @@ public class Soporte implements Comparable<Soporte> {
 	// Habilitado (propiedad)
 	// //////////////////////////////////////
 
-	/** Habilitado. */
 	private boolean habilitado;
 
 	@Hidden
@@ -165,7 +163,6 @@ public class Soporte implements Comparable<Soporte> {
 	// fecha (propiedad)
 	// //////////////////////////////////////
 
-	/** Fecha. */
 	private LocalDate fecha;
 
 	@Disabled
@@ -198,7 +195,6 @@ public class Soporte implements Comparable<Soporte> {
 	// creadoPor (propiedad)
 	// //////////////////////////////////////
 
-	/** Creado por. */
 	private String creadoPor;
 
 	@Hidden
@@ -232,9 +228,7 @@ public class Soporte implements Comparable<Soporte> {
 	/**
 	 * Modify tecnico se ocupa de la modificacion de un tecnico en el soporte ya
 	 * que varios tecnicos pueden relizar un mismo soporte.
-	 *
 	 * @param tecnico
-	 * 
 	 */
 	public void modifyTecnico(final Tecnico tecnico) {
 		Tecnico currentTecnico = getTecnico();
@@ -282,9 +276,7 @@ public class Soporte implements Comparable<Soporte> {
 	/**
 	 * Agregar un insumo, persiste en la bese de datos los datos que fueron
 	 * cargados en el ABM.
-	 *
 	 * @param insumo
-	 * 
 	 */
 	@Programmatic
 	public void agregarUnInsumo(final Insumo insumo) {
@@ -297,9 +289,7 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/**
-	 * Eliminar insumos, elimina los insumos si fuese que estos hubiesen sido
-	 * mal cargados.
-	 *
+	 * Eliminar insumos, elimina los insumos en caso de algún error en la carga.
 	 * @param insumo
 	 * 
 	 */
@@ -331,9 +321,7 @@ public class Soporte implements Comparable<Soporte> {
 	/**
 	 * Modificar computadora, utilizado para poder cambiar la computadora que
 	 * tiene asignada el usuario por otra.
-	 *
 	 * @param unaComputadora
-	 * 
 	 */
 	@Programmatic
 	public void modificarComputadora(final Computadora unaComputadora) {
@@ -374,7 +362,8 @@ public class Soporte implements Comparable<Soporte> {
 	}
 
 	/**
-	 * ******************************************************** PATRON STATE
+	 * ******************************************************** 
+	 * PATRON STATE
 	 * ********************************************************.
 	 */
 	private IEstado estado;
@@ -495,9 +484,7 @@ public class Soporte implements Comparable<Soporte> {
 	/**
 	 * Asignar tecnico, metodo usado para elegir el tecnico que va a realizar el
 	 * soporte.
-	 *
 	 * @param tecnico
-	 * 
 	 * @return soporte
 	 */
 	@Named("Asignar Tecnico")
@@ -516,8 +503,7 @@ public class Soporte implements Comparable<Soporte> {
 	/**
 	 * Hide asignar tecnico, metodo que esconde el boton de asignacion tecnico
 	 * dependiendo del estado en el que este el soporte.
-	 *
-	 * @return true, if successful
+	 * @return 
 	 */
 	public boolean hideAsignarTecnico() {
 		return this.getEstado().escondeAsignarTecnico();
@@ -533,7 +519,6 @@ public class Soporte implements Comparable<Soporte> {
 	 * @param producto
 	 * @param marca
 	 * @param modelo
-	 * 
 	 * @return soporte
 	 */
 	@Named("Solicitar Insumos")
@@ -549,7 +534,6 @@ public class Soporte implements Comparable<Soporte> {
 	/**
 	 * En este metodo se observa que el soporte este en estado esperando o
 	 * reparando para ocultar o mostrar el metodo solicitar insumos.
-	 * 
 	 * @return boolean
 	 */
 	public boolean hideSolicitarInsumos() {
@@ -562,22 +546,19 @@ public class Soporte implements Comparable<Soporte> {
 	 * Reparando -> Entregando. Finalizar el Soporte Tecnico de la computadora.
 	 * A partir de aca no puede realizar ninguna accion de soporte sobre la
 	 * computadora.
-	 *
-	 * @return the soporte
+	 * @return 
 	 */
 	@Named("Finalizar Soporte")
 	@DescribedAs("Soporte finalizado con exito. Enviar email.")
 	public Soporte finalizarSoporte() {
 		this.getEstado().finalizarSoporte();
 		return this;
-
 	}
 
 	/**
 	 * hideFinalizar soporte, esconde el boton de finalizacion de soporte, solo
 	 * se muetsra despues del estado reparando o esperando.
-	 *
-	 * @return true, if successful
+	 * @return 
 	 */
 	public boolean hideFinalizarSoporte() {
 		return this.getEstado().escondeFinalizarSoporte();
@@ -587,7 +568,7 @@ public class Soporte implements Comparable<Soporte> {
 
 	/**
 	 * Asignar nuevo equipo, en caso de que el equipo este obsoleto o no tenga
-	 * arrego se asigna un nuevo equipo cargando todos los datos de la nueva
+	 * arreglo se asigna un nuevo equipo cargando todos los datos de la nueva
 	 * computadora.
 	 *
 	 * @param ip
@@ -604,7 +585,6 @@ public class Soporte implements Comparable<Soporte> {
 	 * @param monitor
 	 * @param impresora
 	 * @param rotulo
-	 * 
 	 * @return soporte
 	 */
 	@DescribedAs("Ingresando una nueva Computadora al Usuario.")

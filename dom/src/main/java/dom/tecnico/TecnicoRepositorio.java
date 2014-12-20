@@ -115,7 +115,8 @@ public class TecnicoRepositorio {
 	@Named("(+) Tecnico")
 	public Tecnico create(final @Named("Apellido") String apellido,
 			final @Named("Nombre") String nombre,
-			final @Named("email") String email, final @Optional Sector sector,
+			final @Named("email") String email, 
+			final @Optional Sector sector,
 			final @Named("Nick") String nick,
 			final @Named("Password") String password,
 			final @Named("Rol") Rol rol) {

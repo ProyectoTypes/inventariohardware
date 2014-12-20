@@ -29,17 +29,14 @@ import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Prototype;
 import org.apache.isis.applib.annotation.RegEx;
-import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.query.QueryDefault;
 
-// TODO: Auto-generated Javadoc
 /**
  * Clase SectorRepositorio.
  */
@@ -119,7 +116,6 @@ public class SectorRepositorio {
 			if (sec.getEstaHabilitado() == S)
 				filtroSE.add(sec);
 		}
-
 		return filtroSE;
 	}
 
@@ -140,34 +136,6 @@ public class SectorRepositorio {
 					.warnUser("No se encontraron sectores cargados en el sistema.");
 		return listarSectores;
 	}
-	
-	/**
-	 * Eliminar Sector.
-	 * @param delSector
-	 * @param seguro
-	 * @return
-	 */
-	@Hidden(where = Where.OBJECT_FORMS)    
-    @ActionSemantics(Of.NON_IDEMPOTENT)
-    @MemberOrder(sequence = "30")
-    @Named("Eliminar")    
-    public String removeAlumno(@Named("Eliminar: ") Sector delSector, @Named("¿Está seguro que desea eliminar el Sector?") Boolean seguro) {
-		delSector.setHabilitado('N');
-		String remSector = delSector.title();						
-		return  remSector + " fue eliminado";
-	}
-    
-	public List<Sector> choices0RemoveAlumno(){
-		return filtroSE(container.allMatches(new QueryDefault<Sector>(Sector.class,
-				"ListarSectores")),'S');
-	}
-	
-	public String validateRemoveAlumno(Sector delSector, Boolean seguro) {
-		if (!seguro) {
-			return "Si está seguro marque la opción, de lo contrario cancele.";
-		}
-		return null;
-	} 
 
 	/**
 	 * Auto complete.
@@ -197,8 +165,8 @@ public class SectorRepositorio {
 	}
 
 	/**
-	 * Current user name.
-	 * @return the string
+	 * Devuelve el nombre del Usuario logueado.
+	 * @return
 	 */
 	private String currentUserName() {
 		return container.getUser().getName();

@@ -38,7 +38,6 @@ import dom.sector.SectorRepositorio;
 
 /**
  * Clase UsuarioRepositorio.
- * 
  * @author ProyectoTypes
  * @since 17/05/2014
  * @version 1.0.0
@@ -51,25 +50,24 @@ public class UsuarioRepositorio {
 
 	}
 
-	// //////////////////////////////////////
-	// Identification in the UI
-	// //////////////////////////////////////
-
+	/**
+	 * Id
+	 * @return
+	 */
 	public String getId() {
 		return "usuario";
 	}
 
+	/**
+	 * Nombre del Icono.
+	 * @return
+	 */
 	public String iconName() {
 		return "Usuario";
 	}
 
-	// //////////////////////////////////////
-	// Agregar 
-	// //////////////////////////////////////
-
 	/**
-	 * Motodo utilizado para cargar los datos de un usuario por formulario.
-	 *
+	 * Método utilizado para cargar los datos de un usuario por formulario.
 	 * @param sector
 	 * @param apellido
 	 * @param nombre
@@ -89,9 +87,7 @@ public class UsuarioRepositorio {
 	}
 
 	/**
-	 * Nuevo usuario, metodo que toma los datos ingresado y los persiste en la
-	 * base de datos.
-	 *
+	 * Nuevo usuario, método que toma los datos ingresado y los persiste.
 	 * @param sector
 	 * @param apellido
 	 * @param nombre
@@ -114,10 +110,11 @@ public class UsuarioRepositorio {
 		return unUsuario;
 	}
 
-	// //////////////////////////////////////
-	// Buscar Sector
-	// //////////////////////////////////////
-
+	/**
+	 * Busca los Sectores.
+	 * @param search
+	 * @return
+	 */
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector en mayuscula")
 	public List<Sector> autoComplete0Create(
@@ -126,24 +123,19 @@ public class UsuarioRepositorio {
 
 	}
 
-	// //////////////////////////////////////
-	// Listar Usuario
-	// //////////////////////////////////////
-
 	/**
-	 * Listar, metodo para lista a los usuarios
-	 *
-	 * @return list
+	 * Listar, método para lista a los usuarios
+	 * @return 
 	 */
 	@MemberOrder(name = "Personal", sequence = "50")
 	@Named("--Listar Usuarios")
 	public List<Usuario> listAll() {
 		final List<Usuario> listaUsuarios;
-//		if (this.container.getUser().getName().contentEquals("sven"))
-//			listaUsuarios = this.container
-//					.allMatches(new QueryDefault<Usuario>(Usuario.class,
-//							"listar"));
-//		else
+	//	if (this.container.getUser().getName().contentEquals("sven"))
+	//		listaUsuarios = this.container
+	//				.allMatches(new QueryDefault<Usuario>(Usuario.class,
+	//						"listar"));
+	//	else
 			listaUsuarios = this.container
 					.allMatches(new QueryDefault<Usuario>(Usuario.class,
 							"listarHabilitados"));
@@ -154,16 +146,10 @@ public class UsuarioRepositorio {
 
 	}
 
-	// //////////////////////////////////////
-	// Buscar Usuario
-	// //////////////////////////////////////
-
 	/**
-	 * Buscar, metodo que busca por apellido de usuario.
-	 *
+	 * Buscar Usuarios: método que busca por apellido un Usuario.
 	 * @param apellido
-	 * 
-	 * @return list
+	 * @return 
 	 */
 	@MemberOrder(name = "Personal", sequence = "41")
 	@Named("--Buscar Usuarios")
@@ -179,6 +165,11 @@ public class UsuarioRepositorio {
 		return listarUsuarios;
 	}
 
+	/**
+	 * AutoComplete
+	 * @param apellido
+	 * @return
+	 */
 	@Programmatic
 	public List<Usuario> autoComplete(final String apellido) {
 		return container.allMatches(new QueryDefault<Usuario>(Usuario.class,
@@ -186,23 +177,23 @@ public class UsuarioRepositorio {
 						.trim()));
 	}
 
-	// //////////////////////////////////////
-	// CurrentUserName
-	// //////////////////////////////////////
-
+	/**
+	 * Retorna el nombre del Usuario logueado.
+	 * @return
+	 */
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
-
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
-	/** Container. */
+	
+	/**
+	 * Inyección del Contenedor.
+	 */
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 
-	/** Sector repositorio. */
+	/**
+	 * Inyección del servicio para Sector.
+	 */
 	@javax.inject.Inject
 	private SectorRepositorio sectorRepositorio;
 }
