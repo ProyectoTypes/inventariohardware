@@ -22,6 +22,7 @@
 package dom.soporte.estadosoporte;
 
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.Optional;
 
 import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 import dom.computadora.hardware.impresora.Impresora;
@@ -44,6 +45,7 @@ public interface IEstado {
 	void finalizarSoporte();
 
 	void asignarNuevoEquipo(
+			final @Named("Nombre de Equipo") String rotulo,
 			final @Named("IP") String ip, 
 			final @Named("MAC") String mac,
 			final @Named("HDD Marca ") String marcaDisco,
@@ -55,8 +57,8 @@ public interface IEstado {
 			final @Named("RAM Marca") String marcaRam,
 			final @Named("Modelo Motherboard") String modeloMotherboard,
 			final @Named("Fabricante") String fabricante,
-			final @Named("Monitor") Monitor monitor,
-			final @Named("Impresora") Impresora impresora,final @Named("Rotulo") String rotulo);
+			final @Optional @Named("Monitor") Monitor monitor,
+			final @Optional @Named("Impresora") Impresora impresora);
 
 	boolean escondeAsignarTecnico();
 
