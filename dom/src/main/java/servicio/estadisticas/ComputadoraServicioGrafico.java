@@ -68,7 +68,7 @@ public class ComputadoraServicioGrafico  {
 	    public WickedChart filtrarPorDiscoRigido() {
 	        
 	        Map<CategoriaDisco, AtomicInteger> byCategory = Maps.newTreeMap();
-	        List<Computadora> allToDos = computadoraRepositorio.listar();
+	        List<Computadora> allToDos = computadoraRepositorio.listAll();
 	        for (Computadora unaComputadora : allToDos) {
 	            CategoriaDisco category = unaComputadora.getDisco().getTipo();
 	            AtomicInteger integer = byCategory.get(category);
