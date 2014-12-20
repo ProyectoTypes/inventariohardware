@@ -105,17 +105,17 @@ public class Computadora implements Comparable<Computadora> {
 	// IP (propiedad)
 	// //////////////////////////////////////
 	/** Rotulo. */
-	private String rotulo;
+	private String nombreEquipo;
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@MemberOrder(sequence = "10")
-	public String getRotulo() {
-		return rotulo;
+	public String getNombreEquipo() {
+		return nombreEquipo;
 	}
 
-	public void setRotulo(String rotulo) {
-		this.rotulo = rotulo;
+	public void setNombreEquipo(String nombreEquipo) {
+		this.nombreEquipo = nombreEquipo;
 	}
-
+	
 	/** Placa de red. */
 	private PlacaDeRed placaDeRed;
 
@@ -537,7 +537,7 @@ public class Computadora implements Comparable<Computadora> {
 	 */
 	@Override
 	public int compareTo(Computadora computadora) {
-		return ObjectContracts.compare(this, computadora, "codigo");
+		return ObjectContracts.compare(this, computadora, "nombreEquipo");
 	}
 
 	// //////////////////////////////////////
