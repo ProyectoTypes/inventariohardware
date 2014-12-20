@@ -51,12 +51,13 @@ public class InsumoRepositorio {
 	}
 
 	// //////////////////////////////////////
-	// Agregar Insumo
+	// Agregar
 	// //////////////////////////////////////
+	
 	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
-	public Insumo addInsumo(final @Named("Cantidad") int cantidad,
+	public Insumo create(final @Named("Cantidad") int cantidad,
 			final @Named("Producto") String producto,
 			final @Named("Marca") String marca,
 			final @Named("Modelo") String modelo) {
@@ -85,7 +86,7 @@ public class InsumoRepositorio {
 	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "100")
-	public List<Insumo> listar() {
+	public List<Insumo> listAll() {
 		final List<Insumo> listaInsumo = this.container
 				.allMatches(new QueryDefault<Insumo>(Insumo.class,
 						"listarInsumoTrue"));
