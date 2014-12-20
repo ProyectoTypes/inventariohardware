@@ -125,7 +125,7 @@ public class Usuario extends Persona implements Comparable<Persona> {
 			container.flush();
 			container.warnUser("Registro eliminado");
 
-		return usuarioRepositorio.listar();
+		return usuarioRepositorio.listAll();
 	}
 	// //////////////////////////////////////
 	// CompareTo
