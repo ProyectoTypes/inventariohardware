@@ -29,13 +29,14 @@ import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DomainService;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
-import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Prototype;
 import org.apache.isis.applib.annotation.RegEx;
+import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.query.QueryDefault;
 
 // TODO: Auto-generated Javadoc
@@ -46,24 +47,20 @@ import org.apache.isis.applib.query.QueryDefault;
 @Named("SECTOR")
 public class SectorRepositorio {
 
-	/**
-	 * Instantiates a new sector repositorio.
-	 */
 	public SectorRepositorio() {
 
 	}
 
-	// //////////////////////////////////////
-	// Identification in the UI
-	// //////////////////////////////////////
-
+	/**
+	 * Id
+	 * @return
+	 */
 	public String getId() {
 		return "sector";
 	}
 
 	/**
-	 * Icon name.
-	 * 
+	 * Nombre del Icono.
 	 * @return the string
 	 */
 	public String iconName() {
@@ -71,11 +68,9 @@ public class SectorRepositorio {
 	}
 
 	/**
-	 * Agregar.
-	 * 
+	 * Obtiene los datos cargados del Sector.
 	 * @param nombreSector
-	 *            the nombre sector
-	 * @return the sector
+	 * @return 
 	 */
 	@Named("Agregar")
 	@MemberOrder(sequence = "10")
@@ -85,13 +80,10 @@ public class SectorRepositorio {
 	}
 
 	/**
-	 * Nuevo sector.
-	 *
+	 * Nuevo Sector: toma los datos del Sector y lo persiste.
 	 * @param nombreSector
-	 *            the nombre sector
 	 * @param creadoPor
-	 *            the creado por
-	 * @return the sector
+	 * @return 
 	 */
 	@Programmatic
 	public Sector nuevoSector(final String nombreSector, final String creadoPor) {
@@ -108,34 +100,31 @@ public class SectorRepositorio {
 
 	/**
 	 * Buscar Sector.
-	 * 
 	 * @param nombreSector
-	 *            the nombre sector
-	 * @return the list
+	 * @return 
 	 */
 	@Bookmarkable
 	@ActionSemantics(Of.SAFE)
 	@MemberOrder(sequence = "20")
 	@Named("--Listar Sector")
 	public List<Sector> listAll() {
-		return filtroAL(container.allMatches(new QueryDefault<Sector>(
+		return filtroSE(container.allMatches(new QueryDefault<Sector>(
 				Sector.class, "ListarSectores")), 'S');
 	}
 
-	private List<Sector> filtroAL(List<Sector> Sectores, char S) {
-		List<Sector> filtroAL = new ArrayList<Sector>();
+	private List<Sector> filtroSE(List<Sector> Sectores, char S) {
+		List<Sector> filtroSE = new ArrayList<Sector>();
 
 		for (Sector sec : Sectores) {
 			if (sec.getEstaHabilitado() == S)
-				filtroAL.add(sec);
+				filtroSE.add(sec);
 		}
 
-		return filtroAL;
+		return filtroSE;
 	}
 
 	/**
 	 * Buscar
-	 * 
 	 * @param nombreSector
 	 * @return
 	 */
@@ -151,15 +140,39 @@ public class SectorRepositorio {
 					.warnUser("No se encontraron sectores cargados en el sistema.");
 		return listarSectores;
 	}
+	
+	/**
+	 * Eliminar Sector.
+	 * @param delSector
+	 * @param seguro
+	 * @return
+	 */
+	@Hidden(where = Where.OBJECT_FORMS)    
+    @ActionSemantics(Of.NON_IDEMPOTENT)
+    @MemberOrder(sequence = "30")
+    @Named("Eliminar")    
+    public String removeAlumno(@Named("Eliminar: ") Sector delSector, @Named("¿Está seguro que desea eliminar el Sector?") Boolean seguro) {
+		delSector.setHabilitado('N');
+		String remSector = delSector.title();						
+		return  remSector + " fue eliminado";
+	}
+    
+	public List<Sector> choices0RemoveAlumno(){
+		return filtroSE(container.allMatches(new QueryDefault<Sector>(Sector.class,
+				"ListarSectores")),'S');
+	}
+	
+	public String validateRemoveAlumno(Sector delSector, Boolean seguro) {
+		if (!seguro) {
+			return "Si está seguro marque la opción, de lo contrario cancele.";
+		}
+		return null;
+	} 
 
-	// //////////////////////////////////////
-	// AutoComplete
-	// //////////////////////////////////////
 	/**
 	 * Auto complete.
-	 * 
 	 * @param buscarNombreSector
-	 * @return the list
+	 * @return 
 	 */
 	@Programmatic
 	public List<Sector> autoComplete(final String buscarNombreSector) {
@@ -170,7 +183,6 @@ public class SectorRepositorio {
 
 	/**
 	 * Crear sectores.
-	 * 
 	 * @return the list
 	 */
 	@Prototype
@@ -184,24 +196,17 @@ public class SectorRepositorio {
 		return sectores;
 	}
 
-	// //////////////////////////////////////
-	// CurrentUserName
-	// //////////////////////////////////////
-
 	/**
 	 * Current user name.
-	 *
 	 * @return the string
 	 */
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
-
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
-	/** The container. */
+	
+	/**
+	 * Inyección del Contenedor.
+	 */
 	@javax.inject.Inject
 	private DomainObjectContainer container;
 }

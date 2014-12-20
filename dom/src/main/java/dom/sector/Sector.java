@@ -29,7 +29,6 @@ import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.AutoComplete;
-import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberGroupLayout;
@@ -41,9 +40,11 @@ import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
 
-// TODO: Auto-generated Javadoc
 /**
- * Clase Sector.
+ * Entidad Sector, representa a  las Sectores que pertenecen al Ministerio de Gobierno, Educación y Justicia. 
+ * @author ProyectoTypes
+ * @since 25/05/2014
+ * @version 1.0.0
  */
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
@@ -66,13 +67,8 @@ import org.apache.isis.applib.util.ObjectContracts;
 @MemberGroupLayout(columnSpans = { 3, 0, 0, 9 })
 public class Sector implements Comparable<Sector> {
 
-	// //////////////////////////////////////
-	// Identificacion en la UI
-	// //////////////////////////////////////
-
 	/**
 	 * Titulo de la clase.
-	 *
 	 * @return the string
 	 */
 	public String title() {
@@ -80,15 +76,16 @@ public class Sector implements Comparable<Sector> {
 	}
 
 	/**
-	 * Nombre del icono.
-	 *
-	 * @return the string
+	 * Nombre del Icono.
+	 * @return 
 	 */
 	public String iconName() {
 		return "Sector";
 	}
 
-	/** Nombre sector. */
+	/**
+	 * Nombre del Sector.
+	 */
 	private String nombreSector;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -103,7 +100,9 @@ public class Sector implements Comparable<Sector> {
 		this.nombreSector = nombreSector;
 	}
 
-	/** Creado por. */
+	/**
+	 * Creado Por.
+	 */
 	private String creadoPor;
 
 	@Hidden(where = Where.ALL_TABLES)
@@ -134,8 +133,7 @@ public class Sector implements Comparable<Sector> {
 
 	/**
 	 * Eliminar: Método que se usa para deshabilitar un Insumo.
-	 * 
-	 * @return la propiedad habilitado en false.
+	 * @return 
 	 */
 	@Named("Eliminar")
 	@PublishedAction	
@@ -149,25 +147,23 @@ public class Sector implements Comparable<Sector> {
 
 	/**
 	 * Implementacion de la interface comparable, necesaria para toda entidad.
-	 *
 	 * @param sector
-	 * @return int
+	 * @return 
 	 */
 	@Override
 	public int compareTo(final Sector sector) {
 		return ObjectContracts.compare(this, sector, "nombreSector");
 	}
 
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
-	/** Container. */
+	/**
+	 * Inyección del Contenedor.
+	 */
 	@Inject
 	private DomainObjectContainer container;
 
-	/** Sector repositorio. */
-
+	/**
+	 * Inyección del servicio Sector.
+	 */
 	@Inject
 	private SectorRepositorio sectorRepositorio;
 }
