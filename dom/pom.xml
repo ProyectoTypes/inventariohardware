@@ -20,7 +20,7 @@
 	</parent>
 
 	<artifactId>informatica-dom</artifactId>
-	<name>Informatica DOM</name>
+	<name>Informatica App DOM</name>
 
     <build>
         <resources>
