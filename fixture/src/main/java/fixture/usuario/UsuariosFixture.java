@@ -54,13 +54,13 @@ public class UsuariosFixture extends FixtureScript {
 			Usuario usuario=new Usuario();
 			usuario.setNombre(DatosFixture.ObtenerNombre());
 			usuario.setApellido(DatosFixture.ObtenerApellido());
-			usuario.setSector(DatosFixture.ObtenerSector());
+			//usuario.setSector(DatosFixture.ObtenerSector());
 			usuario.setEmail(DatosFixture.ObtenerEmail());
 			
 			listUs.add(usuario);
      	}
-        	for(Usuario us:removerrepetidos(listUs))
-        		create(us.getNombre(), us.getApellido(), us.getSector(), us.getEmail(), executionContext);
+//        	for(Usuario us:removerrepetidos(listUs))
+//        		create(us.getNombre(), us.getApellido(), us.getSector(), us.getEmail(), executionContext);
 	}
 
 	/**
@@ -91,9 +91,9 @@ public class UsuariosFixture extends FixtureScript {
 	 * @param executionContext
 	 * @return
 	 */
-	private Usuario create(final String nombre, String apellido, Sector sector, String email, ExecutionContext executionContext) {
-		return executionContext.add(this, usuarios.create(nombre, apellido, sector, email));
-	}
+//	private Usuario create(final String nombre, String apellido, Sector sector, String email, ExecutionContext executionContext) {
+//		return executionContext.add(this, usuarios.create(nombre, apellido, sector, email));
+//	}
 	
 	/**
 	 * 

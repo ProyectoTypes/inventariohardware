@@ -33,9 +33,9 @@ import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.apache.isis.applib.fixturescripts.FixtureScripts;
 import org.apache.isis.applib.fixturescripts.SimpleFixtureScript;
 
+import fixture.instalar.SectorFixture;
 import fixture.permisos.PermisoFixture;
 import fixture.roles.RolesFixture;
-import fixture.sector.SectorFixture;
 import fixture.tecnico.TecnicoFixture;
 import fixture.usuario.UsuariosFixture;
 
