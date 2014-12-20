@@ -69,7 +69,7 @@ public class TecnicoRepositorio {
 	@Programmatic
 	@PostConstruct
 	public void init() throws NoSuchAlgorithmException {
-		List<Tecnico> tecnicos = listar();
+		List<Tecnico> tecnicos = listAll();
 		if (tecnicos.isEmpty()) {
 			Permiso permiso = new Permiso();
 			Rol rol = new Rol();
@@ -88,12 +88,13 @@ public class TecnicoRepositorio {
 	}
 
 	// //////////////////////////////////////
-	// Agregar Tecnico
+	// Agregar
 	// //////////////////////////////////////
+	
 	@NotContributed
 	@MemberOrder(name = "Personal", sequence = "10")
 	@Named("Agregar Tecnico")
-	public Tecnico addTecnico(final @Named("Apellido") String apellido,
+	public Tecnico create(final @Named("Apellido") String apellido,
 			final @Named("Nombre") String nombre,
 			final @Named("email") String email, final @Optional Sector sector,
 			final @Named("Nick") String nick,
@@ -147,8 +148,8 @@ public class TecnicoRepositorio {
 
 	@Named("Sector")
 	@DescribedAs("Buscar el Sector en mayuscula")
-	public List<Sector> choices3AddTecnico() {
-		return sectorRepositorio.listar();
+	public List<Sector> choices3Create() {
+		return sectorRepositorio.listAll();
 	}
 
 	// //////////////////////////////////////
@@ -157,7 +158,7 @@ public class TecnicoRepositorio {
 
 	@MemberOrder(name = "Personal", sequence = "20")
 	@Named("Listar Tecnicos")
-	public List<Tecnico> listar() {
+	public List<Tecnico> listAll() {
 		final List<Tecnico> listaTecnicos;
 		if (this.container.getUser().getName().contentEquals("sven")) {
 			listaTecnicos = this.container
@@ -173,7 +174,6 @@ public class TecnicoRepositorio {
 		return listaTecnicos;
 
 	}
-
 
 	// //////////////////////////////////////
 	// Buscar Tecnico
@@ -240,7 +240,6 @@ public class TecnicoRepositorio {
 
 	public List<Tecnico> listarDisponibles() {
 		return this.container
-					.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
-							"listarDisponibles"));
+					.allMatches(new QueryDefault<Tecnico>(Tecnico.class, "listarDisponibles"));
 	}
 }

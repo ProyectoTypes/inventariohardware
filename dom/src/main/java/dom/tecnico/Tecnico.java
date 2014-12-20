@@ -36,6 +36,7 @@ import javax.jdo.annotations.VersionStrategy;
 import javax.validation.constraints.Max;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Bulk;
@@ -47,6 +48,8 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Render;
+import org.apache.isis.applib.annotation.Where;
+import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import servicio.reporte.Reporte;
@@ -173,7 +176,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 		} else
 			container.warnUser("El Registro Sven No puede ser eliminado.");
 
-		return tecnicoRepositorio.listar();
+		return tecnicoRepositorio.listAll();
 	}
 
 	// {{ Movimiento (property)
@@ -299,16 +302,26 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	 * 
 	 * @return
 	 */
-
-	@MemberOrder(sequence = "120")
-	@Named("Eliminar Sector")
-	public Tecnico clear() {
-		Sector currentSector = this.getSector();
-		if (currentSector == null) {
-			return this;
-		}
-		this.getSector().setHabilitado(false);
-		return this;
+	//@MemberOrder(sequence = "120")
+	//@Named("Eliminar Sector")
+	//public Tecnico clear() {
+	//	Sector currentSector = this.getSector();
+	//	if (currentSector == null) {
+	//		return this;
+	//	}
+	//	this.getSector().setEstaHabilitado('S');
+	//	return this;
+	//}
+	@Hidden(where = Where.OBJECT_FORMS)    
+    @ActionSemantics(Of.NON_IDEMPOTENT)
+    @MemberOrder(sequence = "120")
+    @Named("Eliminar Sector")    
+    public String removeSector(@Named("Eliminar: ") Sector delTecnico, @Named("¿Está seguro?") Boolean seguro) {
+    		
+		delTecnico.setHabilitado('N');
+		String remTecnico = delTecnico.title();						
+		return  remTecnico + " fue eliminado";
+			
 	}
 	
 	/***************************************************
