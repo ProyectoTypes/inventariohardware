@@ -33,6 +33,7 @@ import dom.sector.Sector;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 import fixture.datos.DatosFixture;
+import fixture.datos.DatosFixtureBaja;
 
 public class UsuariosFixture extends FixtureScript {
 
@@ -47,7 +48,7 @@ public class UsuariosFixture extends FixtureScript {
 		
 		List<Usuario> listUs=new ArrayList<Usuario>();
 		
-		// create
+		// Crea los Usuarios de manera aleatoria.
 		for(int x=0; x<=Cantidad;x++)
 		{
 			Usuario usuario=new Usuario();
@@ -62,8 +63,11 @@ public class UsuariosFixture extends FixtureScript {
         		create(us.getNombre(), us.getApellido(), us.getSector(), us.getEmail(), executionContext);
 	}
 
-	// //////////////////////////////////////
-
+	/**
+	 * Lista los Usuarios y remueve los repetidos.
+	 * @param listaUsuario
+	 * @return
+	 */
 	private List<Usuario> removerrepetidos(List<Usuario> listaUsuario) {
 		for (int x = 0; x < listaUsuario.size() - 1; x++) {
 			for (int y = x + 1; y < listaUsuario.size(); y++) {
@@ -77,19 +81,32 @@ public class UsuariosFixture extends FixtureScript {
 		}
 		return listaUsuario;
 	}
-	    
+	
+	/**
+	 * Crear un Usuario.
+	 * @param nombre
+	 * @param apellido
+	 * @param sector
+	 * @param email
+	 * @param executionContext
+	 * @return
+	 */
 	private Usuario create(final String nombre, String apellido, Sector sector, String email, ExecutionContext executionContext) {
 		return executionContext.add(this, usuarios.create(nombre, apellido, sector, email));
 	}
-
-	// //////////////////////////////////////
-
+	
+	/**
+	 * 
+	 * @param executionContext
+	 */
 	public void BorrarDBAlumnos(ExecutionContext executionContext) {
-		execute(new GenericTearDownFixture("Usuario"), executionContext);
+		execute(new DatosFixtureBaja("Usuario"), executionContext);
 	        return;
 	}
 	    
-	    
+	/**
+	 * Inyección del servicio Usuario.
+	 */
 	@javax.inject.Inject
 	private UsuarioRepositorio usuarios;
 }
