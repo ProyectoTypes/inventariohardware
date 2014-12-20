@@ -143,7 +143,7 @@ public class ComputadoraServicioGrafico  {
     public WickedChart filtrarPorComputadorasReparacion() {
         
         Map<String, AtomicInteger> byCategory = Maps.newTreeMap();
-        List<Soporte> allSoportes = soporteRepositorio.listar();
+        List<Soporte> allSoportes = soporteRepositorio.listAll();
         for (Soporte obj : allSoportes) {
         	String category = obj.getEstado().getClass().getSimpleName();//.getDisco();
             AtomicInteger integer = byCategory.get(category);

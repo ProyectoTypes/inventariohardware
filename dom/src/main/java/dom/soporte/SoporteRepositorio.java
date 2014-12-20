@@ -130,7 +130,7 @@ public class SoporteRepositorio {
 	// //////////////////////////////////////
 
 	@MemberOrder(sequence = "20")
-	public List<Soporte> listar() {
+	public List<Soporte> listAll() {
 		final List<Soporte> lista = container
 				.allMatches(new QueryDefault<Soporte>(Soporte.class, "listar"));
 		if (lista.isEmpty()) {
