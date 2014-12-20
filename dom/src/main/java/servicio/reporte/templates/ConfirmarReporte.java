@@ -52,7 +52,7 @@ import org.apache.isis.applib.value.Blob;
  * Clase CustomerConfirmation.
  */
 @DomainService
-public class CustomerConfirmation {
+public class ConfirmarReporte {
 
     private byte[] pdfAsBytes;
 
