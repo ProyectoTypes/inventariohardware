@@ -171,7 +171,7 @@ public class SoporteRepositorio {
 	}
 
 	public List<Computadora> choices0BuscarPorIp() {
-		return computadoraRepositorio.listar();
+		return computadoraRepositorio.listAll();
 	}
 
 	// //////////////////////////////////////
@@ -195,5 +195,4 @@ public class SoporteRepositorio {
 
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
-
 }
