@@ -21,31 +21,25 @@
  */
 package dom.sector;
 
-import java.util.List;
-
-import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
-import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberGroupLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
-import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
-import org.apache.isis.applib.annotation.PublishedAction;
-import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
 
 /**
- * Entidad Sector, representa a  las Sectores que pertenecen al Ministerio de Gobierno, Educación y Justicia. 
+ * Sector: representa a  las Sectores que pertenecen al Ministerio de Gobierno, Educación y Justicia. 
  * @author ProyectoTypes
  * @since 25/05/2014
  * @version 1.0.0
  */
+
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
@@ -89,7 +83,6 @@ public class Sector implements Comparable<Sector> {
 	private String nombreSector;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
 	@DescribedAs("Nombre del Sector:")
 	@MemberOrder(sequence = "10")
 	public String getNombreSector() {
@@ -132,20 +125,6 @@ public class Sector implements Comparable<Sector> {
 	}
 
 	/**
-	 * Eliminar: Método que se usa para deshabilitar un Insumo.
-	 * @return 
-	 */
-	@Named("Eliminar")
-	@PublishedAction	
-	@MemberOrder(name = "accionEliminar", sequence = "1")
-	public List<Sector> eliminar() {
-			//setHabilitado(false);
-			container.flush();
-			container.warnUser("Eliminado " + container.titleOf(this));
-		return sectorRepositorio.listAll();
-	}
-
-	/**
 	 * Implementacion de la interface comparable, necesaria para toda entidad.
 	 * @param sector
 	 * @return 
@@ -154,16 +133,4 @@ public class Sector implements Comparable<Sector> {
 	public int compareTo(final Sector sector) {
 		return ObjectContracts.compare(this, sector, "nombreSector");
 	}
-
-	/**
-	 * Inyección del Contenedor.
-	 */
-	@Inject
-	private DomainObjectContainer container;
-
-	/**
-	 * Inyección del servicio Sector.
-	 */
-	@Inject
-	private SectorRepositorio sectorRepositorio;
 }

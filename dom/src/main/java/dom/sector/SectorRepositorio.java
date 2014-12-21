@@ -29,27 +29,28 @@ import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DomainService;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.Prototype;
 import org.apache.isis.applib.annotation.RegEx;
+import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.query.QueryDefault;
 
 /**
- * Clase SectorRepositorio.
+ * SectorRepositorio: permite crear, persistir y listar los Sectores que pertenecen al Ministerio de Gobierno, Educación y Justicia. 
+ * @author ProyectoTypes
+ * @since 25/05/2014
+ * @version 1.0.0
  */
-@DomainService(menuOrder = "50")
-@Named("SECTOR")
+
+@DomainService(menuOrder = "2")
+@Named("Sector")
 public class SectorRepositorio {
-
-	public SectorRepositorio() {
-
-	}
-
+	
 	/**
-	 * Id
+	 * Retorna el nombre del icono para el Sector.
 	 * @return
 	 */
 	public String getId() {
@@ -63,49 +64,16 @@ public class SectorRepositorio {
 	public String iconName() {
 		return "Sector";
 	}
-
+	
 	/**
-	 * Obtiene los datos cargados del Sector.
+	 * Buscar Sector: permite realizar la búsqueda de todos los Sectores.
 	 * @param nombreSector
 	 * @return 
 	 */
 	@Bookmarkable
 	@ActionSemantics(Of.SAFE)
-	@Named("Agregar")
 	@MemberOrder(sequence = "10")
-	public Sector create(
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombreSector) {
-		return nuevoSector(nombreSector, this.currentUserName());
-	}
-
-	/**
-	 * Nuevo Sector: toma los datos del Sector y lo persiste.
-	 * @param nombreSector
-	 * @param creadoPor
-	 * @return 
-	 */
-	@Programmatic
-	public Sector nuevoSector(final String nombreSector, final String creadoPor) {
-		final Sector unSector = this.container
-				.newTransientInstance(Sector.class);
-		unSector.setNombreSector(nombreSector.toUpperCase().trim());
-		unSector.setHabilitado('S');
-		unSector.setCreadoPor(creadoPor);
-		this.container.persistIfNotAlready(unSector);
-		this.container.flush();
-		return unSector;
-
-	}
-
-	/**
-	 * Buscar Sector.
-	 * @param nombreSector
-	 * @return 
-	 */
-	@Bookmarkable
-	@ActionSemantics(Of.SAFE)
-	@MemberOrder(sequence = "20")
-	@Named("--Listar Sector")
+	@Named("Listar Sector")
 	public List<Sector> listAll() {
 		return filtroSE(container.allMatches(new QueryDefault<Sector>(
 				Sector.class, "ListarSectores")), 'S');
@@ -120,15 +88,43 @@ public class SectorRepositorio {
 		}
 		return filtroSE;
 	}
-
+	
 	/**
-	 * Buscar
+	 * Create: obtiene los datos cargados del Sector.
+	 * @param nombreSector
+	 * @return 
+	 */
+    @MemberOrder(sequence = "20")
+    @Named ("Crear Sector")
+    public Sector create(
+    		final @RegEx(validation = "[A-Za-z]+") @Named("Nombre Sector") String nombreSector){
+    	return nuevoSector(nombreSector, this.currentUserName());
+    }
+    
+	/**
+	 * Nuevo Sector: toma los datos del Sector y los persiste.
+	 * @param nombreSector
+	 * @param creadoPor
+	 * @return 
+	 */
+	@Programmatic
+	public Sector nuevoSector(final String nombreSector, final String creadoPor) {
+		final Sector unSector = this.container.newTransientInstance(Sector.class);
+		unSector.setNombreSector(nombreSector.toUpperCase().trim());
+		unSector.setHabilitado('S');
+		unSector.setCreadoPor(creadoPor);
+		this.container.persistIfNotAlready(unSector);
+		this.container.flush();
+		return unSector;
+	}
+	
+	/**
+	 * Buscar: permite realizar la búsqueda de los Sectores cargados.
 	 * @param nombreSector
 	 * @return
 	 */
-	@Bookmarkable
-	@ActionSemantics(Of.SAFE)
-	@MemberOrder(sequence = "21")
+	@Named("Buscar Sector")
+	@MemberOrder(sequence = "30")
 	public List<Sector> buscar(
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") @MinLength(2) String nombreSector) {
 		final List<Sector> listarSectores = this.container
@@ -137,12 +133,13 @@ public class SectorRepositorio {
 								.toUpperCase().trim()));
 		if (listarSectores.isEmpty())
 			this.container
-					.warnUser("No se encontraron sectores cargados en el sistema.");
+					.warnUser("No se encontraron Sectores cargados en el sistema.");
 		return listarSectores;
 	}
 
 	/**
-	 * Auto complete.
+	 * Método que contiene la capacidad de autocompletar las propiedades de referencia del Sector y 
+	 * permite mostrarlas en un cuadro de lista despegable.
 	 * @param buscarNombreSector
 	 * @return 
 	 */
@@ -152,24 +149,47 @@ public class SectorRepositorio {
 				"autoCompletePorNombreSector", "nombreSector",
 				buscarNombreSector.toUpperCase().trim()));
 	}
-
+	
 	/**
-	 * Crear sectores.
-	 * @return the list
+	 * Eliminar Sector: permite eliminar un Sector.
+	 * @param delSector
+	 * @param seguro
+	 * @return
 	 */
-	@Prototype
-	public List<Sector> crearSectores() {
-		List<Sector> sectores = new ArrayList<Sector>();
-		sectores.add(this.create("Administración"));
-		sectores.add(this.create("Informatica"));
-		sectores.add(this.create("Ventas"));
-		sectores.add(this.create("Recepción"));
-		sectores.add(this.create("RRHH"));
-		return sectores;
+	@Hidden(where = Where.OBJECT_FORMS)    
+    @ActionSemantics(Of.NON_IDEMPOTENT)
+    @MemberOrder(sequence = "40")
+    @Named("Eliminar Sector")    
+    public String removeSector(@Named("Eliminar: ") Sector delSector, @Named("¿Está seguro?") Boolean seguro) {
+		delSector.setHabilitado('N');
+		String remSector = delSector.title();						
+		return  remSector + " fue eliminado.";
 	}
+	
+	/**
+	 * Lista que devuelve los Sectores ha eliminar.
+	 * @return
+	 */
+	public List<Sector> choices0RemoveSector(){
+		return filtroSE(container.allMatches(new QueryDefault<Sector>(Sector.class,
+				"ListarSectores")),'S');
+	}
+	
+	/**
+	 * Confirma la eliminación del Sector.
+	 * @param delSector
+	 * @param seguro
+	 * @return
+	 */
+	public String validateRemoveSector(Sector delSector, Boolean seguro) {
+		if (!seguro) {
+			return "Marque en la opción si está seguro.";
+		}
+		return null;
+	} 
 
 	/**
-	 * Devuelve el nombre del Usuario logueado.
+	 * CurrentUser: devuelve el nombre del Usuario logueado.
 	 * @return
 	 */
 	private String currentUserName() {
