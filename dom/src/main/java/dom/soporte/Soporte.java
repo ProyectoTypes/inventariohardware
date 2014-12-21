@@ -118,7 +118,7 @@ public class Soporte implements Comparable<Soporte> {
 	// ////////////////////////////////////////////////////
 
 	public String title() {
-		return "SOPORTE TECNICO";
+		return "SOPORTE "+this.getComputadora().getPlacaDeRed().getIp();
 	}
 
 	public String iconName() {

@@ -78,7 +78,7 @@ public class SoporteRepositorio {
 	public List<Soporte> listAll() {
 		final List<Soporte> lista = container.allMatches(new QueryDefault<Soporte>(Soporte.class, "listar"));
 		if (lista.isEmpty()) {
-			container.warnUser("No hay Soportes cargados en el sistema.");
+			container.informUser("No hay Soportes cargados en el sistema.");
 		}
 		return lista;
 	}
@@ -154,7 +154,7 @@ public class SoporteRepositorio {
 				.allMatches(new QueryDefault<Soporte>(Soporte.class,
 						"buscarSoportesEnEspera"));
 		if (lista.isEmpty())
-			container.warnUser("No hay computadoras en espera de soporte.");
+			container.informUser("No hay computadoras en espera de soporte.");
 		return lista;
 	}
 
@@ -169,7 +169,7 @@ public class SoporteRepositorio {
 				.allMatches(new QueryDefault<Soporte>(Soporte.class,
 						"buscarSoportesEnReparacion"));
 		if (lista.isEmpty())
-			container.warnUser("No hay computadoras en Reparacion.");
+			container.informUser("No hay computadoras en Reparacion.");
 		return lista;
 	}
 
