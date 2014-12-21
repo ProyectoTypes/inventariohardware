@@ -64,6 +64,19 @@ public class SoporteRepositorio {
 	public String iconName() {
 		return "Tecnico";
 	}
+	
+	// //////////////////////////////////////
+	// Listar Computadora
+	// //////////////////////////////////////
+
+	@MemberOrder(sequence = "20")
+	public List<Soporte> listAll() {
+		final List<Soporte> lista = container.allMatches(new QueryDefault<Soporte>(Soporte.class, "listar"));
+		if (lista.isEmpty()) {
+			container.warnUser("No hay Soportes cargados en el sistema.");
+		}
+		return lista;
+	}
 
 	// //////////////////////////////////////
 	// Insertar un Soporte.
@@ -71,7 +84,7 @@ public class SoporteRepositorio {
 
 	@Named("Recepcion")
 	@MemberOrder(sequence = "10")
-	public Soporte add(final @Named("Computadora") Computadora computadora,
+	public Soporte create(final @Named("Computadora") Computadora computadora,
 			final @Named("Observaciones") String observaciones) {
 		return nuevoSoporte(computadora, observaciones, this.currentUserName());
 	}
@@ -93,7 +106,7 @@ public class SoporteRepositorio {
 
 	}
 
-	public String validateAdd(final Computadora computadora,
+	public String validateCreate(final Computadora computadora,
 			final String observaciones) {
 
 		List<Soporte> soporte = container.allMatches(new QueryDefault<Soporte>(
@@ -104,7 +117,7 @@ public class SoporteRepositorio {
 		return "La computadora se encuentra en reparacion.";
 	}
 
-	public List<Computadora> autoComplete0Add(final @MinLength(2) String search) {
+	public List<Computadora> autoComplete0Create(final @MinLength(2) String search) {
 		List<Computadora> listaComputadora = computadoraRepositorio
 				.autoComplete(search.toUpperCase().trim());
 		return listaComputadora;
@@ -123,20 +136,6 @@ public class SoporteRepositorio {
 		return container.allMatches(new QueryDefault<Soporte>(Soporte.class,
 				"autoCompleteSoporte", "buscarTecnico", buscarTecnico
 						.toUpperCase().trim()));
-	}
-
-	// //////////////////////////////////////
-	// Listar Computadora
-	// //////////////////////////////////////
-
-	@MemberOrder(sequence = "20")
-	public List<Soporte> listAll() {
-		final List<Soporte> lista = container
-				.allMatches(new QueryDefault<Soporte>(Soporte.class, "listar"));
-		if (lista.isEmpty()) {
-			container.warnUser("No hay Soportes cargados en el sistema.");
-		}
-		return lista;
 	}
 
 	/**
