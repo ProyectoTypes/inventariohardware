@@ -72,7 +72,7 @@ public class ComputadoraServicioGrafico  {
 		Map<CategoriaDisco, AtomicInteger> byCategory = Maps.newTreeMap();
 		List<Computadora> allToDos = computadoraRepositorio.listAll();
 		for (Computadora unaComputadora : allToDos) {
-			CategoriaDisco category = unaComputadora.getDisco().getTipo();
+			CategoriaDisco category = unaComputadora.getHardware().getGabinete().getListaDisco().get(0).getTipo();
 			AtomicInteger integer = byCategory.get(category);
 			if (integer == null) {
 				integer = new AtomicInteger();
