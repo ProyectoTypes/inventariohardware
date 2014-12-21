@@ -24,6 +24,9 @@ package dom.soporte;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.ActionSemantics;
+import org.apache.isis.applib.annotation.ActionSemantics.Of;
+import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
@@ -64,6 +67,21 @@ public class SoporteRepositorio {
 	public String iconName() {
 		return "Tecnico";
 	}
+	
+	// //////////////////////////////////////
+	// Listar Computadora
+	// //////////////////////////////////////
+
+    @Bookmarkable
+    @ActionSemantics(Of.SAFE)
+	@MemberOrder(sequence = "20")
+	public List<Soporte> listAll() {
+		final List<Soporte> lista = container.allMatches(new QueryDefault<Soporte>(Soporte.class, "listar"));
+		if (lista.isEmpty()) {
+			container.informUser("No hay Soportes cargados en el sistema.");
+		}
+		return lista;
+	}
 
 	// //////////////////////////////////////
 	// Insertar un Soporte.
@@ -71,7 +89,7 @@ public class SoporteRepositorio {
 
 	@Named("Recepcion")
 	@MemberOrder(sequence = "10")
-	public Soporte add(final @Named("Computadora") Computadora computadora,
+	public Soporte create(final @Named("Computadora") Computadora computadora,
 			final @Named("Observaciones") String observaciones) {
 		return nuevoSoporte(computadora, observaciones, this.currentUserName());
 	}
@@ -93,7 +111,7 @@ public class SoporteRepositorio {
 
 	}
 
-	public String validateAdd(final Computadora computadora,
+	public String validateCreate(final Computadora computadora,
 			final String observaciones) {
 
 		List<Soporte> soporte = container.allMatches(new QueryDefault<Soporte>(
@@ -104,7 +122,7 @@ public class SoporteRepositorio {
 		return "La computadora se encuentra en reparacion.";
 	}
 
-	public List<Computadora> autoComplete0Add(final @MinLength(2) String search) {
+	public List<Computadora> autoComplete0Create(final @MinLength(2) String search) {
 		List<Computadora> listaComputadora = computadoraRepositorio
 				.autoComplete(search.toUpperCase().trim());
 		return listaComputadora;
@@ -125,20 +143,6 @@ public class SoporteRepositorio {
 						.toUpperCase().trim()));
 	}
 
-	// //////////////////////////////////////
-	// Listar Computadora
-	// //////////////////////////////////////
-
-	@MemberOrder(sequence = "20")
-	public List<Soporte> listar() {
-		final List<Soporte> lista = container
-				.allMatches(new QueryDefault<Soporte>(Soporte.class, "listar"));
-		if (lista.isEmpty()) {
-			container.warnUser("No hay Soportes cargados en el sistema.");
-		}
-		return lista;
-	}
-
 	/**
 	 * Devuelve una lista de aquellos soportes que se encuentran en espera.
 	 * 
@@ -150,7 +154,7 @@ public class SoporteRepositorio {
 				.allMatches(new QueryDefault<Soporte>(Soporte.class,
 						"buscarSoportesEnEspera"));
 		if (lista.isEmpty())
-			container.warnUser("No hay computadoras en espera de soporte.");
+			container.informUser("No hay computadoras en espera de soporte.");
 		return lista;
 	}
 
@@ -165,10 +169,12 @@ public class SoporteRepositorio {
 				.allMatches(new QueryDefault<Soporte>(Soporte.class,
 						"buscarSoportesEnReparacion"));
 		if (lista.isEmpty())
-			container.warnUser("No hay computadoras en Reparacion.");
+			container.informUser("No hay computadoras en Reparacion.");
 		return lista;
 	}
 
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
 	@Named("Buscar")
 	@DescribedAs("Busca todos los soportes que tuvo una computadora")
 	public List<Soporte> buscarPorIp(

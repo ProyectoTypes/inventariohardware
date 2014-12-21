@@ -42,6 +42,7 @@ import servicio.reporte.ReporteLine;
 
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
+import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NotContributed;
@@ -71,7 +72,8 @@ public class ConfirmarReporte {
      */
     @NotContributed(NotContributed.As.ASSOCIATION) // ie contributed as action
     @NotInServiceMenu
-    @ActionSemantics(Of.SAFE)
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
     @Named("Descargar Reporte")
     @MemberOrder(sequence = "10")
     public Blob descargarReporte(

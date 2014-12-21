@@ -31,6 +31,8 @@ import java.util.TreeSet;
 import javax.annotation.PostConstruct;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.ActionSemantics;
+import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
@@ -40,6 +42,7 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.query.QueryDefault;
 
 import dom.permiso.Permiso;
@@ -187,6 +190,8 @@ public class TecnicoRepositorio {
 	 * Método que permite listar todos los Técnicos habilitados.
 	 * @return listaTecnicos
 	 */
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
 	@Hidden
 	@MemberOrder(name = "Personal", sequence = "20")
 	@Named("Listar Tecnicos")
@@ -211,6 +216,8 @@ public class TecnicoRepositorio {
 	 * Método que permite listar todos los Técnicos disponibles.
 	 * @return listarDisponibles
 	 */
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
 	@MemberOrder(name = "Personal", sequence = "10")
 	@Named("--Listar Técnico")
 	public List<Tecnico> listarDisponibles() {
@@ -224,6 +231,8 @@ public class TecnicoRepositorio {
 	 * @param apellidoUsuario
 	 * @return
 	 */
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
 	@MemberOrder(name = "Personal", sequence = "30")
 	@Named("--Buscar Técnico")
 	public List<Tecnico> buscar(

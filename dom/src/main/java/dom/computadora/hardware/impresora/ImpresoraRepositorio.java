@@ -24,6 +24,8 @@ package dom.computadora.hardware.impresora;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.ActionSemantics;
+import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
@@ -57,6 +59,22 @@ public class ImpresoraRepositorio {
 	public String iconName() {
 		return "IMPRESORA";
 	}
+	
+	
+	/**
+	 * Método para listar las impresoras.
+	 * @return the list
+	 */
+    @ActionSemantics(Of.SAFE)
+    @MemberOrder(sequence = "5")
+	@Named("--Listar Impresoras")
+	public List<Impresora> listAll() {
+		final List<Impresora> listaImpresora = this.container
+				.allMatches(new QueryDefault<Impresora>(Impresora.class,
+						"todasLasImpresoras"));
+		return listaImpresora;
+	}
+	
 
 	/**
 	 * Agregar Impresora.
@@ -99,20 +117,8 @@ public class ImpresoraRepositorio {
 		container.flush();
 		return unaImpresora;
 	}
-
-	/**
-	 * Método para listar las impresoras.
-	 * @return the list
-	 */
-	@MemberOrder(name = "Hardware", sequence = "60")
-	@Named("--Listar Impresoras")
-	public List<Impresora> listAll() {
-		final List<Impresora> listaImpresora = this.container
-				.allMatches(new QueryDefault<Impresora>(Impresora.class,
-						"todasLasImpresoras"));
-		return listaImpresora;
-	}
-
+	
+	
 	/**
 	 * Buscar Impresora.
 	 * @param search

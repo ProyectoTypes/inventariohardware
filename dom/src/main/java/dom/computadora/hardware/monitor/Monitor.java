@@ -49,17 +49,17 @@ import org.apache.isis.applib.util.ObjectContracts;
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Monitor_unique", members = { "tamaño","tipo","marca", }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorMonitor", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.monitor.Monitor "
+				+ "FROM dom.computadora.hardware.monitor.Monitor "
 				+ "WHERE creadoPor == :creadoPor && "
 				+ "tamaño.indexOf(:tamaño) >= 0"),
 		@javax.jdo.annotations.Query(name = "eliminarMonitorFalse", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.monito.Monitor "
+				+ "FROM dom.computadora.hardware.monitor.Monitor "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && habilitado == false"),
 		@javax.jdo.annotations.Query(name = "listarMonitorTrue", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.monitor.Monitor " + "WHERE habilitado == true"),
+				+ "FROM dom.computadora.hardware.monitor.Monitor " + "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorMarca", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.monitor.Monitor "
+				+ "FROM dom.computadora.hardware.monitor.Monitor "
 				+ "WHERE creadoPor == :creadoPor "
 				+ "   && marca.indexOf(:marca) >= 0"), })
 @ObjectType("MONITOR")
