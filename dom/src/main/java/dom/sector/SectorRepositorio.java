@@ -123,6 +123,8 @@ public class SectorRepositorio {
 	 * @param nombreSector
 	 * @return
 	 */
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
 	@Named("Buscar Sector")
 	@MemberOrder(sequence = "30")
 	public List<Sector> buscar(
