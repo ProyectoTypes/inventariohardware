@@ -30,6 +30,7 @@ import javax.inject.Inject;
 
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
+import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Named;
 import org.isisaddons.wicket.wickedcharts.cpt.applib.WickedChart;
@@ -64,23 +65,24 @@ import dom.soporte.SoporteRepositorio;
 public class ComputadoraServicioGrafico  {
 
 
-	 @ActionSemantics(Of.SAFE)
-	    public WickedChart filtrarPorDiscoRigido() {
-	        
-	        Map<CategoriaDisco, AtomicInteger> byCategory = Maps.newTreeMap();
-	        List<Computadora> allToDos = computadoraRepositorio.listAll();
-	        for (Computadora unaComputadora : allToDos) {
-	            CategoriaDisco category = unaComputadora.getDisco().getTipo();
-	            AtomicInteger integer = byCategory.get(category);
-	            if(integer == null) {
-	                integer = new AtomicInteger();
-	                byCategory.put(category, integer);
-	            }
-	            integer.incrementAndGet();
-	        }
-	        
-	        return new WickedChart(new PieWithGradientOptions(byCategory));
-	    }
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
+	public WickedChart filtrarPorDiscoRigido() {
+
+		Map<CategoriaDisco, AtomicInteger> byCategory = Maps.newTreeMap();
+		List<Computadora> allToDos = computadoraRepositorio.listAll();
+		for (Computadora unaComputadora : allToDos) {
+			CategoriaDisco category = unaComputadora.getDisco().getTipo();
+			AtomicInteger integer = byCategory.get(category);
+			if (integer == null) {
+				integer = new AtomicInteger();
+				byCategory.put(category, integer);
+			}
+			integer.incrementAndGet();
+		}
+
+		return new WickedChart(new PieWithGradientOptions(byCategory));
+	}
     
     public static class PieWithGradientOptions extends Options {
         private static final long serialVersionUID = 1L;
@@ -139,7 +141,8 @@ public class ComputadoraServicioGrafico  {
      * @return
      */
     @Named("Soporte Tecnico")
-    @ActionSemantics(Of.SAFE)
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
     public WickedChart filtrarPorComputadorasReparacion() {
         
         Map<String, AtomicInteger> byCategory = Maps.newTreeMap();
