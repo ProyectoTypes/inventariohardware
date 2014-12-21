@@ -189,6 +189,8 @@ public class TecnicoRepositorio {
 	 * Método que permite listar todos los Técnicos habilitados.
 	 * @return listaTecnicos
 	 */
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
 	@Hidden
 	@MemberOrder(name = "Personal", sequence = "20")
 	@Named("Listar Tecnicos")
@@ -213,6 +215,8 @@ public class TecnicoRepositorio {
 	 * Método que permite listar todos los Técnicos disponibles.
 	 * @return listarDisponibles
 	 */
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
 	@MemberOrder(name = "Personal", sequence = "10")
 	@Named("--Listar Técnico")
 	public List<Tecnico> listarDisponibles() {
