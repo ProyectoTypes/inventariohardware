@@ -72,6 +72,8 @@ public class SectorRepositorio {
 	 * @param nombreSector
 	 * @return 
 	 */
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
 	@Named("Agregar")
 	@MemberOrder(sequence = "10")
 	public Sector create(
@@ -128,6 +130,8 @@ public class SectorRepositorio {
 	 * @param nombreSector
 	 * @return
 	 */
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
 	@MemberOrder(sequence = "21")
 	public List<Sector> buscar(
 			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") @MinLength(2) String nombreSector) {
