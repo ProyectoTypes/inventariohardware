@@ -159,7 +159,8 @@ public class SectorRepositorio {
 	 * @return
 	 */
 	@Hidden(where = Where.OBJECT_FORMS)    
-    @ActionSemantics(Of.NON_IDEMPOTENT)
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
     @MemberOrder(sequence = "40")
     @Named("Eliminar Sector")    
     public String removeSector(@Named("Eliminar: ") Sector delSector, @Named("¿Está seguro?") Boolean seguro) {
