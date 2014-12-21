@@ -29,16 +29,16 @@ import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
-import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
+import dom.computadora.hardware.Hardware;
+import dom.computadora.hardware.gabinete.Gabinete;
 import dom.computadora.hardware.gabinete.disco.Disco;
 import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
@@ -151,24 +151,9 @@ public class ComputadoraRepositorio {
 		MemoriaRam memoriaRam = new MemoriaRam(modeloRam, tamanoRam, marcaRam);
 		Motherboard motherboard = new Motherboard(modeloMotherboard);
 		return this.nuevaComputadora(nombreEquipo, usuario, placaDeRed, motherboard,
-				procesador, disco, memoriaRam, impresora, sotfware, this.currentUserName());
+				procesador, disco, memoriaRam, impresora, sotfware, monitor, this.currentUserName());
 	}
-	
-	@Hidden
-	@NotContributed
-	@MemberOrder(name = "Computadoras", sequence = "20")
-	@Named("Agregar Computadora")
-	public Computadora addComputadora(final @Named("Nombre de Equipo") String nombreEquipo, final @Named("Usuario") Usuario usuario,
-			final @Named("Direccion Ip") PlacaDeRed placaDeRed,
-			final @Named("Mother") Motherboard motherboard,
-			final @Named("Procesador") Procesador procesador,
-			final @Named("Disco") Disco disco,
-			final @Named("Memoria") MemoriaRam memoria,
-			final @Optional @Named("Impresora") Impresora impresora,
-			final @Optional @Named("Software") Software software) {
-		return nuevaComputadora(nombreEquipo, usuario, placaDeRed, motherboard, procesador,
-				disco, memoria, impresora, software, this.currentUserName());
-	}
+
 
 	/**
 	 * Nueva computadora.
@@ -188,16 +173,24 @@ public class ComputadoraRepositorio {
 			final PlacaDeRed placaDeRed, final Motherboard motherboard,
 			final Procesador procesador, final Disco disco,
 			final MemoriaRam memoria, final Impresora impresora, final Software software,
-			final String creadoPor) {
-		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);		
+			final Monitor monitor,final String creadoPor) {
+		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);
+		
+		final Gabinete gabinete = new Gabinete();
+		gabinete.agregarHdd(disco);
+		gabinete.agregarMemoriaRam(memoria);
+		gabinete.setPlacaDeRed(placaDeRed);
+		gabinete.setMotherboard(motherboard);
+		gabinete.setProcesador(procesador);
+		
+		final Hardware hardware = new Hardware();
+		hardware.setGabinete(gabinete);
+		hardware.setImpresora(impresora);
+		hardware.setMonitor(monitor);
+		
 		unaComputadora.setCreadoPor(creadoPor);
-		unaComputadora.setDisco(disco);
 		unaComputadora.setHabilitado(true);
-		unaComputadora.setMemoria(memoria);
-		unaComputadora.setMotherboard(motherboard);
 		unaComputadora.setNombreEquipo(nombreEquipo);
-		unaComputadora.setPlacaDeRed(placaDeRed);
-		unaComputadora.setProcesador(procesador);
 		unaComputadora.modifyUsuario(usuario);	
 		unaComputadora.setImpresora(impresora);
 		unaComputadora.setSoftware(software);
@@ -210,25 +203,6 @@ public class ComputadoraRepositorio {
 		return unaComputadora;
 	}
 
-	/**
-	 * Validar los datos de Computadora.
-	 * @param usuario
-	 * @param placaDeRed
-	 * @param motherboard
-	 * @param procesador
-	 * @param disco
-	 * @param memoria
-	 * @param impresora
-	 * @return 
-	 */
-	public String validateAddComputadora(String rotulo, Usuario usuario,
-			PlacaDeRed placaDeRed, Motherboard motherboard,
-			Procesador procesador, Disco disco, MemoriaRam memoria,
-			Impresora impresora, Software software) {
-		if (usuario.getComputadora() == null)
-			return null;
-		return "El Usuario ya posee una Computadora. Seleccione otra. ";
-	}
 
 	/**
 	 * Método que lista los Monitores cargados.

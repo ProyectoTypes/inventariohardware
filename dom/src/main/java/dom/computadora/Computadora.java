@@ -43,11 +43,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.util.ObjectContracts;
 
-import dom.computadora.hardware.gabinete.disco.Disco;
-import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
-import dom.computadora.hardware.gabinete.motherboard.Motherboard;
-import dom.computadora.hardware.gabinete.placadered.PlacaDeRed;
-import dom.computadora.hardware.gabinete.procesador.Procesador;
+import dom.computadora.hardware.Hardware;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.Impresora.TipoImpresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
@@ -84,7 +80,7 @@ public class Computadora implements Comparable<Computadora> {
 	 * @return the string
 	 */
 	public String title() {
-		return this.getPlacaDeRed().getIp();
+		return this.getHardware().getGabinete().getPlacaDeRed().getIp();
 	}
 
 	/**
@@ -111,93 +107,9 @@ public class Computadora implements Comparable<Computadora> {
 		this.nombreEquipo = nombreEquipo;
 	}	
 	
-	// //////////////////////////////////////
-	// Placa de Red (propiedad)
-	// //////////////////////////////////////
-	
-	private PlacaDeRed placaDeRed;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@DescribedAs("Direccion IP de la Computadora:")
-	@MemberOrder(sequence = "15")
-	public PlacaDeRed getPlacaDeRed() {
-		return placaDeRed;
-	}
-
-	public void setPlacaDeRed(PlacaDeRed placaDeRed) {
-		this.placaDeRed = placaDeRed;
-	}
 
 	// //////////////////////////////////////
-	// Mother (propiedad)
-	// //////////////////////////////////////
-
-	private Motherboard motherboard;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@DescribedAs("Mother de la Computadora:")
-	@MemberOrder(sequence = "20")
-	public Motherboard getMotherboard() {
-		return motherboard;
-	}
-
-	public void setMotherboard(final Motherboard motherboard) {
-		this.motherboard = motherboard;
-	}
-
-	// //////////////////////////////////////
-	// Procesador (propiedad)
-	// //////////////////////////////////////
-
-	private Procesador procesador;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@DescribedAs("Procesador de la Computadora:")
-	@MemberOrder(sequence = "30")
-	public Procesador getProcesador() {
-		return procesador;
-	}
-
-	public void setProcesador(final Procesador procesador) {
-		this.procesador = procesador;
-	}
-
-	// //////////////////////////////////////
-	// Disco (propiedad)
-	// //////////////////////////////////////
-
-	private Disco disco;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@DescribedAs("Disco de la Computadora:")
-	@MemberOrder(sequence = "40")
-	public Disco getDisco() {
-		return disco;
-	}
-
-	public void setDisco(final Disco disco) {
-		this.disco = disco;
-	}
-
-	// //////////////////////////////////////
-	// Memoria (propiedad)
-	// //////////////////////////////////////
-
-	private MemoriaRam memoria;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@DescribedAs("Memoria de la Computadora:")
-	@MemberOrder(sequence = "50")
-	public MemoriaRam getMemoria() {
-		return memoria;
-	}
-
-	public void setMemoria(final MemoriaRam memoria) {
-		this.memoria = memoria;
-	}
-
-	// //////////////////////////////////////
-	// Memoria (propiedad)
+	// Software (propiedad)
 	// //////////////////////////////////////
 
 	private Software software;
@@ -211,6 +123,23 @@ public class Computadora implements Comparable<Computadora> {
 
 	public void setSoftware(final Software software) {
 		this.software = software;
+	}
+	
+	// //////////////////////////////////////
+	// Hardware (propiedad)
+	// //////////////////////////////////////
+
+	private Hardware hardware;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@DescribedAs("Memoria de la Computadora:")
+	@MemberOrder(sequence = "50")
+	public Hardware getHardware() {
+		return hardware;
+	}
+
+	public void setHardware(final Hardware hardware) {
+		this.hardware = hardware;
 	}
 	
 	// //////////////////////////////////////
