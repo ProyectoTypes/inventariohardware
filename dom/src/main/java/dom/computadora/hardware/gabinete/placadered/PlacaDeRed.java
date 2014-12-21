@@ -55,6 +55,7 @@ public class PlacaDeRed {
 		this.mac = mac;
 	}
 
+	public PlacaDeRed(){}
 	/**
 	 * Titulo de la clase
 	 *
