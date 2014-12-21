@@ -16,7 +16,7 @@ import dom.computadora.hardware.monitor.Monitor;
 /**
  * Clase HardwareRepositorio.
  */
-@DomainService
+@DomainService(menuOrder = "60")
 @Named("Hardware")
 @Hidden
 public class HardwareRepositorio {
