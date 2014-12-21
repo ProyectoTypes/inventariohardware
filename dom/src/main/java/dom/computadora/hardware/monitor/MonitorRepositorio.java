@@ -106,7 +106,7 @@ public class MonitorRepositorio {
 		final List<Monitor> listaMonitor = this.container.allMatches(new QueryDefault<Monitor>(Monitor.class,
 						"listarMonitorTrue"));
 		if (listaMonitor.isEmpty()) {
-			this.container.warnUser("No hay Monitores cargados en el sistema.");
+			this.container.informUser("No hay Monitores cargados en el sistema.");
 		}
 		return listaMonitor;
 	}
