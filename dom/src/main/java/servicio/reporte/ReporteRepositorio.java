@@ -65,7 +65,7 @@ public class ReporteRepositorio {
      * @param fechaReporte
      * @return obj
      */
-    @Named("Generar")
+    @Named("Generar Reporte")
     @MemberOrder(sequence = "10")
     public Reporte create(
             final @Named("Número de Reporte") String numero,
@@ -97,7 +97,7 @@ public class ReporteRepositorio {
 	 */
     @Bookmarkable
     @ActionSemantics(Of.SAFE)
-    @Named("Listar")
+    @Named("Listar Reporte")
     @MemberOrder(sequence = "20")
     public List<Reporte> listAll() {
         return container.allInstances(Reporte.class);
