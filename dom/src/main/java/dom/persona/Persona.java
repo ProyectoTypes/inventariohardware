@@ -37,24 +37,21 @@ import org.apache.isis.applib.annotation.RegEx;
 import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
 
-// TODO: Auto-generated Javadoc
 /**
- * Clase abstracta Persona.
+ * Persona: clase abstracta que contiene los atributos pincipales del objeto.
  */
 @PersistenceCapable
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public abstract class Persona {
 
-	// //////////////////////////////////////
-	// APELLIDO (propiedad)
-	// //////////////////////////////////////
-
-	/** Apellido. */
+	/**
+	 * Apellido de la Persona.
+	 */
 	private String apellido;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Apellido de la Persona:")
-	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
+	@RegEx(validation = "[A-Za-z]+")
 	@MemberOrder(sequence = "10")
 	public String getApellido() {
 		return apellido;
@@ -64,16 +61,14 @@ public abstract class Persona {
 		this.apellido = apellido;
 	}
 
-	// //////////////////////////////////////
-	// NOMBRE (propiedad)
-	// //////////////////////////////////////
-
-	/** Nombre. */
+	/**
+	 * Nombre de la Persona.
+	 */
 	private String nombre;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@DescribedAs("Nombre de la Persona:")
-	@RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*")
+	@RegEx(validation = "[A-Za-z]+")
 	@MemberOrder(sequence = "20")
 	public String getNombre() {
 		return nombre;
@@ -83,16 +78,13 @@ public abstract class Persona {
 		this.nombre = nombre;
 	}
 
-	// //////////////////////////////////////
-	// EMAIL (propiedad)
-	// //////////////////////////////////////
-
-	/** Email. */
+	/**
+	 * Email de la Persona.
+	 */
 	private String email;
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	@RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
+	@RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
 	@MemberOrder(sequence = "30")
 	public String getEmail() {
 		return email;
@@ -102,15 +94,12 @@ public abstract class Persona {
 		this.email = email;
 	}
 
-	// //////////////////////////////////////
-	// Habilitado (propiedad)
-	// //////////////////////////////////////
-
-	/** Habilitado. */
+	/**
+	 * Propiedad Habilitado.
+	 */
 	public boolean habilitado;
 
 	@Hidden
-	@MemberOrder(sequence = "40")
 	public boolean getEstaHabilitado() {
 		return habilitado;
 	}
@@ -119,11 +108,9 @@ public abstract class Persona {
 		this.habilitado = habilitado;
 	}
 
-	// //////////////////////////////////////
-	// creadoPor
-	// //////////////////////////////////////
-
-	/** Creado por. */
+	/**
+	 * Creado Por.
+	 */
 	private String creadoPor;
 
 	@Hidden
@@ -136,11 +123,9 @@ public abstract class Persona {
 		this.creadoPor = creadoPor;
 	}
 
-	// //////////////////////////////////////
-	// Sector (propiedad)
-	// //////////////////////////////////////
-
-	/** Sector. */
+	/**
+	 * Sector de la Persona.
+	 */
 	private Sector sector;
 
 	@MemberOrder(sequence = "100")
@@ -153,15 +138,9 @@ public abstract class Persona {
 		this.sector = sector;
 	}
 
-	// //////////////////////////////////////
-	// Modificar Sector
-	// //////////////////////////////////////
-
 	/**
-	 * Modificar sector: se usa para modificar el sector que posee un usuario.
-	 *
+	 * Modificar Sector: permite modificar el Sector que posee un Usuario.
 	 * @param sector
-	 * 
 	 * @return persona
 	 */
 	@MemberOrder(sequence = "110")
@@ -174,16 +153,9 @@ public abstract class Persona {
 		return this;
 	}
 
-	// //////////////////////////////////////
-	// Buscar Sector
-	// //////////////////////////////////////
-
 	/**
-	 * Autocomplete0mod: metodo que completa el sector mientras se lo va
-	 * cargando
-	 *
+	 * Autocomplete0mod: método que completa el sector mientras se lo va cargando.
 	 * @param search
-	 * 
 	 * @return list
 	 */
 	@Named("Sector")
@@ -192,16 +164,9 @@ public abstract class Persona {
 		return sectorRepositorio.autoComplete(search);
 	}
 
-	// //////////////////////////////////////
-	// Autocomplete Sector
-	// //////////////////////////////////////
-
 	/**
-	 * Autocompletesector:metodo que completa el sector mientras se lo va
-	 * cargando
-	 *
+	 * Autocompletesector: método que completa el sector mientras se lo va cargando.
 	 * @param search
-	 * 
 	 * @return list
 	 */
 	@Named("Sector")
@@ -210,11 +175,9 @@ public abstract class Persona {
 		return sectorRepositorio.autoComplete(search);
 	}
 
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
-	/** Sector repositorio. */
+	/**
+	 * Inyección del servicio para Sector.
+	 */
 	@javax.inject.Inject
 	private SectorRepositorio sectorRepositorio;
 }

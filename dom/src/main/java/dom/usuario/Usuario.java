@@ -21,35 +21,38 @@
  */
 package dom.usuario;
 
-import java.util.List;
-
-import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
-import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Audited;
 import org.apache.isis.applib.annotation.AutoComplete;
-import org.apache.isis.applib.annotation.Bulk;
 import org.apache.isis.applib.annotation.MemberOrder;
-import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
-import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.computadora.Computadora;
 import dom.persona.Persona;
 
+/**
+ * Usuario: representa los Usuarios que pertenecen al Ministerio de Gobierno,
+ * Educación y Justicia.
+ * 
+ * @author ProyectoTypes
+ * @since 25/05/2014
+ * @version 1.0.0
+ */
+
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Usuario_apellido_must_be_unique", members = { "apellido", "nombre", "email" }) })
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Usuario_apellido_must_be_unique", members = {
+		"apellido", "nombre", "email" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario "
-				+ "WHERE apellido.indexOf(:apellido) >= 0 && habilitado == true" ),
-		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
+				+ "WHERE apellido.indexOf(:apellido) >= 0 && habilitado == true"),
+		@javax.jdo.annotations.Query(name = "ListarUsuarios", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario "),
 		@javax.jdo.annotations.Query(name = "listarHabilitados", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario " + "WHERE habilitado == true"),
@@ -63,26 +66,32 @@ import dom.persona.Persona;
 @AutoComplete(repository = UsuarioRepositorio.class, action = "autoComplete")
 public class Usuario extends Persona implements Comparable<Persona> {
 
-	// //////////////////////////////////////
-	// Identificacion en la UI
-	// //////////////////////////////////////
-
+	/**
+	 * Titulo de la clase.
+	 * 
+	 * @return the string
+	 */
 	public String title() {
 		return this.getApellido() + " " + this.getNombre();
 	}
 
+	/**
+	 * Nombre del Icono.
+	 * 
+	 * @return
+	 */
 	public String iconName() {
 		return "Usuario";
 	}
 
 	/***********************************************************
 	 * Un Usuario tiene una sola Computadora.
-	 */
+	 **********************************************************/
 	private Computadora computadora;
 
 	@MemberOrder(sequence = "70")
 	@javax.jdo.annotations.Column(allowsNull = "true")
-    @Persistent(mappedBy="usuario")
+	@Persistent(mappedBy = "usuario")
 	public Computadora getComputadora() {
 		return computadora;
 	}
@@ -111,36 +120,14 @@ public class Usuario extends Persona implements Comparable<Persona> {
 		}
 		computadora.clearUsuario();
 	}
-	/**
-	 * Método que utilizo para deshabilitar un Usuario.
-	 * 
-	 * @return la propiedad habilitado en false.
-	 */
-	@Named("Eliminar Usuario")
-	@PublishedAction
-	@Bulk
-	@MemberOrder(name = "accionEliminar", sequence = "6")
-	public List<Usuario> eliminar() {
-			setHabilitado(false);
-			container.flush();
-			container.warnUser("Registro eliminado");
 
-		return usuarioRepositorio.listAll();
-	}
-	// //////////////////////////////////////
-	// CompareTo
-	// //////////////////////////////////////
 	/**
 	 * Implementa Comparable<Usuario> Necesario para ordenar por apellido la
 	 * clase Usuario.
 	 */
 	@Override
 	public int compareTo(final Persona persona) {
-		return ObjectContracts.compare(this, persona, "apellido, nombre, email");
+		return ObjectContracts
+				.compare(this, persona, "apellido, nombre, email");
 	}
-	@Inject
-	private DomainObjectContainer container;
-	@Inject
-	private UsuarioRepositorio usuarioRepositorio;
-
 }

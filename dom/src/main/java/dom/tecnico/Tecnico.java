@@ -60,7 +60,7 @@ import dom.sector.Sector;
 import dom.soporte.Soporte;
 
 /**
- * Entidad Técnico, representa a  las personas que pertenecen al Departamento de Sistemas. 
+ * Técnico: clase que representa a las personas que pertenecen al Departamento de Sistemas. 
  * Extiende de la clase Persona.
  * @author ProyectoTypes
  * @since 17/05/2014
@@ -207,7 +207,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	@MemberOrder(name = "accionEliminar", sequence = "6")
 	public List<Tecnico> eliminar() {
 		if (!this.getNick().toUpperCase().contentEquals("SVEN")) {
-			setHabilitado(false);
+			setHabilitado(true);
 			container.flush();
 			container.warnUser("Registro eliminado");
 		} else
