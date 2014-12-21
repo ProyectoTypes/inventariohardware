@@ -21,6 +21,7 @@
  */
 package dom.usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -28,11 +29,13 @@ import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
+import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.query.QueryDefault;
 
@@ -40,21 +43,18 @@ import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
 
 /**
- * Clase UsuarioRepositorio.
+ * UsuarioRepositorio: permite crear, buscar, eliminar y listar los Usuarios que pertenecen al Ministerio de Gobierno, Educación y Justicia. 
  * @author ProyectoTypes
- * @since 17/05/2014
+ * @since 19/05/2014
  * @version 1.0.0
  */
-@DomainService(menuOrder = "40")
-@Named("USUARIO")
+
+@DomainService(menuOrder = "20")
+@Named("Usuario")
 public class UsuarioRepositorio {
 
-	public UsuarioRepositorio() {
-
-	}
-
 	/**
-	 * Id
+	 * Retorna el nombre del icono para el Sector.
 	 * @return
 	 */
 	public String getId() {
@@ -63,10 +63,33 @@ public class UsuarioRepositorio {
 
 	/**
 	 * Nombre del Icono.
-	 * @return
+	 * @return the string
 	 */
 	public String iconName() {
 		return "Usuario";
+	}
+	
+	/**
+	 * Listar Usuario: permite listar todos los Usuarios ingresados al sistema.
+	 * @return 
+	 */
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
+	@MemberOrder(sequence = "10")
+	@Named("Listar Usuario")
+	public List<Usuario> listAll() {
+		return filtroUS(container.allMatches(new QueryDefault<Usuario>(
+				Usuario.class, "ListarUsuarios")), true);
+	}
+	
+	private List<Usuario> filtroUS(List<Usuario> Usuarios, boolean S) {
+		List<Usuario> filtroUS = new ArrayList<Usuario>();
+
+		for (Usuario sec : Usuarios) {
+			if (sec.getEstaHabilitado() == S)
+				filtroUS.add(sec);
+		}
+		return filtroUS;
 	}
 
 	/**
@@ -75,14 +98,14 @@ public class UsuarioRepositorio {
 	 * @param apellido
 	 * @param nombre
 	 * @param email
-	 * @return usuario
+	 * @return 
 	 */
-	@MemberOrder(name = "Personal", sequence = "40")
-	@Named("(+) Usuario")
+	@MemberOrder(sequence = "20")
+	@Named("Crear Usuario")
 	public Usuario create(
 			final Sector sector,
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") String apellido,
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") String nombre,
+			final @RegEx(validation = "[A-Za-z]+") @Named("Apellido") String apellido,
+			final @RegEx(validation = "[A-Za-z]+") @Named("Nombre") String nombre,
 			final @RegEx(validation = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 					+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") @Named("E-mail") String email) {
 		return nuevoUsuario(sector, apellido, nombre, email,
@@ -96,7 +119,7 @@ public class UsuarioRepositorio {
 	 * @param nombre
 	 * @param email
 	 * @param creadoPor
-	 * @return usuario
+	 * @return 
 	 */
 	@Programmatic
 	public Usuario nuevoUsuario(final Sector sector, final String apellido,
@@ -114,7 +137,7 @@ public class UsuarioRepositorio {
 	}
 
 	/**
-	 * Busca los Sectores.
+	 * Busca los Usuario.
 	 * @param search
 	 * @return
 	 */
@@ -123,32 +146,6 @@ public class UsuarioRepositorio {
 	public List<Sector> autoComplete0Create(
 			final @MinLength(2) String search) {
 		return sectorRepositorio.autoComplete(search);
-
-	}
-
-	/**
-	 * Listar, método para lista a los usuarios
-	 * @return 
-	 */
-	@Bookmarkable
-	@ActionSemantics(Of.SAFE)
-	@MemberOrder(name = "Personal", sequence = "50")
-	@Named("--Listar Usuarios")
-	public List<Usuario> listAll() {
-		final List<Usuario> listaUsuarios;
-	//	if (this.container.getUser().getName().contentEquals("sven"))
-	//		listaUsuarios = this.container
-	//				.allMatches(new QueryDefault<Usuario>(Usuario.class,
-	//						"listar"));
-	//	else
-			listaUsuarios = this.container
-					.allMatches(new QueryDefault<Usuario>(Usuario.class,
-							"listarHabilitados"));
-		if (listaUsuarios.isEmpty()) {
-			this.container.warnUser("No hay Usuarios cargados en el sistema.");
-		}
-		return listaUsuarios;
-
 	}
 
 	/**
@@ -158,10 +155,10 @@ public class UsuarioRepositorio {
 	 */
 	@Bookmarkable
 	@ActionSemantics(Of.SAFE)
-	@MemberOrder(name = "Personal", sequence = "41")
-	@Named("--Buscar Usuarios")
+	@MemberOrder(sequence = "30")
+	@Named("Buscar Usuarios")
 	public List<Usuario> buscar(
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Apellido") @MinLength(2) String apellido) {
+			final @RegEx(validation = "[A-Za-z]+") @Named("Apellido") @MinLength(2) String apellido) {
 		final List<Usuario> listarUsuarios = this.container
 				.allMatches(new QueryDefault<Usuario>(Usuario.class,
 						"buscarPorApellido", "apellido", apellido.toUpperCase()
@@ -171,6 +168,44 @@ public class UsuarioRepositorio {
 					.warnUser("No se encontraron Usuarios cargados en el sistema.");
 		return listarUsuarios;
 	}
+	
+	/**
+	 * Eliminar Usuario: permite eliminar un Usuario.
+	 * @param delUsuario
+	 * @param seguro
+	 * @return
+	 */
+	@Hidden(where = Where.OBJECT_FORMS)    
+    @ActionSemantics(Of.NON_IDEMPOTENT)
+    @MemberOrder(sequence = "40")
+    @Named("Eliminar Usuario")    
+    public String removeUsuario(@Named("Eliminar: ") Usuario delUsuario, @Named("¿Está seguro?") Boolean seguro) {
+		delUsuario.setHabilitado(false);
+		String remUsuario = delUsuario.title();						
+		return  remUsuario + " fue eliminado.";
+	}
+	
+	/**
+	 * Lista que devuelve los Sectores ha eliminar.
+	 * @return
+	 */
+	public List<Usuario> choices0RemoveUsuario(){
+		return filtroUS(container.allMatches(new QueryDefault<Usuario>(Usuario.class,
+				"ListarUsuarios")),true);
+	}
+	
+	/**
+	 * Confirma la eliminación del Sector.
+	 * @param delSector
+	 * @param seguro
+	 * @return
+	 */
+	public String validateRemoveUsuario(Usuario delUsuario, Boolean seguro) {
+		if (!seguro) {
+			return "Marque en la opción si está seguro.";
+		}
+		return null;
+	} 
 
 	/**
 	 * AutoComplete

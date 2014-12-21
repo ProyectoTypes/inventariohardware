@@ -51,19 +51,15 @@ import dom.sector.Sector;
 import dom.sector.SectorRepositorio;
 
 /**
- * Contiene la funcionalidad para Cargar/Listar un nuevo Técnico.
+ * TecnicoRepositorio: permite crear, buscar, eliminar y listar los Técnicos que pertenecen al Ministerio de Gobierno, Educación y Justicia. 
  * @author ProyectoTypes
  * @since 17/05/2014
  * @version 1.0.0
  */
 
-@DomainService(menuOrder = "30")
+@DomainService(menuOrder = "10")
 @Named("TECNICO")
 public class TecnicoRepositorio {
-
-	public TecnicoRepositorio() {
-
-	}
 
 	/**
 	 * Retorna el nombre del icono para el Técnico.
