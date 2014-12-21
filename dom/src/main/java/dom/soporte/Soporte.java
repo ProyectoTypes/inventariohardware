@@ -56,6 +56,7 @@ import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.computadora.hardware.monitor.Monitor;
 import dom.computadora.hardware.monitor.MonitorRepositorio;
+import dom.computadora.software.Software;
 import dom.insumo.Insumo;
 import dom.soporte.estadosoporte.Cancelado;
 import dom.soporte.estadosoporte.Entregando;
@@ -601,10 +602,11 @@ public class Soporte implements Comparable<Soporte> {
 			final @Named("Modelo Motherboard") String modeloMotherboard,
 			final @Named("Fabricante") String fabricante,
 			final @Optional @Named("Monitor") Monitor monitor,
-			final @Optional @Named("Impresora") Impresora impresora) {
+			final @Optional @Named("Impresora") Impresora impresora,
+			final @Optional @Named("Software") Software sotfware) {
 		this.getEstado().asignarNuevoEquipo(rotulo,ip, mac, marcaDisco, tipoDisco,
 				tamanoDisco, modeloProcesador, modeloRam, tamanoRam, marcaRam,
-				modeloMotherboard, fabricante, monitor, impresora);
+				modeloMotherboard, fabricante, monitor, impresora, sotfware);
 		return this;
 	}
 
