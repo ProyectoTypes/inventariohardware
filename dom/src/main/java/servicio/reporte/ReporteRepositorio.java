@@ -38,7 +38,7 @@ import dom.tecnico.TecnicoRepositorio;
  * @version 1.0.0
  */
 
-@DomainService(menuOrder = "10", repositoryFor = Reporte.class)
+@DomainService(menuOrder = "60", repositoryFor = Reporte.class)
 @Named("Reporte")
 public class ReporteRepositorio {
 
@@ -65,8 +65,8 @@ public class ReporteRepositorio {
      * @param fechaReporte
      * @return obj
      */
-    @Named("Generar Reporte")
-    @MemberOrder(sequence = "1")
+    @Named("Generar")
+    @MemberOrder(sequence = "10")
     public Reporte create(
             final @Named("Número de Reporte") String numero,
             final @Named("Apellido del Técnico") Tecnico tecnico,
@@ -98,7 +98,7 @@ public class ReporteRepositorio {
     @Bookmarkable
     @ActionSemantics(Of.SAFE)
     @Named("Listar")
-    @MemberOrder(sequence = "2")
+    @MemberOrder(sequence = "20")
     public List<Reporte> listAll() {
         return container.allInstances(Reporte.class);
     }

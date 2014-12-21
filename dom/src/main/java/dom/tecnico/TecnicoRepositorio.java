@@ -111,7 +111,7 @@ public class TecnicoRepositorio {
 	 */
 	@NotContributed
 	@MemberOrder(name = "Personal", sequence = "10")
-	@Named("(+) Tecnico")
+	@Named("Agregar Técnico")
 	public Tecnico create(final @Named("Apellido") String apellido,
 			final @Named("Nombre") String nombre,
 			final @Named("email") String email, 
@@ -190,7 +190,7 @@ public class TecnicoRepositorio {
 	@ActionSemantics(Of.SAFE)
 	@Hidden
 	@MemberOrder(name = "Personal", sequence = "20")
-	@Named("Listar Tecnicos")
+	@Named("Listar Técnicos")
 	public List<Tecnico> listAll() {
 		final List<Tecnico> listaTecnicos;
 		if (this.container.getUser().getName().contentEquals("sven")) {
@@ -215,7 +215,7 @@ public class TecnicoRepositorio {
 	@Bookmarkable
 	@ActionSemantics(Of.SAFE)
 	@MemberOrder(name = "Personal", sequence = "10")
-	@Named("--Listar Técnico")
+	@Named("Listar Técnico")
 	public List<Tecnico> listarDisponibles() {
 		return this.container
 					.allMatches(new QueryDefault<Tecnico>(Tecnico.class,
@@ -230,7 +230,7 @@ public class TecnicoRepositorio {
 	@Bookmarkable
 	@ActionSemantics(Of.SAFE)
 	@MemberOrder(name = "Personal", sequence = "30")
-	@Named("--Buscar Técnico")
+	@Named("Buscar Técnico")
 	public List<Tecnico> buscar(
 			final @Named("Apellido") @MinLength(2) String apellidoUsuario) {
 		final List<Tecnico> listarTecnicos = this.container

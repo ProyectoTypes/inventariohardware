@@ -55,8 +55,8 @@ import dom.usuario.UsuarioRepositorio;
 /**
  * Clase ComputadoraRepositorio.
  */
-@DomainService(menuOrder = "10")
-@Named("COMPUTADORA")
+@DomainService(menuOrder = "40")
+@Named("Computadora")
 public class ComputadoraRepositorio {
 
 	public ComputadoraRepositorio() {
@@ -85,8 +85,8 @@ public class ComputadoraRepositorio {
 	 * @return
 	 */
     @ActionSemantics(Of.SAFE)
-    @MemberOrder(sequence = "5")
-	@Named("--Listar Computadoras")
+    @MemberOrder(sequence = "10")
+	@Named("Listar Computadoras")
 	public List<Computadora> listAll() {
 		final List<Computadora> listaComputadoras;
 
@@ -121,8 +121,8 @@ public class ComputadoraRepositorio {
 	 * @param rotulo
 	 * @return computadora
 	 */
-	@MemberOrder(name = "Hardware", sequence = "10")
-	@Named("(+) Computadora")
+	@MemberOrder(name = "Hardware", sequence = "20")
+	@Named("Agregar Computadora")
 	@DescribedAs("Agregar Computadora.")
 	public Computadora create(
 			final @Named("Nombre de Equipo") String nombreEquipo,
@@ -260,8 +260,8 @@ public class ComputadoraRepositorio {
 	 * @param ip         
 	 * @return
 	 */
-	@MemberOrder(sequence = "17")
-	@Named("--Buscar Computadora")
+	@MemberOrder(sequence = "20")
+	@Named("Buscar Computadora")
 	public List<Computadora> buscar(
 			final @RegEx(validation = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
 					+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."

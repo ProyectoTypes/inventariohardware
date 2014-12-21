@@ -64,7 +64,7 @@ public class PermisoRepositorio {
 	 * @param escritura
 	 * @return permiso
 	 */
-	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
+	@MemberOrder(name = "Seguridad", sequence = "10")
 	@Named("Nuevo Permiso")
 	public Permiso create(
 			final @Named("Nombre") String nombre,
@@ -111,7 +111,7 @@ public class PermisoRepositorio {
 	 * @return the list
 	 */
 	@ActionSemantics(Of.SAFE)
-	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
+	@MemberOrder(name = "Seguridad", sequence = "20")
 	@Named("Todos los Permisos")
 	public List<Permiso> listAll() {
 		return container.allInstances(Permiso.class);
@@ -123,8 +123,8 @@ public class PermisoRepositorio {
 	 * @return string
 	 */
 	@ActionSemantics(Of.NON_IDEMPOTENT)
-	@MemberOrder(name = "Configurar Seguridad", sequence = "20")
-	@Named("--Eliminar Permiso")
+	@MemberOrder(name = "Seguridad", sequence = "30")
+	@Named("Eliminar Permiso")
 	public String eliminar(@Named("Permiso") Permiso permiso) {
 		String permissionDescription = permiso.getNombre();
 		container.remove(permiso);

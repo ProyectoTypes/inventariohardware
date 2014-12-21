@@ -75,7 +75,7 @@ public class UsuarioRepositorio {
 	 */
 	@Bookmarkable
 	@ActionSemantics(Of.SAFE)
-	@MemberOrder(sequence = "10")
+	@MemberOrder(name = "Personal", sequence = "10")
 	@Named("Listar Usuario")
 	public List<Usuario> listAll() {
 		return filtroUS(container.allMatches(new QueryDefault<Usuario>(
@@ -100,7 +100,7 @@ public class UsuarioRepositorio {
 	 * @param email
 	 * @return 
 	 */
-	@MemberOrder(sequence = "20")
+	@MemberOrder(name = "Personal", sequence = "20")
 	@Named("Crear Usuario")
 	public Usuario create(
 			final Sector sector,
@@ -155,7 +155,7 @@ public class UsuarioRepositorio {
 	 */
 	@Bookmarkable
 	@ActionSemantics(Of.SAFE)
-	@MemberOrder(sequence = "30")
+	@MemberOrder(name = "Personal", sequence = "30")
 	@Named("Buscar Usuarios")
 	public List<Usuario> buscar(
 			final @RegEx(validation = "[A-Za-z]+") @Named("Apellido") @MinLength(2) String apellido) {
@@ -177,7 +177,7 @@ public class UsuarioRepositorio {
 	 */
 	@Hidden(where = Where.OBJECT_FORMS)    
     @ActionSemantics(Of.NON_IDEMPOTENT)
-    @MemberOrder(sequence = "40")
+	@MemberOrder(name = "Personal", sequence = "40")
     @Named("Eliminar Usuario")    
     public String removeUsuario(@Named("Eliminar: ") Usuario delUsuario, @Named("¿Está seguro?") Boolean seguro) {
 		delUsuario.setHabilitado(false);

@@ -40,7 +40,7 @@ import dom.computadora.hardware.impresora.Impresora.TipoImpresora;
 /**
  * Clase ImpresoraRepositorio.
  */
-@DomainService(menuOrder = "11")
+@DomainService(menuOrder = "70")
 @Named("IMPRESORA")
 public class ImpresoraRepositorio {
 
@@ -66,8 +66,8 @@ public class ImpresoraRepositorio {
 	 * @return the list
 	 */
     @ActionSemantics(Of.SAFE)
-    @MemberOrder(sequence = "5")
-	@Named("--Listar Impresoras")
+    @MemberOrder(name = "Hardware", sequence = "10")
+	@Named("Listar Impresoras")
 	public List<Impresora> listAll() {
 		final List<Impresora> listaImpresora = this.container
 				.allMatches(new QueryDefault<Impresora>(Impresora.class,
@@ -83,8 +83,8 @@ public class ImpresoraRepositorio {
 	 * @param tipoImpresora
 	 * @return 
 	 */
-	@MemberOrder(name = "Hardware", sequence = "50")
-	@Named("(+) Impresora")
+	@MemberOrder(name = "Hardware", sequence = "10")
+	@Named("Agregar Impresora")
 	public Impresora create(
 			final @Named("Modelo") String modeloImpresora,
 			final @Named("Fabricante") String fabricanteImpresora,
@@ -136,7 +136,7 @@ public class ImpresoraRepositorio {
 	 * @return
 	 */
 	@Hidden
-	@MemberOrder(name = "Computadoras", sequence = "70")
+	@MemberOrder(name = "Hardware", sequence = "20")
 	@Named("Buscar Impresora")
 	public List<Impresora> buscar(
 			final @Named("Modelo") @MinLength(2) String modeloImpresora) {

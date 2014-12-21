@@ -48,7 +48,7 @@ import dom.tecnico.TecnicoRepositorio;
  * @since 17/05/2014
  * @version 1.0.0
  */
-@DomainService(menuOrder = "20")
+@DomainService(menuOrder = "50")
 @Named("Soporte")
 public class SoporteRepositorio {
 
