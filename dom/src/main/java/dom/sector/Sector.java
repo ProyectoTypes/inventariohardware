@@ -34,7 +34,7 @@ import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.util.ObjectContracts;
 
 /**
- * Sector: representa a  las Sectores que pertenecen al Ministerio de Gobierno, Educación y Justicia. 
+ * Sector: clase que representa los Sectores que pertenecen al Ministerio de Gobierno, Educación y Justicia. 
  * @author ProyectoTypes
  * @since 25/05/2014
  * @version 1.0.0

@@ -39,13 +39,13 @@ import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.query.QueryDefault;
 
 /**
- * SectorRepositorio: permite crear, persistir y listar los Sectores que pertenecen al Ministerio de Gobierno, Educación y Justicia. 
+ * SectorRepositorio: permite crear, buscar, eliminar y listar los Sectores que pertenecen al Ministerio de Gobierno, Educación y Justicia. 
  * @author ProyectoTypes
  * @since 25/05/2014
  * @version 1.0.0
  */
 
-@DomainService(menuOrder = "2")
+@DomainService(menuOrder = "30")
 @Named("Sector")
 public class SectorRepositorio {
 	
@@ -66,7 +66,7 @@ public class SectorRepositorio {
 	}
 	
 	/**
-	 * Buscar Sector: permite realizar la búsqueda de todos los Sectores.
+	 * Listar Sector: permite listar todos los Sectores ingresados al sistema.
 	 * @param nombreSector
 	 * @return 
 	 */
@@ -126,7 +126,7 @@ public class SectorRepositorio {
 	@Named("Buscar Sector")
 	@MemberOrder(sequence = "30")
 	public List<Sector> buscar(
-			final @RegEx(validation = "[a-zA-Záéíóú]{2,15}(\\s[a-zA-Záéíóú]{2,15})*") @Named("Nombre") @MinLength(2) String nombreSector) {
+			final @RegEx(validation = "[A-Za-z]+") @Named("Nombre") @MinLength(2) String nombreSector) {
 		final List<Sector> listarSectores = this.container
 				.allMatches(new QueryDefault<Sector>(Sector.class,
 						"buscarPorNombre", "nombreSector", nombreSector
