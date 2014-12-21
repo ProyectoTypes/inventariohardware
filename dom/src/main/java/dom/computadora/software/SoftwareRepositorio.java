@@ -54,22 +54,19 @@ public class SoftwareRepositorio {
 	@MemberOrder(sequence = "10")
 	@Named("Agregar")
 	public Software create(final @Named("Codigo") String codigo,
-			final @Named("Tipo") int tipo,
 			final @Named("Nombre") String nombre,
 			final @Named("Marca") String marca,
 			final @Optional @Named("Observaciones") String observaciones) {
-		return nuevosSoftware(codigo, tipo, nombre, marca, observaciones,
+		return nuevosSoftware(codigo, nombre, marca, observaciones,
 				this.currentUserName());
 	}
 	
 	@Programmatic
-	public Software nuevosSoftware(final String codigo, final int cantidad,
-			final String producto, final String marca,
-			final String observaciones, final String creadoPor) {
+	public Software nuevosSoftware(final String codigo,	final String nombre, 
+			final String marca,	final String observaciones, final String creadoPor) {
 		final Software unSoftware = container.newTransientInstance(Software.class);
 		unSoftware.setCodigo(codigo.toUpperCase().trim());
-		unSoftware.setTipo(codigo.toUpperCase().trim());
-		unSoftware.setNombre(codigo.toUpperCase().trim());
+		unSoftware.setNombre(nombre.toUpperCase().trim());
 		unSoftware.setMarca(marca.toUpperCase().trim());
 		unSoftware.setObservaciones(observaciones.toUpperCase().trim());
 		unSoftware.setHabilitado(true);
@@ -94,6 +91,20 @@ public class SoftwareRepositorio {
 		return listaSoftware;
 	}
 
+	
+	/**
+	 * AutoComplete
+	 * @param nombre
+	 * @return
+	 */
+	@Programmatic
+	public List<Software> autoComplete(final String nombre) {
+		return container.allMatches(new QueryDefault<Software>(Software.class,
+				"autoCompletePorSoftware", "nombre", nombre.toUpperCase()
+						.trim()));
+	}
+	
+	
 	// //////////////////////////////////////
 	// CurrentUserName
 	// //////////////////////////////////////

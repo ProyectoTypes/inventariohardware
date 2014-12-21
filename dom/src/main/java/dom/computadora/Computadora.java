@@ -51,6 +51,7 @@ import dom.computadora.hardware.gabinete.procesador.Procesador;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.Impresora.TipoImpresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
+import dom.computadora.software.Software;
 import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
 import dom.usuario.Usuario;
@@ -195,6 +196,23 @@ public class Computadora implements Comparable<Computadora> {
 		this.memoria = memoria;
 	}
 
+	// //////////////////////////////////////
+	// Memoria (propiedad)
+	// //////////////////////////////////////
+
+	private Software software;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@DescribedAs("Memoria de la Computadora:")
+	@MemberOrder(sequence = "50")
+	public Software getSoftware() {
+		return software;
+	}
+
+	public void setSoftware(final Software software) {
+		this.software = software;
+	}
+	
 	// //////////////////////////////////////
 	// Habilitado (propiedad)
 	// //////////////////////////////////////
