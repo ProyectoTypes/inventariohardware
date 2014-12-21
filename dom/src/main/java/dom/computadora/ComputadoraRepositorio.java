@@ -24,6 +24,8 @@ package dom.computadora;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.ActionSemantics;
+import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
@@ -76,6 +78,29 @@ public class ComputadoraRepositorio {
 		return "Computadora";
 	}
 
+	
+	/**
+	 * Método que permite listar las Computadoras.
+	 * @return
+	 */
+    @ActionSemantics(Of.SAFE)
+    @MemberOrder(sequence = "5")
+	@Named("--Listar Computadoras")
+	public List<Computadora> listAll() {
+		final List<Computadora> listaComputadoras;
+
+		listaComputadoras = this.container
+				.allMatches(new QueryDefault<Computadora>(Computadora.class,
+						"listarHabilitados"));
+
+		if (listaComputadoras.isEmpty()) {
+			this.container
+					.warnUser("No hay Computadoras cargadas en el sistema.");
+		}
+		return listaComputadoras;
+	}
+	
+	
 	/**
 	 * Agregar computadora.
 	 * @param usuario
@@ -225,26 +250,6 @@ public class ComputadoraRepositorio {
 			final @MinLength(2) String search) {
 		return usuarioRepositorio.autoComplete(search);
 
-	}
-
-	/**
-	 * Método que permite listar las Computadoras.
-	 * @return
-	 */
-	@MemberOrder(name = "Hardware", sequence = "30")
-	@Named("--Listar Computadoras")
-	public List<Computadora> listAll() {
-		final List<Computadora> listaComputadoras;
-
-		listaComputadoras = this.container
-				.allMatches(new QueryDefault<Computadora>(Computadora.class,
-						"listarHabilitados"));
-
-		if (listaComputadoras.isEmpty()) {
-			this.container
-					.warnUser("No hay Computadoras cargadas en el sistema.");
-		}
-		return listaComputadoras;
 	}
 
 	/**
