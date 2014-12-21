@@ -26,6 +26,7 @@ import java.util.List;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
+import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
@@ -244,6 +245,8 @@ public class ComputadoraRepositorio {
 	 * @param search       
 	 * @return
 	 */
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
 	@Named("Usuario")
 	@DescribedAs("Buscar el Usuario en mayuscula")
 	public List<Usuario> autoComplete1Create(
