@@ -62,15 +62,13 @@ public class ConfirmarReporte {
         pdfAsBytes = Resources.toByteArray(Resources.getResource(this.getClass(), "Reporte.pdf"));
     }
     
-
     /**
-     * Descargar el pdf del reporte.
-     * 
+     * Descargar el Reporte en formato PDF.
      * @param reporte
-     * @return Las variables del pdf a crear.
-     * @throws Excepción si la carga del documento falla
+     * @return
+     * @throws Exception
      */
-    @NotContributed(NotContributed.As.ASSOCIATION) // ie contributed as action
+    @NotContributed(NotContributed.As.ASSOCIATION)
     @NotInServiceMenu
 	@Bookmarkable
 	@ActionSemantics(Of.SAFE)
@@ -93,11 +91,10 @@ public class ConfirmarReporte {
     }
 
     /**
-     * Carga el archivo de plantilla pdf y lo llena con los detalles de la orden
-     *
-     * @param order The order with the details for the pdf document
-     * @return El documento PDF
-     * @throws Excepción si la carga del documento falla.
+     * Carga el archivo de plantilla pdf y lo llena con los detalles de la orden.
+     * @param reporte
+     * @return
+     * @throws Exception
      */
 	private PDDocument loadAndPopulateTemplate(Reporte reporte) throws Exception {
         PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(pdfAsBytes));
@@ -109,14 +106,14 @@ public class ConfirmarReporte {
         for (PDField field : fields) {
 
             String fullyQualifiedName = field.getFullyQualifiedName();
-            if ("orderDate".equals(fullyQualifiedName)) {
+            if ("Fecha del Reporte".equals(fullyQualifiedName)) {
                 field.setValue(reporte.getFechaReporte().toString());
-            } else if ("orderNumber".equals(fullyQualifiedName)) {
+            } else if ("Código del Reporte".equals(fullyQualifiedName)) {
                 field.setValue(reporte.getNumero());
-            } else if ("customerName".equals(fullyQualifiedName)) {
+            } else if ("Nombre del Técnico".equals(fullyQualifiedName)) {
                 field.setValue(reporte.getTecnico().getApellido());
-            } else if ("message".equals(fullyQualifiedName)) {
-                String message = "You have ordered '" + orderLines.size() +"' products";
+            } else if ("Mensaje".equals(fullyQualifiedName)) {
+                String message = "Usted ha solicitado los siguientes Insumos '" + orderLines.size() +"' products";
                 field.setValue(message);
             }
         }
