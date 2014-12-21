@@ -59,14 +59,14 @@ public class FixturesService extends FixtureScripts {
 
 	@Prototype
     @Programmatic
-    @MemberOrder(sequence="20")
+    @MemberOrder(sequence="10")
     public Object instalarFixturesSectores() {
         final List<FixtureResult> run = findFixtureScriptFor(SectorFixture.class).run(null);
         return run.get(0).getObject();
     }
     
     @Prototype
-    @MemberOrder(sequence="30")
+    @MemberOrder(sequence="20")
     public Object instalarFixturesUsuariosConSector() {
         findFixtureScriptFor(SectorFixture.class).run(null);
     	this.instalarFixturesSectores();

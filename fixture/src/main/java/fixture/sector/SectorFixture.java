@@ -44,12 +44,13 @@ public class SectorFixture extends FixtureScript {
 		execute(new SectorFixtureBaja(), executionContext);
 
 		// create
-		create("Administracion", executionContext);
-		create("Informatica", executionContext);
+		create("Administración", executionContext);
+		create("Recursos Humanos", executionContext);
+		create("Sistemas", executionContext);
 		create("Ventas", executionContext);
-		create("Contaduria", executionContext);
+		create("Compras", executionContext);
 		create("Mesa de Entrada", executionContext);
-		create("Deposito", executionContext);
+		create("Depósito", executionContext);
 	}
 
 	@javax.inject.Inject
