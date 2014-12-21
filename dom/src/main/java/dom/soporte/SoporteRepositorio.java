@@ -24,6 +24,9 @@ package dom.soporte;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.ActionSemantics;
+import org.apache.isis.applib.annotation.ActionSemantics.Of;
+import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
@@ -69,6 +72,8 @@ public class SoporteRepositorio {
 	// Listar Computadora
 	// //////////////////////////////////////
 
+    @Bookmarkable
+    @ActionSemantics(Of.SAFE)
 	@MemberOrder(sequence = "20")
 	public List<Soporte> listAll() {
 		final List<Soporte> lista = container.allMatches(new QueryDefault<Soporte>(Soporte.class, "listar"));
