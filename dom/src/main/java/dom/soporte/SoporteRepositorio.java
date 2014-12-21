@@ -115,8 +115,7 @@ public class SoporteRepositorio {
 			final String observaciones) {
 
 		List<Soporte> soporte = container.allMatches(new QueryDefault<Soporte>(
-				Soporte.class, "seEncuentraEnReparacion", "ip", computadora.getPlacaDeRed()
-						.getIp()));
+				Soporte.class, "seEncuentraEnReparacion", "ip", computadora.getHardware().getGabinete().getPlacaDeRed().getIp()));
 		if (soporte.isEmpty())
 			return null;
 		return "La computadora se encuentra en reparacion.";
@@ -180,7 +179,7 @@ public class SoporteRepositorio {
 	public List<Soporte> buscarPorIp(
 			@Named("Computadora") Computadora computadora) {
 		return container.allMatches(new QueryDefault<Soporte>(Soporte.class,
-				"buscarPorIp", "ip", computadora.getPlacaDeRed().getIp()));
+				"buscarPorIp", "ip", computadora.getHardware().getGabinete().getPlacaDeRed().getIp()));
 	}
 
 	public List<Computadora> choices0BuscarPorIp() {
