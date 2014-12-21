@@ -35,6 +35,7 @@ import org.apache.isis.applib.annotation.Optional;
 import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.monitor.Monitor;
+import dom.computadora.software.Software;
 import dom.insumo.Insumo;
 import dom.insumo.InsumoRepositorio;
 import dom.soporte.Soporte;
@@ -139,7 +140,8 @@ public class Esperando implements IEstado {
 			final @Named("Modelo Motherboard") String modeloMotherboard,
 			final @Named("Fabricante") String fabricante,
 			final @Optional @Named("Monitor") Monitor monitor,
-			final @Optional @Named("Impresora") Impresora impresora) {
+			final @Optional @Named("Impresora") Impresora impresora,
+			final @Optional @Named("Software") Software sotfware) {
 
 	}
 
