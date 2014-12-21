@@ -43,7 +43,6 @@ import org.joda.time.LocalDate;
 
 import dom.soporte.Soporte;
 
-// TODO: Auto-generated Javadoc
 /**
  * Clase Insumo.
  */
@@ -71,33 +70,22 @@ import dom.soporte.Soporte;
 @AutoComplete(repository = InsumoRepositorio.class, action = "autoComplete")
 public class Insumo implements Comparable<Insumo> {
 
-	// //////////////////////////////////////
-	// Identificacion
-	// //////////////////////////////////////
-
 	/**
 	 * Titulo de la clase
-	 *
-	 * @return the string
+	 * @return 
 	 */
 	public String title() {
-
 		return this.getMarca() + " - " + this.getProducto();
 
 	}
 
 	/**
 	 * Nombre del icono
-	 *
-	 * @return the string
+	 * @return string
 	 */
 	public String iconName() {
 		return "Insumos";
 	}
-
-	// //////////////////////////////////////
-	// Cantidad (Atributo)
-	// //////////////////////////////////////
 
 	/** Cantidad. */
 	private int cantidad;
@@ -113,10 +101,6 @@ public class Insumo implements Comparable<Insumo> {
 		this.cantidad = cantidad;
 	}
 
-	// //////////////////////////////////////
-	// Producto (Atributo)
-	// //////////////////////////////////////
-
 	/** Producto. */
 	private String producto;
 
@@ -130,10 +114,6 @@ public class Insumo implements Comparable<Insumo> {
 	public void setProducto(final String producto) {
 		this.producto = producto;
 	}
-
-	// //////////////////////////////////////
-	// Marca (Atributo)
-	// //////////////////////////////////////
 
 	/** Marca. */
 	private String marca;
@@ -149,10 +129,6 @@ public class Insumo implements Comparable<Insumo> {
 		this.marca = marca;
 	}
 
-	// //////////////////////////////////////
-	// Modelo (Atributo)
-	// //////////////////////////////////////
-
 	/** Modelo. */
 	private String modelo;
 
@@ -167,10 +143,6 @@ public class Insumo implements Comparable<Insumo> {
 		this.modelo = modelo;
 	}
 
-	// //////////////////////////////////////
-	// Habilitado (propiedad)
-	// //////////////////////////////////////
-
 	/** Habilitado. */
 	public boolean habilitado;
 
@@ -184,10 +156,6 @@ public class Insumo implements Comparable<Insumo> {
 		this.habilitado = habilitado;
 	}
 
-	// //////////////////////////////////////
-	// creadoPor
-	// //////////////////////////////////////
-
 	/** Creado por. */
 	private String creadoPor;
 
@@ -200,10 +168,6 @@ public class Insumo implements Comparable<Insumo> {
 	public void setCreadoPor(final String creadoPor) {
 		this.creadoPor = creadoPor;
 	}
-
-	// //////////////////////////////////////
-	// Fecha (propiedad)
-	// //////////////////////////////////////
 
 	/** Fecha. */
 	private LocalDate fecha;
