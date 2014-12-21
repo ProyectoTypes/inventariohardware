@@ -124,6 +124,7 @@ public class ComputadoraRepositorio {
 	 * @param rotulo
 	 * @return computadora
 	 */
+    @ActionSemantics(Of.SAFE)
 	@MemberOrder(name = "Hardware", sequence = "20")
 	@Named("Agregar Computadora")
 	@DescribedAs("Agregar Computadora.")
@@ -194,11 +195,14 @@ public class ComputadoraRepositorio {
 		unaComputadora.modifyUsuario(usuario);	
 		unaComputadora.setImpresora(impresora);
 		unaComputadora.setSoftware(software);
+		unaComputadora.setTecnico(null);
 		
 		if (impresora != null) {
 			impresora.agregarComputadora(unaComputadora);
 		}
 		container.persistIfNotAlready(unaComputadora);
+		container.persistIfNotAlready(hardware);
+		container.persistIfNotAlready(gabinete);
 		container.flush();
 		return unaComputadora;
 	}
