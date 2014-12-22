@@ -50,7 +50,7 @@ public class Correo implements Comparable<Correo> {
 	// //////////////////////////////////////
 
 	public String iconName() {
-		return (isRespondido() == false) ? "mail" : "respondido";
+		return "Correo";
 	}
 
 	public String title() {

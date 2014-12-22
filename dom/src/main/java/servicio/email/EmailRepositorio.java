@@ -87,6 +87,9 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	private static final String PROPERTY_ROOT = "mail.smtp.";
 	private static String contenidoMail;
 
+	public String iconName() {
+		return "Correo";
+	}
 	/**
 	 * Obtener el Store y el Folder de Inbox
 	 */
