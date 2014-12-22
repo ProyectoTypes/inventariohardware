@@ -206,7 +206,7 @@ public class Reparando implements IEstado {
 		this.getSoporte().getTecnico()
 				.removeFromComputadora(this.getSoporte().getComputadora());
 
-		this.getSoporte().getComputadora().limpiarImpresora();
+		this.getSoporte().getComputadora().getHardware().limpiarImpresora();
 		this.getSoporte().getComputadora().setHabilitado(false);
 		this.getSoporte().setEstado(this.getSoporte().getCancelado());
 		this.container

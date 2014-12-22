@@ -38,7 +38,9 @@ import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
 import dom.computadora.hardware.Hardware;
+import dom.computadora.hardware.HardwareRepositorio;
 import dom.computadora.hardware.gabinete.Gabinete;
+import dom.computadora.hardware.gabinete.GabineteRepositorio;
 import dom.computadora.hardware.gabinete.disco.Disco;
 import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
@@ -177,32 +179,17 @@ public class ComputadoraRepositorio {
 			final Monitor monitor,final String creadoPor) {
 		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);
 		
-		final Gabinete gabinete = new Gabinete();
-		gabinete.agregarHdd(disco);
-		gabinete.agregarMemoriaRam(memoria);
-		gabinete.setPlacaDeRed(placaDeRed);
-		gabinete.setMotherboard(motherboard);
-		gabinete.setProcesador(procesador);
-		
-		final Hardware hardware = new Hardware();
+		final Gabinete gabinete = this.gabineteRepositorio.addGabinete(placaDeRed, disco, procesador, memoria, motherboard);
+		final Hardware hardware = this.hardwareRepositorio.create(monitor, gabinete, impresora);		
 		hardware.setGabinete(gabinete);
-		hardware.setImpresora(impresora);
-		hardware.setMonitor(monitor);
-		
+		unaComputadora.setHardware(hardware);
 		unaComputadora.setCreadoPor(creadoPor);
 		unaComputadora.setHabilitado(true);
 		unaComputadora.setNombreEquipo(nombreEquipo);
-		unaComputadora.modifyUsuario(usuario);	
-		unaComputadora.setImpresora(impresora);
+		unaComputadora.modifyUsuario(usuario);
 		unaComputadora.setSoftware(software);
 		unaComputadora.setTecnico(null);
-		
-		if (impresora != null) {
-			impresora.agregarComputadora(unaComputadora);
-		}
 		container.persistIfNotAlready(unaComputadora);
-		container.persistIfNotAlready(hardware);
-		container.persistIfNotAlready(gabinete);
 		container.flush();
 		return unaComputadora;
 	}
@@ -321,4 +308,9 @@ public class ComputadoraRepositorio {
 	 */
 	@javax.inject.Inject
 	private SoftwareRepositorio softwareRepositorio;
+	
+	@javax.inject.Inject
+	private GabineteRepositorio gabineteRepositorio;
+	@javax.inject.Inject
+	private HardwareRepositorio hardwareRepositorio;
 }
