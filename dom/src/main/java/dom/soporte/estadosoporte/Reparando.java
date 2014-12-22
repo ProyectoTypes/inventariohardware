@@ -33,6 +33,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Optional;
 
 import servicio.email.EmailRepositorio;
+import servicio.encriptar.EncriptaException;
 import dom.computadora.ComputadoraRepositorio;
 import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 import dom.computadora.hardware.impresora.Impresora;
@@ -144,10 +145,11 @@ public class Reparando implements IEstado {
 	 * <p>
 	 * Reparando -> Entregado
 	 * </p>
+	 * @throws EncriptaException 
 	 */
 	@Override
 	@Hidden
-	public void finalizarSoporte() {
+	public void finalizarSoporte() throws EncriptaException {
 		// Enviando email.
 		emailService.send(this.getSoporte().getComputadora());
 		// Desvinculando tecnico/computadora.

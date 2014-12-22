@@ -139,12 +139,13 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	 * 
 	 * @param unaComputadora
 	 * @return
+	 * @throws EncriptaException 
 	 */
 	@NotContributed(As.ASSOCIATION)
 	@NotInServiceMenu
 	@Named("Enviar Correo")
 	@DescribedAs("Finalizado la reparacion del equipo se envia un correo al usuario.")
-	public String send(final Computadora unaComputadora) {
+	public String send(final Computadora unaComputadora) throws EncriptaException {
 		String asunto = "Servicio Tecnico Finalizado.";
 		String destino = unaComputadora.getUsuario().getEmail();
 		String mensaje = "La Computadora (IP: "
@@ -172,7 +173,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	public String send(final @Named("De: ") CorreoEmpresa correo,
 			final @Named("Para:") String destino,
 			final @Named("Asunto") String asunto,
-			final @MultiLine(numberOfLines = 4) @Named("Mensaje") String mensaje) {
+			final @MultiLine(numberOfLines = 4) @Named("Mensaje") String mensaje) throws EncriptaException {
 
 		return this.configurarEnvio(correo, destino, asunto, mensaje);
 
@@ -183,7 +184,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	}
 
 	private String configurarEnvio(final CorreoEmpresa correo,
-			final String destino, final String asunto, final String mensaje) {
+			final String destino, final String asunto, final String mensaje) throws EncriptaException {
 
 		String host = "smtp.gmail.com";
 		String puerto = "587";
@@ -194,7 +195,11 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 			puerto = correo.getPort();
 			email = correo.getCorreo();
 			pass = correo.getPass();
+			String clave = "TODOS LOS SABADOS EN CASA DE EXE";
+			Encripta encripta = new Encripta(clave);
+			pass = encripta.desencripta(correo.getPass());
 		}
+		System.out.println(host+" - "+puerto +" - "+ email +" - "+pass);
 		/*
 		 * Configuracion para enviar email.
 		 */
@@ -309,8 +314,8 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 			String clave = "TODOS LOS SABADOS EN CASA DE EXE";
 			Encripta encripta = new Encripta(clave);
 			String pass = encripta.desencripta(correoEmpresa.getPass());
-
-			store.connect("pop.gmail.com", correoEmpresa.getCorreo(), pass);
+			
+			store.connect(correoEmpresa.getHost(),Integer.parseInt(correoEmpresa.getPort()), correoEmpresa.getCorreo(), pass);
 
 			Folder folder = store.getFolder("INBOX");
 			folder.open(Folder.READ_ONLY);

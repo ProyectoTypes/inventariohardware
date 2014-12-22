@@ -49,6 +49,7 @@ import org.apache.isis.applib.util.ObjectContracts;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
+import servicio.encriptar.EncriptaException;
 import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
@@ -548,10 +549,11 @@ public class Soporte implements Comparable<Soporte> {
 	 * A partir de aca no puede realizar ninguna accion de soporte sobre la
 	 * computadora.
 	 * @return 
+	 * @throws EncriptaException 
 	 */
 	@Named("Finalizar Soporte")
 	@DescribedAs("Soporte finalizado con exito. Enviar email.")
-	public Soporte finalizarSoporte() {
+	public Soporte finalizarSoporte() throws EncriptaException {
 		this.getEstado().finalizarSoporte();
 		return this;
 	}

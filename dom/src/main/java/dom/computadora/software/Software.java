@@ -70,7 +70,7 @@ public class Software implements Comparable<Software> {
 	// //////////////////////////////////////
 
 	public String title() {
-		return this.getCodigo();
+		return this.getNombre();
 	}
 
 	public String iconName() {

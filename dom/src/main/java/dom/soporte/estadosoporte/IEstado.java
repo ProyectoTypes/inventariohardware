@@ -24,6 +24,7 @@ package dom.soporte.estadosoporte;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Optional;
 
+import servicio.encriptar.EncriptaException;
 import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.monitor.Monitor;
@@ -43,7 +44,7 @@ public interface IEstado {
 	void solicitarInsumos(final int cantidad, final String producto,
 			final String marca, final String modelo);
 
-	void finalizarSoporte();
+	void finalizarSoporte() throws EncriptaException;
 
 	void asignarNuevoEquipo(
 			final @Named("Nombre de Equipo") String rotulo,

@@ -94,6 +94,8 @@ public class SectorRepositorio {
 	 * @param nombreSector
 	 * @return 
 	 */
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
     @MemberOrder(sequence = "20")
     @Named ("Crear Sector")
     public Sector create(
