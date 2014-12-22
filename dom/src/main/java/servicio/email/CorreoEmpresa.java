@@ -79,30 +79,41 @@ public class CorreoEmpresa {
 		this.pass = pass;
 	}
 
-	/**
-	 * Configuracion Avanzada.
-	 */
-	private String host;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "30")
-	public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
-		this.host = host;
-	}
-
-	private String port;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@MemberOrder(sequence = "40")
-	public String getPort() {
-		return port;
-	}
-
-	public void setPort(String port) {
-		this.port = port;
-	}
+//	/**
+//	 * Configuracion Avanzada.
+//	 */
+//	private String host;
+//
+//	@javax.jdo.annotations.Column(allowsNull = "false")
+//	@MemberOrder(sequence = "30")
+//	public String getHost() {
+//		return host;
+//	}
+//
+//	public void setHost(String host) {
+//		this.host = host;
+//	}
+//
+//	private String portEntrante;
+//
+//	@javax.jdo.annotations.Column(allowsNull = "false")
+//	@MemberOrder(sequence = "40")
+//	public String getPortEntrante() {
+//		return portEntrante;
+//	}
+//
+//	public void setPortEntrante(String port) {
+//		this.portEntrante = port;
+//	}
+//	private String portSaliente;
+//
+//	@javax.jdo.annotations.Column(allowsNull = "false")
+//	@MemberOrder(sequence = "40")
+//	public String getPortSaliente() {
+//		return portSaliente;
+//	}
+//
+//	public void setPortSaliente(String port) {
+//		this.portSaliente = port;
+//	}
 }

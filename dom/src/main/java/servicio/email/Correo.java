@@ -133,6 +133,8 @@ public class Correo implements Comparable<Correo> {
 	@javax.jdo.annotations.Column(allowsNull = "true")
 //	@Hidden(where = Where.ALL_TABLES)
 	@MultiLine(numberOfLines = 6)
+	@MemberOrder(sequence = "2")
+
 	public String getMensaje() {
 		return mensaje;
 	}
