@@ -51,7 +51,7 @@ import dom.persona.Persona;
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorApellido", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario "
-				+ "WHERE apellido.indexOf(:apellido) >= 0 && habilitado == true"),
+				+ "WHERE (apellido.indexOf(:apellido) >= 0 || (nombre.indexOf(:apellido) >= 0))&& habilitado == true"),
 		@javax.jdo.annotations.Query(name = "ListarUsuarios", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.usuario.Usuario "),
 		@javax.jdo.annotations.Query(name = "listarHabilitados", language = "JDOQL", value = "SELECT "
