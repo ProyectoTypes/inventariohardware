@@ -39,7 +39,7 @@ import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.Where;
 
-import dom.computadora.Computadora;
+import dom.computadora.hardware.Hardware;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -184,51 +184,53 @@ public class Impresora {
 	// //////////////////////////////////////
 
 	/**
-	 * Relacion entre impreso y computadora.
-	 * Una impresora puede ser usada por varias computadoras.
+	 * Relacion entre impreso y computadora. Una impresora puede ser usada por
+	 * varias computadoras.
 	 */
 	@Persistent(mappedBy = "impresora", dependentElement = "False")
 	@Join
-	private SortedSet<Computadora> computadora = new TreeSet<Computadora>();
+	private SortedSet<Hardware> hardware = new TreeSet<Hardware>();
 
-	public SortedSet<Computadora> getComputadora() {
-		return computadora;
+	public SortedSet<Hardware> getHardware() {
+		return hardware;
 	}
 
-	public void setComputadora(final SortedSet<Computadora> computadora) {
-		this.computadora = computadora;
+	public void setHardware(final SortedSet<Hardware> hardware) {
+		this.hardware = hardware;
 	}
 
-	/**
-	 * Agregar computadora.
-	 *
-	 * @param unaComputadora the una computadora
-	 */
-	@Named("Agregar Impresora")
-	public void agregarComputadora(final Computadora unaComputadora) {
-		if (unaComputadora == null || getComputadora().contains(unaComputadora)) {
-			return;
-		}
-		unaComputadora.limpiarImpresora();
-		unaComputadora.setImpresora(this);
-		getComputadora().add(unaComputadora);
-	}
-
-	/**
+	// /**
+	// * Agregar computadora.
+	// *
+	// * @param unaComputadora the una computadora
+	// */
+	// @Named("Agregar Impresora")
+	// public void agregarComputadora(final Computadora unaComputadora) {
+	// if (unaComputadora == null || getComputadora().contains(unaComputadora))
+	// {
+	// return;
+	// }
+	// unaComputadora.limpiarImpresora();
+	// unaComputadora.setImpresora(this);
+	// getComputadora().add(unaComputadora);
+	// }
+	//
+	 /**
 	 * Limpiar computadora.
-	 * 	Metodo que elimina la computadora que tiene asociada la impresora.
+	 * Metodo que elimina la computadora que tiene asociada la impresora.
 	 *
-	 * @param unaComputadora 
+	 * @param unHardware
 	 */
-	@Named("Eliminar de Computadora")
-	public void limpiarComputadora(final Computadora unaComputadora) {
-		if (unaComputadora == null || !getComputadora().contains(unaComputadora)) {
-			return;
-		}
-		unaComputadora.setImpresora(null);
-		this.getComputadora().remove(unaComputadora);
-		return;
-	}
+	 @Named("Eliminar de Computadora")
+	 public void limpiarHardware(final Hardware unHardware) {
+	 if (unHardware == null || !getHardware().contains(unHardware))
+	 {
+	 return;
+	 }
+	 unHardware.setImpresora(null);
+	 this.getHardware().remove(unHardware);
+	 return;
+	 }
 
 	// //////////////////////////////////////
 	// Habilitado
