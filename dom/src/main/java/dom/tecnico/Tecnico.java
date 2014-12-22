@@ -307,7 +307,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	 * RestaComputadora: Dependiendo del Estado, resta una Computadora al Técnico.
 	 */
 	@Programmatic
-	public void restaComputadora(final Computadora computadora) {
+	public void restaComputadora() {
 		BigDecimal valor = BigDecimal.valueOf(-1);
 		this.setCantidadComputadora(this.cantidadComputadora.add(valor));
 	}

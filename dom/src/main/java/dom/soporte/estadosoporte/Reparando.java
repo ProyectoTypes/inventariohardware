@@ -101,7 +101,7 @@ public class Reparando implements IEstado {
 		if (tecnico.estaDisponible()
 				&& tecnico != this.getSoporte().getTecnico()) {
 			this.getSoporte().getTecnico()
-					.restaComputadora(this.getSoporte().getComputadora());
+					.restaComputadora();
 			this.getSoporte().setTecnico(tecnico);
 			this.getSoporte().getTecnico().sumaComputadora();
 			this.getSoporte().getTecnico()
@@ -203,9 +203,9 @@ public class Reparando implements IEstado {
 				marcaRam,modeloMotherboard,fabricante,monitor,impresora, sotfware);
 
 		// Desvinculando Usuario/Tecnico/Impresora de Computadora -
+		this.getSoporte().getTecnico().restaComputadora();
 		this.getSoporte().getTecnico()
 				.removeFromComputadora(this.getSoporte().getComputadora());
-
 		this.getSoporte().getComputadora().getHardware().limpiarImpresora();
 		this.getSoporte().getComputadora().setHabilitado(false);
 		this.getSoporte().setEstado(this.getSoporte().getCancelado());

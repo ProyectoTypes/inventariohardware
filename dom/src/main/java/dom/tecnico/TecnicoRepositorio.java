@@ -92,9 +92,9 @@ public class TecnicoRepositorio {
 			rol.setListaPermisos(permisos);
 			final SortedSet<Rol> roles = new TreeSet<Rol>();
 			roles.add(rol);
-			this.nuevoTecnico("Administrador", "Técnico",
-					"inventariohardware@gmail.com", null, "admin", "sven",
-					"pass", roles);
+			this.nuevoTecnico("Técnico", "Administrador",
+					"inventariohardware@gmail.com", null, "admin", "admin",
+					"admin", roles);
 		}
 	}
 

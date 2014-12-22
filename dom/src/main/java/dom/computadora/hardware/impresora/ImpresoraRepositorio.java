@@ -63,7 +63,7 @@ public class ImpresoraRepositorio {
 	 * Método para listar las impresoras.
 	 * @return the list
 	 */
-    @MemberOrder(name = "Hardware", sequence = "10")
+    @MemberOrder(name = "Hardware", sequence = "2")
 	@Named("Listar Impresoras")
 	public List<Impresora> listAll() {
 		final List<Impresora> listaImpresora = this.container
