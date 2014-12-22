@@ -249,6 +249,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	 * Método que permite agregar una Computadora con sus respectivos atributos.
 	 * @param unaComputadora
 	 */
+	@Programmatic
 	@Named("Agregar Computadora")
 	@MemberOrder(name = "Computadoras", sequence = "7")
 	public void addToComputadora(final Computadora unaComputadora) {
@@ -265,6 +266,7 @@ public class Tecnico extends Persona implements Comparable<Persona> {
 	 * Método que permite eliminar una Computadora con sus respectivos atributos.
 	 * @param unaComputadora
 	 */
+	@Programmatic
 	@Named("Eliminar Computadora")
 	@MemberOrder(name = "Computadoras", sequence = "7")
 	public void removeFromComputadora(final Computadora unaComputadora) {
