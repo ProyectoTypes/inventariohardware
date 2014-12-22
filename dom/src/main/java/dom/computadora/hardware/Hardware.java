@@ -1,5 +1,8 @@
 package dom.computadora.hardware;
 
+import java.util.List;
+
+import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
@@ -9,7 +12,9 @@ import org.apache.isis.applib.annotation.ObjectType;
 
 import dom.computadora.hardware.gabinete.Gabinete;
 import dom.computadora.hardware.impresora.Impresora;
+import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.computadora.hardware.monitor.Monitor;
+import dom.computadora.hardware.monitor.MonitorRepositorio;
 
 /**
  * Calse Hardware.
@@ -29,7 +34,7 @@ public class Hardware {
 	 * @return the string
 	 */
 	public String title() {
-		return "HARDWARE";
+		return "COMPONENTES";
 	}
 
 	/**
@@ -79,7 +84,10 @@ public class Hardware {
 	public void setMonitor(Monitor monitor) {
 		this.monitor = monitor;
 	}
-
+	public List<Monitor> choicesMonitor()
+	{
+		return this.repositorioMonitor.listAll();
+	} 
 	/** Gabinete. */
 	private Gabinete gabinete;
 
@@ -105,6 +113,10 @@ public class Hardware {
 	public void setImpresora(Impresora impresora) {
 		this.impresora = impresora;
 	}
+	public List<Impresora> choicesImpresora()
+	{
+		return this.repositorioImpresora.listAll();
+	}
 	/**
 	 * Método para quitar una Impresora.
 	 */
@@ -116,6 +128,9 @@ public class Hardware {
 		}
 		impresora.limpiarHardware(this);
 	}
-
+	@Inject
+	private ImpresoraRepositorio repositorioImpresora;
+	@Inject
+	private MonitorRepositorio repositorioMonitor;
 
 }

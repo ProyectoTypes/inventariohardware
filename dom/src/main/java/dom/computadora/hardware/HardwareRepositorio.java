@@ -54,7 +54,7 @@ public class HardwareRepositorio {
 			final @Named("Impresora") Impresora impresora) {
 		return nuevoHardware(monitor, gabinete, impresora);
 	}
-
+	
 	/**
 	 * Nuevo Hardware.
 	 * @param fabricante
@@ -75,6 +75,7 @@ public class HardwareRepositorio {
 		this.container.flush();
 		return hardware;
 	}
+	
 
 	/**
 	 * Inyección del Contenedor.

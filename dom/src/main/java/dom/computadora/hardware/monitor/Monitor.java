@@ -215,7 +215,7 @@ public class Monitor implements Comparable<Monitor> {
 	 */
 	@Override
 	public int compareTo(final Monitor monitor) {
-		return ObjectContracts.compare(this, monitor, "nombreMonitor");
+		return ObjectContracts.compare(this, monitor, "marca,tamanio");
 	}
 
 	// //////////////////////////////////////
