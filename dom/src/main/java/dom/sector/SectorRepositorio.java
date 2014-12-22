@@ -45,7 +45,7 @@ import org.apache.isis.applib.query.QueryDefault;
  * @version 1.0.0
  */
 
-@DomainService(menuOrder = "30")
+@DomainService(menuOrder = "99")
 @Named("Sector")
 public class SectorRepositorio {
 	

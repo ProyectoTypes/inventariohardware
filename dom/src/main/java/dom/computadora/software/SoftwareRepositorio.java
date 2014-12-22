@@ -24,13 +24,13 @@ package dom.computadora.software;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
-import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.query.QueryDefault;
-
+@DomainService
 @Named("SOFTWARE")
 public class SoftwareRepositorio {
 	
@@ -89,8 +89,6 @@ public class SoftwareRepositorio {
 		}
 		return listaSoftware;
 	}
-
-	
 	/**
 	 * AutoComplete
 	 * @param nombre
@@ -118,4 +116,6 @@ public class SoftwareRepositorio {
 
 	@javax.inject.Inject
 	private DomainObjectContainer container;
+
+	
 }
