@@ -26,28 +26,27 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.SortedSet;
 
 import javax.annotation.PostConstruct;
 
-import com.google.common.io.Resources;
-import com.google.inject.name.Named;
-
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
-import org.apache.pdfbox.pdmodel.interactive.form.PDField;
-
-import servicio.reporte.Reporte;
-import servicio.reporte.ReporteLine;
-
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
-import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.NotInServiceMenu;
 import org.apache.isis.applib.value.Blob;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
+import org.apache.pdfbox.pdmodel.interactive.form.PDField;
+
+import servicio.reporte.ReporteLine;
+
+import com.google.common.io.Resources;
+import com.google.inject.name.Named;
+
+import dom.insumo.Insumo;
+import dom.soporte.Soporte;
 
 /**
  * Clase CustomerConfirmation.
@@ -64,25 +63,24 @@ public class ConfirmarReporte {
     
     /**
      * Descargar el Reporte en formato PDF.
-     * @param reporte
+     * @param soporte
      * @return
      * @throws Exception
      */
     @NotContributed(NotContributed.As.ASSOCIATION)
-    @NotInServiceMenu
-	@Bookmarkable
+	@NotInServiceMenu
 	@ActionSemantics(Of.SAFE)
-    @Named("Descargar Reporte")
-    @MemberOrder(sequence = "10")
+	@Named("Descargar Pedido")
+	@MemberOrder(name = "Insumos Solicitados", sequence = "31")
     public Blob descargarReporte(
-            final Reporte reporte) throws Exception {
+            final Soporte soporte) throws Exception {
 
-        try (PDDocument pdfDocument = loadAndPopulateTemplate(reporte)) {
+        try (PDDocument pdfDocument = loadAndPopulateTemplate(soporte)) {
 
             final ByteArrayOutputStream target = new ByteArrayOutputStream();
             pdfDocument.save(target);
 
-            final String name = "Reporte-" + reporte.getNumero() + ".pdf";
+            final String name = "Reporte-" + soporte.getFecha() + ".pdf";
             final String mimeType = "application/pdf";
             final byte[] bytes = target.toByteArray();
 
@@ -92,26 +90,26 @@ public class ConfirmarReporte {
 
     /**
      * Carga el archivo de plantilla pdf y lo llena con los detalles de la orden.
-     * @param reporte
+     * @param soporte
      * @return
      * @throws Exception
      */
-	private PDDocument loadAndPopulateTemplate(Reporte reporte) throws Exception {
+	private PDDocument loadAndPopulateTemplate(Soporte soporte) throws Exception {
         PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(pdfAsBytes));
 
         PDAcroForm pdfForm = pdfDocument.getDocumentCatalog().getAcroForm();
 
         List<PDField> fields = pdfForm.getFields();
-        SortedSet<ReporteLine> orderLines = reporte.getOrderLines();
+        List<Insumo> orderLines =  soporte.getInsumos();
         for (PDField field : fields) {
 
             String fullyQualifiedName = field.getFullyQualifiedName();
             if ("Fecha del Reporte".equals(fullyQualifiedName)) {
-                field.setValue(reporte.getFechaReporte().toString());
-            } else if ("Código del Reporte".equals(fullyQualifiedName)) {
-                field.setValue(reporte.getNumero());
+                field.setValue(soporte.getFecha().toString());
+            } else if ("Organizacion".equals(fullyQualifiedName)) {
+                field.setValue("Proyect Types");
             } else if ("Nombre del Técnico".equals(fullyQualifiedName)) {
-                field.setValue(reporte.getTecnico().getApellido());
+                field.setValue(soporte.getTecnico().getApellido());
             } else if ("Mensaje".equals(fullyQualifiedName)) {
                 String message = "Usted ha solicitado los siguientes Insumos '" + orderLines.size() +"' products";
                 field.setValue(message);
@@ -119,18 +117,18 @@ public class ConfirmarReporte {
         }
 
         int i = 1;
-        Iterator<ReporteLine> orderLineIterator = orderLines.iterator();
+        Iterator<Insumo> orderLineIterator = orderLines.iterator();
         while (i < 7 && orderLineIterator.hasNext()) {
-            ReporteLine orderLine = orderLineIterator.next();
+            Insumo orderLine = orderLineIterator.next();
 
             String descriptionFieldName = "orderLine|"+i+"|desc";
-            pdfForm.getField(descriptionFieldName).setValue(orderLine.getDescription());
+            pdfForm.getField(descriptionFieldName).setValue(orderLine.getProducto());
 
             String costFieldName = "orderLine|"+i+"|cost";
-            pdfForm.getField(costFieldName).setValue(orderLine.getDescription());
+            pdfForm.getField(costFieldName).setValue(orderLine.getMarca());
 
             String quantityFieldName = "orderLine|"+i+"|quantity";
-            pdfForm.getField(quantityFieldName).setValue(orderLine.getDescription());
+            pdfForm.getField(quantityFieldName).setValue(orderLine.getCantidad()+"");
             i++;
         }
         return pdfDocument;

@@ -71,7 +71,7 @@ public class InsumosServiceDocx {
 	 * @throws JDOMException
 	 * @throws MergeException
 	 */
-	@NotContributed(NotContributed.As.ASSOCIATION)
+	@NotContributed
 	@NotInServiceMenu
 	@ActionSemantics(Of.SAFE)
 	@Named("Descargar Pedido")
