@@ -66,15 +66,15 @@ public class Reporte implements Comparable<Reporte> {
 	}
 	
     // numero (propiedad)
-    private int numero;
+    private String numero;
 
     @javax.jdo.annotations.Column(allowsNull="false")
     @MemberOrder(name = "Detalle del Reporte", sequence = "1")
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(final int numero) {
+    public void setNumero(final String numero) {
         this.numero = numero;
     }
 	

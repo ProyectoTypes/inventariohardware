@@ -68,7 +68,7 @@ public class ReporteRepositorio {
     @Named("Generar Reporte")
     @MemberOrder(sequence = "10")
     public Reporte create(
-            final @Named("Número de Reporte") int numero,
+            final @Named("Número de Reporte") String numero,
             final @Named("Apellido del Técnico") Tecnico tecnico,
             final @Named("Fecha de Reporte") LocalDate fechaReporte) {
         final Reporte obj = container.newTransientInstance(Reporte.class);
