@@ -36,7 +36,7 @@ public class Gabinete {
 	 * @return the string
 	 */
 	public String title() {
-		return "COMPONENTES INTERNOS";
+		return "COMPONENTES INTERNOS DEL GABINETE";
 	}
 
 	/**

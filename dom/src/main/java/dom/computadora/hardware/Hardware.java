@@ -34,7 +34,7 @@ public class Hardware  {
 	 * @return the string
 	 */
 	public String title() {
-		return "COMPONENTES";
+		return "COMPONENTES HARDWARE";
 	}
 
 	/**
@@ -71,7 +71,22 @@ public class Hardware  {
 	// //////////////////////////////////////
 	// Fabricante (propiedad)
 	// //////////////////////////////////////
+	/** Impresora. */
+	private Impresora impresora;
 
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	@MemberOrder(sequence = "40")
+	public Impresora getImpresora() {
+		return impresora;
+	}
+
+	public void setImpresora(Impresora impresora) {
+		this.impresora = impresora;
+	}
+	public List<Impresora> choicesImpresora()
+	{
+		return this.repositorioImpresora.listAll();
+	}
 	/** Monitor. */
 	private Monitor monitor;
 
@@ -101,22 +116,7 @@ public class Hardware  {
 		this.gabinete = gabinete;
 	}
 
-	/** Impresora. */
-	private Impresora impresora;
-
-	@javax.jdo.annotations.Column(allowsNull = "true")
-	@MemberOrder(sequence = "40")
-	public Impresora getImpresora() {
-		return impresora;
-	}
-
-	public void setImpresora(Impresora impresora) {
-		this.impresora = impresora;
-	}
-	public List<Impresora> choicesImpresora()
-	{
-		return this.repositorioImpresora.listAll();
-	}
+	
 	/**
 	 * Método para quitar una Impresora.
 	 */
