@@ -35,6 +35,7 @@ import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.*;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
 
 /**
@@ -188,6 +189,20 @@ public class Reporte implements Comparable<Reporte> {
     public Collection<ReporteLine> choices0Remove() {
         return getOrderLines();
     }
+
+	/** Soporte. */
+	private Soporte soporte;
+
+	@Hidden(where = Where.ALL_TABLES)
+	@MemberOrder(sequence = "80")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public Soporte getSoporte() {
+		return soporte;
+	}
+
+	public void setSoporte(final Soporte soporte) {
+		this.soporte = soporte;
+	}
 
     // compareTo
     @Override
