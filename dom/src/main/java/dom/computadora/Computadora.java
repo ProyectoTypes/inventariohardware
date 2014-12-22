@@ -42,13 +42,13 @@ import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
-import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.computadora.hardware.Hardware;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.computadora.software.Software;
+import dom.computadora.software.SoftwareRepositorio;
 import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
 import dom.usuario.Usuario;
@@ -137,7 +137,7 @@ public class Computadora implements Comparable<Computadora> {
 	private List<Software> software = new ArrayList<Software>();
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	@MemberOrder(sequence = "50")
+	@MemberOrder(name="Software",sequence = "50")
 	public List<Software> getSoftware() {
 		return software;
 	}
@@ -145,15 +145,30 @@ public class Computadora implements Comparable<Computadora> {
 	public void setSoftware(final List<Software> software) {
 		this.software = software;
 	}
-	
-	@Programmatic
-	public List<Software> agregarSoftware(Software software)
+	@MemberOrder(name="Software",sequence = "50")
+	@Named("Agregar")
+	public Computadora agregarSoftware(final Software software)
 	{
-		 this.software.add(software);
-		 return this.software;
+		 this.getSoftware().add(software);
+		 this.container.flush();
+		 return this;
 	}
-
-	
+	public List<Software> choices0AgregarSoftware() {
+		return this.softwareRepositorio.listAll(); // TODO: return list of choices for property
+	}
+	@MemberOrder(name="Software",sequence = "50")
+	@Named("Quitar")
+	public Computadora quitarSoftware(final Software software)
+	{
+		 this.getSoftware().remove(software);
+		 this.container.flush();
+		 return this;
+	}
+	public List<Software> choices0QuitarSoftware() {
+		return this.getSoftware();
+	}
+	@Inject
+	private SoftwareRepositorio softwareRepositorio;
 	// //////////////////////////////////////
 	// Hardware (propiedad)
 	// //////////////////////////////////////
