@@ -70,7 +70,7 @@ public class TecnicoRepositorio {
 	}
 
 	public String iconName() {
-		return "Técnico";
+		return "Tecnico";
 	}
 
 	/**
