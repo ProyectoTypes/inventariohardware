@@ -131,7 +131,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		propiedades.setProperty("mail.pop3.socketFactory.port", "995");
 		this.setSession(propiedades);
 	}
-
+	
 	/* ******************** ENVIAR EMAIL *********************** */
 
 	/**
@@ -149,7 +149,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		String asunto = "Servicio Tecnico Finalizado.";
 		String destino = unaComputadora.getUsuario().getEmail();
 		String mensaje = "La Computadora (IP: "
-				+ unaComputadora.getHardware().getGabinete().getPlacaDeRed().getIp()
+				+ unaComputadora.getIp()
 				+ ") correspondiente al usuario "
 				+ unaComputadora.getUsuario().getApellido()
 				+ ", "
@@ -237,6 +237,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private String desencriptar(final String contrasenia) {
 		String clave = "TODOS LOS SABADOS EN CASA DE EXE";
 		Encripta encripta = new Encripta(clave);
@@ -250,7 +251,38 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 	}
 
 	/* ******************** BANDEJA DE ENTRADA ************************ */
-
+	@Programmatic
+	public void setProperties(CorreoEmpresa correo) {
+		String[] dominio = correo.getCorreo().split("@");
+		if(dominio[1].toUpperCase().contains("HOTMAIL")){
+			System.out.println("****************************************");
+			System.out.println("********** ES HOTMAIL ********");
+			System.out.println("****************************************");
+			// Deshabilitamos TLS
+			propiedades.setProperty("mail.smtp.starttls.enable", "false");
+			// Hay que usar SSL
+			propiedades.setProperty("mail.smtp.socketFactory.class",
+					"javax.net.ssl.SSLSocketFactory");
+			propiedades.setProperty("mail.smtp.socketFactory.fallback", "false");
+			// Puerto 995 para conectarse.
+			propiedades.setProperty("mail.smtp.port", "995");
+			propiedades.setProperty("mail.smtp.socketFactory.port", "995");
+			propiedades.setProperty("mail.smtp.ssl.trust", "smtpserver");
+		
+		}
+		else{
+			// Deshabilitamos TLS
+			propiedades.setProperty("mail.pop3.starttls.enable", "false");
+			// Hay que usar SSL
+			propiedades.setProperty("mail.pop3.socketFactory.class",
+					"javax.net.ssl.SSLSocketFactory");
+			propiedades.setProperty("mail.pop3.socketFactory.fallback", "false");
+			// Puerto 995 para conectarse.
+			propiedades.setProperty("mail.pop3.port", "995");
+			propiedades.setProperty("mail.pop3.socketFactory.port", "995");
+		}
+		this.setSession(propiedades);
+	}
 	/**
 	 * 
 	 * @return Retorna la lista de correos persistidos
@@ -262,18 +294,25 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 			final @Named("Correo") CorreoEmpresa correoEmpresa)
 			throws EncriptaException {
 
-		this.setProperties();
+		this.setProperties(correoEmpresa);//Se setean las propiedades para recibir los correos desde gmail.
 
 		final List<Correo> listaJavaMail = this.accion(correoEmpresa);
-
-		String mensajeNuevos = listaJavaMail.size() == 1 ? "TIENES UN NUEVO CORREO!"
+		if(listaJavaMail!=null)
+		{
+			String mensajeNuevos = listaJavaMail.size() == 1 ? "TIENES UN NUEVO CORREO!"
 				: "TIENES " + listaJavaMail.size() + " CORREOS NUEVOS";
 
-		if (listaJavaMail != null && listaJavaMail.size() > 0)
-			this.container.warnUser(mensajeNuevos);
-		else
-			this.container.warnUser("NO HAY NUEVO CORREO");
-		return listarMensajesPersistidos(correoEmpresa);
+			if (listaJavaMail != null && listaJavaMail.size() > 0)
+				this.container.warnUser(mensajeNuevos);
+			else
+				this.container.warnUser("NO HAY NUEVO CORREO");
+			return listarMensajesPersistidos(correoEmpresa);
+		}
+		else {
+			this.container.warnUser("ERROR al conectarse a "+correoEmpresa.getCorreo());
+			return null;
+		}
+			
 	}
 
 	@Programmatic
@@ -315,7 +354,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 			Encripta encripta = new Encripta(clave);
 			String pass = encripta.desencripta(correoEmpresa.getPass());
 			
-			store.connect(correoEmpresa.getHost(),Integer.parseInt(correoEmpresa.getPort()), correoEmpresa.getCorreo(), pass);
+			store.connect(correoEmpresa.getHost(),995, correoEmpresa.getCorreo(), pass);
 
 			Folder folder = store.getFolder("INBOX");
 			folder.open(Folder.READ_ONLY);

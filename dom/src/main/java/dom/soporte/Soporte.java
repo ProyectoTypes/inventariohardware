@@ -120,7 +120,7 @@ public class Soporte implements Comparable<Soporte> {
 	// ////////////////////////////////////////////////////
 
 	public String title() {
-		return "SOPORTE "+this.getComputadora().getHardware().getGabinete().getPlacaDeRed().getIp();
+		return "SOPORTE "+this.getComputadora().getIp();
 	}
 
 	public String iconName() {

@@ -47,15 +47,14 @@ public class PlacaDeRedRepositorio {
 	 */
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Placa de Red")
-	public PlacaDeRed create(final @Named("IP") String ip,
+	public PlacaDeRed create(
 			final @Named("MAC") String mac) {
-		return nuevaPlacaDeRed(ip, mac);
+		return nuevaPlacaDeRed( mac);
 	}
 
-	private PlacaDeRed nuevaPlacaDeRed(final String ip, final String mac) {
+	private PlacaDeRed nuevaPlacaDeRed( final String mac) {
 
 		PlacaDeRed obj = this.container.newTransientInstance(PlacaDeRed.class);
-		obj.setIp(ip);
 		obj.setMac(mac);
 		this.container.persistIfNotAlready(obj);
 		this.container.flush();

@@ -28,6 +28,7 @@ import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -53,21 +54,21 @@ import dom.usuario.Usuario;
 /**
  * Clase Computadora.
  */
-@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.APPLICATION)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Computadora_ip_must_be_unique", members = { "nombreEquipo" }) })
+@javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Computadora_ip_must_be_unique", members = { "ip" }) })
 @javax.jdo.annotations.Queries({
 		@javax.jdo.annotations.Query(name = "autoCompletePorComputadora", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
-				+ "WHERE placaDeRed.ip.indexOf(:ip) >= 0"),
+				+ "WHERE ip.indexOf(:ip) >= 0"),
 		@javax.jdo.annotations.Query(name = "listar", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "),
 		@javax.jdo.annotations.Query(name = "listarHabilitados", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.computadora.Computadora "
 				+ "WHERE habilitado == true"),
 		@javax.jdo.annotations.Query(name = "buscarPorIp", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.computadora.Computadora WHERE placaDeRed.ip.indexOf(:ip) >= 0") })
+				+ "FROM dom.computadora.Computadora WHERE ip.indexOf(:ip) >= 0") })
 @ObjectType("COMPUTADORA")
 @Audited
 @AutoComplete(repository = ComputadoraRepositorio.class, action = "autoComplete")
@@ -75,25 +76,28 @@ public class Computadora implements Comparable<Computadora> {
 
 	/**
 	 * Título de la clase.
+	 * 
 	 * @return the string
 	 */
 	public String title() {
-		return this.getHardware().getGabinete().getPlacaDeRed().getIp();
+		return getIp();
 	}
 
 	/**
 	 * Nombre del Icono.
+	 * 
 	 * @return the string
 	 */
 	public String iconName() {
 		return "Computadora";
 	}
-	
+
 	// //////////////////////////////////////
-	// Nombre Equipo  (propiedad)
+	// Nombre Equipo (propiedad)
 	// //////////////////////////////////////
-	
+
 	private String nombreEquipo;
+
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@MemberOrder(sequence = "10")
 	public String getNombreEquipo() {
@@ -102,8 +106,26 @@ public class Computadora implements Comparable<Computadora> {
 
 	public void setNombreEquipo(String nombreEquipo) {
 		this.nombreEquipo = nombreEquipo;
-	}	
-	
+	}
+
+	// //////////////////////////////////////
+	// IP (propiedad)
+	// //////////////////////////////////////
+
+	@PrimaryKey
+	private String ip;
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+	@javax.jdo.annotations.PrimaryKey(column = "id")
+	@DescribedAs("Direccion IP de la Computadora:")
+	@MemberOrder(sequence = "10")
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(final String ip) {
+		this.ip = ip;
+	}
 
 	// //////////////////////////////////////
 	// Software (propiedad)
@@ -121,7 +143,7 @@ public class Computadora implements Comparable<Computadora> {
 	public void setSoftware(final Software software) {
 		this.software = software;
 	}
-	
+
 	// //////////////////////////////////////
 	// Hardware (propiedad)
 	// //////////////////////////////////////
@@ -138,7 +160,7 @@ public class Computadora implements Comparable<Computadora> {
 	public void setHardware(final Hardware hardware) {
 		this.hardware = hardware;
 	}
-	
+
 	// //////////////////////////////////////
 	// Habilitado (propiedad)
 	// //////////////////////////////////////
@@ -157,6 +179,7 @@ public class Computadora implements Comparable<Computadora> {
 
 	/**
 	 * Método que se usa para deshabilitar un Tecnico.
+	 * 
 	 * @return
 	 */
 	@Named("Eliminar Computadora")
@@ -175,97 +198,98 @@ public class Computadora implements Comparable<Computadora> {
 	// Impresora (propiedad)
 	// //////////////////////////////////////
 
-//	private Impresora impresora;
-//
-//	@MemberOrder(sequence = "50")
-//	@javax.jdo.annotations.Column(allowsNull = "true")
-//	public Impresora getImpresora() {
-//		return impresora;
-//	}
-//
-//	public void setImpresora(final Impresora impresora) {
-//		this.impresora = impresora;
-//	}
-//
-//	/**
-//	 * Método que permite listar las Impresoras.
-//	 * @return
-//	 */
-//	public List<Impresora> choicesImpresora() {
-//		return this.impresoraRepositorio.listAll();
-//
-//	}
+	// private Impresora impresora;
+	//
+	// @MemberOrder(sequence = "50")
+	// @javax.jdo.annotations.Column(allowsNull = "true")
+	// public Impresora getImpresora() {
+	// return impresora;
+	// }
+	//
+	// public void setImpresora(final Impresora impresora) {
+	// this.impresora = impresora;
+	// }
+	//
+	// /**
+	// * Método que permite listar las Impresoras.
+	// * @return
+	// */
+	// public List<Impresora> choicesImpresora() {
+	// return this.impresoraRepositorio.listAll();
+	//
+	// }
 
-//	/**
-//	 * Método que me permite modificar una Impresora.
-//	 * @param impresora
-//	 */
-//	public void modifyImpresora(final Impresora impresora) {
-//		Impresora currentImpresora = getImpresora();
-//		if (impresora == null || impresora.equals(currentImpresora)) {
-//			return;
-//		}
-//		impresora.agregarComputadora(this);
-//		return;
-//	}
-//
-//	/**
-//	 * Quitar impresora.
-//	 * @retun
-//	 */
-//	public boolean hideQuitarImpresora() {
-//		if (this.getImpresora() == null) {
-//			return true;
-//		}
-//		return false;
-//	}
+	// /**
+	// * Método que me permite modificar una Impresora.
+	// * @param impresora
+	// */
+	// public void modifyImpresora(final Impresora impresora) {
+	// Impresora currentImpresora = getImpresora();
+	// if (impresora == null || impresora.equals(currentImpresora)) {
+	// return;
+	// }
+	// impresora.agregarComputadora(this);
+	// return;
+	// }
+	//
+	// /**
+	// * Quitar impresora.
+	// * @retun
+	// */
+	// public boolean hideQuitarImpresora() {
+	// if (this.getImpresora() == null) {
+	// return true;
+	// }
+	// return false;
+	// }
 
-//	/**
-//	 * Quitar impresora.
-//	 * @return computadora
-//	 */
-//	@Named("Borrar Impresora")
-//	public Computadora quitarImpresora() {
-//		Impresora currentImpresora = getImpresora();
-//		if (currentImpresora == null) {
-//			return this;
-//		}
-//		currentImpresora.setComputadora(null);
-//		setImpresora(null);
-//		return this;
-//	}
+	// /**
+	// * Quitar impresora.
+	// * @return computadora
+	// */
+	// @Named("Borrar Impresora")
+	// public Computadora quitarImpresora() {
+	// Impresora currentImpresora = getImpresora();
+	// if (currentImpresora == null) {
+	// return this;
+	// }
+	// currentImpresora.setComputadora(null);
+	// setImpresora(null);
+	// return this;
+	// }
 
-//	/**
-//	 * Método para quitar una Impresora.
-//	 */
-//	@Hidden
-//	public void limpiarImpresora() {
-//		Impresora impresora = getImpresora();
-//		if (impresora == null) {
-//			return;
-//		}
-//		impresora.limpiarComputadora(this);
-//	}
-//
-//	/**
-//	 * Nueva Impresora.
-//	 * @param modeloImpresora
-//	 * @param fabricanteImpresora
-//	 * @param tipoImpresora
-//	 * @return 
-//	 */
-//	@Named("Nueva Impresora")
-//	public Impresora addImpresora(
-//			final @Named("Modelo") String modeloImpresora,
-//			final @Named("Fabricante") String fabricanteImpresora,
-//			final @Named("Tipo") TipoImpresora tipoImpresora) {
-//		return impresoraRepositorio.nuevaImpresora(modeloImpresora,
-//				fabricanteImpresora, tipoImpresora, this.currentUserName());
-//	}
+	// /**
+	// * Método para quitar una Impresora.
+	// */
+	// @Hidden
+	// public void limpiarImpresora() {
+	// Impresora impresora = getImpresora();
+	// if (impresora == null) {
+	// return;
+	// }
+	// impresora.limpiarComputadora(this);
+	// }
+	//
+	// /**
+	// * Nueva Impresora.
+	// * @param modeloImpresora
+	// * @param fabricanteImpresora
+	// * @param tipoImpresora
+	// * @return
+	// */
+	// @Named("Nueva Impresora")
+	// public Impresora addImpresora(
+	// final @Named("Modelo") String modeloImpresora,
+	// final @Named("Fabricante") String fabricanteImpresora,
+	// final @Named("Tipo") TipoImpresora tipoImpresora) {
+	// return impresoraRepositorio.nuevaImpresora(modeloImpresora,
+	// fabricanteImpresora, tipoImpresora, this.currentUserName());
+	// }
 
 	/**
 	 * Devuelve el Usuario logueado.
-	 * @return 
+	 * 
+	 * @return
 	 */
 	@SuppressWarnings("unused")
 	private String currentUserName() {
@@ -305,8 +329,9 @@ public class Computadora implements Comparable<Computadora> {
 
 	/**
 	 * Validar los datos de Usuario.
-	 * @param usuario  
-	 * @return 
+	 * 
+	 * @param usuario
+	 * @return
 	 */
 	public String validateUsuario(final Usuario usuario) {
 		if (usuario.getComputadora() == null || this.getUsuario() == usuario)
@@ -321,6 +346,7 @@ public class Computadora implements Comparable<Computadora> {
 
 	/**
 	 * Modificar Usuario.
+	 * 
 	 * @param user
 	 */
 	@Named("Modificar Usuario")
@@ -370,6 +396,7 @@ public class Computadora implements Comparable<Computadora> {
 
 	/**
 	 * Modificar Técnico.
+	 * 
 	 * @param unTecnico
 	 */
 	public void modifyTecnico(final Tecnico unTecnico) {
@@ -409,7 +436,8 @@ public class Computadora implements Comparable<Computadora> {
 
 	/**
 	 * Agregar Soporte
-	 * @param unSoporte        
+	 * 
+	 * @param unSoporte
 	 */
 	@Hidden
 	@Named("Agregar Soporte")
@@ -424,7 +452,8 @@ public class Computadora implements Comparable<Computadora> {
 
 	/**
 	 * Eliminar Recepción.
-	 * @param unSoporte       
+	 * 
+	 * @param unSoporte
 	 */
 	@Hidden
 	@Named("Eliminar de Recepción")
@@ -438,14 +467,16 @@ public class Computadora implements Comparable<Computadora> {
 
 	/**
 	 * CompareTo
+	 * 
 	 * @param computadora
 	 * @return
 	 */
 	@Override
 	public int compareTo(Computadora computadora) {
-		return ObjectContracts.compare(this, computadora, "nombreEquipo");
+		return ObjectContracts.compare(this, computadora, "ip");
 	}
-	
+
+
 	/**
 	 * Inyección del Contenedor.
 	 */

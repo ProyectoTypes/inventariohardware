@@ -50,8 +50,7 @@ public class PlacaDeRed {
 	 * @param ip the ip
 	 * @param mac the mac
 	 */
-	public PlacaDeRed(String ip, String mac) {
-		this.ip = ip;
+	public PlacaDeRed( String mac) {
 		this.mac = mac;
 	}
 
@@ -62,7 +61,7 @@ public class PlacaDeRed {
 	 * @return the string
 	 */
 	public String title() {
-		return this.getIp() +" - "+getMac();
+		return getMac();
 	}
 
 	/**
@@ -74,23 +73,7 @@ public class PlacaDeRed {
 		return "PlacaDeRed";
 	}
 
-	// //////////////////////////////////////
-	// IP placa de red
-	// //////////////////////////////////////
-
-	/** The ip. */
-	private String ip;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")	
-	@DescribedAs("IP de la placa de red")
-	@MemberOrder(sequence = "170")
-	public String getIp() {
-		return ip;
-	}
-
-	public void setIp(final String ip) {
-		this.ip = ip;
-	}
+	
 
 	// //////////////////////////////////////
 	// MAC de la placa de red

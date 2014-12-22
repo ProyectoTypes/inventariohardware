@@ -9,6 +9,7 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.NotContributed;
 
 import dom.computadora.hardware.gabinete.disco.Disco;
 import dom.computadora.hardware.gabinete.disco.DiscoRepositorio;
@@ -60,6 +61,7 @@ public class GabineteRepositorio {
 	 * @param modeloMotherboard
 	 * @return
 	 */
+	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Gabinete")
 	public Gabinete create(final @Named("IP") String ip,
@@ -72,7 +74,7 @@ public class GabineteRepositorio {
 			final @Named("RAM Tamaño") int tamanoRam,
 			final @Named("RAM Marca") String marcaRam,
 			final @Named("Modelo Motherboard") String modeloMotherboard) {
-		PlacaDeRed placaDeRed = new PlacaDeRed(ip, mac);
+		PlacaDeRed placaDeRed = new PlacaDeRed(mac);
 		Disco hdd = new Disco(marcaDisco, tipoDisco, tamanoDisco);
 		Procesador procesador = new Procesador(modeloProcesador);
 		MemoriaRam memoriaRam = new MemoriaRam(modeloRam, tamanoRam, marcaRam);
@@ -80,7 +82,7 @@ public class GabineteRepositorio {
 		return nuevoGabinete(placaDeRed, hdd, procesador, memoriaRam,
 				motherboard);
 	}
-
+	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Gabinete")
 	public Gabinete addGabinete(

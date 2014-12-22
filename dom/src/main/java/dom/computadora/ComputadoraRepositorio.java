@@ -32,6 +32,8 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.NotContributed;
+import org.apache.isis.applib.annotation.NotContributed.As;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
@@ -148,13 +150,13 @@ public class ComputadoraRepositorio {
 			final @Optional @Named("Impresora") Impresora impresora,	
 			final @Optional @Named("Software") Software sotfware
 			) {
-		PlacaDeRed placaDeRed = new PlacaDeRed(ip, mac);
+		PlacaDeRed placaDeRed = new PlacaDeRed( mac);
 		Disco disco = new Disco(marcaDisco, tipoDisco, tamanoDisco);
 		Procesador procesador = new Procesador(modeloProcesador);
 		MemoriaRam memoriaRam = new MemoriaRam(modeloRam, tamanoRam, marcaRam);
 		Motherboard motherboard = new Motherboard(modeloMotherboard);
 		return this.nuevaComputadora(nombreEquipo, usuario, placaDeRed, motherboard,
-				procesador, disco, memoriaRam, impresora, sotfware, monitor, this.currentUserName());
+				procesador, disco, memoriaRam, impresora, sotfware, monitor, this.currentUserName(),ip);
 	}
 
 
@@ -176,13 +178,14 @@ public class ComputadoraRepositorio {
 			final PlacaDeRed placaDeRed, final Motherboard motherboard,
 			final Procesador procesador, final Disco disco,
 			final MemoriaRam memoria, final Impresora impresora, final Software software,
-			final Monitor monitor,final String creadoPor) {
+			final Monitor monitor,final String creadoPor,final String ip) {
 		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);
 		
 		final Gabinete gabinete = this.gabineteRepositorio.addGabinete(placaDeRed, disco, procesador, memoria, motherboard);
 		final Hardware hardware = this.hardwareRepositorio.create(monitor, gabinete, impresora);		
 		hardware.setGabinete(gabinete);
 		unaComputadora.setHardware(hardware);
+		unaComputadora.setIp(ip);
 		unaComputadora.setCreadoPor(creadoPor);
 		unaComputadora.setHabilitado(true);
 		unaComputadora.setNombreEquipo(nombreEquipo);
@@ -244,6 +247,7 @@ public class ComputadoraRepositorio {
 	 */
 	@MemberOrder(name = "Hardware", sequence = "20")
 	@Named("Buscar Computadora")
+	@NotContributed
 	public List<Computadora> buscar(
 			final @RegEx(validation = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
 					+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
@@ -257,6 +261,7 @@ public class ComputadoraRepositorio {
 					.warnUser("No se encontraron Computadoras cargadas en el sistema.");
 		return listaComputadoras;
 	}
+
 
 	/**
 	 * Auto complete.
