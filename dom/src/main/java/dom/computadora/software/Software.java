@@ -96,23 +96,6 @@ public class Software implements Comparable<Software> {
 	
 	
 	// //////////////////////////////////////
-	// codigo (Atributo)
-	// //////////////////////////////////////
-	private String tipo;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@DescribedAs("Tipo de software:")
-	@MemberOrder(sequence = "10")
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(final String tipo) {
-		this.tipo = tipo;
-	}
-	
-	
-	// //////////////////////////////////////
 	// producto (Atributo)
 	// //////////////////////////////////////
 	private String nombre;
