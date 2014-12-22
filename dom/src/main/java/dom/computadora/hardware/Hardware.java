@@ -23,7 +23,7 @@ import dom.computadora.hardware.monitor.MonitorRepositorio;
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
 @ObjectType("Hardware")
-public class Hardware {
+public class Hardware  {
 	// //////////////////////////////////////
 	// Identificacion en la UI
 	// //////////////////////////////////////

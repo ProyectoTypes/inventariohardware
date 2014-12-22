@@ -21,8 +21,8 @@
  */
 package dom.computadora.hardware.impresora;
 
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
@@ -189,13 +189,13 @@ public class Impresora {
 	 */
 	@Persistent(mappedBy = "impresora", dependentElement = "False")
 	@Join
-	private SortedSet<Hardware> hardware = new TreeSet<Hardware>();
+	private List<Hardware> hardware = new ArrayList<Hardware>();
 
-	public SortedSet<Hardware> getHardware() {
+	public List<Hardware> getHardware() {
 		return hardware;
 	}
 
-	public void setHardware(final SortedSet<Hardware> hardware) {
+	public void setHardware(final List<Hardware> hardware) {
 		this.hardware = hardware;
 	}
 
@@ -227,9 +227,9 @@ public class Impresora {
 	 {
 	 return;
 	 }
-	 unHardware.setImpresora(null);
-	 this.getHardware().remove(unHardware);
-	 return;
+		 unHardware.setImpresora(null);
+		 this.getHardware().remove(unHardware);
+		 return;
 	 }
 
 	// //////////////////////////////////////

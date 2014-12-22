@@ -65,7 +65,7 @@ import org.apache.isis.applib.util.ObjectContracts;
 @ObjectType("MONITOR")
 @Audited
 @AutoComplete(repository = MonitorRepositorio.class, action = "autoComplete")
-public class Monitor implements Comparable<Monitor> {
+public class Monitor {
 
 	// //////////////////////////////////////
 	// Identificacion en la UI
@@ -202,20 +202,6 @@ public class Monitor implements Comparable<Monitor> {
 			container.warnUser("Eliminado " + container.titleOf(this));
 		}
 		return null;
-	}
-
-	// //////////////////////////////////////
-	// Comparable
-	// //////////////////////////////////////
-	/**
-	 * Implementacion de la interface comparable, necesaria para toda entidad.
-	 *
-	 * @param monitor
-	 * @return the int
-	 */
-	@Override
-	public int compareTo(final Monitor monitor) {
-		return ObjectContracts.compare(this, monitor, "marca,tamanio");
 	}
 
 	// //////////////////////////////////////
