@@ -3,7 +3,6 @@ package dom.computadora.hardware;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
-import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
@@ -11,7 +10,6 @@ import dom.computadora.hardware.gabinete.Gabinete;
 import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.monitor.Monitor;
 
-// TODO: Auto-generated Javadoc
 /**
  * Calse Hardware.
  */
@@ -67,22 +65,6 @@ public class Hardware {
 	// //////////////////////////////////////
 	// Fabricante (propiedad)
 	// //////////////////////////////////////
-
-	// FIXME: Que sucede en la composicion cuando todos las clases que componen
-	// a hardware tienen un campo fabricante?
-	/** Fabricante del hardware. */
-	private String fabricante;
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@DescribedAs("Fabricante del Hardware:")
-	@MemberOrder(sequence = "10")
-	public String getFabricante() {
-		return fabricante;
-	}
-
-	public void setFabricante(final String fabricante) {
-		this.fabricante = fabricante;
-	}
 
 	/** Monitor. */
 	private Monitor monitor;

@@ -16,7 +16,7 @@ import dom.computadora.hardware.monitor.Monitor;
 /**
  * Clase HardwareRepositorio.
  */
-@DomainService
+@DomainService(menuOrder = "60")
 @Named("Hardware")
 @Hidden
 public class HardwareRepositorio {
@@ -48,11 +48,11 @@ public class HardwareRepositorio {
 	@NotContributed
 	@MemberOrder(sequence = "10")
 	@Named("Agregar Hardware")
-	public Hardware create(final @Named("Fabricante") String fabricante,
+	public Hardware create(
 			final @Named("Monitor") Monitor monitor,
 			final @Named("Gabinete") Gabinete gabinete,
 			final @Named("Impresora") Impresora impresora) {
-		return nuevoHardware(fabricante, monitor, gabinete, impresora);
+		return nuevoHardware(monitor, gabinete, impresora);
 	}
 
 	/**
@@ -63,12 +63,11 @@ public class HardwareRepositorio {
 	 * @param impresora
 	 * @return hardware
 	 */
-	private Hardware nuevoHardware(final String fabricante,
+	private Hardware nuevoHardware(
 			final Monitor monitor, final Gabinete gabinete,
 			final Impresora impresora) {
 
 		Hardware hardware = this.container.newTransientInstance(Hardware.class);
-		hardware.setFabricante(fabricante);
 		hardware.setGabinete(gabinete);
 		hardware.setImpresora(impresora);
 		hardware.setMonitor(monitor);

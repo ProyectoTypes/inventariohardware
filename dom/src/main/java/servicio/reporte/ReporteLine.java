@@ -35,12 +35,11 @@ import org.apache.isis.applib.util.ObjectContracts;
 @javax.jdo.annotations.Version(
         strategy=VersionStrategy.VERSION_NUMBER,
         column="version")
-@ObjectType("ORDERLINE")
+@ObjectType("Pedido de Insumos")
 @Bookmarkable
 public class ReporteLine implements Comparable<ReporteLine> {
 
-    //region > order (property)
-
+    // order (propiedad)
     private Reporte order;
 
     @javax.jdo.annotations.Column(allowsNull="false")
@@ -53,15 +52,13 @@ public class ReporteLine implements Comparable<ReporteLine> {
     public void setOrder(final Reporte order) {
         this.order = order;
     }
-    //endregion
 
-    //region > name (property)
-
+    // name (propiedad)
     private String description;
 
     @javax.jdo.annotations.Column(allowsNull="false")
-    @Title(sequence="1")
-    @MemberOrder(sequence="2")
+    @Title(sequence = "1")
+    @MemberOrder(sequence = "2")
     public String getDescription() {
         return description;
     }
@@ -70,9 +67,7 @@ public class ReporteLine implements Comparable<ReporteLine> {
         this.description = description;
     }
 
-    //endregion
-
-    //region > quantity (property)
+    // quantity (propiedad)
     private int quantity;
 
     @MemberOrder(sequence = "3")
@@ -83,10 +78,8 @@ public class ReporteLine implements Comparable<ReporteLine> {
     public void setQuantity(final int quantity) {
         this.quantity = quantity;
     }
-    //endregion
 
-    //region > cost (property)
-    // //////////////////////////////////////
+    // cost (propiedad)
     private BigDecimal cost;
 
     @javax.jdo.annotations.Column(allowsNull="true", scale=2)
@@ -99,22 +92,15 @@ public class ReporteLine implements Comparable<ReporteLine> {
     public void setCost(final BigDecimal cost) {
         this.cost = cost;
     }
-    //endregion
 
-    //region > compareTo
-
+    //compareTo
     @Override
     public int compareTo(ReporteLine other) {
         return ObjectContracts.compare(this, other, "description");
     }
 
-    //endregion
-
     //region > injected services
-
     @javax.inject.Inject
     @SuppressWarnings("unused")
     private DomainObjectContainer container;
-
-    //endregion
 }

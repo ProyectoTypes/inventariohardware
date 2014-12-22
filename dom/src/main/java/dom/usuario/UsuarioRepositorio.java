@@ -100,6 +100,7 @@ public class UsuarioRepositorio {
 	 * @param email
 	 * @return 
 	 */
+	@ActionSemantics(Of.SAFE)
 	@MemberOrder(name = "Personal", sequence = "20")
 	@Named("Crear Usuario")
 	public Usuario create(

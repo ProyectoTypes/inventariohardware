@@ -149,7 +149,7 @@ public class GabineteRepositorio {
 		Gabinete obj = this.container.newTransientInstance(Gabinete.class);
 		obj.agregarHdd(hdd);
 		obj.agregarMemoriaRam(memoriaRam);
-		obj.agregarPlacaDeRed(placaDeRed);
+		obj.setPlacaDeRed(placaDeRed);
 		obj.setMotherboard(motherboard);
 		obj.setProcesador(procesador);
 		this.container.persistIfNotAlready(obj);

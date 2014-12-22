@@ -46,10 +46,9 @@ import org.apache.isis.applib.util.ObjectContracts;
 @javax.jdo.annotations.Uniques({ @javax.jdo.annotations.Unique(name = "Software_must_be_unique", members = {
 		"creadoPor", "codigo" }) })
 @javax.jdo.annotations.Queries({
-		@javax.jdo.annotations.Query(name = "autoCompletePorSoftware", language = "JDOQL", value = "SELECT "
-				+ "FROM dom.software.Software "
-				+ "WHERE creadoPor == :creadoPor && "
-				+ "codigo.indexOf(:codigo) >= 0"),
+	@javax.jdo.annotations.Query(name = "autoCompletePorSoftware", language = "JDOQL", value = "SELECT "
+			+ "FROM dom.software.Software "
+			+ "WHERE apellido.indexOf(:nombre) >= 0 && habilitado == true"),
 		@javax.jdo.annotations.Query(name = "eliminarSoftwareFalse", language = "JDOQL", value = "SELECT "
 				+ "FROM dom.software.Software "
 				+ "WHERE creadoPor == :creadoPor "

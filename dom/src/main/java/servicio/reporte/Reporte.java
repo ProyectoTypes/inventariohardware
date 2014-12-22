@@ -35,10 +35,11 @@ import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.*;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
 
 /**
- * Entidad Reporte.
+ * Reporte: permite generar un documento PDF con los Insumos que han sido solicitados por Técnico.
  * @author ProyectoTypes
  * @since 17/12/2014
  * @version 1.0.0
@@ -56,13 +57,19 @@ import dom.tecnico.Tecnico;
 @MemberGroupLayout(columnSpans = {6,0,0,6})
 public class Reporte implements Comparable<Reporte> {
 
-    //region > numero (property)
-    // //////////////////////////////////////
+	/**
+	 * Titulo de la clase
+	 * @return 
+	 */
+	public String title() {
+		return "Reporte N° " + this.getNumero();
+	}
+	
+    // numero (propiedad)
     private String numero;
 
     @javax.jdo.annotations.Column(allowsNull="false")
-    @Title(sequence = "1")
-    @MemberOrder(sequence = "1")
+    @MemberOrder(name = "Detalle del Reporte", sequence = "1")
     public String getNumero() {
         return numero;
     }
@@ -70,14 +77,13 @@ public class Reporte implements Comparable<Reporte> {
     public void setNumero(final String numero) {
         this.numero = numero;
     }
-    //endregion
 	
 	/*****************************************************
 	 * Relacion Reporte/Técnico
 	 ****************************************************/
 	private Tecnico tecnico;
 
-	@MemberOrder(sequence = "2")
+	@MemberOrder(name = "Detalle del Reporte", sequence = "2")
 	@Column(allowsNull = "true")
 	public Tecnico getTecnico() {
 		return tecnico;
@@ -97,6 +103,7 @@ public class Reporte implements Comparable<Reporte> {
 	// ///////////////////////////////////////////////////
 	// Operaciones del Reporte: Agregar/Borrar Técnico
 	// ///////////////////////////////////////////////////
+	
 	@Named("Modificar Técnico")
 	public void modifyTecnico(final Tecnico user) {
 		Tecnico tecnico = getTecnico();
@@ -118,13 +125,12 @@ public class Reporte implements Comparable<Reporte> {
 		this.setTecnico(null);
 	}
 
-    //region > fechaReporte (property)
-
+    // fechaReporte (propiedad)
     @javax.jdo.annotations.Persistent(defaultFetchGroup="true")
     private LocalDate fechaReporte;
 
     @javax.jdo.annotations.Column(allowsNull="true")
-    @MemberOrder(sequence = "3")
+    @MemberOrder(name = "Detalle del Reporte", sequence = "3")
     public LocalDate getFechaReporte() {
         return fechaReporte;
     }
@@ -132,13 +138,12 @@ public class Reporte implements Comparable<Reporte> {
     public void setFechaReporte(final LocalDate fechaReporte) {
         this.fechaReporte = fechaReporte;
     }
-    //endregion
 
-    //region > orderLines (collection)
-
+    // orderLines (collection)
     @javax.jdo.annotations.Persistent(mappedBy = "order")
     private SortedSet<ReporteLine> orderLines = new TreeSet<ReporteLine>();
 
+    @Named("Pedido de Insumo")
     @Render(Render.Type.EAGERLY)
     public SortedSet<ReporteLine> getOrderLines() {
         return orderLines;
@@ -151,28 +156,31 @@ public class Reporte implements Comparable<Reporte> {
     public void addToOrderLines(final ReporteLine orderLine) {
         getOrderLines().add(orderLine);
     }
+    
     public void removeFromOrderLines(final ReporteLine orderLine) {
         getOrderLines().remove(orderLine);
     }
 
-    @MemberOrder(name = "orderLines", sequence = "1")
+    @Named("Agregar")
+    @MemberOrder(name = "Insumos", sequence = "1")
     public Reporte add(
-            final @Named("Description") String description,
-            final @Named("Cost") BigDecimal cost,
-            final @Named("Quantity") int quantity) {
+            final @Named("Descripción") String description,
+            final @Named("Costo") BigDecimal cost,
+            final @Named("Cantidad") int quantity) {
 
         final ReporteLine orderLine = container.newTransientInstance(ReporteLine.class);
         orderLine.setCost(cost);
         orderLine.setDescription(description);
         orderLine.setQuantity(quantity);
-        getOrderLines().add(orderLine); // will set the parent on the OrderLine
+        getOrderLines().add(orderLine);
 
         container.persistIfNotAlready(orderLine);
 
         return this;
     }
 
-    @MemberOrder(name = "orderLines", sequence = "2")
+    @Named("Remover")
+    @MemberOrder(name = "Insumos", sequence = "2")
     public Reporte remove(final ReporteLine orderLine) {
         removeFromOrderLines(orderLine);
         return this;
@@ -182,15 +190,25 @@ public class Reporte implements Comparable<Reporte> {
         return getOrderLines();
     }
 
-    //endregion
+	/** Soporte. */
+	private Soporte soporte;
 
-    //region > compareTo
+	@Hidden(where = Where.ALL_TABLES)
+	@MemberOrder(sequence = "80")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public Soporte getSoporte() {
+		return soporte;
+	}
 
+	public void setSoporte(final Soporte soporte) {
+		this.soporte = soporte;
+	}
+
+    // compareTo
     @Override
     public int compareTo(Reporte other) {
         return ObjectContracts.compare(this, other, "number");
     }
-    //endregion
 
     /**
 	 * Inyección del contenedor.

@@ -29,16 +29,16 @@ import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.annotation.Bookmarkable;
 import org.apache.isis.applib.annotation.DescribedAs;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
-import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.query.QueryDefault;
 
+import dom.computadora.hardware.Hardware;
+import dom.computadora.hardware.gabinete.Gabinete;
 import dom.computadora.hardware.gabinete.disco.Disco;
 import dom.computadora.hardware.gabinete.disco.Disco.CategoriaDisco;
 import dom.computadora.hardware.gabinete.memoria.MemoriaRam;
@@ -49,6 +49,8 @@ import dom.computadora.hardware.impresora.Impresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.computadora.hardware.monitor.Monitor;
 import dom.computadora.hardware.monitor.MonitorRepositorio;
+import dom.computadora.software.Software;
+import dom.computadora.software.SoftwareRepositorio;
 import dom.usuario.Usuario;
 import dom.usuario.UsuarioRepositorio;
 
@@ -85,7 +87,7 @@ public class ComputadoraRepositorio {
 	 * @return
 	 */
     @ActionSemantics(Of.SAFE)
-    @MemberOrder(sequence = "10")
+    @MemberOrder(name = "Hardware", sequence = "20")
 	@Named("Listar Computadoras")
 	public List<Computadora> listAll() {
 		final List<Computadora> listaComputadoras;
@@ -118,9 +120,11 @@ public class ComputadoraRepositorio {
 	 * @param fabricante
 	 * @param monitor
 	 * @param impresora
+	 * @param software
 	 * @param rotulo
 	 * @return computadora
 	 */
+    @ActionSemantics(Of.SAFE)
 	@MemberOrder(name = "Hardware", sequence = "20")
 	@Named("Agregar Computadora")
 	@DescribedAs("Agregar Computadora.")
@@ -139,7 +143,8 @@ public class ComputadoraRepositorio {
 			final @Named("Modelo Motherboard") String modeloMotherboard,
 			final @Named("Fabricante") String fabricante,
 			final @Optional @Named("Monitor") Monitor monitor,
-			final @Optional @Named("Impresora") Impresora impresora			
+			final @Optional @Named("Impresora") Impresora impresora,	
+			final @Optional @Named("Software") Software sotfware
 			) {
 		PlacaDeRed placaDeRed = new PlacaDeRed(ip, mac);
 		Disco disco = new Disco(marcaDisco, tipoDisco, tamanoDisco);
@@ -147,23 +152,9 @@ public class ComputadoraRepositorio {
 		MemoriaRam memoriaRam = new MemoriaRam(modeloRam, tamanoRam, marcaRam);
 		Motherboard motherboard = new Motherboard(modeloMotherboard);
 		return this.nuevaComputadora(nombreEquipo, usuario, placaDeRed, motherboard,
-				procesador, disco, memoriaRam, impresora, this.currentUserName());
+				procesador, disco, memoriaRam, impresora, sotfware, monitor, this.currentUserName());
 	}
-	
-	@Hidden
-	@NotContributed
-	@MemberOrder(name = "Computadoras", sequence = "20")
-	@Named("Agregar Computadora")
-	public Computadora addComputadora(final @Named("Nombre de Equipo") String nombreEquipo, final @Named("Usuario") Usuario usuario,
-			final @Named("Direccion Ip") PlacaDeRed placaDeRed,
-			final @Named("Mother") Motherboard motherboard,
-			final @Named("Procesador") Procesador procesador,
-			final @Named("Disco") Disco disco,
-			final @Named("Memoria") MemoriaRam memoria,
-			final @Optional @Named("Impresora") Impresora impresora) {
-		return nuevaComputadora(nombreEquipo, usuario, placaDeRed, motherboard, procesador,
-				disco, memoria, impresora, this.currentUserName());
-	}
+
 
 	/**
 	 * Nueva computadora.
@@ -182,47 +173,40 @@ public class ComputadoraRepositorio {
 	public Computadora nuevaComputadora(final String nombreEquipo, final Usuario usuario,
 			final PlacaDeRed placaDeRed, final Motherboard motherboard,
 			final Procesador procesador, final Disco disco,
-			final MemoriaRam memoria, final Impresora impresora,
-			final String creadoPor) {
-		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);		
+			final MemoriaRam memoria, final Impresora impresora, final Software software,
+			final Monitor monitor,final String creadoPor) {
+		final Computadora unaComputadora = container.newTransientInstance(Computadora.class);
+		
+		final Gabinete gabinete = new Gabinete();
+		gabinete.agregarHdd(disco);
+		gabinete.agregarMemoriaRam(memoria);
+		gabinete.setPlacaDeRed(placaDeRed);
+		gabinete.setMotherboard(motherboard);
+		gabinete.setProcesador(procesador);
+		
+		final Hardware hardware = new Hardware();
+		hardware.setGabinete(gabinete);
+		hardware.setImpresora(impresora);
+		hardware.setMonitor(monitor);
+		
 		unaComputadora.setCreadoPor(creadoPor);
-		unaComputadora.setDisco(disco);
 		unaComputadora.setHabilitado(true);
-		unaComputadora.setMemoria(memoria);
-		unaComputadora.setMotherboard(motherboard);
 		unaComputadora.setNombreEquipo(nombreEquipo);
-		unaComputadora.setPlacaDeRed(placaDeRed);
-		unaComputadora.setProcesador(procesador);
 		unaComputadora.modifyUsuario(usuario);	
 		unaComputadora.setImpresora(impresora);
+		unaComputadora.setSoftware(software);
+		unaComputadora.setTecnico(null);
 		
 		if (impresora != null) {
 			impresora.agregarComputadora(unaComputadora);
 		}
 		container.persistIfNotAlready(unaComputadora);
+		container.persistIfNotAlready(hardware);
+		container.persistIfNotAlready(gabinete);
 		container.flush();
 		return unaComputadora;
 	}
 
-	/**
-	 * Validar los datos de Computadora.
-	 * @param usuario
-	 * @param placaDeRed
-	 * @param motherboard
-	 * @param procesador
-	 * @param disco
-	 * @param memoria
-	 * @param impresora
-	 * @return 
-	 */
-	public String validateAddComputadora(String rotulo, Usuario usuario,
-			PlacaDeRed placaDeRed, Motherboard motherboard,
-			Procesador procesador, Disco disco, MemoriaRam memoria,
-			Impresora impresora) {
-		if (usuario.getComputadora() == null)
-			return null;
-		return "El Usuario ya posee una Computadora. Seleccione otra. ";
-	}
 
 	/**
 	 * Método que lista los Monitores cargados.
@@ -255,12 +239,23 @@ public class ComputadoraRepositorio {
 
 	}
 
+	
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
+	@Named("Software")
+	@DescribedAs("Buscar el Software en mayuscula")
+	public List<Software> autoComplete15Create(
+			final @MinLength(2) String search) {
+		return softwareRepositorio.autoComplete(search);
+
+	}
+	
 	/**
 	 * Permite realizar la búsqueda de Computadora por el parámetro Ip.
 	 * @param ip         
 	 * @return
 	 */
-	@MemberOrder(sequence = "20")
+	@MemberOrder(name = "Hardware", sequence = "20")
 	@Named("Buscar Computadora")
 	public List<Computadora> buscar(
 			final @RegEx(validation = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
@@ -319,4 +314,11 @@ public class ComputadoraRepositorio {
 	 */
 	@javax.inject.Inject
 	private MonitorRepositorio monitorRepositorio;
+	
+	
+	/**
+	 * Inyección del servicio para Software.
+	 */
+	@javax.inject.Inject
+	private SoftwareRepositorio softwareRepositorio;
 }

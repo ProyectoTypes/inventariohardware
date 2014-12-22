@@ -97,7 +97,7 @@ public class SectorRepositorio {
     @MemberOrder(sequence = "20")
     @Named ("Crear Sector")
     public Sector create(
-    		final @RegEx(validation = "[A-Za-z]+") @Named("Nombre Sector") String nombreSector){
+    		final @Named("Nombre Sector") String nombreSector){
     	return nuevoSector(nombreSector, this.currentUserName());
     }
     

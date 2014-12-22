@@ -41,9 +41,8 @@ import dom.computadora.Computadora;
 import dom.computadora.ComputadoraRepositorio;
 import dom.tecnico.TecnicoRepositorio;
 
-// TODO: Auto-generated Javadoc
 /**
- * Clase SoporteRepositorio.
+ * SoporteRepositorio: permite crear y listar los Soportes realizados.
  * @author ProyectoTypes
  * @since 17/05/2014
  * @version 1.0.0
@@ -52,29 +51,35 @@ import dom.tecnico.TecnicoRepositorio;
 @Named("Soporte")
 public class SoporteRepositorio {
 
-	public SoporteRepositorio() {
+	/**
+	 * Constructor vacío de la clase.
+	 */
+	public SoporteRepositorio() {}
 
-	}
-
-	// //////////////////////////////////////
-	// Identification in the UI
-	// //////////////////////////////////////
-
+	/**
+	 * Id
+	 * @return
+	 */
 	public String getId() {
 		return "soporte";
 	}
 
+	/**
+	 * Nombre del Icono.
+	 * @return
+	 */
 	public String iconName() {
 		return "Tecnico";
 	}
 	
-	// //////////////////////////////////////
-	// Listar Computadora
-	// //////////////////////////////////////
-
+	/**
+	 * Listar Soporte: permite listar todos los Soportes realizados.
+	 * @return
+	 */
     @Bookmarkable
     @ActionSemantics(Of.SAFE)
 	@MemberOrder(sequence = "20")
+    @Named("Listar Soporte")
 	public List<Soporte> listAll() {
 		final List<Soporte> lista = container.allMatches(new QueryDefault<Soporte>(Soporte.class, "listar"));
 		if (lista.isEmpty()) {
@@ -83,11 +88,13 @@ public class SoporteRepositorio {
 		return lista;
 	}
 
-	// //////////////////////////////////////
-	// Insertar un Soporte.
-	// //////////////////////////////////////
-
-	@Named("Recepcion")
+    /**
+     * Recepción: permite que el Técnico recepcione una Computadora.
+     * @param computadora
+     * @param observaciones
+     * @return
+     */
+	@Named("Recepción")
 	@MemberOrder(sequence = "10")
 	public Soporte create(final @Named("Computadora") Computadora computadora,
 			final @Named("Observaciones") String observaciones) {
@@ -111,12 +118,17 @@ public class SoporteRepositorio {
 
 	}
 
+	/**
+	 * Verifica que la Computadora se encuentre en el estado reparación.
+	 * @param computadora
+	 * @param observaciones
+	 * @return
+	 */
 	public String validateCreate(final Computadora computadora,
 			final String observaciones) {
 
 		List<Soporte> soporte = container.allMatches(new QueryDefault<Soporte>(
-				Soporte.class, "seEncuentraEnReparacion", "ip", computadora.getPlacaDeRed()
-						.getIp()));
+				Soporte.class, "seEncuentraEnReparacion", "ip", computadora.getHardware().getGabinete().getPlacaDeRed().getIp()));
 		if (soporte.isEmpty())
 			return null;
 		return "La computadora se encuentra en reparacion.";
@@ -128,13 +140,8 @@ public class SoporteRepositorio {
 		return listaComputadora;
 	}
 
-	// ///////////////////////////////////////
-	// AutoComplete
-	// ///////////////////////////////////////
-
 	/**
-	 * Servicio utilizado por Sector
-	 * 
+	 * Servicio utilizado por Sector.
 	 */
 	@Programmatic
 	public List<Soporte> autoComplete(final String buscarTecnico) {
@@ -145,7 +152,6 @@ public class SoporteRepositorio {
 
 	/**
 	 * Devuelve una lista de aquellos soportes que se encuentran en espera.
-	 * 
 	 * @return
 	 */
 	@Programmatic
@@ -159,8 +165,7 @@ public class SoporteRepositorio {
 	}
 
 	/**
-	 * Devuelve una lista de aquellos soportes que se encuentran en reparacion.
-	 * 
+	 * Devuelve una lista de aquellos soportes que se encuentran en Reparación.
 	 * @return lista
 	 */
 	@Programmatic
@@ -169,46 +174,53 @@ public class SoporteRepositorio {
 				.allMatches(new QueryDefault<Soporte>(Soporte.class,
 						"buscarSoportesEnReparacion"));
 		if (lista.isEmpty())
-			container.informUser("No hay computadoras en Reparacion.");
+			container.informUser("No hay Computadoras en Reparación.");
 		return lista;
 	}
 
+	/**
+	 * Busca todos los Soportes que tuvo una Computadora.
+	 * @param computadora
+	 * @return
+	 */
 	@Bookmarkable
 	@ActionSemantics(Of.SAFE)
 	@Named("Buscar")
-	@DescribedAs("Busca todos los soportes que tuvo una computadora")
+	@DescribedAs("Busca todos los soportes que tuvo una Computadora.")
 	public List<Soporte> buscarPorIp(
 			@Named("Computadora") Computadora computadora) {
 		return container.allMatches(new QueryDefault<Soporte>(Soporte.class,
-				"buscarPorIp", "ip", computadora.getPlacaDeRed().getIp()));
+				"buscarPorIp", "ip", computadora.getHardware().getGabinete().getPlacaDeRed().getIp()));
 	}
 
 	public List<Computadora> choices0BuscarPorIp() {
 		return computadoraRepositorio.listAll();
 	}
 
-	// //////////////////////////////////////
-	// CurrentUserName
-	// //////////////////////////////////////
-
+	/**
+	 * Devuelve el nombre del Técnico logueado.
+	 * @return
+	 */
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
 
-	// //////////////////////////////////////
-	// Injected Services
-	// //////////////////////////////////////
-
-	/** Container. */
+	/**
+	 * Inyección del Contenedor.
+	 */
 	@javax.inject.Inject
 	private static DomainObjectContainer container;
 
-	/** Tecnico repositorio. */
+	/**
+	 * Inyección del servicio Técnico.
+	 */
 	@SuppressWarnings("unused")
 	@javax.inject.Inject
 	private TecnicoRepositorio tecnicoRepositorio;
 
-	/** Computadora repositorio. */
+	/**
+	 *Inyección del servicio de Computadora. 
+	 */
 	@javax.inject.Inject
 	private ComputadoraRepositorio computadoraRepositorio;
 }
