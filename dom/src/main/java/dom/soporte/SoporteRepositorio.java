@@ -183,8 +183,7 @@ public class SoporteRepositorio {
 	 * @param computadora
 	 * @return
 	 */
-	@Bookmarkable
-	@ActionSemantics(Of.SAFE)
+	
 	@Named("Buscar")
 	@DescribedAs("Busca todos los soportes que tuvo una Computadora.")
 	public List<Soporte> buscarPorIp(

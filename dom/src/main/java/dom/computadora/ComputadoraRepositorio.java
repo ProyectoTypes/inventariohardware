@@ -245,9 +245,8 @@ public class ComputadoraRepositorio {
 	 * @param ip         
 	 * @return
 	 */
-	@MemberOrder(name = "Hardware", sequence = "20")
+	@MemberOrder( name = "Hardware",sequence = "20")
 	@Named("Buscar Computadora")
-	@NotContributed
 	public List<Computadora> buscar(
 			final @RegEx(validation = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
 					+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
