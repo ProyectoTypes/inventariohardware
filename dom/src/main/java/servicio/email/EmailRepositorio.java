@@ -161,9 +161,9 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 				+ unaComputadora.getTecnico().getApellido() + ", "
 				+ unaComputadora.getTecnico().getNombre() + ". \n Email: "
 				+ unaComputadora.getTecnico().getEmail();
-		return this.configurarEnvio(null, destino, asunto, mensaje);
+		 this.configurarEnvio(null, destino, asunto, mensaje);
+		 return "Mensaje enviado correctamente.";
 	}
-
 	@Named("Computadora")
 	@DescribedAs("Buscar el Computadora en mayuscula")
 	public List<Computadora> autoComplete0Send(final @MinLength(2) String search) {
@@ -173,7 +173,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 
 	@Named("Enviar Correo")
 	@DescribedAs("Envia mensajes personalizados.")
-	public String send(final @Named("De: ") CorreoEmpresa correo,
+	public List<Correo> send(final @Named("De: ") CorreoEmpresa correo,
 			final @Named("Para:") String destino,
 			final @Named("Asunto") String asunto,
 			final @MultiLine(numberOfLines = 4) @Named("Mensaje") String mensaje) throws EncriptaException {
@@ -186,7 +186,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 		return this.listarCorreoEmpresa();
 	}
 
-	private String configurarEnvio(final CorreoEmpresa correo,
+	private List<Correo> configurarEnvio(final CorreoEmpresa correo,
 			final String destino, final String asunto, final String mensaje) throws EncriptaException {
 
 		String host = "smtp.gmail.com";
@@ -236,7 +236,7 @@ public class EmailRepositorio extends AbstractFactoryAndRepository {
 			simpleEmail.setSubject(asunto);
 			simpleEmail.setMsg(mensaje);
 			 simpleEmail.send();
-			 return "El Correo fue enviado correctamente.";
+			 return this.listarMensajesPersistidos(correo);
 		} catch (EmailException e) {
 			throw new servicio.email.EmailException(e.getMessage(), e);
 		}

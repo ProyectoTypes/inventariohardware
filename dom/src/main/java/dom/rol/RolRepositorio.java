@@ -68,7 +68,7 @@ public class RolRepositorio {
 	 * @return 
 	 */
 	@MemberOrder(name = "Seguridad", sequence = "10")
-	@Named("Agregar Rol")
+	@Named("Nuevo Rol")
 	@Hidden(where = Where.OBJECT_FORMS)
 	public Rol create(final @Named("Nombre") String nombre,
 			final @Named("Permiso") Permiso permiso) {

@@ -39,7 +39,7 @@ import org.apache.isis.applib.annotation.Where;
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "VERSION")
 @javax.jdo.annotations.Queries({ @javax.jdo.annotations.Query(name = "buscarCorreo", language = "JDOQL", value = "SELECT "
 		+ "FROM servicio.email.Correo "),@javax.jdo.annotations.Query(name = "buscarCorreoPorUsuario", language = "JDOQL", value = "SELECT "
-				+ "FROM servicio.email.Correo "+"WHERE tecnico == :usuario")})
+				+ "FROM servicio.email.Correo "+"WHERE tecnico == :usuario order by fechaActual asc"  )})
 
 @ObjectType("CORREO")
 @Immutable
@@ -98,7 +98,7 @@ public class Correo implements Comparable<Correo> {
 	private Date fechaActual;
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-	@Named("Fecha del Correo")
+	@Named("Fecha")
 	@MemberOrder(sequence = "3")
 	public Date getFechaActual() {
 		return fechaActual;
