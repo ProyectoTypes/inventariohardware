@@ -3,6 +3,7 @@ package dom.computadora.hardware;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
 
@@ -69,7 +70,7 @@ public class Hardware {
 	/** Monitor. */
 	private Monitor monitor;
 
-	@javax.jdo.annotations.Column(allowsNull = "false")
+	@javax.jdo.annotations.Column(allowsNull = "true")
 	@MemberOrder(sequence = "20")
 	public Monitor getMonitor() {
 		return monitor;
@@ -95,7 +96,7 @@ public class Hardware {
 	/** Impresora. */
 	private Impresora impresora;
 
-	@javax.jdo.annotations.Column(allowsNull = "false")
+	@javax.jdo.annotations.Column(allowsNull = "true")
 	@MemberOrder(sequence = "40")
 	public Impresora getImpresora() {
 		return impresora;
@@ -104,5 +105,17 @@ public class Hardware {
 	public void setImpresora(Impresora impresora) {
 		this.impresora = impresora;
 	}
+	/**
+	 * Método para quitar una Impresora.
+	 */
+	@Hidden
+	public void limpiarImpresora() {
+		Impresora impresora = getImpresora();
+		if (impresora == null) {
+			return;
+		}
+		impresora.limpiarHardware(this);
+	}
+
 
 }

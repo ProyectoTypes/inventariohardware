@@ -44,8 +44,6 @@ import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import dom.computadora.hardware.Hardware;
-import dom.computadora.hardware.impresora.Impresora;
-import dom.computadora.hardware.impresora.Impresora.TipoImpresora;
 import dom.computadora.hardware.impresora.ImpresoraRepositorio;
 import dom.computadora.software.Software;
 import dom.soporte.Soporte;
@@ -98,7 +96,6 @@ public class Computadora implements Comparable<Computadora> {
 	private String nombreEquipo;
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	@MemberOrder(sequence = "10")
-		
 	public String getNombreEquipo() {
 		return nombreEquipo;
 	}
@@ -114,8 +111,8 @@ public class Computadora implements Comparable<Computadora> {
 
 	private Software software;
 
-	@javax.jdo.annotations.Column(allowsNull = "false")
-	@DescribedAs("Memoria de la Computadora:")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	@DescribedAs("Sistema Operativo")
 	@MemberOrder(sequence = "50")
 	public Software getSoftware() {
 		return software;
@@ -178,98 +175,99 @@ public class Computadora implements Comparable<Computadora> {
 	// Impresora (propiedad)
 	// //////////////////////////////////////
 
-	private Impresora impresora;
+//	private Impresora impresora;
+//
+//	@MemberOrder(sequence = "50")
+//	@javax.jdo.annotations.Column(allowsNull = "true")
+//	public Impresora getImpresora() {
+//		return impresora;
+//	}
+//
+//	public void setImpresora(final Impresora impresora) {
+//		this.impresora = impresora;
+//	}
+//
+//	/**
+//	 * Método que permite listar las Impresoras.
+//	 * @return
+//	 */
+//	public List<Impresora> choicesImpresora() {
+//		return this.impresoraRepositorio.listAll();
+//
+//	}
 
-	@MemberOrder(sequence = "50")
-	@javax.jdo.annotations.Column(allowsNull = "true")
-	public Impresora getImpresora() {
-		return impresora;
-	}
+//	/**
+//	 * Método que me permite modificar una Impresora.
+//	 * @param impresora
+//	 */
+//	public void modifyImpresora(final Impresora impresora) {
+//		Impresora currentImpresora = getImpresora();
+//		if (impresora == null || impresora.equals(currentImpresora)) {
+//			return;
+//		}
+//		impresora.agregarComputadora(this);
+//		return;
+//	}
+//
+//	/**
+//	 * Quitar impresora.
+//	 * @retun
+//	 */
+//	public boolean hideQuitarImpresora() {
+//		if (this.getImpresora() == null) {
+//			return true;
+//		}
+//		return false;
+//	}
 
-	public void setImpresora(final Impresora impresora) {
-		this.impresora = impresora;
-	}
+//	/**
+//	 * Quitar impresora.
+//	 * @return computadora
+//	 */
+//	@Named("Borrar Impresora")
+//	public Computadora quitarImpresora() {
+//		Impresora currentImpresora = getImpresora();
+//		if (currentImpresora == null) {
+//			return this;
+//		}
+//		currentImpresora.setComputadora(null);
+//		setImpresora(null);
+//		return this;
+//	}
 
-	/**
-	 * Método que permite listar las Impresoras.
-	 * @return
-	 */
-	public List<Impresora> choicesImpresora() {
-		return this.impresoraRepositorio.listAll();
-
-	}
-
-	/**
-	 * Método que me permite modificar una Impresora.
-	 * @param impresora
-	 */
-	public void modifyImpresora(final Impresora impresora) {
-		Impresora currentImpresora = getImpresora();
-		if (impresora == null || impresora.equals(currentImpresora)) {
-			return;
-		}
-		impresora.agregarComputadora(this);
-		return;
-	}
-
-	/**
-	 * Quitar impresora.
-	 * @retun
-	 */
-	public boolean hideQuitarImpresora() {
-		if (this.getImpresora() == null) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Quitar impresora.
-	 * @return computadora
-	 */
-	@Named("Borrar Impresora")
-	public Computadora quitarImpresora() {
-		Impresora currentImpresora = getImpresora();
-		if (currentImpresora == null) {
-			return this;
-		}
-		currentImpresora.setComputadora(null);
-		setImpresora(null);
-		return this;
-	}
-
-	/**
-	 * Método para quitar una Impresora.
-	 */
-	@Hidden
-	public void limpiarImpresora() {
-		Impresora impresora = getImpresora();
-		if (impresora == null) {
-			return;
-		}
-		impresora.limpiarComputadora(this);
-	}
-
-	/**
-	 * Nueva Impresora.
-	 * @param modeloImpresora
-	 * @param fabricanteImpresora
-	 * @param tipoImpresora
-	 * @return 
-	 */
-	@Named("Nueva Impresora")
-	public Impresora addImpresora(
-			final @Named("Modelo") String modeloImpresora,
-			final @Named("Fabricante") String fabricanteImpresora,
-			final @Named("Tipo") TipoImpresora tipoImpresora) {
-		return impresoraRepositorio.nuevaImpresora(modeloImpresora,
-				fabricanteImpresora, tipoImpresora, this.currentUserName());
-	}
+//	/**
+//	 * Método para quitar una Impresora.
+//	 */
+//	@Hidden
+//	public void limpiarImpresora() {
+//		Impresora impresora = getImpresora();
+//		if (impresora == null) {
+//			return;
+//		}
+//		impresora.limpiarComputadora(this);
+//	}
+//
+//	/**
+//	 * Nueva Impresora.
+//	 * @param modeloImpresora
+//	 * @param fabricanteImpresora
+//	 * @param tipoImpresora
+//	 * @return 
+//	 */
+//	@Named("Nueva Impresora")
+//	public Impresora addImpresora(
+//			final @Named("Modelo") String modeloImpresora,
+//			final @Named("Fabricante") String fabricanteImpresora,
+//			final @Named("Tipo") TipoImpresora tipoImpresora) {
+//		return impresoraRepositorio.nuevaImpresora(modeloImpresora,
+//				fabricanteImpresora, tipoImpresora, this.currentUserName());
+//	}
 
 	/**
 	 * Devuelve el Usuario logueado.
 	 * @return 
 	 */
+	@SuppressWarnings("unused")
 	private String currentUserName() {
 		return container.getUser().getName();
 	}
@@ -457,6 +455,7 @@ public class Computadora implements Comparable<Computadora> {
 	/**
 	 * Inyección del servicio para Impresora.
 	 */
+	@SuppressWarnings("unused")
 	@Inject
 	private ImpresoraRepositorio impresoraRepositorio;
 
