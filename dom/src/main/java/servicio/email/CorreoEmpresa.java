@@ -44,7 +44,7 @@ public class CorreoEmpresa {
 	}
 
 	public String iconName() {
-		return "config";
+		return "Correo";
 	}
 
 	// //////////////////////////////////////
