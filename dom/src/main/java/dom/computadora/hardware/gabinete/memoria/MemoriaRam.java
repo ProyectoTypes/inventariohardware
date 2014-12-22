@@ -63,7 +63,7 @@ public class MemoriaRam {
 	 * @return the string
 	 */
 	public String title() {
-		return this.getTamano()+" gb";
+		return this.getModelo()+" - "+this.getMarca()+" - "+this.getTamano()+" gb";
 	}
 
 	/**

@@ -62,7 +62,7 @@ public class PlacaDeRed {
 	 * @return the string
 	 */
 	public String title() {
-		return getMac();
+		return this.getIp() +" - "+getMac();
 	}
 
 	/**

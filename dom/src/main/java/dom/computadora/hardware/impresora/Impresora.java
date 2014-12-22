@@ -80,7 +80,7 @@ public class Impresora {
 	 * @return the string
 	 */
 	public String title() {
-		return this.getModeloImpresora();
+		return this.getModeloImpresora() + this.getFabricanteImpresora();
 	}
 
 	/**
