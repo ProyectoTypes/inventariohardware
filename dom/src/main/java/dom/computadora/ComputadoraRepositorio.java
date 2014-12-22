@@ -21,6 +21,7 @@
  */
 package dom.computadora;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -32,8 +33,6 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MinLength;
 import org.apache.isis.applib.annotation.Named;
-import org.apache.isis.applib.annotation.NotContributed;
-import org.apache.isis.applib.annotation.NotContributed.As;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RegEx;
@@ -190,7 +189,14 @@ public class ComputadoraRepositorio {
 		unaComputadora.setHabilitado(true);
 		unaComputadora.setNombreEquipo(nombreEquipo);
 		unaComputadora.modifyUsuario(usuario);
-		unaComputadora.setSoftware(software);
+		if(software!=null){
+			List<Software> lista = new ArrayList<Software>();
+			lista.add(software);
+			unaComputadora.setSoftware(lista);
+		}
+		else
+			unaComputadora.setSoftware(null);
+
 		unaComputadora.setTecnico(null);
 		container.persistIfNotAlready(unaComputadora);
 		container.flush();

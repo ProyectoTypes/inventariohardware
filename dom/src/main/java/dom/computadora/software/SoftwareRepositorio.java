@@ -50,9 +50,8 @@ public class SoftwareRepositorio {
 	// Agregar Software
 	// //////////////////////////////////////
 	
-	@NotContributed
 	@MemberOrder(sequence = "10")
-	@Named("Agregar")
+	@Named("Agregar Software")
 	public Software create(final @Named("Codigo") String codigo,
 			final @Named("Nombre") String nombre,
 			final @Named("Marca") String marca,
@@ -79,7 +78,7 @@ public class SoftwareRepositorio {
 	// //////////////////////////////////////
 	// Listar Software
 	// //////////////////////////////////////
-
+	@Named("Listar Software")
 	@MemberOrder(sequence = "100")
 	public List<Software> listAll() {
 		final List<Software> listaSoftware = this.container

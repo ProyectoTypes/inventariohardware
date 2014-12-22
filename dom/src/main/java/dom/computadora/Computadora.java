@@ -21,6 +21,7 @@
  */
 package dom.computadora;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -41,6 +42,7 @@ import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.util.ObjectContracts;
 
@@ -50,6 +52,7 @@ import dom.computadora.software.Software;
 import dom.soporte.Soporte;
 import dom.tecnico.Tecnico;
 import dom.usuario.Usuario;
+import dom.usuario.UsuarioRepositorio;
 
 /**
  * Clase Computadora.
@@ -131,19 +134,26 @@ public class Computadora implements Comparable<Computadora> {
 	// Software (propiedad)
 	// //////////////////////////////////////
 
-	private Software software;
+	private List<Software> software = new ArrayList<Software>();
 
 	@javax.jdo.annotations.Column(allowsNull = "true")
-	@DescribedAs("Sistema Operativo")
 	@MemberOrder(sequence = "50")
-	public Software getSoftware() {
+	public List<Software> getSoftware() {
 		return software;
 	}
 
-	public void setSoftware(final Software software) {
+	public void setSoftware(final List<Software> software) {
 		this.software = software;
 	}
+	
+	@Programmatic
+	public List<Software> agregarSoftware(Software software)
+	{
+		 this.software.add(software);
+		 return this.software;
+	}
 
+	
 	// //////////////////////////////////////
 	// Hardware (propiedad)
 	// //////////////////////////////////////
@@ -326,10 +336,12 @@ public class Computadora implements Comparable<Computadora> {
 	public void setUsuario(final Usuario usuario) {
 		this.usuario = usuario;
 	}
-
-	/**
-	 * Validar los datos de Usuario.
+	public List<Usuario> choicesUsuario()
+	{
+		return this.usuarioRepositorio.listAll();
+	}/**
 	 * 
+	 * Validar los datos de Usuario.
 	 * @param usuario
 	 * @return
 	 */
@@ -495,4 +507,10 @@ public class Computadora implements Comparable<Computadora> {
 	 */
 	@Inject
 	private ComputadoraRepositorio computadoraRepositorio;
+
+	@Inject
+	private UsuarioRepositorio usuarioRepositorio;
+
+	
+	
 }
