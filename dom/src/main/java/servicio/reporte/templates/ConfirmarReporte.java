@@ -40,8 +40,6 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 
-import servicio.reporte.ReporteLine;
-
 import com.google.common.io.Resources;
 import com.google.inject.name.Named;
 
