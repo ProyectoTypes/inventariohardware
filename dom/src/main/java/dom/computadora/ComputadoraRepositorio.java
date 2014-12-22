@@ -219,6 +219,10 @@ public class ComputadoraRepositorio {
 	public List<Impresora> choices14Create() {
 		return this.impresoraRepositorio.listAll();
 	}
+	public List<Software> choices15Create() {
+		return this.softwareRepositorio.listAll();
+	}
+
 
 	/**
 	 * Auto complete búsqueda de usuario a medida que se cargan los datos.
